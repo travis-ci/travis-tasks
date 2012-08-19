@@ -7,6 +7,7 @@ $stdout.sync = true
 
 module Travis
   class Tasks
+    extend Exceptions::Handling
     include Logging
 
     QUEUES = ['tasks', 'tasks.log']
