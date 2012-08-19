@@ -9,7 +9,6 @@ gem 'newrelic_rpm',       '~> 3.3.2'
 gem 'hot_bunnies',        '~> 1.3.4'
 gem 'jruby-openssl',      '~> 0.7.4'
 
-
 group :test do
   gem 'rspec',            '~> 2.7.0'
   gem 'mocha',            '~> 0.10.0'
