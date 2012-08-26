@@ -31,6 +31,8 @@ module Travis
           Travis::Mailer.setup
           # Travis::Features.start
 
+          GH::DefaultStack.options[:ssl] = Travis.config.ssl
+
           NewRelic.start if File.exists?('config/newrelic.yml')
         end
     end
