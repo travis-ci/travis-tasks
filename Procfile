@@ -1,2 +1,2 @@
-hub: thor travis:tasks:start
+tasks: thor travis:tasks:start
 
