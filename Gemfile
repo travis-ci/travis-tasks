@@ -1,5 +1,9 @@
 source :rubygems
 
+# ruby 'jruby-1.6.7', :engine => 'jruby', :engine_version => '1.6.7'
+# ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.0.preview1'
+ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.0.preview2'
+
 gem 'travis-core',        :git => 'git://github.com/travis-ci/travis-core'
 gem 'travis-support',     :git => 'git://github.com/travis-ci/travis-support'
 
