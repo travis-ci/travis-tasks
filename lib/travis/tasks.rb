@@ -46,7 +46,7 @@ module Travis
     def receive(message, payload)
       if payload = decode(payload)
         Travis.uuid = payload.delete('uuid')
-        handle(*payload.values_at(%w(type data options)))
+        handle(payload['type'], payload['data'], payload['options'])
       end
     rescue Exception => e
       puts "!!!FAILSAFE!!! #{e.message}", e.backtrace
@@ -56,10 +56,10 @@ module Travis
 
     protected
 
-      def handle(task, data, options)
+      def handle(type, data, options)
         timeout do
-          type = "Travis::Task::#{task.camelize}".constantize
-          task = type.new(data, options)
+          const = "Travis::Task::#{type.camelize}".constantize
+          task = const.new(data, options)
           task.run
         end
       end
