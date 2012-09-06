@@ -22,16 +22,16 @@ module Travis
 
         def setup
           Travis::Async.enabled = true
+          Travis::Amqp.config = Travis.config.amqp
+          GH::DefaultStack.options[:ssl] = Travis.config.ssl
+
           Travis.config.update_periodically
+          Travis::Memory.new(:tasks).report_periodically if Travis.env == 'production'
 
           Travis::Exceptions::Reporter.start
           Travis::Notification.setup
-
-          Travis::Amqp.config = Travis.config.amqp
           Travis::Mailer.setup
           # Travis::Features.start
-
-          GH::DefaultStack.options[:ssl] = Travis.config.ssl
 
           NewRelic.start if File.exists?('config/newrelic.yml')
         end
