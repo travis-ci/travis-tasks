@@ -37,7 +37,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support.git
-  revision: 4ff353148a23de9a28496fb6c51e709333af3941
+  revision: 5b1248a09d24410b54b11524a3712dbaae1e8e98
   branch: sf-async-strategies
   specs:
     travis-support (0.0.1)
@@ -117,7 +117,7 @@ GEM
       treetop (~> 1.4.8)
     metaclass (0.0.1)
     method_source (0.8.1)
-    metriks (0.9.9.1)
+    metriks (0.9.9.2)
       atomic (~> 1.0)
       avl_tree (~> 1.1.2)
       hitimes (~> 1.1)
