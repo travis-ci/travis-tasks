@@ -6,6 +6,18 @@ GIT
     rollout (1.1.0)
 
 GIT
+  remote: git://github.com/rkh/gh.git
+  revision: affde20a4fecb1023f2e7031734b9386a76d22c2
+  specs:
+    gh (0.8.0)
+      addressable
+      backports (~> 2.3)
+      faraday (~> 0.8)
+      multi_json (~> 1.0)
+      net-http-persistent (>= 2.7)
+      net-http-pipeline
+
+GIT
   remote: git://github.com/roidrage/hubble.git
   revision: f5e6301ac24eabeebaf8f4485d71cdcf93b2f3f8
   specs:
@@ -89,13 +101,6 @@ GEM
     facter (1.6.13)
     faraday (0.8.4)
       multipart-post (~> 1.1)
-    gh (0.8.0)
-      addressable
-      backports (~> 2.3)
-      faraday (~> 0.8)
-      multi_json (~> 1.0)
-      net-http-persistent (>= 2.7)
-      net-http-pipeline
     guard (1.5.0)
       listen (>= 0.4.2)
       lumberjack (>= 1.0.2)
@@ -202,6 +207,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  gh!
   guard
   guard-rspec
   hubble!
