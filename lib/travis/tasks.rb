@@ -18,8 +18,17 @@ Travis.config.update_periodically
 
 Travis::Features.start
 Travis::Exceptions::Reporter.start
-Travis::Notification.setup
+# Travis::Notification.setup
 Travis::Mailer.setup
+
+
+require 'metriks'
+require 'metriks/reporter/logger'
+
+logger = Logger.new($stdout)
+logger.formatter = Logger::SimpleFormatter.new
+Metriks::Reporter::Logger.new(logger: logger).start
+
 
 
 # Travis::Memory.new(:tasks).report_periodically if Travis.env == 'production'
