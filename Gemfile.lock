@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 37649787ba264c4b86a194d29ffd3901371d5167
+  revision: 73e7ce467ed907c247a679e2225674cb9bebbb9c
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -48,7 +48,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support.git
-  revision: bf72a9367f38241fbffa5758ea219a7ecd73c080
+  revision: f78d9161369f574f12b9c0c0dbfe13b997766bdd
   specs:
     travis-support (0.0.1)
 
@@ -196,7 +196,7 @@ GEM
     treetop (1.4.11)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.33)
+    tzinfo (0.3.34)
     webmock (1.8.11)
       addressable (>= 2.2.7)
       crack (>= 0.1.7)
