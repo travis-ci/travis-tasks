@@ -27,7 +27,8 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 73e7ce467ed907c247a679e2225674cb9bebbb9c
+  revision: 532f27ad01671cbf33d048401d0d05e3f61810c1
+  branch: sf-addons
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -85,7 +86,7 @@ GEM
     avl_tree (1.1.3)
     backports (2.6.4)
     builder (3.0.4)
-    celluloid (0.12.2)
+    celluloid (0.12.3)
       facter (>= 1.6.12)
       timers (>= 1.0.0)
     coderay (1.0.8)
@@ -99,7 +100,7 @@ GEM
     facter (1.6.13)
     faraday (0.8.4)
       multipart-post (~> 1.1)
-    guard (1.5.0)
+    guard (1.5.1)
       listen (>= 0.4.2)
       lumberjack (>= 1.0.2)
       pry (>= 0.9.10)
