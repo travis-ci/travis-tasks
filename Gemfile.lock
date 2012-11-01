@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: fd5ef3c8e0f82ac6f9bbfeb2a13bf6f86200635f
+  revision: d45093704c1b86c651623420e6cff8c65fad7c66
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -84,7 +84,7 @@ GEM
     atomic (1.0.1)
     atomic (1.0.1-java)
     avl_tree (1.1.3)
-    backports (2.6.4)
+    backports (2.6.5)
     builder (3.0.4)
     celluloid (0.12.3)
       facter (>= 1.6.12)
