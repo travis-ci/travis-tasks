@@ -21,6 +21,7 @@ Travis::Features.start
 Travis::Exceptions::Reporter.start
 Travis::Notification.setup
 Travis::Mailer.setup
+Travis::Addons.register
 
 # Travis::Memory.new(:tasks).report_periodically if Travis.env == 'production'
 # NewRelic.start if File.exists?('config/newrelic.yml')
