@@ -47,6 +47,13 @@ GIT
       thor (~> 0.14.6)
 
 GIT
+  remote: git://github.com/travis-ci/travis-sidekiqs.git
+  revision: cde9741f8e6811fe3929bdd0dd653b87289c5eef
+  specs:
+    travis-sidekiqs (0.0.1)
+      sidekiq (~> 2.5.0)
+
+GIT
   remote: git://github.com/travis-ci/travis-support.git
   revision: 3df452650a4c0ae01ed28bea2b81ce15fde5b712
   specs:
@@ -226,5 +233,6 @@ DEPENDENCIES
   rspec (~> 2.7.0)
   sidekiq
   travis-core!
+  travis-sidekiqs!
   travis-support!
   webmock (~> 1.8.0)
