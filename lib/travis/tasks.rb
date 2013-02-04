@@ -10,7 +10,6 @@ Sidekiq.configure_server do |config|
     :url       => Travis.config.redis.url,
     :namespace => Travis.config.sidekiq.namespace
   }
-  config.options[:queues] = %w(archive campfire email flowdock github_commit_status github_status hipchat irc pusher webhook)
   config.logger = nil unless Travis.config.log_level == :debug
 end
 
