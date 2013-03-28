@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 3c67759032a37b90c192a6c77461eba9c868f041
+  revision: 8916aa3c0dcb6911a09cb92fe5f1b054be93b93e
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.12)
@@ -38,7 +38,6 @@ GIT
       hashr (~> 0.0.19)
       metriks (~> 0.9.7)
       multi_json
-      postmark-rails (~> 0.4.1)
       pusher (~> 0.11.0)
       railties (~> 3.2.12)
       rake
@@ -49,19 +48,19 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-sidekiqs.git
-  revision: 818ac36fb991315e11c0a1369ea7c54639fe28b6
+  revision: d7d72cd4920984d469615cdab4d4a44aad5e6073
   specs:
     travis-sidekiqs (0.0.1)
-      sidekiq (~> 2.6.0)
+      sidekiq (~> 2.8.0)
 
 GIT
   remote: git://github.com/travis-ci/travis-support.git
-  revision: ff712aca1083a588974f835a84c574e6976aeb29
+  revision: db10b27101763f39d46075ded19bcf4bb845b1ff
   specs:
     travis-support (0.0.1)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     actionmailer (3.2.13)
       actionpack (= 3.2.13)
@@ -91,7 +90,7 @@ GEM
     arel (3.0.2)
     atomic (1.0.1-java)
     avl_tree (1.1.3)
-    aws-sdk (1.8.1.1)
+    aws-sdk (1.8.5)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
@@ -101,7 +100,7 @@ GEM
       facter (>= 1.6.12)
       timers (>= 1.0.0)
     coder (0.3.0)
-    coderay (1.0.8)
+    coderay (1.0.9)
     connection_pool (1.0.0)
     crack (0.3.2)
     data_migrations (0.0.1)
@@ -109,7 +108,7 @@ GEM
       rake
     diff-lcs (1.1.3)
     erubis (2.7.0)
-    facter (1.6.17)
+    facter (1.6.18)
     faraday (0.8.7)
       multipart-post (~> 1.1)
     guard (1.6.2)
@@ -126,8 +125,8 @@ GEM
     i18n (0.6.1)
     journey (1.0.4)
     json (1.7.7-java)
-    listen (0.7.2)
-    lumberjack (1.0.2)
+    listen (0.7.3)
+    lumberjack (1.0.3)
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -146,21 +145,9 @@ GEM
     net-http-persistent (2.8)
     net-http-pipeline (1.0.1)
     newrelic_rpm (3.3.5)
-    nokogiri (1.5.6)
-    nokogiri (1.5.6-java)
+    nokogiri (1.5.9-java)
     polyglot (0.3.3)
-    postmark (0.9.19)
-      json
-      rake
-    postmark-rails (0.4.1)
-      actionmailer
-      postmark (>= 0.9.0)
-      rake
-    pry (0.9.11.4)
-      coderay (~> 1.0.5)
-      method_source (~> 0.8)
-      slop (~> 3.4)
-    pry (0.9.11.4-java)
+    pry (0.9.12-java)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
@@ -182,7 +169,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (10.0.3)
+    rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
     redis (3.0.3)
@@ -196,7 +183,7 @@ GEM
     rspec-expectations (2.7.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.7.0)
-    sidekiq (2.6.5)
+    sidekiq (2.8.0)
       celluloid (~> 0.12.0)
       connection_pool (~> 1.0)
       multi_json (~> 1)
@@ -206,7 +193,7 @@ GEM
     simple_states (0.1.1)
       activesupport
       hashr (~> 0.0.10)
-    slop (3.4.3)
+    slop (3.4.4)
     spoon (0.0.1)
     sprockets (2.2.2)
       hike (~> 1.2)
