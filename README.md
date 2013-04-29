@@ -11,6 +11,8 @@ You can find the full list of addon services Travis natively talks to within [Tr
 
 Travis Tasks runs two processes, one which deals with all the addon services linked to above, and one which processes the S3 archiving.
 
+![Travis Tasks Diagram](/img/diagram.jpg)
+
 ## License & copyright information ##
 
 See LICENSE file.
