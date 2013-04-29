@@ -7,10 +7,10 @@ gem 'travis-support',  github: 'travis-ci/travis-support'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'sidekiq'
-gem 'gh',             github: 'rkh/gh'
-gem 'hubble',         github: 'roidrage/hubble'
-gem 'rollout',        github: 'jamesgolick/rollout', :ref => 'v1.1.0'
-gem 'newrelic_rpm',   '~> 3.3.2'
+gem 'gh',              github: 'rkh/gh'
+gem 'hubble',          github: 'roidrage/hubble'
+gem 'rollout',         github: 'jamesgolick/rollout', :ref => 'v1.1.0'
+gem 'newrelic_rpm',    '~> 3.3.2'
 gem 'aws-sdk'
 
 group :test do
