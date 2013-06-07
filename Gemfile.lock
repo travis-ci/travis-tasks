@@ -30,7 +30,6 @@ GIT
 GIT
   remote: git://github.com/travis-ci/travis-core.git
   revision: b4903ce80bb46e91dfbaacc89098f80dd7bbc71c
-  ref: mm-build-email-footer
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.12)
