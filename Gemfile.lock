@@ -29,7 +29,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: b052286a1e3bb2e47a0d24f27818f4eec12ad857
+  revision: b4903ce80bb46e91dfbaacc89098f80dd7bbc71c
   ref: mm-build-email-footer
   specs:
     travis-core (0.0.1)
