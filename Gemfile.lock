@@ -16,7 +16,7 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: 72a749ca4e4cadf4cf7c8881d1e028b3e47654e3
+  revision: d87ce58aaceb0ae5a698292a165e01c7813cad95
   specs:
     gh (0.11.3)
       addressable
@@ -150,7 +150,7 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.7.7)
     multipart-post (1.2.0)
-    net-http-persistent (2.8)
+    net-http-persistent (2.9)
     net-http-pipeline (1.0.1)
     newrelic_rpm (3.3.5)
     nokogiri (1.5.10)
