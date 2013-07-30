@@ -1,7 +1,7 @@
 # Travis Tasks
 **************************
 
-Travis Task is a [Sidekiq](http://sidekiq.org/) based background processor whose main job is to send all manor of notifications based on events within Travis (job started, build finished), as well as archiving logs to S3.
+Travis Task is a [Sidekiq](http://sidekiq.org/) based background processor whose main job is to send all manner of notifications based on events within Travis (job started, build finished), as well as archiving logs to S3.
 
 These notifications are all queued up by state changes which are processed by [Travis Hub](https://github.com/travis-ci/travis-hub).
 
