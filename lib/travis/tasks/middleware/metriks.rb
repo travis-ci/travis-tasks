@@ -1,3 +1,5 @@
+require 'metriks'
+
 module Travis
   module Tasks
     module Middleware

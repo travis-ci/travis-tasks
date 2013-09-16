@@ -19,8 +19,8 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support.git
-  revision: a3af474254c8d2a5c829ce4be11ca53941361974
-  ref: master-2014-10-06
+  revision: 243147664e49a168b0c2d3c40c04a786bf664f37
+  branch: sf-te
   specs:
     travis-support (0.0.1)
 
@@ -187,7 +187,8 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    uuidtools (2.1.4)
+    tzinfo (0.3.37)
+    uuidtools (2.1.3)
     webmock (1.8.11)
       addressable (>= 2.2.7)
       crack (>= 0.1.7)
