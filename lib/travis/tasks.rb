@@ -4,6 +4,7 @@ require 'travis'
 require 'core_ext/module/load_constants'
 require 'roadie'
 require 'roadie/action_mailer_extensions'
+require 'ostruct'
 
 $stdout.sync = true
 
@@ -17,6 +18,13 @@ end
 
 GH::DefaultStack.options[:ssl] = Travis.config.ssl
 Travis.config.update_periodically
+
+module Roadie
+  def app
+    @_config ||= OpenStruct.new(enabled: true, provider: nil, after_inline: nil)
+    @_application ||= OpenStruct.new(config: @_config)
+  end
+end
 
 ActiveSupport.on_load(:action_mailer) do
   include Roadie::ActionMailerExtensions
