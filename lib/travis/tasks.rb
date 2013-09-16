@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'gh'
 require 'travis'
 require 'core_ext/module/load_constants'
+require 'roadie'
 
 $stdout.sync = true
 
