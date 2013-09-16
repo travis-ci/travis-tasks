@@ -16,10 +16,12 @@ end
 GH::DefaultStack.options[:ssl] = Travis.config.ssl
 Travis.config.update_periodically
 
+ActiveSupport.on_load(:action_mailer) do
+  include Roadie::ActionMailerExtensions
+end
+
 Travis::Exceptions::Reporter.start
 Travis::Notification.setup
 Travis::Mailer.setup
 Travis::Addons.register
 
-# Travis::Memory.new(:tasks).report_periodically if Travis.env == 'production'
-# NewRelic.start if File.exists?('config/newrelic.yml')
