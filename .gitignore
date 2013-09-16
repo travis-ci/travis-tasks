@@ -1,2 +1,4 @@
 config/travis.yml
 play
+.bundle
+vendor/bundle
