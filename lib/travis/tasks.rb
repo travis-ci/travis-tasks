@@ -20,7 +20,7 @@ GH::DefaultStack.options[:ssl] = Travis.config.ssl
 Travis.config.update_periodically
 
 module Roadie
-  def app
+  def self.app
     @_config ||= OpenStruct.new(enabled: true, provider: nil, after_inline: nil)
     @_application ||= OpenStruct.new(config: @_config)
   end
