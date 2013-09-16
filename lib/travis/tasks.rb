@@ -22,7 +22,7 @@ Travis.config.update_periodically
 module Roadie
   def self.app
     @_config ||= OpenStruct.new(roadie: OpenStruct.new(enabled: true, provider: nil, after_inlining: nil))
-    @_application ||= OpenStruct.new(config: @_config, root: Dir.pwd)
+    @_application ||= OpenStruct.new(config: @_config, root: Pathname.new(Dir.pwd))
   end
 end
 
