@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 2ee5dcf5d0c07af6013fc92c919e80ebcdf3536a
+  revision: a547e183eb32b1bfcda22fb61af68fddc35e60e9
   ref: mm-new-build-email
   specs:
     travis-core (0.0.1)
