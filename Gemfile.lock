@@ -16,9 +16,9 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: 78465feee719e9f0b1709fadb2d55ed531ec1a63
+  revision: a21ec37e06feec365db3f14f8a18e3c2700d52ca
   specs:
-    gh (0.12.4)
+    gh (0.13.0)
       addressable
       backports
       faraday (~> 0.8)
@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: dd305f621e21d2a931d42deac264596519929a75
+  revision: 7851f81949fb91ade80b40e2681954d1f4d7c5a1
   ref: mm-new-build-email
   specs:
     travis-core (0.0.1)
@@ -96,7 +96,7 @@ GEM
       json (~> 1.4)
       nokogiri (< 1.6.0)
       uuidtools (~> 2.1)
-    backports (3.3.3)
+    backports (3.3.4)
     builder (3.0.4)
     celluloid (0.12.4)
       facter (>= 1.6.12)
@@ -116,6 +116,7 @@ GEM
     facter (1.7.2)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
+    ffi (1.9.0)
     ffi (1.9.0-java)
     formatador (0.2.4)
     guard (1.8.1)
@@ -150,13 +151,18 @@ GEM
     mime-types (1.25)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.7.9)
+    multi_json (1.8.0)
     multipart-post (1.2.0)
     net-http-persistent (2.9)
     net-http-pipeline (1.0.1)
     newrelic_rpm (3.3.5)
+    nokogiri (1.5.10)
     nokogiri (1.5.10-java)
     polyglot (0.3.3)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     pry (0.9.12.2-java)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
