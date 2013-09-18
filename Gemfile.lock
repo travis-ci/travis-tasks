@@ -16,9 +16,9 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: 78465feee719e9f0b1709fadb2d55ed531ec1a63
+  revision: a21ec37e06feec365db3f14f8a18e3c2700d52ca
   specs:
-    gh (0.12.4)
+    gh (0.13.0)
       addressable
       backports
       faraday (~> 0.8)
@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: f3c2b689fd8ff1986501259f270eba2bc705a9ad
+  revision: bf87c39b4d417cac73944b3a8608957015fb9280
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.12)
@@ -89,13 +89,13 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.5)
     arel (3.0.2)
-    atomic (1.1.13-java)
+    atomic (1.1.14-java)
     avl_tree (1.1.3)
     aws-sdk (1.12.0)
       json (~> 1.4)
       nokogiri (< 1.6.0)
       uuidtools (~> 2.1)
-    backports (3.3.3)
+    backports (3.3.4)
     builder (3.0.4)
     celluloid (0.12.4)
       facter (>= 1.6.12)
@@ -105,6 +105,8 @@ GEM
     connection_pool (1.1.0)
     crack (0.4.0)
       safe_yaml (~> 0.9.0)
+    css_parser (1.3.5)
+      addressable
     data_migrations (0.0.1)
       activerecord
       rake
@@ -148,7 +150,7 @@ GEM
     mime-types (1.25)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.7.9)
+    multi_json (1.8.0)
     multipart-post (1.2.0)
     net-http-persistent (2.9)
     net-http-pipeline (1.0.1)
@@ -193,6 +195,11 @@ GEM
     redis (3.0.4)
     redis-namespace (1.3.0)
       redis (~> 3.0.0)
+    roadie (2.4.1)
+      actionmailer (> 3.0.0, < 5.0.0)
+      css_parser (~> 1.3.4)
+      nokogiri (> 1.5.0, < 1.7.0)
+      sprockets
     rspec (2.7.0)
       rspec-core (~> 2.7.0)
       rspec-expectations (~> 2.7.0)
@@ -242,6 +249,7 @@ DEPENDENCIES
   guard-rspec
   mocha (~> 0.10.0)
   newrelic_rpm (~> 3.3.2)
+  roadie
   rollout!
   rspec (~> 2.7.0)
   sentry-raven!
