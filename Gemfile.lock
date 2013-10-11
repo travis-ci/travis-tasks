@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 0c6abc11ac442d0a2382d4eaefa121680a4395c9
+  revision: d9ca35ca0b9fc8ba99f4e56271ccf7d3cdda2f7e
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.12)
@@ -233,7 +233,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.37)
+    tzinfo (0.3.38)
     uuidtools (2.1.4)
     webmock (1.8.11)
       addressable (>= 2.2.7)
