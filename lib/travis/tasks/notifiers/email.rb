@@ -12,7 +12,8 @@ module Travis
       class Email < Travis::Task
         class << self
           def setup
-            Travis::Mailer.setup
+            ActionMailer::Base.delivery_method = :smtp
+            ActionMailer::Base.smtp_settings = Tasks.config.smtp
             ActionMailer::Base.append_view_path("#{base_dir}/views")
             I18n.load_path += Dir["#{base_dir}/locales/**/*.yml"]
           end
