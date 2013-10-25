@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 ruby '1.9.3', engine: 'jruby', engine_version: '1.7.5'
 
 gem 'travis-support',  github: 'travis-ci/travis-support'
-gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'sidekiq'
 gem 'gh',              github: 'rkh/gh'

@@ -27,13 +27,6 @@ GIT
       net-http-pipeline
 
 GIT
-  remote: git://github.com/travis-ci/travis-sidekiqs.git
-  revision: efcf4ebd44ebad4b3dfdbff6c24969f6bc97be1a
-  specs:
-    travis-sidekiqs (0.0.1)
-      sidekiq (~> 2.8.0)
-
-GIT
   remote: git://github.com/travis-ci/travis-support.git
   revision: e5294f7d1f04243ea7315de27c36f2feeccec5da
   specs:
@@ -200,6 +193,5 @@ DEPENDENCIES
   rspec (~> 2.7.0)
   sentry-raven!
   sidekiq
-  travis-sidekiqs!
   travis-support!
   webmock (~> 1.8.0)
