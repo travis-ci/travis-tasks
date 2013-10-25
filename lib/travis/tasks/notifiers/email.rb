@@ -9,7 +9,7 @@ module Travis
   module Tasks
     module Notifiers
       # Sends out build notification emails using ActionMailer.
-      class Email < Travis::Task
+      class Email < Notifier
         class << self
           def setup
             ActionMailer::Base.delivery_method = :smtp

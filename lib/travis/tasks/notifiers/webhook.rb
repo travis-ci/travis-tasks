@@ -7,7 +7,7 @@ module Travis
     module Notifiers
       # Sends build notifications to webhooks as defined in the configuration
       # (`.travis.yml`).
-      class Webhook < Travis::Task
+      class Webhook < Notifier
         def targets
           params[:targets]
         end

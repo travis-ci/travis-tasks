@@ -8,7 +8,7 @@ module Travis
       # configuration (`.travis.yml`).
       #
       # Hipchat credentials can be encrypted using the repository's ssl key.
-      class Hipchat < Travis::Task
+      class Hipchat < Notifier
         DEFAULT_TEMPLATE = [
           "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): the build has %{result}",
           "Change view: %{compare_url}",

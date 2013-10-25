@@ -8,7 +8,7 @@ module Travis
     module Notifiers
       # Publishes a build notification to IRC channels as defined in the
       # configuration (`.travis.yml`).
-      class Irc < Travis::Task
+      class Irc < Notifier
         DEFAULT_TEMPLATE = [
           "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}",
           "Change view : %{compare_url}",

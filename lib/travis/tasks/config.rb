@@ -26,9 +26,11 @@ module Travis
         include Logging
       end
 
-      define sidekiq: { namespace: "sidekiq", pool_size: 3 },
-             redis:   { url: "redis://localhost:6379" },
-             sentry:  { }
+      define redis:   { url: "redis://localhost:6379" },
+             sentry:  { },
+             sidekiq: { namespace: "sidekiq", pool_size: 3 },
+             smtp:    { },
+             ssl:     { }
 
       default _access: [:key]
 

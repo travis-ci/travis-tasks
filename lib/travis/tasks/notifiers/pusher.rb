@@ -5,7 +5,7 @@ module Travis
   module Tasks
     module Notifiers
       # Notifies registered clients about various state changes through Pusher.
-      class Pusher < Travis::Task
+      class Pusher < Notifier
 
         def self.chunk_size
           9 * 1024 + 100

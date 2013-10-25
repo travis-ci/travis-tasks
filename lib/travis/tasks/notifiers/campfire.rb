@@ -9,7 +9,7 @@ module Travis
       # configuration (`.travis.yml`).
       #
       # Campfire credentials are encrypted using the repository's ssl key.
-      class Campfire < Travis::Task
+      class Campfire < Notifier
         DEFAULT_TEMPLATE = [
           "[travis-ci] %{repository}#%{build_number} (%{branch} - %{commit} : %{author}): the build has %{result}",
           "[travis-ci] Change view: %{compare_url}",

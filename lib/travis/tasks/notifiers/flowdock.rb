@@ -8,7 +8,7 @@ module Travis
       # configuration (`.travis.yml`).
       #
       # Flowdock credentials are encrypted using the repository's ssl key.
-      class Flowdock < Travis::Task
+      class Flowdock < Notifier
         TEMPLATE = <<-str.gsub(/^\s*/m, '')
           <ul>
           <li><code><a href="https://github.com/%{slug}">%{slug}</a></code> build #%{number} has %{result}!</li>

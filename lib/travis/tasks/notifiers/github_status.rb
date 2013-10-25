@@ -6,7 +6,7 @@ module Travis
     module Notifiers
       # Adds a comment with a build notification to the pull-request the request
       # belongs to.
-      class GitHubStatus < Travis::Task
+      class GitHubStatus < Notifier
         STATES = {
           'created'  => 'pending',
           'queued'   => 'pending',

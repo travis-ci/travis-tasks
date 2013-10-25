@@ -1,39 +1,31 @@
-require 'faraday'
-require 'core_ext/hash/compact'
-require 'core_ext/hash/deep_symbolize_keys'
-require 'active_support/core_ext/string'
-require 'active_support/core_ext/class/attribute'
+require "active_support/core_ext/string"
+require "core_ext/hash/compact"
+require "core_ext/hash/deep_symbolize_keys"
+require "faraday"
 
 module Travis
-  class Task
-    include Logging
-    extend  Instrumentation
+  module Tasks
+    class Notifier
+      include Logging
 
-    class_attribute :run_local
-
-    class << self
-      extend Exceptions::Handling
-
-      def perform(*args)
+      def self.perform(*args)
         new(*args).run
       end
-    end
 
-    attr_reader :payload, :params
+      attr_reader :payload, :params
 
-    def initialize(payload, params = {})
-      @payload = payload.deep_symbolize_keys
-      @params  = params.deep_symbolize_keys
-    end
-
-    def run
-      timeout after: params[:timeout] || 60 do
-        process
+      def initialize(payload, params = {})
+        @payload = payload.deep_symbolize_keys
+        @params = params.deep_symbolize_keys
       end
-    end
-    instrument :run
 
-    private
+      def run
+        timeout(after: params[:timeout] || 60) do
+          process
+        end
+      end
+
+      private
 
       def repository
         @repository ||= payload[:repository]
@@ -71,7 +63,8 @@ module Travis
       end
 
       def timeout(options = { after: 60 }, &block)
-        Timeout::timeout(options[:after], &block)
+        Timeout.timeout(options[:after], &block)
       end
+    end
   end
 end
