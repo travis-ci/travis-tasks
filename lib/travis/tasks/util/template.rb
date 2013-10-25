@@ -1,4 +1,3 @@
-require 'travis/features'
 require 'core_ext/hash/deep_symbolize_keys'
 require "travis/tasks/util/result_message"
 
@@ -38,27 +37,12 @@ module Travis
         end
 
         def compare_url
-          url = data[:commit][:compare_url]
-          short_urls? ? shorten_url(url) : url
+          data[:commit][:compare_url]
         end
 
         def build_url
-          url = "http://#{Travis.config.host}/#{data[:repository][:slug]}/builds/#{data[:build][:id]}"
-          short_urls? ? shorten_url(url) : url
+          "http://#{Travis.config.host}/#{data[:repository][:slug]}/builds/#{data[:build][:id]}"
         end
-
-        private
-
-          def short_urls?
-            # # TODO Travis::Features wants full models, should probaly change that
-            # repository = Repository.find(data['repository']['id'])
-            # Travis::Features.active?(:short_urls, repository)
-            false
-          end
-
-          def shorten_url(url)
-            Url.shorten(url).short_url
-          end
       end
     end
   end
