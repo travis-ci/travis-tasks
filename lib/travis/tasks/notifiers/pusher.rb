@@ -2,10 +2,10 @@ require "travis/support/instrumentation"
 require "travis/task"
 
 module Travis
-  module Addons
-    module Pusher
+  module Tasks
+    module Notifiers
       # Notifies registered clients about various state changes through Pusher.
-      class Task < Travis::Task
+      class Pusher < Travis::Task
 
         def self.chunk_size
           9 * 1024 + 100
@@ -45,7 +45,7 @@ module Travis
               begin
                 Travis.pusher[channel].trigger(client_event, part)
               rescue ::Pusher::Error => e
-                Travis.logger.error("[addons:pusher] Could not send event due to Pusher::Error: #{e.message}, event=#{client_event}, payload: #{part.inspect}")
+                Travis.logger.error("[notifiers:pusher] Could not send event due to Pusher::Error: #{e.message}, event=#{client_event}, payload: #{part.inspect}")
                 raise
               end
             end
@@ -61,7 +61,7 @@ module Travis
               if chunkifier.length > 1
                 # This should never happen when we update travis-worker to split log parts
                 # bigger than 9kB.
-                Travis.logger.warn("[addons:pusher] The log part from worker was bigger than 9kB (#{log.to_json.length}B), payload: #{payload.inspect}")
+                Travis.logger.warn("[notifiers:pusher] The log part from worker was bigger than 9kB (#{log.to_json.length}B), payload: #{payload.inspect}")
               end
 
               chunkifier.each_with_index.map do |part, i|

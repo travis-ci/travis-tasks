@@ -2,11 +2,11 @@ require "gh"
 require "travis/task"
 
 module Travis
-  module Addons
-    module GithubStatus
+  module Tasks
+    module Notifiers
       # Adds a comment with a build notification to the pull-request the request
       # belongs to.
-      class Task < Travis::Task
+      class GitHubStatus < Travis::Task
         STATES = {
           'created'  => 'pending',
           'queued'   => 'pending',

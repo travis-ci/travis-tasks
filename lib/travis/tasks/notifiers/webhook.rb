@@ -3,11 +3,11 @@ require "travis/task"
 require "digest/sha2"
 
 module Travis
-  module Addons
-    module Webhook
+  module Tasks
+    module Notifiers
       # Sends build notifications to webhooks as defined in the configuration
       # (`.travis.yml`).
-      class Task < Travis::Task
+      class Webhook < Travis::Task
         def targets
           params[:targets]
         end

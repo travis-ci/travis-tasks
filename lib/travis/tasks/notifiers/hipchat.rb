@@ -1,14 +1,14 @@
-require "travis/addons/util/template"
+require "travis/tasks/util/template"
 require "travis/task"
 
 module Travis
-  module Addons
-    module Hipchat
+  module Tasks
+    module Notifires
       # Publishes a build notification to hipchat rooms as defined in the
       # configuration (`.travis.yml`).
       #
       # Hipchat credentials can be encrypted using the repository's ssl key.
-      class Task < Travis::Task
+      class Hipchat < Travis::Task
         DEFAULT_TEMPLATE = [
           "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): the build has %{result}",
           "Change view: %{compare_url}",

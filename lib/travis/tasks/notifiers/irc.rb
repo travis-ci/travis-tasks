@@ -1,14 +1,14 @@
 require "addressable/uri"
-require "travis/addons/irc/client"
-require "travis/addons/util/template"
+require "travis/tasks/notifiers/irc/client"
+require "travis/tasks/util/template"
 require "travis/task"
 
 module Travis
-  module Addons
-    module Irc
+  module Tasks
+    module Notifiers
       # Publishes a build notification to IRC channels as defined in the
       # configuration (`.travis.yml`).
-      class Task < Travis::Task
+      class Irc < Travis::Task
         DEFAULT_TEMPLATE = [
           "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}",
           "Change view : %{compare_url}",

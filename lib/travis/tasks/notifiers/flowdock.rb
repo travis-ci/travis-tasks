@@ -2,13 +2,13 @@ require "multi_json"
 require "travis/task"
 
 module Travis
-  module Addons
-    module Flowdock
+  module Tasks
+    module Notifiers
       # Publishes a build notification to flowdock rooms as defined in the
       # configuration (`.travis.yml`).
       #
       # Flowdock credentials are encrypted using the repository's ssl key.
-      class Task < Travis::Task
+      class Flowdock < Travis::Task
         TEMPLATE = <<-str.gsub(/^\s*/m, '')
           <ul>
           <li><code><a href="https://github.com/%{slug}">%{slug}</a></code> build #%{number} has %{result}!</li>

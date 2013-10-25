@@ -1,15 +1,15 @@
 require "travis/task"
-require "travis/addons/util/template"
+require "travis/tasks/util/template"
 require "multi_json"
 
 module Travis
-  module Addons
-    module Campfire
+  module Tasks
+    module Notifiers
       # Publishes a build notification to campfire rooms as defined in the
       # configuration (`.travis.yml`).
       #
       # Campfire credentials are encrypted using the repository's ssl key.
-      class Task < Travis::Task
+      class Campfire < Travis::Task
         DEFAULT_TEMPLATE = [
           "[travis-ci] %{repository}#%{build_number} (%{branch} - %{commit} : %{author}): the build has %{result}",
           "[travis-ci] Change view: %{compare_url}",

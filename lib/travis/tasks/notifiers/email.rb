@@ -1,27 +1,27 @@
 require "action_mailer"
 require "i18n"
 require "mail"
-require "travis/addons/email/mailer/build"
-require "travis/addons/email/mailer/helpers"
+require "travis/tasks/notifiers/email/mailer/build"
+require "travis/tasks/notifiers/email/mailer/helpers"
 require "travis/task"
 
 module Travis
-  module Addons
-    module Email
-      class << self
-        def setup
-          Travis::Mailer.setup
-          ActionMailer::Base.append_view_path("#{base_dir}/views")
-          I18n.load_path += Dir["#{base_dir}/locales/**/*.yml"]
-        end
-
-        def base_dir
-          File.expand_path('../email/mailer', __FILE__)
-        end
-      end
-
+  module Tasks
+    module Notifiers
       # Sends out build notification emails using ActionMailer.
-      class Task < Travis::Task
+      class Email < Travis::Task
+        class << self
+          def setup
+            Travis::Mailer.setup
+            ActionMailer::Base.append_view_path("#{base_dir}/views")
+            I18n.load_path += Dir["#{base_dir}/locales/**/*.yml"]
+          end
+
+          def base_dir
+            File.expand_path('../email/mailer', __FILE__)
+          end
+        end
+
         def recipients
           @recipients ||= params[:recipients].select { |email| valid?(email) }
         end
