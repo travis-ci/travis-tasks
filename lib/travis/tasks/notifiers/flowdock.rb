@@ -1,5 +1,4 @@
 require "multi_json"
-require "travis/task"
 
 module Travis
   module Tasks

@@ -1,5 +1,4 @@
 require "travis/tasks/util/template"
-require "travis/task"
 
 module Travis
   module Tasks

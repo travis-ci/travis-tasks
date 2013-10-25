@@ -1,4 +1,3 @@
-require "travis/task"
 require "travis/tasks/util/template"
 require "multi_json"
 

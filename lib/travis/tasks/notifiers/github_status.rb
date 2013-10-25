@@ -1,5 +1,4 @@
 require "gh"
-require "travis/task"
 
 module Travis
   module Tasks

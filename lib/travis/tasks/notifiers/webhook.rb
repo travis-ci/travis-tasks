@@ -1,5 +1,4 @@
 require "faraday"
-require "travis/task"
 require "digest/sha2"
 
 module Travis
