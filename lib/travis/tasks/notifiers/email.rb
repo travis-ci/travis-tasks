@@ -3,6 +3,7 @@ require "i18n"
 require "mail"
 require "travis/tasks/notifiers/email/mailer/build"
 require "travis/tasks/notifiers/email/mailer/helpers"
+require "travis/tasks/notifier"
 
 module Travis
   module Tasks

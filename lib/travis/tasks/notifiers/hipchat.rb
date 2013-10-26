@@ -1,4 +1,5 @@
 require "travis/tasks/util/template"
+require "travis/tasks/notifier"
 
 module Travis
   module Tasks

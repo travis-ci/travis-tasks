@@ -1,5 +1,6 @@
 require "travis/tasks/util/template"
 require "multi_json"
+require "travis/tasks/notifier"
 
 module Travis
   module Tasks

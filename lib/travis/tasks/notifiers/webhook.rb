@@ -1,5 +1,6 @@
 require "faraday"
 require "digest/sha2"
+require "travis/tasks/notifier"
 
 module Travis
   module Tasks

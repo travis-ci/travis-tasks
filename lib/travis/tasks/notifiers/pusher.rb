@@ -1,4 +1,5 @@
 require "travis/support/instrumentation"
+require "travis/tasks/notifier"
 
 module Travis
   module Tasks

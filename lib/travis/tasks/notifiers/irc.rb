@@ -1,6 +1,7 @@
 require "addressable/uri"
 require "travis/tasks/notifiers/irc/client"
 require "travis/tasks/util/template"
+require "travis/tasks/notifier"
 
 module Travis
   module Tasks

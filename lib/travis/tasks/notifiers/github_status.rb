@@ -1,4 +1,5 @@
 require "gh"
+require "travis/tasks/notifier"
 
 module Travis
   module Tasks
