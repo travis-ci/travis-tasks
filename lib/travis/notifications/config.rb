@@ -26,7 +26,8 @@ module Travis
         include Logging
       end
 
-      define redis:   { url: "redis://localhost:6379" },
+      define host:    "travis-ci.org",
+             redis:   { url: "redis://localhost:6379" },
              sentry:  { },
              sidekiq: { namespace: "sidekiq", pool_size: 3 },
              smtp:    { },
