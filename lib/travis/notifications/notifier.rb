@@ -2,6 +2,7 @@ require "active_support/core_ext/string"
 require "core_ext/hash/compact"
 require "core_ext/hash/deep_symbolize_keys"
 require "faraday"
+require "travis/support"
 
 module Travis
   module Notifications
