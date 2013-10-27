@@ -80,4 +80,17 @@ describe Travis::Notifications::Notifiers::Campfire do
 
     campfire.run
   end
+
+  context "with multiple targets" do
+    before(:each) do
+      params[:targets] = ["example:foobar@1234", "other:barbaz@2345"]
+    end
+
+    it "posts to each target" do
+      expect(http).to receive(:post).with("https://example.campfirenow.com/room/1234/speak.json").exactly(3).times
+      expect(http).to receive(:post).with("https://other.campfirenow.com/room/2345/speak.json").exactly(3).times
+
+      campfire.run
+    end
+  end
 end
