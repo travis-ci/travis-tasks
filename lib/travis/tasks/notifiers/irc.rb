@@ -1,5 +1,5 @@
 require "addressable/uri"
-require "travis/tasks/notifiers/irc/client"
+require "irc-notify"
 require "travis/tasks/util/template"
 require "travis/tasks/notifier"
 
@@ -17,10 +17,6 @@ module Travis
 
         def channels
           @channels ||= params[:channels]
-          # @channels ||= options[:channels].inject({}) do |channels, (key, value)|
-          #   key = eval(key) if key.is_a?(String)
-          #   channels.merge(key => value)
-          # end
         end
 
         def messages
@@ -38,26 +34,25 @@ module Travis
           end
 
           def send_messages(host, port, ssl, channels)
-            client(host, nick, client_options(port, ssl)) do |client|
-              channels.each do |channel|
-                begin
-                  send_message(client, channel)
-                  info("Successfully notified #{host}:#{port}##{channel}")
-                rescue StandardError => e
-                  # TODO notify the repo
-                  error("Could not notify #{host}:#{port}##{channel}: #{e.inspect}")
-                end
-              end
+            client = IrcNotify::Client.build(host, port, ssl: ssl == :ssl)
+            client.register(nick, password: try_config(:password), nickserv_password: try_config(:nickserv_password)))
+            channels.each do |channel|
+              send_message(client, channel)
             end
           rescue StandardError => e
-            # TODO notify the repo
             error("Could not connect to #{host}: #{e.inspect}")
           end
 
           def send_message(client, channel)
-            client.join(channel, try_config(:channel_key) || nil) if join?
-            messages.each { |message| client.say("[travis-ci] #{message}", channel, notice?) }
-            client.leave(channel) if join?
+            client.notify(
+              channel,
+              messages.map { |message| "[travis-ci] #{message}" }.join("\n"), channel_key: try_config(:channel_key),
+              join: join?,
+              notice: notice?
+            )
+            info("Successfully notified #{host}:#{port}#{channel}")
+          rescue StandardError => e
+            info("Could not notify #{channel}: #{e.inspect}")
           end
 
           # TODO move parsing irc urls to irc client class
@@ -80,22 +75,6 @@ module Travis
 
           def template
             Array(try_config(:template) || DEFAULT_TEMPLATE)
-          end
-
-          def client_options(port, ssl)
-            {
-              :port => port,
-              :ssl => (ssl == :ssl),
-              :password => try_config(:password),
-              :nickserv_password => try_config(:nickserv_password)
-            }
-          end
-
-          def client(host, nick, options, &block)
-            client = Client.new(host, nick, options)
-            client.wait_for_numeric
-            client.run(&block) if block_given?
-            client.quit
           end
 
           def nick
