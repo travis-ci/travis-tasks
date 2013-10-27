@@ -1,7 +1,7 @@
 require 'hashr'
 
 module Travis
-  module Addons
+  module Notifications
     module Util
       class ResultMessage
 

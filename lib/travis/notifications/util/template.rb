@@ -2,7 +2,7 @@ require 'core_ext/hash/deep_symbolize_keys'
 require "travis/notifications/util/result_message"
 
 module Travis
-  module Addons
+  module Notifications
     module Util
       class Template
         attr_reader :template, :data
