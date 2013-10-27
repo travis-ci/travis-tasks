@@ -16,7 +16,7 @@ Travis Tasks runs two processes, one which deals with all the addon services lin
 
 See LICENSE file.
 
-Copyright (c) 2011 [Travis CI development team](https://github.com/travis-ci).
+Copyright (c) 2010-2013 [Travis CI development team](https://github.com/travis-ci).
 
 
 
