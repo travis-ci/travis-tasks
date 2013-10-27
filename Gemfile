@@ -18,9 +18,8 @@ gem "faraday"
 gem "irc-notify"
 
 group :test do
-  gem 'rspec',        '~> 2.7.0'
-  gem 'mocha',        '~> 0.10.0'
-  gem 'webmock',      '~> 1.8.0'
-  gem 'guard'
-  gem 'guard-rspec'
+  gem "rspec",        '~> 2.14'
+  gem "guard"
+  gem "guard-bundler"
+  gem "guard-rspec"
 end
