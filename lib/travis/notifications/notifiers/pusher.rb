@@ -1,4 +1,3 @@
-require "travis/support/instrumentation"
 require "travis/notifications/notifier"
 
 module Travis
@@ -35,16 +34,10 @@ module Travis
           end
 
           def trigger(channel, payload)
-            # TODO: the second argument in meter can be removed when we're sure that apps
-            #       using this have newest travis-support version
-            Travis::Instrumentation.meter('travis.addons.pusher.task.messages', {})
-
-            begin
-              Travis.pusher[channel].trigger(client_event, payload)
-            rescue ::Pusher::Error => e
-              Travis.logger.error("[notifiers:pusher] Could not send event due to Pusher::Error: #{e.message}, event=#{client_event}, payload: #{payload.inspect}")
-              raise
-            end
+            Travis.pusher[channel].trigger(client_event, payload)
+          rescue ::Pusher::Error => e
+            Travis.logger.error("[notifiers:pusher] Could not send event due to Pusher::Error: #{e.message}, event=#{client_event}, payload: #{payload.inspect}")
+            raise
           end
 
           def chunk_size
