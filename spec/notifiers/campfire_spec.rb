@@ -74,4 +74,10 @@ describe Travis::Notifications::Notifiers::Campfire do
 
     campfire.run
   end
+
+  it "authenticates with the token" do
+    expect(http).to receive(:basic_auth).with("foobar", anything())
+
+    campfire.run
+  end
 end
