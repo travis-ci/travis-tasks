@@ -5,3 +5,5 @@ RSpec.configure do |config|
     e.syntax = :expect
   end
 end
+
+require "travis/notifications"
