@@ -3,7 +3,7 @@ require "metriks/reporter/logger"
 require "travis/support/memory"
 
 module Travis
-  module Tasks
+  module Notifications
     module Helpers
       module Reporting
         def self.setup

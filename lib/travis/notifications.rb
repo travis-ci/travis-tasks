@@ -1,11 +1,11 @@
-require "travis/tasks/config"
+require "travis/notifications/config"
 
 module Travis
   def self.config
-    Tasks.config
+    Notifications.config
   end
 
-  module Tasks
+  module Notifications
     def self.config
       @config ||= Config.new
     end

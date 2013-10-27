@@ -1,8 +1,8 @@
 require "multi_json"
-require "travis/tasks/notifier"
+require "travis/notifications/notifier"
 
 module Travis
-  module Tasks
+  module Notifications
     module Notifiers
       # Publishes a build notification to flowdock rooms as defined in the
       # configuration (`.travis.yml`).

@@ -1,10 +1,10 @@
 require "addressable/uri"
 require "irc-notify"
-require "travis/tasks/util/template"
-require "travis/tasks/notifier"
+require "travis/notifications/util/template"
+require "travis/notifications/notifier"
 
 module Travis
-  module Tasks
+  module Notifications
     module Notifiers
       # Publishes a build notification to IRC channels as defined in the
       # configuration (`.travis.yml`).

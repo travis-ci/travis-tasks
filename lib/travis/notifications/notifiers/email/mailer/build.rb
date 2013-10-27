@@ -1,5 +1,5 @@
 require 'action_mailer'
-require "travis/tasks/notifiers/email/mailer/helpers"
+require "travis/notifications/notifiers/email/mailer/helpers"
 
 module Travis
   module Addons

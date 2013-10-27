@@ -1,8 +1,8 @@
 require "travis/support/instrumentation"
-require "travis/tasks/notifier"
+require "travis/notifications/notifier"
 
 module Travis
-  module Tasks
+  module Notifications
     module Notifiers
       # Notifies registered clients about various state changes through Pusher.
       class Pusher < Notifier

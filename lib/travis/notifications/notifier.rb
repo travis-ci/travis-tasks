@@ -4,7 +4,7 @@ require "core_ext/hash/deep_symbolize_keys"
 require "faraday"
 
 module Travis
-  module Tasks
+  module Notifications
     class Notifier
       include Logging
 

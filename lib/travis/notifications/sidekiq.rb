@@ -2,21 +2,21 @@ require "sidekiq"
 require "sidekiq/redis_connection"
 
 module Travis
-  module Tasks
+  module Notifications
     module Sidekiq
       class << self
         def setup
           Travis.logger.info("Setting up Sidekiq and the Redis connection")
-          Travis.logger.info("  using redis:#{Tasks.config.redis.inspect}")
-          Travis.logger.info("  using sidekiq:#{Tasks.config.sidekiq.inspect}")
+          Travis.logger.info("  using redis:#{Notifications.config.redis.inspect}")
+          Travis.logger.info("  using sidekiq:#{Notifications.config.sidekiq.inspect}")
 
           ::Sidekiq.redis = ::Sidekiq::RedisConnection.create(
-            url: Tasks.config.redis.url,
+            url: Notifications.config.redis.url,
             namespace: Travis.config.sidekiq.namespace,
             pool_size: Travis.config.sidekiq.pool_size
           )
 
-          if Tasks.config.log_level == :debug
+          if Notifications.config.log_level == :debug
             ::Sidekiq.logger = Travis.logger
           else
             ::Sidekiq.logger = nil

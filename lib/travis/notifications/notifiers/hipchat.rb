@@ -1,8 +1,8 @@
-require "travis/tasks/util/template"
-require "travis/tasks/notifier"
+require "travis/notifications/util/template"
+require "travis/notifications/notifier"
 
 module Travis
-  module Tasks
+  module Notifications
     module Notifires
       # Publishes a build notification to hipchat rooms as defined in the
       # configuration (`.travis.yml`).

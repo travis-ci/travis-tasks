@@ -1,8 +1,8 @@
 require "gh"
-require "travis/tasks/notifier"
+require "travis/notifications/notifier"
 
 module Travis
-  module Tasks
+  module Notifications
     module Notifiers
       # Adds a comment with a build notification to the pull-request the request
       # belongs to.

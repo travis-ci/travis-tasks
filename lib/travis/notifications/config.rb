@@ -4,7 +4,7 @@ require "travis/support/logging"
 require "yaml"
 
 module Travis
-  module Tasks
+  module Notifications
     class Config < Hashr
       class << self
         def env

@@ -1,19 +1,19 @@
 require "action_mailer"
 require "i18n"
 require "mail"
-require "travis/tasks/notifiers/email/mailer/build"
-require "travis/tasks/notifiers/email/mailer/helpers"
-require "travis/tasks/notifier"
+require "travis/notifications/notifiers/email/mailer/build"
+require "travis/notifications/notifiers/email/mailer/helpers"
+require "travis/notifications/notifier"
 
 module Travis
-  module Tasks
+  module Notifications
     module Notifiers
       # Sends out build notification emails using ActionMailer.
       class Email < Notifier
         class << self
           def setup
             ActionMailer::Base.delivery_method = :smtp
-            ActionMailer::Base.smtp_settings = Tasks.config.smtp
+            ActionMailer::Base.smtp_settings = Notifications.config.smtp
             ActionMailer::Base.append_view_path("#{base_dir}/views")
             I18n.load_path += Dir["#{base_dir}/locales/**/*.yml"]
           end

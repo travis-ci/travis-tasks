@@ -1,9 +1,9 @@
 require "faraday"
 require "digest/sha2"
-require "travis/tasks/notifier"
+require "travis/notifications/notifier"
 
 module Travis
-  module Tasks
+  module Notifications
     module Notifiers
       # Sends build notifications to webhooks as defined in the configuration
       # (`.travis.yml`).

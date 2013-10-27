@@ -1,5 +1,5 @@
 require 'core_ext/hash/deep_symbolize_keys'
-require "travis/tasks/util/result_message"
+require "travis/notifications/util/result_message"
 
 module Travis
   module Addons
