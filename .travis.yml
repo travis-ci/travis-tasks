@@ -1,7 +1,2 @@
 language: ruby
-rvm:
-  - jruby-19mode
-  - jruby-head
-matrix:
-  allow_failures:
-    - rvm: jruby-head
+rvm: jruby-1.7.5
