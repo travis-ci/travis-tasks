@@ -46,8 +46,7 @@ module Travis
           end
 
           def template
-            template = config[:template] rescue nil
-            Array(template || DEFAULT_TEMPLATE)
+            Array(config.fetch(:template, DEFAULT_TEMPLATE))
           end
 
           def parse(target)
@@ -56,7 +55,9 @@ module Travis
           end
 
           def config
-            build[:config][:notifications][:campfire] rescue {}
+            Hash(build[:config][:notifications][:campfire])
+          rescue
+            {}
           end
       end
     end
