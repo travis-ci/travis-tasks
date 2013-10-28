@@ -93,4 +93,22 @@ describe Travis::Notifications::Notifiers::Campfire do
       campfire.run
     end
   end
+
+  context "with custom template" do
+    before(:each) do
+      payload[:build][:config][:notifications][:campfire] = {
+        rooms: "example:foobar@1234",
+        template: "%{repository} (%{commit}): %{message}"
+      }
+    end
+
+    it "uses the given template instead of the default" do
+      request = double("request", :body= => nil, :headers => {})
+      allow(http).to receive(:post).and_yield(request)
+
+      expect(request).to receive(:body=).with('{"message":{"body":"green-eggs/ham (abcdef): The build was fixed."}}')
+
+      campfire.run
+    end
+  end
 end
