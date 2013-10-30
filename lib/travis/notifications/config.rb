@@ -43,6 +43,10 @@ module Travis
       def env
         self.class.env
       end
+
+      def http_host
+        "https://#{host}"
+      end
     end
   end
 end
