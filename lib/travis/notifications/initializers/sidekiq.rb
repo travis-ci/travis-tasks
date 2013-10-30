@@ -5,6 +5,7 @@ require "travis/support"
 require "travis/support/exceptions/reporter"
 require "travis/notifications/helpers/reporting"
 require "travis/notifications/sidekiq"
+require "travis/notifications/initializers/roadie"
 
 $stdout.sync = true
 Travis.logger.info("** Setting up Sidekiq **")
