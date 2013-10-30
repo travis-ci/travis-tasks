@@ -13,6 +13,10 @@ Travis Tasks runs two processes, one which deals with all the addon services lin
 
 ![Travis Tasks Diagram](/img/diagram.jpg)
 
+## Reporting Issues
+
+Please file any issues on the [central Travis CI issue tracker](https://github.com/travis-ci/travis-ci/issues).
+
 ## License & copyright information ##
 
 See LICENSE file.
