@@ -16,11 +16,7 @@ module Travis
             pool_size: Travis.config.sidekiq.pool_size
           )
 
-          if Notifications.config.log_level == :debug
-            ::Sidekiq.logger = Travis.logger
-          else
-            ::Sidekiq.logger = nil
-          end
+          ::Sidekiq.logger = Travis.logger
         end
       end
     end
