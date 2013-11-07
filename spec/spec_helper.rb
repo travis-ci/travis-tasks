@@ -6,4 +6,5 @@ RSpec.configure do |config|
   end
 end
 
+require "support/payloads"
 require "travis/notifications"
