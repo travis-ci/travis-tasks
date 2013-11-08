@@ -4,7 +4,6 @@ require 'travis'
 require 'roadie'
 require 'roadie/action_mailer_extensions'
 require 'ostruct'
-require 'travis/states_cache'
 
 $stdout.sync = true
 
