@@ -7,7 +7,7 @@ gem 'travis-support',  github: 'travis-ci/travis-support'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'sidekiq'
-gem 'gh',              github: 'rkh/gh'
+gem 'gh',              github: 'travis-ci/gh'
 gem 'sentry-raven',    github: 'getsentry/raven-ruby'
 gem 'rollout',         github: 'jamesgolick/rollout', :ref => 'v1.1.0'
 gem 'newrelic_rpm',    '~> 3.3.2'
