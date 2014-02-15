@@ -3,3 +3,5 @@ language: ruby
 rvm:
   - jruby-1.7.10
 
+script: bundle exec rspec -fs --color --order rand spec
+
