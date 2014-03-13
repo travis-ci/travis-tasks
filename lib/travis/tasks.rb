@@ -7,12 +7,28 @@ require 'ostruct'
 
 $stdout.sync = true
 
+class MetriksMiddleware
+  def call(worker, message, queue, &block)
+    w = worker.class.name.split("::").last.downcase
+    begin
+      ::Metriks.meter("tasks.jobs.#{w}").mark
+      ::Metriks.timer("tasks.jobs.#{w}.perform").time(&block)
+    rescue Exception
+      ::Metriks.meter("tasks.jobs.#{w}.failure").mark
+      raise
+    end
+  end
+end
+
 Sidekiq.configure_server do |config|
   config.redis = {
     :url       => Travis.config.redis.url,
     :namespace => Travis.config.sidekiq.namespace
   }
   config.logger = nil unless Travis.config.log_level == :debug
+  config.server_middleware do |chain|
+    chain.add MetriksMiddleware
+  end
 end
 
 GH::DefaultStack.options[:ssl] = Travis.config.ssl
