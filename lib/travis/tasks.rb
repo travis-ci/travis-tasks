@@ -28,6 +28,11 @@ Sidekiq.configure_server do |config|
   config.logger = nil unless Travis.config.log_level == :debug
   config.server_middleware do |chain|
     chain.add MetriksMiddleware
+    if Travis.config.sentry.empty?
+      if defined?(::Raven::Sidekiq)
+        chain.remove(::Raven::Sidekiq)
+      end
+    end
   end
 end
 
@@ -45,7 +50,10 @@ ActiveSupport.on_load(:action_mailer) do
   include Roadie::ActionMailerExtensions
 end
 
-Travis::Exceptions::Reporter.start
+if Travis.config.sentry
+  Travis::Exceptions::Reporter.start
+end
+
 Travis::Notification.setup
 Travis::Mailer.setup
 Travis::Addons.register
