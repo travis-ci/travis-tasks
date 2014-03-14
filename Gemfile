@@ -6,7 +6,7 @@ gem 'travis-core',     github: 'travis-ci/travis-core'
 gem 'travis-support',  github: 'travis-ci/travis-support'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
-gem 'sidekiq'
+gem 'sidekiq',         '~> 2.17.0'
 gem 'gh',              github: 'rkh/gh'
 gem 'sentry-raven'
 gem 'rollout',         github: 'jamesgolick/rollout', :ref => 'v1.1.0'
