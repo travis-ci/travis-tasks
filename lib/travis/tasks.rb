@@ -9,12 +9,11 @@ $stdout.sync = true
 
 class MetriksMiddleware
   def call(worker, message, queue, &block)
-    w = worker.class.name.split("::").last.downcase
     begin
-      ::Metriks.meter("tasks.jobs.#{w}").mark
-      ::Metriks.timer("tasks.jobs.#{w}.perform").time(&block)
+      ::Metriks.meter("tasks.jobs.#{queue}").mark
+      ::Metriks.timer("tasks.jobs.#{queue}.perform").time(&block)
     rescue Exception
-      ::Metriks.meter("tasks.jobs.#{w}.failure").mark
+      ::Metriks.meter("tasks.jobs.#{queue}.failure").mark
       raise
     end
   end
