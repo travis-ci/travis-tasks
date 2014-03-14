@@ -1,9 +1,12 @@
+$:.unshift(File.expand_path(File.dirname(__FILE__) + "/.."))
+
 require 'bundler/setup'
 require 'gh'
 require 'travis'
 require 'roadie'
 require 'roadie/action_mailer_extensions'
 require 'ostruct'
+require 'travis/tasks/error_handler'
 
 $stdout.sync = true
 
@@ -27,11 +30,12 @@ Sidekiq.configure_server do |config|
   config.logger = nil unless Travis.config.log_level == :debug
   config.server_middleware do |chain|
     chain.add MetriksMiddleware
-    if Travis.config.sentry.empty?
-      if defined?(::Raven::Sidekiq)
-        chain.remove(::Raven::Sidekiq)
-      end
+
+    if defined?(::Raven::Sidekiq)
+      chain.remove(::Raven::Sidekiq)
     end
+
+    chain.add(Travis::Tasks::ErrorHandler)
   end
 end
 
