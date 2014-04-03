@@ -5,7 +5,7 @@ describe Travis::Addons::Email::Task do
 
   let(:subject)    { Travis::Addons::Email::Task }
   let(:mailer)     { Travis::Addons::Email::Mailer::Build }
-  let(:payload)    { TASK_PAYLOAD.dup }
+  let(:payload)    { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:email)      { stub('email', deliver: true) }
   let(:handler)    { subject.new(payload, recipients: recipients, broadcasts: broadcasts) }
   let(:broadcasts) { [broadcast] }
@@ -18,7 +18,7 @@ describe Travis::Addons::Email::Task do
   end
 
   it 'creates an email for the build email recipients' do
-    mailer.expects(:finished_email).with(payload, recipients, broadcasts).returns(email)
+    mailer.expects(:finished_email).with(payload.deep_symbolize_keys, recipients, broadcasts).returns(email)
     handler.run
   end
 

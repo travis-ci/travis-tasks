@@ -21,7 +21,7 @@ module Travis
         private
 
           def process
-            Mailer::Build.send(type, payload, recipients, broadcasts).deliver if recipients.any?
+            Mailer::Build.finished_email(payload, recipients, broadcasts).deliver if recipients.any?
           rescue Net::SMTPServerBusy => e
             error("Could not send email to: #{recipients} (error: #{e.message})")
             raise unless e.message =~ /Bad recipient address syntax/ || e.message =~ /Recipient address rejected/
