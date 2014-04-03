@@ -2,7 +2,6 @@ $:.unshift(File.expand_path(File.dirname(__FILE__) + "/.."))
 
 require 'bundler/setup'
 require 'gh'
-require 'travis'
 require 'roadie'
 require 'roadie/action_mailer_extensions'
 require 'ostruct'
