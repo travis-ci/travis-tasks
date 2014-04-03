@@ -6,8 +6,8 @@ describe Travis::Addons::Irc::Task do
   let(:subject)  { Travis::Addons::Irc::Task }
   let(:tcp)      { stub('tcp', eof?: true, close: true) }
   let(:seq)      { sequence('tcp') }
+  let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:channels) { ['irc.freenode.net:1234#travis'] }
-  let(:payload) { TASK_PAYLOAD.dup }
 
   before do
     Travis.config.notifications = [:irc]
