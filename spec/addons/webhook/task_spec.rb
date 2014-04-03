@@ -7,7 +7,7 @@ describe Travis::Addons::Webhook::Task do
   let(:subject) { Travis::Addons::Webhook::Task }
   let(:http)    { Faraday::Adapter::Test::Stubs.new }
   let(:client)  { Faraday.new { |f| f.request :url_encoded; f.adapter :test, http } }
-  let(:payload) { Travis::Api.data(build, for: 'webhook', type: 'build/finished', version: 'v1') }
+  let(:payload) { Marshal.load(Marshal.dump(WEBHOOK_PAYLOAD)) }
   let(:repo_slug) { 'svenfuchs/minimal' }
 
   before do
