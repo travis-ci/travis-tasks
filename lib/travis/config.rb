@@ -3,6 +3,7 @@ require "hashr"
 require "travis/support/logging"
 require "yaml"
 require 'logger'
+require 'pusher'
 
 module Travis
   def self.env
@@ -19,6 +20,14 @@ module Travis
 
   def self.config
     @config ||= Config.new
+  end
+
+  def self.pusher
+    @pusher ||= ::Pusher.tap do |pusher|
+      pusher.app_id = config.pusher.app_id
+      pusher.key    = config.pusher.key
+      pusher.secret = config.pusher.secret
+    end
   end
 
   class Config < Hashr
@@ -47,7 +56,10 @@ module Travis
            sentry:  { },
            sidekiq: { namespace: "sidekiq", pool_size: 3 },
            smtp:    { },
-           ssl:     { }
+           ssl:     { },
+           pusher:  { },
+           email:   { },
+           assets:  { }
 
     default _access: [:key]
 

@@ -6,7 +6,7 @@ describe Travis::Addons::GithubStatus::Task do
   let(:subject)    { Travis::Addons::GithubStatus::Task }
   let(:url)        { '/repos/svenfuchs/minimal/statuses/62aae5f70ceee39123ef' }
   let(:target_url) { 'https://travis-ci.org/svenfuchs/minimal/builds/1' }
-  let(:payload)    { Travis::Api.data(build, for: 'event', version: 'v0') }
+  let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:io)         { StringIO.new }
 
   before do
@@ -18,31 +18,31 @@ describe Travis::Addons::GithubStatus::Task do
   end
 
   it 'posts status info for a created build' do
-    build.stubs(state: :created)
+    payload["build"]["state"] = 'created'
     GH.expects(:post).with(url, state: 'pending', description: 'The Travis CI build is in progress', target_url: target_url, context: 'continuous-integration/travis-ci')
     run
   end
 
   it 'posts status info for a passed build' do
-    build.stubs(state: :passed)
+    payload["build"]["state"] = 'passed'
     GH.expects(:post).with(url, state: 'success', description: 'The Travis CI build passed', target_url: target_url, context: 'continuous-integration/travis-ci')
     run
   end
 
   it 'posts status info for a failed build' do
-    build.stubs(state: :failed)
+    payload["build"]["state"] = 'failed'
     GH.expects(:post).with(url, state: 'failure', description: 'The Travis CI build failed', target_url: target_url, context: 'continuous-integration/travis-ci')
     run
   end
 
   it 'posts status info for a errored build' do
-    build.stubs(state: :errored)
+    payload['build']["state"] = 'errored'
     GH.expects(:post).with(url, state: 'error', description: 'The Travis CI build could not complete due to an error', target_url: target_url, context: 'continuous-integration/travis-ci')
     run
   end
 
   it 'posts status info for a canceled build' do
-    build.stubs(state: :canceled)
+    payload["build"]["state"] = 'canceled'
     GH.expects(:post).with(url, state: 'error', description: 'The Travis CI build could not complete due to an error', target_url: target_url, context: 'continuous-integration/travis-ci')
     run
   end

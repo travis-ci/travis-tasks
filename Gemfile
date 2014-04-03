@@ -14,6 +14,7 @@ gem 'roadie'
 gem 'metriks'
 gem 'hashr'
 gem 'multi_json'
+gem 'pusher'
 
 group :test do
   gem 'rspec',        '~> 2.14.0'
