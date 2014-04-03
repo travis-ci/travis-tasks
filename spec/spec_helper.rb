@@ -34,6 +34,31 @@ RSpec.configure do |c|
   end
 end
 
+RSpec::Matchers.define :deliver_to do |expected|
+  match do |email|
+    actual = (email.to || []).map(&:to_s)
+
+    description { "be delivered to #{expected.inspect}" }
+    failure_message_for_should { "expected #{email.inspect} to deliver to #{expected.inspect}, but it delivered to #{actual.inspect}" }
+    failure_message_for_should_not { "expected #{email.inspect} not to deliver to #{expected.inspect}, but it did" }
+
+    actual.sort == Array(expected).sort
+  end
+end
+
+RSpec::Matchers.define :include_lines do |lines|
+  match do |text|
+    lines   = lines.split("\n").map { |line| line.strip }
+    missing = lines.reject { |line| text.include?(line) }
+
+    failure_message_for_should do
+      "expected\n\n#{text}\n\nto include the lines\n\n#{lines.join("\n")}\n\nbut could not find the lines\n\n#{missing.join("\n")}"
+    end
+
+    missing.empty?
+  end
+end
+
 module Kernel
   def capture_stdout
     out = StringIO.new

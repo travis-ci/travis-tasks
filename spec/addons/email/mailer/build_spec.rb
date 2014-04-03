@@ -13,7 +13,7 @@ describe Travis::Addons::Email::Mailer::Build do
     Travis::Addons::Email.setup
     I18n.reload!
     ActionMailer::Base.delivery_method = :test
-    build.commit.stubs(:author_name).returns('まつもとゆきひろ a.k.a. Matz')
+    data['commit']['author_name'] = 'まつもとゆきひろ a.k.a. Matz'
     Travis.config.build_email_footer = true
     Travis.config.email = {}
     Travis.config.assets = {}
@@ -75,7 +75,7 @@ describe Travis::Addons::Email::Mailer::Build do
 
     context 'in HTML' do
       it 'escapes newlines in the commit message' do
-        build.commit.stubs(:message).returns("bar\nbaz")
+        data["commit"]["message"] = "bar\nbaz"
         email.deliver # inline css interceptor is called before delivery.
         email.html_part.decoded.should =~ %r(bar<br( ?/)?>baz) # nokogiri seems to convert <br> to <br /> on mri, but not jruby?
       end
@@ -120,7 +120,7 @@ describe Travis::Addons::Email::Mailer::Build do
 
     describe 'for a successful build' do
       before :each do
-        build.stubs(:state).returns(:passed)
+        data['build']['state'] = 'passed'
       end
 
       it 'subject' do
@@ -130,7 +130,7 @@ describe Travis::Addons::Email::Mailer::Build do
 
     describe 'for a broken build' do
       before :each do
-        build.stubs(:state).returns(:failed)
+        data['build']['state'] = 'failed'
       end
 
       it 'subject' do
