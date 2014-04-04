@@ -28,6 +28,7 @@ Sidekiq.configure_server do |config|
       chain.remove(::Raven::Sidekiq)
     end
 
+    chain.remove(Sidekiq::Middleware::Server::Logging)
     chain.add(Travis::Tasks::ErrorHandler)
   end
 end
