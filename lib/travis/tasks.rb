@@ -29,7 +29,6 @@ Sidekiq.configure_server do |config|
     :url       => Travis.config.redis.url,
     :namespace => Travis.config.sidekiq.namespace
   }
-  config.logger = nil unless Travis.config.log_level == :debug
   config.server_middleware do |chain|
     chain.add MetriksMiddleware
 
