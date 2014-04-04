@@ -18,7 +18,7 @@ module Travis
 
             data['event'] = params['event'] if params['event']
             data['uuid'] = uuid
-            data['job'] = data['id'] if params['event'] && params['event'] =~ /^job/
+            data['job'] = payload['id'] if params['event'] && params['event'] =~ /^job/
           end
           log(data)
           yield
