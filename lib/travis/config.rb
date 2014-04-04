@@ -22,6 +22,14 @@ module Travis
     @config ||= Config.new
   end
 
+  def self.uuid= (uuid)
+    Thread.current[:uuid] = uuid
+  end
+
+  def self.uuid
+    Thread.current[:uuid] ||= SecureRandom.uuid
+  end
+
   def self.pusher
     @pusher ||= ::Pusher.tap do |pusher|
       pusher.app_id = config.pusher.app_id
