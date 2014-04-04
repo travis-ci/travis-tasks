@@ -10,20 +10,10 @@ require 'travis/support/async'
 require 'travis/config'
 require 'travis/task'
 require 'travis/addons'
+require 'travis/tasks/middleware/metriks'
+require 'travis/tasks/middleware/logging'
 
 $stdout.sync = true
-
-class MetriksMiddleware
-  def call(worker, message, queue, &block)
-    begin
-      ::Metriks.meter("tasks.jobs.#{queue}").mark
-      ::Metriks.timer("tasks.jobs.#{queue}.perform").time(&block)
-    rescue Exception
-      ::Metriks.meter("tasks.jobs.#{queue}.failure").mark
-      raise
-    end
-  end
-end
 
 Sidekiq.configure_server do |config|
   config.redis = {
@@ -31,7 +21,8 @@ Sidekiq.configure_server do |config|
     :namespace => Travis.config.sidekiq.namespace
   }
   config.server_middleware do |chain|
-    chain.add MetriksMiddleware
+    chain.add Travis::Tasks::Middleware::Metriks
+    chain.add Travis::Tasks::Middleware::Logging
 
     if defined?(::Raven::Sidekiq)
       chain.remove(::Raven::Sidekiq)
