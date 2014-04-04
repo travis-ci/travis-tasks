@@ -6,6 +6,9 @@ require 'roadie'
 require 'roadie/action_mailer_extensions'
 require 'ostruct'
 require 'travis/tasks/error_handler'
+require 'travis/config'
+require 'travis/task'
+require 'travis/addons'
 
 $stdout.sync = true
 
@@ -56,7 +59,4 @@ if Travis.config.sentry
   Travis::Exceptions::Reporter.start
 end
 
-Travis::Notification.setup
-Travis::Mailer.setup
-Travis::Addons.register
-
+Travis::Addons::Email.setup

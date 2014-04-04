@@ -23,3 +23,7 @@ group :test do
   gem 'guard'
   gem 'guard-rspec'
 end
+
+group :production do
+  gem 'foreman'
+end
