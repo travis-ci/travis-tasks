@@ -1,4 +1,5 @@
 require 'travis/support/instrumentation'
+require 'travis/support/chunkifier'
 
 module Travis
   module Addons
@@ -38,10 +39,6 @@ module Travis
 
           def trigger(channel, payload)
             parts(payload).each do |part|
-              # TODO: the second argument in meter can be removed when we're sure that apps
-              #       using this have newest travis-support version
-              Travis::Instrumentation.meter('travis.addons.pusher.task.messages', {})
-
               begin
                 Travis.pusher[channel].trigger(client_event, part)
               rescue ::Pusher::Error => e

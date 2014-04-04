@@ -30,6 +30,7 @@ describe Travis::Addons::Pusher::Task do
 
   let(:subject) { Travis::Addons::Pusher::Task }
   let(:channel) { Support::Mocks::Pusher::Channel.new }
+  let(:task_payload) {Marshal.load(Marshal.dump(TASK_PAYLOAD))}
 
   before do
     Travis.config.notifications = [:pusher]
@@ -38,13 +39,13 @@ describe Travis::Addons::Pusher::Task do
 
   def run(event, object, options = {})
     type = event =~ /^worker:/ ? 'worker' : event.sub('test:', '').sub(':', '/')
-    payload = Travis::Api.data(object, for: 'pusher', type: type, params: options[:params])
+    payload = options[:params] ? task_payload.merge(options[:params]) : task_payload
     subject.new(payload, event: event).run
   end
 
   it 'logs Pusher errors and reraises' do
     channel.expects(:trigger).raises(Pusher::Error.new('message'))
-    payload = Travis::Api.data(test, for: 'pusher', type: 'job/started').deep_symbolize_keys
+    payload = task_payload.deep_symbolize_keys
     Travis.logger.expects(:error).with("[addons:pusher] Could not send event due to Pusher::Error: message, event=job:started, payload: #{payload.inspect}")
 
     expect {
@@ -130,43 +131,43 @@ describe Travis::Addons::Pusher::Task do
 
   describe 'channels' do
     it 'returns "common" for the event "job:created"' do
-      payload = Travis::Api.data(test, for: 'pusher', type: 'job/created')
+      payload = task_payload
       handler = subject.new(payload, event: 'job:created')
       handler.send(:channels).should include('common')
     end
 
     it 'returns "common" for the event "job:started"' do
-      payload = Travis::Api.data(test, for: 'pusher', type: 'job/started')
+      payload = task_payload
       handler = subject.new(payload, event: 'job:started')
       handler.send(:channels).should include('common')
     end
 
     it 'returns "job-1" for the event "job:log"' do
-      payload = Travis::Api.data(test, for: 'pusher', type: 'job/log')
+      payload = task_payload.merge(id: 1)
       handler = subject.new(payload, event: 'job:log')
       handler.send(:channels).should include("job-#{test.id}")
     end
 
     it 'returns "common" for the event "job:finished"' do
-      payload = Travis::Api.data(test, for: 'pusher', type: 'job/finished')
+      payload = task_payload
       handler = subject.new(payload, event: 'job:finished')
       handler.send(:channels).should include('common')
     end
 
     it 'returns "common" for the event "build:started"' do
-      payload = Travis::Api.data(build, for: 'pusher', type: 'build/started')
+      payload = task_payload
       handler = subject.new(payload, event: 'build:started')
       handler.send(:channels).should include('common')
     end
 
     it 'returns "common" for the event "build:finished"' do
-      payload = Travis::Api.data(build, for: 'pusher', type: 'build/finished')
+      payload = task_payload
       handler = subject.new(payload, event: 'build:finished')
       handler.send(:channels).should include('common')
     end
 
     it 'returns "workers" for the event "worker:started"' do
-      payload = Travis::Api.data(worker, for: 'pusher', type: 'worker')
+      payload = task_payload
       handler = subject.new(payload, event: 'worker:created')
       handler.send(:channels).should include('workers')
     end

@@ -75,6 +75,22 @@ RSpec::Matchers.define :contain_recipients do |expected|
   end
 end
 
+RSpec::Matchers.define :have_message do |event, object|
+  match do |pusher|
+    description { "have a message #{event.inspect}" }
+    failure_message_for_should { "expected pusher to receive #{event.inspect} but it did not. Instead it has the following messages: #{pusher.messages.map(&:inspect).join(', ')}" }
+    failure_message_for_should_not { "expected pusher not to receive #{event.inspect} but it did" }
+
+    # TODO need to test for the object/json, too!
+    message = pusher.messages.detect { |message| message.first == event }
+    pusher.messages.delete(message)
+    !!message
+  end
+
+  def find_message
+  end
+end
+
 module Kernel
   def capture_stdout
     out = StringIO.new
