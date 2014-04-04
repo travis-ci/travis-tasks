@@ -4,7 +4,7 @@ module Travis
       class Logging
         def call(worker, message, queue, &block)
           uuid, _, _, payload, params = *message['args']
-          data = Hash.new.tap do |info|
+          data = Hash.new.tap do |data|
             data['type'] = queue
             if payload['build']
               data['build'] = payload['build']['id']
