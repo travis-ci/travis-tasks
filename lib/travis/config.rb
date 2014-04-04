@@ -39,6 +39,12 @@ module Travis
   end
 
   class Config < Hashr
+    HOSTS = {
+      :production  => 'travis-ci.org',
+      :staging     => 'staging.travis-ci.org',
+      :development => 'localhost:3000'
+    }
+
     class << self
       def env
         ENV["ENV"] || ENV["RAILS_ENV"] || ENV["RACK_ENV"] || "development"
@@ -67,7 +73,7 @@ module Travis
            ssl:     { },
            pusher:  { },
            email:   { },
-           assets:  { }
+           assets:  { host: HOSTS[Travis.env.to_sym] }
 
     default _access: [:key]
 
