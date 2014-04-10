@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/eric/metriks-librato_metrics.git
+  revision: 0e46e7c5f4eff47c199023a184f3d8ef52da12d0
+  specs:
+    metriks-librato_metrics (0.0)
+      metriks (>= 0.9.9.6)
+
+GIT
   remote: git://github.com/jamesgolick/rollout.git
   revision: 3e7312cc018061b1ac6a8aeb9f11bbd0331da889
   ref: v1.1.0
@@ -70,6 +77,9 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.9.0)
     ffi (1.9.0-java)
+    foreman (0.63.0)
+      dotenv (>= 0.7)
+      thor (>= 0.13.6)
     foreman (0.63.0-java)
       dotenv (>= 0.7)
       thor (>= 0.13.6)
@@ -196,6 +206,7 @@ DEPENDENCIES
   guard-rspec
   hashr
   metriks
+  metriks-librato_metrics!
   mocha (~> 0.10.0)
   multi_json
   newrelic_rpm (~> 3.3.2)
