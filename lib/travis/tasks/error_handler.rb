@@ -7,7 +7,7 @@ module Travis
         Sidekiq.logger.warn(ex)
 
         if Travis.config.sentry.any?
-          Raven.capture_exception(ex, context)
+          Raven.capture_exception(ex, extra: {sidekiq: msg})
         end
 
         raise
