@@ -13,7 +13,7 @@ GIT
     rollout (1.1.0)
 
 GIT
-  remote: git://github.com/rkh/gh.git
+  remote: git://github.com/travis-ci/gh.git
   revision: 6c9a851fbf054b348a4b1b26cca477aab1661ed9
   specs:
     gh (0.13.2)
