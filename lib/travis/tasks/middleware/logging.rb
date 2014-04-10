@@ -23,7 +23,7 @@ module Travis
             data['event'] = params['event'] if params['event']
             data['uuid'] = uuid
             data['job'] = payload['id'] if params['event'] && params['event'] =~ /^job/
-            data['time'] = "%.3f" % (time/1000)
+            data['time'] = "%.3f" % (time/1000) if time
             data['jid'] = message['jid']
           end
           log(data)
