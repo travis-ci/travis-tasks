@@ -47,13 +47,6 @@ describe Travis::Addons::GithubStatus::Task do
     run
   end
 
-  it 'posts status info for a queued build' do
-    payload["build"]["state"] = 'queued'
-    GH.expects(:post).with(url, state: 'pending', description: 'The Travis CI build is in progress', target_url: target_url, context: 'continuous-integration/travis-ci')
-    run
-  end
-
-
   it 'authenticates using the token passed into the task' do
     GH.expects(:with).with { |options| options[:token] == '12345' }
     run
