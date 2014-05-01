@@ -31,8 +31,6 @@ module Travis
           def process
             info("Update commit status on #{url} to #{state}")
 
-            tokens = params.fetch(:tokens) { { '<legacy format>' => params[:token] } }
-
             tokens.each do |username, token|
               if process_with_token(token)
                 return
@@ -40,6 +38,10 @@ module Travis
                 error "#{username}'s GitHub token couldn't be used to update PR status on #{GH.api_host + url}."
               end
             end
+          end
+
+          def tokens
+            params.fetch(:tokens) { { '<legacy format>' => params[:token] } }
           end
 
           def process_with_token(token)
