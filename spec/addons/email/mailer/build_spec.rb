@@ -137,5 +137,11 @@ describe Travis::Addons::Email::Mailer::Build do
         email.subject.should == '[Broken] svenfuchs/minimal#2 (master - 62aae5f)'
       end
     end
+
+    describe 'to distinguish gmail threads' do
+      it 'includes an in-reply-to header' do
+        email.header['In-Reply-To'].value.should == '<svenfuchs/minimal+1+passed@travis-ci.org>'
+      end
+    end
   end
 end
