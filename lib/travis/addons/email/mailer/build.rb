@@ -37,7 +37,7 @@ module Travis
             end
 
             def from
-              "\"Travis CI\" <#{from_email}>"
+              "\"Travis CI\" <#{from_email % result_message.short.downcase}>"
             end
 
             def from_email

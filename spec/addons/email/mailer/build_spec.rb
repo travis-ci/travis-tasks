@@ -142,6 +142,11 @@ describe Travis::Addons::Email::Mailer::Build do
       it 'includes an in-reply-to header' do
         email.header['In-Reply-To'].value.should == '<svenfuchs/minimal+1+passed@travis-ci.org>'
       end
+
+      it 'allows mixing in the build state into a custom email address' do
+        Travis.config.email.from = 'notifications+%s@travis-ci.org'
+        email.from.should include('notifications+passed@travis-ci.org')
+      end
     end
   end
 end
