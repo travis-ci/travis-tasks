@@ -33,7 +33,7 @@ module Travis
           private
 
             def subject
-              "[#{result_message.short}] #{repository.slug}##{build.number} (#{commit.branch} - #{commit.sha[0..6]})"
+              "#{result_message.short}: #{repository.slug}##{build.number} (#{commit.branch} - #{commit.sha[0..6]})"
             end
 
             def from

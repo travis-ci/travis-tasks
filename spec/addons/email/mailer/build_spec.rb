@@ -124,7 +124,7 @@ describe Travis::Addons::Email::Mailer::Build do
       end
 
       it 'subject' do
-        email.subject.should == '[Passed] svenfuchs/minimal#2 (master - 62aae5f)'
+        email.subject.should == 'Passed: svenfuchs/minimal#2 (master - 62aae5f)'
       end
     end
 
@@ -134,7 +134,7 @@ describe Travis::Addons::Email::Mailer::Build do
       end
 
       it 'subject' do
-        email.subject.should == '[Broken] svenfuchs/minimal#2 (master - 62aae5f)'
+        email.subject.should == 'Broken: svenfuchs/minimal#2 (master - 62aae5f)'
       end
     end
 
