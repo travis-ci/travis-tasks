@@ -22,6 +22,8 @@ module Travis
 
             headers['X-MC-Tags'] = Travis.env
             headers['In-Reply-To'] = "<%s+%s+%s@travis-ci.org>" % [ repository.slug, build.id, result_message.short.downcase ]
+            headers['Travis-CI-Repository'] = repository.slug
+            headers['Travis-CI-Result'] = result_message.short.downcase
 
             mail(from: from, to: recipients, subject: subject, template_path: 'build')
           end
