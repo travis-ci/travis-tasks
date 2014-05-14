@@ -1,5 +1,6 @@
 require "core_ext/hash/deep_symbolize_keys"
 require "hashr"
+require "travis/support/logger"
 require "travis/support/logging"
 require "yaml"
 require 'logger'
@@ -11,11 +12,11 @@ module Travis
   end
 
   def self.logger
-    @logger ||= Travis::Logging.configure(Logger.new(STDOUT))
+    @logger ||= Travis::Logger.configure(Logger.new(STDOUT))
   end
 
   def self.logger=(logger)
-    @logger = Travis::Logging.configure(logger)
+    @logger = Travis::Logger.configure(logger)
   end
 
   def self.config
