@@ -79,6 +79,8 @@ describe Travis::Addons::Webhook::Task do
         http.post uri.path do |env|
           if env[:url].host =~ /second/
             raise Faraday::ConnectionFailed
+          else
+            [ 200, {}, 'shrimp' ]
           end
         end
       end
