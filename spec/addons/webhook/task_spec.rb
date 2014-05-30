@@ -20,7 +20,7 @@ describe Travis::Addons::Webhook::Task do
     subject.new(payload, targets: targets, token: '123456').run
   end
 
-  it 'posts to the given targets, with the given payload and the given access token (no idea how to do one assertion per test with faraday, please split do this up)' do
+  it 'posts to the given targets, with the given payload and the given access token' do
     targets = ['http://one.webhook.com/path', 'http://second.webhook.com/path']
 
     targets.each do |url|
@@ -69,6 +69,25 @@ describe Travis::Addons::Webhook::Task do
       expect {
         subject.new(payload, targets: ["https://s3-eu-west-1.amazonaws.com/wunderlist-api-test-results/results/%{branch}/%{build_number}/rspec.html"]).run
       }.to_not raise_error(URI::InvalidURIError)
+    end
+
+    it "delivers working webhooks before raising" do
+      targets = ['http://one.webhook.com/path', 'http://second.webhook.com/path']
+
+      targets.each do |url|
+        uri = URI.parse(url)
+        http.post uri.path do |env|
+          if env[:url].host =~ /second/
+            raise Faraday::ConnectionFailed
+          end
+        end
+      end
+
+      expect {
+        run(targets)
+      }.to raise_error
+
+      http.verify_stubbed_calls
     end
   end
 

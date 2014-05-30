@@ -1,6 +1,7 @@
 module Travis
   module Addons
     module Webhook
+      class WebhookError < StandardError; end
 
       # Sends build notifications to webhooks as defined in the configuration
       # (`.travis.yml`).
@@ -12,7 +13,20 @@ module Travis
         private
 
           def process
-            Array(targets).each { |target| send_webhook(target) }
+            errors = {}
+
+            Array(targets).each do |target|
+              begin
+                send_webhook(target)
+              rescue => e
+                error "task=webhook status=failed url=#{target}"
+                errors[target] = e.message
+              end
+            end
+
+            if errors.any?
+              raise "task=webhook failures=#{errors.size} build=#{payload[:id]}"
+            end
           end
 
           def send_webhook(target)
