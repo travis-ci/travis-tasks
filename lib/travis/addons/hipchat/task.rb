@@ -33,11 +33,20 @@ module Travis
                 next
               end
 
-              message.each do |line|
-                http.post(helper.url) do |r|
-                  r.body = helper.body(line: line, color: color, message_format: message_format)
-                  helper.add_content_type!(r.headers)
-                end
+              send_message(helper, message)
+
+            end
+          end
+
+          def send_message(helper, message)
+            message.each do |line|
+              response = http.post(helper.url) do |r|
+                r.body = helper.body(line: line, color: color, message_format: message_format)
+                helper.add_content_type!(r.headers)
+              end
+
+              if not response.success?
+                error "task=hipchat build=#{build[:id]} room=#{helper.room_id} message=#{response.body["error"]["message"]}"
               end
             end
           end
@@ -51,7 +60,7 @@ module Travis
             {
               "passed" => "green",
               "failed" => "red",
-              "errored" => "gray",
+              "errored" => "red",
               "canceled" => "gray",
             }.fetch(build[:state], "yellow")
           end

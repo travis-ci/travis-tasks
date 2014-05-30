@@ -78,7 +78,7 @@ describe Travis::Addons::Hipchat::Task do
     http.verify_stubbed_calls
   end
 
-  it "sends gray messages for errored builds" do
+  it "sends red messages for errored builds" do
     targets = ["#{room_1_token}@room_1"]
     messages = [
       "svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has errored",
@@ -87,7 +87,7 @@ describe Travis::Addons::Hipchat::Task do
     ]
 
     payload["build"]["state"] = "errored"
-    expect_hipchat("room_1", room_1_token, messages, "color" => "gray")
+    expect_hipchat("room_1", room_1_token, messages, "color" => "red")
 
     run(targets)
     http.verify_stubbed_calls
