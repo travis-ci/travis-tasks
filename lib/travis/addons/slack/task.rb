@@ -56,8 +56,8 @@ module Travis
         end
 
         def message_text
-          line = template_from_config || "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}"
-          Util::Template.new(line, payload).interpolate
+          lines = Array(template_from_config || "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}")
+          lines.map {|line| Util::Template.new(line, payload).interpolate}.join("\n")
         end
 
         def color

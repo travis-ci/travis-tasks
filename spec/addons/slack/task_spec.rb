@@ -76,6 +76,24 @@ describe Travis::Addons::Slack::Task do
     }.to_not raise_error
   end
 
+  it "supports a list as templates" do
+    targets = ['team-1:token-1']
+    payload['build']['config']['notifications'] = { slack: { template: ['Custom: %{author}', 'More: %{branch}']}} 
+    message = {
+      icon_url: "https://travis-ci.org/images/travis-mascot-150.png",
+      attachments: [{
+        fallback: "Custom: Sven Fuchs\nMore: master",
+        text: "Custom: Sven Fuchs\nMore: master",
+        color: 'good'
+      }.stringify_keys]
+    }.stringify_keys
+    expect_slack('team-1', 'token-1', message)
+
+    run(targets)
+    http.verify_stubbed_calls
+  end
+
+
   def expect_slack(account, token, body)
     host = "#{account}.slack.com"
     path = "/services/hooks/travis?token=#{token}"
