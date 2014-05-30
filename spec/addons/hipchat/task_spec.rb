@@ -107,6 +107,7 @@ describe Travis::Addons::Hipchat::Task do
       http.post("v1/rooms/message?format=json&auth_token=#{token}") do |env|
         env[:url].host.should == 'api.hipchat.com'
         Rack::Utils.parse_query(env[:body]).should == body
+        [200, {"Content-Type" => "application/json"}, "{}"]
       end
     end
   end
@@ -117,6 +118,7 @@ describe Travis::Addons::Hipchat::Task do
       http.post("https://api.hipchat.com/v2/room/#{URI::encode(room_id, Travis::Addons::Hipchat::HttpHelper::UNSAFE_URL_CHARS)}/notification?auth_token=#{token}") do |env|
         env[:request_headers]['Content-Type'].should == 'application/json'
         env[:body].should == body
+        [200, {"Content-Type" => "application/json"}, "{}"]
       end
     end
   end

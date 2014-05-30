@@ -46,7 +46,7 @@ module Travis
               end
 
               if not response.success?
-                error "task=hipchat build=#{build[:id]} room=#{helper.room_id} message=#{response.body["error"]["message"]}"
+                error "task=hipchat build=#{build[:id]} room=#{helper.room_id} message=#{response.body["error"].try(:[], "message")}"
               end
             end
           end
