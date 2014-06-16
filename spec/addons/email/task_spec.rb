@@ -38,14 +38,14 @@ describe Travis::Addons::Email::Task do
     expect {
       email.stubs(:deliver).raises(Net::SMTPServerBusy, "401 4.1.3 Bad recipient address syntax")
       handler.run
-    }.not_to raise_error(Net::SMTPServerBusy)
+    }.not_to raise_error
   end
 
   it "doesn't reraise an error when recipient was rejected" do
     expect {
       email.stubs(:deliver).raises(Net::SMTPServerBusy, "450 4.1.1 <test@localhost.localdomain>: Recipient address rejected: User unknown in local recipient table")
       handler.run
-    }.not_to raise_error(Net::SMTPServerBusy)
+    }.not_to raise_error
   end
 
  it "reraises an smtp server busy error when it's not about the syntax" do
