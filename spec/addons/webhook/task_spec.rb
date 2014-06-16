@@ -68,7 +68,7 @@ describe Travis::Addons::Webhook::Task do
     it "doesn't raise on an invalid URI" do
       expect {
         subject.new(payload, targets: ["https://s3-eu-west-1.amazonaws.com/wunderlist-api-test-results/results/%{branch}/%{build_number}/rspec.html"]).run
-      }.to_not raise_error(URI::InvalidURIError)
+      }.not_to raise_error
     end
 
     it "delivers working webhooks before raising" do

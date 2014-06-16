@@ -50,7 +50,7 @@ describe Travis::Addons::Flowdock::Task do
     it "doesn't raise on an invalid URI" do
       expect {
         subject.new(payload, targets: ["https://api.flowdock.com/v1/messages/team_inbox/pfd/oCT/ra Qgk/Q9/ttf/ sRFQ="]).run
-      }.to_not raise_error(URI::InvalidURIError)
+      }.to_not raise_error
     end
   end
 
