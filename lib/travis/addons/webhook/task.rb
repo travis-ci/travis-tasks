@@ -53,11 +53,11 @@ module Travis
           end
 
           def log_success(response)
-            info "task=webhook status=successful url=#{response.env[:url].to_s}"
+            info "task=webhook status=successful build=#{payload[:id]} url=#{response.env[:url].to_s}"
           end
 
           def log_error(response)
-            error "task=webhook status=error url=#{response.env[:url].to_s} error_code=#{response.status} message=#{response.body.inspec}t"
+            error "task=webhook status=error build=#{payload[:id]} url=#{response.env[:url].to_s} error_code=#{response.status} message=#{response.body.inspect}"
           end
 
           def repo_slug
