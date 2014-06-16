@@ -45,7 +45,7 @@ module Travis
             end
             response.success? ? log_success(response) : log_error(response)
           rescue URI::InvalidURIError => e
-            error "Invalid webhook URI for build #{repo_slug}##{payload[:id]}: #{target}"
+            error "task=webhook status=invalid_uri build=#{payload[:id]} slug=#{repo_slug} url=#{target}"
           end
 
           def authorization
@@ -53,11 +53,11 @@ module Travis
           end
 
           def log_success(response)
-            info "Successfully notified #{response.env[:url].to_s}."
+            info "task=webhook status=successful url=#{response.env[:url].to_s}"
           end
 
           def log_error(response)
-            error "Could not notify #{response.env[:url].to_s}. Status: #{response.status} (#{response.body.inspect})"
+            error "task=webhook status=error url=#{response.env[:url].to_s} error_code=#{response.status} message=#{response.body.inspec}t"
           end
 
           def repo_slug
