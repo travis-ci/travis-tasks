@@ -51,7 +51,7 @@ module Travis
           rescue GH::Error(:response_status => 401)
             nil
           rescue GH::Error => e
-            message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated url=#{GH.api_host + url} message='#{e.message}'"
+            message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated url=#{GH.api_host + url} message=#{e.message}"
             error(message)
             response_status = e.info[:response_status]
             case response_status

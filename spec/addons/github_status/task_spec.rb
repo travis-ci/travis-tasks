@@ -69,8 +69,8 @@ describe Travis::Addons::GithubStatus::Task do
       expect {
         run
       }.to raise_error
-      io.string.should include('[task]')
-      io.string.should include('Could not update')
+      io.string.should include('error=not_updated')
+      io.string.should include('message=GH request failed')
     end
 
     it "doesn't raise an error with bad credentials" do
