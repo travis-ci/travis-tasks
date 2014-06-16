@@ -29,13 +29,13 @@ module Travis
         private
 
           def process
-            info("Update commit status on #{url} to #{state}")
+            info("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state}")
 
             tokens.each do |username, token|
               if process_with_token(token)
                 return
               else
-                error "#{username}'s GitHub token couldn't be used to update PR status on #{GH.api_host + url}."
+                error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated username=#{username} url=#{GH.api_host + url}")
               end
             end
           end
@@ -51,8 +51,8 @@ module Travis
           rescue GH::Error(:response_status => 401)
             nil
           rescue GH::Error => e
-            message = "Could not update the PR status on #{GH.api_host + url} (#{e.message})."
-            error message
+            message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated url=#{GH.api_host + url} message='#{e.message}'"
+            error(message)
             response_status = e.info[:response_status]
             case response_status
             when 401, 422, 404
