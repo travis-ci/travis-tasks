@@ -5,7 +5,7 @@ module Travis
         def process
           targets.each do |target|
             if illegal_format?(target)
-              Travis.logger.warn "Ignoring invalid Slack target #{target}"
+              warn "task=slack build=#{payload[:id]} result=invalid_target target=#{target}"
             else
               send_message(target)
             end
