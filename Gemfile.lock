@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support.git
-  revision: 7bd0f19c823d418b4c07bd58e77f5eea8a53dda4
+  revision: 48ddbd371974b80b96560ab13815b9b05578bb69
   branch: sf-te
   specs:
     travis-support (0.0.1)
