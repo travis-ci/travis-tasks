@@ -17,6 +17,7 @@ gem 'metriks-librato_metrics'
 gem 'hashr'
 gem 'multi_json'
 gem 'pusher'
+gem 'xmpp4r',         '~> 0.5.0'
 
 group :test do
   gem 'rspec',        '~> 2.14.0'
