@@ -21,7 +21,7 @@ describe Travis::Addons::Sqwiggle::Task do
     targets = ['12345@2', '23456@3']
 
     message = %Q[svenfuchs/minimal - build number: 2 (master - 62aae5f : Sven Fuchs) -
-          <a href="http://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has 
+          <a href="http://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has
           <strong>passed</strong>
     ].squish
 
@@ -63,7 +63,7 @@ describe Travis::Addons::Sqwiggle::Task do
     targets = ["12345@1"]
 
     message = %Q[svenfuchs/minimal - build number: 2 (master - 62aae5f : Sven Fuchs) -
-          <a href="http://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has 
+          <a href="http://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has
           <strong>failed</strong>
     ].squish
 
@@ -80,12 +80,12 @@ describe Travis::Addons::Sqwiggle::Task do
     run(targets)
     http.verify_stubbed_calls
   end
-  
+
   it "sends gray messages for errored builds" do
     targets = ["12345@1"]
 
     message = %Q[svenfuchs/minimal - build number: 2 (master - 62aae5f : Sven Fuchs) -
-          <a href="http://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has 
+          <a href="http://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has
           <strong>errored</strong>
     ].squish
 
@@ -103,12 +103,12 @@ describe Travis::Addons::Sqwiggle::Task do
     http.verify_stubbed_calls
   end
 
-  def expect_sqwiggle(token, payload, room_id, extras={})
-    fp = payload.merge({room_id:room_id})
-    fp.merge extras
+  def expect_sqwiggle(token, payload, stream_id, extras = {})
+    payload = payload.merge(stream_id: stream_id)
+    payload.merge extras
     http.post("messages?auth_token=#{token}") do |env|
       env[:url].host.should == 'api.sqwiggle.com'
-      env[:body].should == MultiJson.encode(fp)
+      env[:body].should == MultiJson.encode(payload)
     end
   end
 end

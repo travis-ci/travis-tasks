@@ -6,9 +6,9 @@ module Travis
       # configuration (`.travis.yml`).
       #
       class Task < Travis::Task
-        DEFAULT_TEMPLATE = %Q[ 
+        DEFAULT_TEMPLATE = %Q[
           %{repository} - build number: %{build_number} (%{branch} - %{commit} : %{author}) -
-          <a href="%{build_url}" target="_blank">build</a> has 
+          <a href="%{build_url}" target="_blank">build</a> has
           <strong>%{result}</strong>
         ]
 
@@ -32,20 +32,20 @@ module Travis
           end
         end
 
-        def send_message(url, room_id)
+        def send_message(url, stream_id)
           http.post(url) do |r|
-            r.body = MultiJson.encode(sqwiggle_payload(room_id))
+            r.body = MultiJson.encode(sqwiggle_payload(stream_id))
             r.headers['Content-Type'] = 'application/json'
           end
         end
 
-        def sqwiggle_payload(room_id)
+        def sqwiggle_payload(stream_id)
           {
             text: message,
             format: 'html',
             color: color,
             parse: false,
-            room_id: room_id.to_i
+            stream_id: stream_id.to_i
           }
         end
 
