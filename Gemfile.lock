@@ -68,6 +68,7 @@ GEM
     erubis (2.7.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    ffi (1.9.3)
     ffi (1.9.3-java)
     foreman (0.71.0)
       dotenv (~> 0.11.1)
@@ -85,6 +86,7 @@ GEM
     hashie (3.0.0)
     hashr (0.0.22)
     hike (1.2.3)
+    hitimes (1.2.1)
     hitimes (1.2.1-java)
     httpclient (2.3.4.1)
     i18n (0.6.9)
@@ -179,6 +181,7 @@ GEM
     webmock (1.8.11)
       addressable (>= 2.2.7)
       crack (>= 0.1.7)
+    xmpp4r (0.5.6)
 
 PLATFORMS
   java
@@ -204,3 +207,4 @@ DEPENDENCIES
   sidekiq (~> 2.17.0)
   travis-support!
   webmock (~> 1.8.0)
+  xmpp4r (~> 0.5.0)
