@@ -305,6 +305,18 @@
         margin-bottom: 0px;
       }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "EmailMessage",
+      "action": {
+        "@type": "ViewAction",
+        "url": "<%= repository_build_url(slug: @repository.slug, id: @build.id) %>",
+        "name": "View Build"
+      },
+      "description": "View Build #<%= @build.number %> on Travis CI"
+    }
+    </script>
   </head>
   <body>
     <div id="body">
