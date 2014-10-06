@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '1.9.3', engine: 'jruby', engine_version: '1.7.12'
 
-gem 'travis-support',  github: 'travis-ci/travis-support'
+gem 'travis-support',  github: 'travis-ci/travis-support', ref: 'master-2014-10-06'
 
 gem 'sidekiq',         '~> 2.17.0'
 gem 'gh',              github: 'travis-ci/gh'
