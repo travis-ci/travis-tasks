@@ -4,13 +4,11 @@ require 'core_ext/hash/deep_symbolize_keys'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/class/attribute'
 require 'travis/support/logging'
-require 'travis/support/instrumentation'
 require 'travis/support/exceptions'
 
 module Travis
   class Task
     include Logging
-    extend  Instrumentation
 
     class_attribute :run_local
 
@@ -38,7 +36,6 @@ module Travis
         process
       end
     end
-    instrument :run
 
     private
 

@@ -18,6 +18,7 @@ module Travis
           mailer.smtp_settings = Travis.config.smtp
           ActionMailer::Base.append_view_path("#{base_dir}/views")
           I18n.load_path += Dir["#{base_dir}/locales/**/*.yml"]
+          I18n.enforce_available_locales = false
         end
 
         def base_dir

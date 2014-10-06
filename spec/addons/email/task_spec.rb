@@ -9,10 +9,12 @@ describe Travis::Addons::Email::Task do
   let(:email)      { stub('email', deliver: true) }
   let(:handler)    { subject.new(payload, recipients: recipients, broadcasts: broadcasts) }
   let(:broadcasts) { [broadcast] }
+  let(:io)         { StringIO.new }
 
   attr_reader :recipients
 
   before :each do
+    Travis.logger = Logger.new(io)
     @recipients = ['svenfuchs@artweb-design.de']
     mailer.stubs(:finished_email).returns(email)
   end

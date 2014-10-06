@@ -1,5 +1,6 @@
 require "core_ext/hash/deep_symbolize_keys"
 require "hashr"
+require "travis/support/logger"
 require "travis/support/logging"
 require "yaml"
 require 'logger'
@@ -11,11 +12,11 @@ module Travis
   end
 
   def self.logger
-    @logger ||= Travis::Logging.configure(Logger.new(STDOUT))
+    @logger ||= Travis::Logger.configure(Logger.new(STDOUT))
   end
 
   def self.logger=(logger)
-    @logger = Travis::Logging.configure(logger)
+    @logger = Travis::Logger.configure(logger)
   end
 
   def self.config
@@ -32,6 +33,9 @@ module Travis
 
   def self.pusher
     @pusher ||= ::Pusher.tap do |pusher|
+      pusher.scheme = config.pusher.scheme if config.pusher.scheme.present?
+      pusher.host   = config.pusher.host   if config.pusher.host.present?
+      pusher.port   = config.pusher.port   if config.pusher.port.present?
       pusher.app_id = config.pusher.app_id
       pusher.key    = config.pusher.key
       pusher.secret = config.pusher.secret

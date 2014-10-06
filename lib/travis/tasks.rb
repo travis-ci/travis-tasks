@@ -1,4 +1,4 @@
-$:.unshift(File.expand_path(File.dirname(__FILE__) + "/.."))
+$:.unshift(File.expand_path('..', File.dirname(__FILE__)))
 
 require 'bundler/setup'
 require 'gh'
@@ -34,8 +34,14 @@ Sidekiq.configure_server do |config|
   end
 end
 
-GH::DefaultStack.options[:ssl] = Travis.config.ssl
-Travis.config.update_periodically
+GH.set(
+  client_id:      Travis.config.oauth2.try(:client_id),
+  client_secret:  Travis.config.oauth2.try(:client_secret),
+  origin:         Travis.config.host,
+  api_url:        Travis.config.github.api_url,
+  ssl:            Travis.config.ssl.merge(Travis.config.github.ssl || {}).to_hash.compact,
+  user_agent:     "Travis-CI GH/#{GH::VERSION}"
+)
 
 module Roadie
   def self.app
