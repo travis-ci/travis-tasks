@@ -1,3 +1,5 @@
+require 'raven'
+
 module Travis
   module Tasks
     class ErrorHandler
