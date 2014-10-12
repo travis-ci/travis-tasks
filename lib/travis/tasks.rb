@@ -58,10 +58,5 @@ if Travis.config.sentry
   Travis::Exceptions::Reporter.start
 end
 
-if Travis.config.librato
-  email, token, source = Travis.config.librato.email, Travis.config.librato.token, Travis.config.librato_source
-  $metriks_reporter = Metriks::LibratoMetricsReporter.new(email, token, source: source)
-  $metriks_reporter.start
-end
-
+Travis::Metrics.setup
 Travis::Addons::Email.setup
