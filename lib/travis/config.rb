@@ -72,6 +72,7 @@ module Travis
     define host:    "travis-ci.org",
            redis:   { url: "redis://localhost:6379" },
            sentry:  { },
+           metrics: { reporter: 'librato' },
            sidekiq: { namespace: "sidekiq", pool_size: 3 },
            smtp:    { },
            ssl:     { },
