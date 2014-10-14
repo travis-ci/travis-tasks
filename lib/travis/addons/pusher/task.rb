@@ -1,5 +1,6 @@
 require 'travis/support/instrumentation'
 require 'travis/support/chunkifier'
+require 'travis/addons/pusher/task'
 
 module Travis
   module Addons
@@ -21,14 +22,8 @@ module Travis
         end
 
         def channels
-          case client_event
-          when 'job:log'
-            ["job-#{payload[:id]}"]
-          when /^worker/
-            ['workers']
-          else
-            ['common']
-          end
+          channels = private_channels? ? ["repo-#{repo_id}"] : ['common']
+          channels.map { |channel| [channel_prefix, channels].compact.join('-') }
         end
 
         private
@@ -46,6 +41,31 @@ module Travis
                 raise
               end
             end
+          end
+
+          def job_id
+            payload[:id]
+          end
+
+          def repo_id
+            # TODO api v1 is inconsistent here
+            payload.key?(:repository) ? payload[:repository][:id] : payload[:repository_id]
+          end
+
+          def channel_prefix
+            'private' if private_channels?
+          end
+
+          def private_channels?
+            force_private_channels? || repository_private?
+          end
+
+          def force_private_channels?
+            Travis.config.pusher.secure?
+          end
+
+          def repository_private?
+            payload.key?(:repository) ? payload[:repository][:private] : payload[:repository_private]
           end
 
           def parts(payload)
