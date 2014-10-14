@@ -1,10 +1,6 @@
 language: ruby
-
 cache: bundler
-
-rvm: jruby-1.7.12
-
+rvm: jruby-1.7.16
 script: bundle exec rspec -fs --color --order rand spec
-
 notifications:
   webhooks: http://requestb.in/14h19sy1
