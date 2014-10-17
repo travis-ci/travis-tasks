@@ -257,11 +257,12 @@ describe Travis::Addons::Irc::Task do
         irc.example.com#travis-3
         ircs://irc.example.com:2345#travis-4
         irc://irc.freenode.net:1234#travis-5
+        irc.freenode.net#%23doublehash
       )
       handler = subject.new(payload, channels: channels)
       handler.send(:parsed_channels).should == {
         ['irc.freenode.net', 1234, nil]  => ['travis', 'travis-2', 'travis-5'],
-        ['irc.freenode.net', nil,  nil]  => ['rails'],
+        ['irc.freenode.net', nil,  nil]  => ['rails', '#doublehash'],
         ['irc.example.com',  nil,  nil]  => ['travis-3'],
         ['irc.example.com',  2345, :ssl] => ['travis-4']
       }
