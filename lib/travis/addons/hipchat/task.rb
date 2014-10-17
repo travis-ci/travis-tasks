@@ -41,7 +41,7 @@ module Travis
           def send_message(helper, message)
             message.each do |line|
               response = http.post(helper.url) do |r|
-                r.body = helper.body(line: line, color: color, message_format: message_format)
+                r.body = helper.body(line: line, color: color, message_format: message_format, notify: notify)
                 helper.add_content_type!(r.headers)
               end
 
@@ -54,6 +54,10 @@ module Travis
           def template
             template = config[:template] rescue nil
             Array(template || DEFAULT_TEMPLATE)
+          end
+
+          def notify
+            (config[:notify] rescue nil) || false
           end
 
           def color
