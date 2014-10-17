@@ -62,7 +62,7 @@ module Travis
             channels.inject(Hash.new([])) do |servers, url|
               uri = Addressable::URI.heuristic_parse(url, :scheme => 'irc')
               ssl = uri.scheme == 'irc' ? nil : :ssl
-              servers[[uri.host, uri.port, ssl]] += [uri.fragment]
+              servers[[uri.host, uri.port, ssl]] += [URI.decode(uri.fragment)]
               servers
             end
           end
