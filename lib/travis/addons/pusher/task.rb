@@ -1,6 +1,5 @@
 require 'travis/support/instrumentation'
 require 'travis/support/chunkifier'
-require 'travis/addons/pusher/task'
 
 module Travis
   module Addons
