@@ -23,7 +23,7 @@ RSpec.configure do |c|
   c.alias_example_to :fit, :focused => true
   c.filter_run :focused => true
   c.run_all_when_everything_filtered = true
-  c.backtrace_exclusion_patterns = []
+  # c.backtrace_exclusion_patterns = []
 
   c.include Travis::Support::Testing::Webmock
 

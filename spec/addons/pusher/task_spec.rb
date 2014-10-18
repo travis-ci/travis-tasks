@@ -38,7 +38,7 @@ describe Travis::Addons::Pusher::Task do
   end
 
   def run(event, object, options = {})
-    type = event =~ /^worker:/ ? 'worker' : event.sub('test:', '').sub(':', '/')
+    type = event.sub('test:', '').sub(':', '/')
     payload = options[:params] ? task_payload.merge(options[:params]) : task_payload
     subject.new(payload, event: event).run
   end
@@ -53,123 +53,111 @@ describe Travis::Addons::Pusher::Task do
     }.to raise_error(Pusher::Error)
   end
 
-  it 'warns when log needs to be split' do
-    subject.stubs(:chunk_size => 5)
-    Travis.logger.expects(:warn) { |message| message =~ /\[addons:pusher\] The log part from worker was bigger than 9kB/ }
-
-    run('job:test:log', test, params: { _log: "123456" })
-
-    channel.messages.length.should == 2
-  end
-
-  it 'splits log messages into chunks, to not exceed the limit in bytes' do
-    subject.stubs(:chunk_size => 5)
-    run('job:test:log', test, params: { _log: "0000\ną" })
-
-    channel.messages.length.should == 3
-    channel.messages.map { |message| message[1][:_log] }.should == ["000", "0\n", "ą"]
-  end
-
-  it 'sets separate numbers for each chunk' do
-    subject.stubs(:chunk_size => 5)
-    run('job:test:log', test, params: { _log: "0000\ną", number: 3 })
-
-    channel.messages.length.should == 3
-    channel.messages.map { |message| message[1][:number] }.should == [3, '3.1', '3.2']
-    channel.messages.map { |message| message[1][:final] }.should == [nil, nil, nil]
-  end
-
-  it 'sets final only for the last of the chunks' do
-    subject.stubs(:chunk_size => 5)
-    run('job:test:log', test, params: { _log: "0000\ną", final: true })
-
-    channel.messages.length.should == 3
-    channel.messages.map { |message| message[1][:final] }.should == [false, false, true]
-  end
-
   describe 'run' do
-    it 'job:test:created' do
-      run('job:test:created', test)
-      channel.should have_message('job:created', test)
-    end
-
-    it 'job:test:started' do
-      run('job:test:started', test)
-      channel.should have_message('job:started', test)
-    end
-
-    it 'job:log' do
-      run('job:test:log', test)
-      channel.should have_message('job:log', test)
-    end
-
     it 'job:test:finished' do
       run('job:test:finished', test)
       channel.should have_message('job:finished', test)
-    end
-
-    it 'build:created' do
-      run('build:created', build)
-      channel.should have_message('build:created', build)
-    end
-
-    it 'build:started' do
-      run('build:started', build)
-      channel.should have_message('build:started', build)
     end
 
     it 'build:finished' do
       run('build:finished', build)
       channel.should have_message('build:finished', build)
     end
-
-    it 'worker:started' do
-      run('worker:started', worker)
-      channel.should have_message('worker:started', worker)
-    end
   end
 
   describe 'channels' do
-    it 'returns "common" for the event "job:created"' do
-      payload = task_payload
-      handler = subject.new(payload, event: 'job:created')
-      handler.send(:channels).should include('common')
+    describe 'for a private repo' do
+      describe 'build event' do
+        let(:data) { { 'build' => { 'id' => 1, 'repository_id' => 1, }, 'repository' => { 'id' => 1 } } }
+
+        before :each do
+          data['repository']['private'] = true
+        end
+
+        it 'includes "private-repo-1" for the event "build:finished"' do
+          task = subject.new(data, :event => 'build:finished')
+          task.channels.should include("private-repo-#{repository.id}")
+        end
+      end
+
+      describe 'job event' do
+        let(:data) { { 'id' => 1, 'build_id' => 1, 'repository_id' => 1 } }
+
+        before :each do
+          data['repository_private'] = true
+        end
+
+        it 'includes "private-repo-1" for the event "job:finished"' do
+          task = subject.new(data, :event => 'job:test:finished')
+          task.channels.should include("private-repo-#{repository.id}")
+        end
+      end
     end
 
-    it 'returns "common" for the event "job:started"' do
-      payload = task_payload
-      handler = subject.new(payload, event: 'job:started')
-      handler.send(:channels).should include('common')
-    end
+    describe 'for a public repo' do
+      describe 'with config.pusher.secure being false' do
+        before :each do
+          Travis.config.pusher.stubs(:secure?).returns(false)
+        end
 
-    it 'returns "job-1" for the event "job:log"' do
-      payload = task_payload.merge(id: 1)
-      handler = subject.new(payload, event: 'job:log')
-      handler.send(:channels).should include("job-#{test.id}")
-    end
+        describe 'build event' do
+          let(:data) { { 'build' => { 'id' => 1, 'repository_id' => 1, }, 'repository' => { 'id' => 1 } } }
 
-    it 'returns "common" for the event "job:finished"' do
-      payload = task_payload
-      handler = subject.new(payload, event: 'job:finished')
-      handler.send(:channels).should include('common')
-    end
+          before :each do
+            data['repository']['private'] = false
+          end
 
-    it 'returns "common" for the event "build:started"' do
-      payload = task_payload
-      handler = subject.new(payload, event: 'build:started')
-      handler.send(:channels).should include('common')
-    end
+          it 'includes "repo-1" for the event "build:finished"' do
+            task = subject.new(data, :event => 'build:finished')
+            task.channels.should include('common')
+          end
+        end
 
-    it 'returns "common" for the event "build:finished"' do
-      payload = task_payload
-      handler = subject.new(payload, event: 'build:finished')
-      handler.send(:channels).should include('common')
-    end
+        describe 'job event' do
+          let(:data) { { 'id' => 1, 'build_id' => 1, 'repository_id' => 1 } }
 
-    it 'returns "workers" for the event "worker:started"' do
-      payload = task_payload
-      handler = subject.new(payload, event: 'worker:created')
-      handler.send(:channels).should include('workers')
+          before :each do
+            data['repository_private'] = false
+          end
+
+          it 'includes "repo-1" for the event "job:finished"' do
+            task = subject.new(data, :event => 'job:test:finished')
+            task.channels.should include('common')
+          end
+        end
+      end
+
+      describe 'with config.pusher.secure being true' do
+        before :each do
+          Travis.config.pusher.stubs(:secure?).returns(true)
+        end
+
+        describe 'build event' do
+          let(:data) { { 'build' => { 'id' => 1, 'repository_id' => 1, }, 'repository' => { 'id' => 1 } } }
+
+          before :each do
+            data['repository']['private'] = false
+          end
+
+          it 'includes "private-repo-1" for the event "build:finished"' do
+            task = subject.new(data, :event => 'build:finished')
+            task.channels.should include("private-repo-#{repository.id}")
+          end
+        end
+
+        describe 'build event' do
+          let(:data) { { 'id' => 1, 'build_id' => 1, 'repository_id' => 1 } }
+
+          before :each do
+            data['repository_private'] = false
+          end
+
+          it 'includes "private-repo-1" for the event "job:finished"' do
+            task = subject.new(data, :event => 'job:test:finished')
+            task.channels.should include("private-repo-#{repository.id}")
+          end
+        end
+      end
     end
   end
 end
