@@ -18,13 +18,6 @@ GIT
       net-http-pipeline
 
 GIT
-  remote: git://github.com/travis-ci/travis-config.git
-  revision: e25aeb4164709d0da255cf9ef325ab45daedcbdb
-  specs:
-    travis-config (0.0.1)
-      hashr
-
-GIT
   remote: git://github.com/travis-ci/travis-support.git
   revision: 352419335e9b78cf087dbd8523879498d6177db4
   specs:
@@ -190,6 +183,8 @@ GEM
     thor (0.19.1)
     tilt (1.4.1)
     timers (1.1.0)
+    travis-config (0.1.0)
+      hashr (~> 0.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -209,7 +204,6 @@ DEPENDENCIES
   gh!
   guard
   guard-rspec
-  hashr
   metriks
   metriks-librato_metrics
   mocha (~> 0.10.0)
@@ -221,6 +215,6 @@ DEPENDENCIES
   rspec (~> 2.14.0)
   sentry-raven
   sidekiq (~> 2.17.0)
-  travis-config!
+  travis-config (~> 0.1.0)
   travis-support!
   webmock (~> 1.8.0)
