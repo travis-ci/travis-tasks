@@ -6,9 +6,10 @@ end
 
 require 'travis/task'
 require 'travis/addons'
+require 'travis/support'
 require 'travis/support/testing/webmock'
 require 'travis/testing'
-require 'travis/config'
+require 'travis/tasks/config'
 require 'payloads'
 
 ActionMailer::Base.delivery_method = :test

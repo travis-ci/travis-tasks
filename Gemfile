@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '1.9.3', engine: 'jruby', engine_version: '1.7.16' if ENV.key?('DYNO')
 
 gem 'travis-support',  github: 'travis-ci/travis-support'
+gem 'travis-config',  '~> 0.1.0'
 
 gem 'sidekiq',         '~> 2.17.0'
 gem 'gh',              github: 'travis-ci/gh'
@@ -14,7 +15,6 @@ gem 'actionmailer',    '~> 3.2.18'
 gem 'roadie'
 gem 'metriks'
 gem 'metriks-librato_metrics'
-gem 'hashr'
 gem 'multi_json'
 gem 'pusher'
 
