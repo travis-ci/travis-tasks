@@ -18,6 +18,13 @@ GIT
       net-http-pipeline
 
 GIT
+  remote: git://github.com/travis-ci/travis-config.git
+  revision: 98b4beccd1088d20edc6bcdb94d23a0bb044c65c
+  specs:
+    travis-config (0.0.1)
+      rspec
+
+GIT
   remote: git://github.com/travis-ci/travis-support.git
   revision: 352419335e9b78cf087dbd8523879498d6177db4
   specs:
@@ -193,6 +200,7 @@ GEM
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   actionmailer (~> 3.2.18)
@@ -213,5 +221,6 @@ DEPENDENCIES
   rspec (~> 2.14.0)
   sentry-raven
   sidekiq (~> 2.17.0)
+  travis-config!
   travis-support!
   webmock (~> 1.8.0)

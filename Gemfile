@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '1.9.3', engine: 'jruby', engine_version: '1.7.16' if ENV.key?('DYNO')
 
 gem 'travis-support',  github: 'travis-ci/travis-support'
+gem 'travis-config',   github: 'travis-ci/travis-config'
 
 gem 'sidekiq',         '~> 2.17.0'
 gem 'gh',              github: 'travis-ci/gh'
