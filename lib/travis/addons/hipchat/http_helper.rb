@@ -11,18 +11,27 @@ module Travis
 
         attr_reader :api_version, :headers, :url, :token, :room_id
 
+        # specification can be either of:
+        #
+        # - api_token (API V1)
+        # - api_token@hipchat_room_name_or_id
+        # - api_token@hostname/hipchat_room_name_or_id
         def initialize(specification)
-          # specification will be in the form "API_TOKEN@HIPCHAT_ROOM_NAME_OR_ID"
-          @token, @room_id = specification.split('@', 2)
+          @token, @hostname, @room_id = specification.split(%r(@|/), 3)
+
+          if @room_id.nil?
+            @room_id = @hostname
+            @hostname = 'api.hipchat.com'
+          end
 
           case token.length
           when API_V1_TOKEN_LENGTH
             @api_version = 'v1'
-            @url = 'https://api.hipchat.com/v1/rooms/message?format=json&auth_token=%s' % [token]
+            @url = 'https://%s/v1/rooms/message?format=json&auth_token=%s' % [ @hostname, token ]
             @headers = {}
           when API_V2_TOKEN_LENGTH
             @api_version = 'v2'
-            @url = 'https://api.hipchat.com/v2/room/%s/notification?auth_token=%s' % [ encode(room_id), token]
+            @url = 'https://%s/v2/room/%s/notification?auth_token=%s' % [ @hostname, encode(room_id), token]
             @headers = { 'Content-type' => 'application/json' }
           end
         end

@@ -78,6 +78,21 @@ describe Travis::Addons::Hipchat::Task do
     http.verify_stubbed_calls
   end
 
+  it 'works with a private hipchat server' do
+    targets = ["#{room_1_token}@hipchat.example.com/room_1", "#{room_3_token_v2}@hipchat.example.com/foo"]
+    message = [
+      'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
+      'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
+      'Build details: http://travis-ci.org/svenfuchs/minimal/builds/1'
+    ]
+
+    expect_hipchat('room_1', room_1_token, message, {}, 'hipchat.example.com')
+    expect_hipchat_v2('foo', room_3_token_v2, message, {}, 'hipchat.example.com')
+
+    run(targets)
+    http.verify_stubbed_calls
+  end
+
   it "sends red messages for errored builds" do
     targets = ["#{room_1_token}@room_1"]
     messages = [
@@ -101,21 +116,21 @@ describe Travis::Addons::Hipchat::Task do
     end
   end
 
-  def expect_hipchat(room_id, token, lines, extra_body={})
+  def expect_hipchat(room_id, token, lines, extra_body={}, server='api.hipchat.com')
     Array(lines).each do |line|
       body = { 'room_id' => room_id, 'from' => 'Travis CI', 'message' => line, 'color' => 'green', 'message_format' => 'text' }.merge(extra_body)
       http.post("v1/rooms/message?format=json&auth_token=#{token}") do |env|
-        env[:url].host.should == 'api.hipchat.com'
+        env[:url].host.should == server
         Rack::Utils.parse_query(env[:body]).should == body
         [200, {"Content-Type" => "application/json"}, "{}"]
       end
     end
   end
 
-  def expect_hipchat_v2(room_id, token, lines, extra_body={})
+  def expect_hipchat_v2(room_id, token, lines, extra_body={}, server='api.hipchat.com')
     Array(lines).each do |line|
       body = { 'message' => line, 'color' => 'green', 'message_format' => 'text' }.merge(extra_body).to_json
-      http.post("https://api.hipchat.com/v2/room/#{URI::encode(room_id, Travis::Addons::Hipchat::HttpHelper::UNSAFE_URL_CHARS)}/notification?auth_token=#{token}") do |env|
+      http.post("https://#{server}/v2/room/#{URI::encode(room_id, Travis::Addons::Hipchat::HttpHelper::UNSAFE_URL_CHARS)}/notification?auth_token=#{token}") do |env|
         env[:request_headers]['Content-Type'].should == 'application/json'
         env[:body].should == body
         [200, {"Content-Type" => "application/json"}, "{}"]

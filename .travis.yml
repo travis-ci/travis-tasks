@@ -1,3 +1,4 @@
+sudo: false
 language: ruby
 cache: bundler
 rvm: jruby-1.7.16
