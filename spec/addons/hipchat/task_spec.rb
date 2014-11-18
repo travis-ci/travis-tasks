@@ -79,7 +79,7 @@ describe Travis::Addons::Hipchat::Task do
   end
 
   it 'works with a private hipchat server' do
-    targets = ["#{room_1_token}@room_1#hipchat.example.com", "#{room_3_token_v2}@foo@hipchat.example.com"]
+    targets = ["#{room_1_token}@hipchat.example.com/room_1", "#{room_3_token_v2}@hipchat.example.com/foo"]
     message = [
       'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
       'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',

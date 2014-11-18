@@ -11,10 +11,18 @@ module Travis
 
         attr_reader :api_version, :headers, :url, :token, :room_id
 
+        # specification can be either of:
+        #
+        # - api_token (API V1)
+        # - api_token@hipchat_room_name_or_id
+        # - api_token@hostname/hipchat_room_name_or_id
         def initialize(specification)
-          # specification will be in the form "API_TOKEN@HIPCHAT_ROOM_NAME_OR_ID#HOSTNAME"
-          @token, @room_id, @hostname = specification.split(/@|#/, 3)
-          @hostname ||= 'api.hipchat.com'
+          @token, @hostname, @room_id = specification.split(%r(@|/), 3)
+
+          if @room_id.nil?
+            @room_id = @hostname
+            @hostname = 'api.hipchat.com'
+          end
 
           case token.length
           when API_V1_TOKEN_LENGTH
