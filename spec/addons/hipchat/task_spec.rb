@@ -50,6 +50,22 @@ describe Travis::Addons::Hipchat::Task do
     http.verify_stubbed_calls
   end
 
+  it 'sends the notify option for v2 if included' do
+    targets = ["#{room_1_token}@room_1", "#{room_3_token_v2}@[foo]"]
+    message = [
+      'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
+      'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
+      'Build details: http://travis-ci.org/svenfuchs/minimal/builds/1'
+    ]
+
+    payload['build']['config']['notifications'] = { hipchat: { notify: true } }
+    expect_hipchat('room_1', room_1_token, message)
+    expect_hipchat_v2('[foo]', room_3_token_v2, message, { 'notify' => true })
+
+    run(targets)
+    http.verify_stubbed_calls
+  end
+
   it "sends HTML notifications if requested" do
     targets = ["#{room_1_token}@room_1"]
     template = ['<a href="%{build_url}">Details</a>']
@@ -129,7 +145,7 @@ describe Travis::Addons::Hipchat::Task do
 
   def expect_hipchat_v2(room_id, token, lines, extra_body={}, server='api.hipchat.com')
     Array(lines).each do |line|
-      body = { 'message' => line, 'color' => 'green', 'message_format' => 'text' }.merge(extra_body).to_json
+      body = { 'message' => line, 'color' => 'green', 'message_format' => 'text', 'notify' => false }.merge(extra_body).to_json
       http.post("https://#{server}/v2/room/#{URI::encode(room_id, Travis::Addons::Hipchat::HttpHelper::UNSAFE_URL_CHARS)}/notification?auth_token=#{token}") do |env|
         env[:request_headers]['Content-Type'].should == 'application/json'
         env[:body].should == body
