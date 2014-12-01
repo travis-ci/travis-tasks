@@ -52,7 +52,7 @@ GEM
     aws-sdk (1.43.3)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
-    backports (3.6.0)
+    backports (3.6.4)
     builder (3.0.4)
     celluloid (0.15.2)
       timers (~> 1.1.0)
