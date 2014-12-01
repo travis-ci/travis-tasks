@@ -2,6 +2,10 @@ module Travis
   module Addons
     module Slack
       class Task < Travis::Task
+
+        BRANCH_BUILD_MESSAGE_TEMPLATE = "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}"
+        PULL_REQUEST_MESSAGE_TEMPLATE = "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} in PR <%{pull_request_url}|#%{pull_request}> by %{author} %{result} in %{duration}"
+
         def process
           targets.each do |target|
             if illegal_format?(target)
@@ -56,7 +60,7 @@ module Travis
         end
 
         def message_text
-          lines = Array(template_from_config || "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}")
+          lines = Array(template_from_config || default_template)
           lines.map {|line| Util::Template.new(line, payload).interpolate}.join("\n")
         end
 
@@ -77,6 +81,14 @@ module Travis
 
         def slack_config
           build[:config].try(:[], :notifications).try(:[], :slack) || {}
+        end
+
+        def default_template
+          if pull_request?
+            PULL_REQUEST_MESSAGE_TEMPLATE
+          else
+            BRANCH_BUILD_MESSAGE_TEMPLATE
+          end
         end
       end
     end

@@ -17,6 +17,7 @@ describe Travis::Addons::Util::Template do
     compare_url
     build_url
     result
+    pull_request
   )
   TEMPLATE  = VAR_NAMES.map { |name| "#{name}=%{#{name}}" }.join(' ')
 
@@ -60,6 +61,24 @@ describe Travis::Addons::Util::Template do
 
     it 'replaces the message' do
       result.should =~ /message=The build passed./
+    end
+
+    it 'replaces the pull request' do
+      result.should =~ /pull_request=false/
+    end
+  end
+
+  describe 'pull_request_url' do
+    it 'returns nil when there is no pull request' do
+      template.pull_request_url.should be_nil
+    end
+
+    it 'returns the pull request url based on the comparison url' do
+      data = Marshal.load(Marshal.dump(TASK_PAYLOAD.merge({"build" => {"pull_request" => "1"}})))
+      template = Travis::Addons::Util::Template.new(TEMPLATE.dup, data)
+
+      expectation = "https://github.com/svenfuchs/minimal/pull/1"
+      template.pull_request_url.should == expectation
     end
   end
 end

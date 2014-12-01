@@ -93,6 +93,28 @@ describe Travis::Addons::Slack::Task do
     http.verify_stubbed_calls
   end
 
+  it "sends information about pull requests" do
+    targets = ['team-1:token-1#channel1']
+    payload['build']['pull_request'] = '1'
+
+    expected_text = 'Build <http://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master in PR <https://github.com/svenfuchs/minimal/pull/1|#1> by Sven Fuchs passed in 1 min 0 sec'
+
+    message = {
+      icon_url: "https://travis-ci.org/images/travis-mascot-150.png",
+      channel: '#channel1',
+      attachments: [{
+        fallback: expected_text,
+        text: expected_text,
+        color: 'good'
+      }.stringify_keys]
+    }.stringify_keys
+
+    expect_slack('team-1', 'token-1', message)
+
+    run(targets)
+    http.verify_stubbed_calls
+  end
+
 
   def expect_slack(account, token, body)
     host = "#{account}.slack.com"
