@@ -92,7 +92,7 @@
         background-color: #fdcdce;
         color: #df192a;
       }
-      
+
       #build.success thead tr {
         background-color: #baecb7;
         color: #32a32d;
@@ -224,7 +224,7 @@
         padding: 10px;
         margin-top: 20px;
         font-size: 12px;
-        width: 570px; 
+        width: 570px;
         line-height: 16px;
       }
 
@@ -376,6 +376,18 @@
         </tr>
       </table>
 
+      <div style="padding-top: 10px; width: 570px">
+        <span>
+          <div class="section footnote">
+            <p class="grey"><strong>Build Environment Announcement Mailing List</strong></p>
+            <p class="grey">Would you like to stay up-to-date with the upcoming Travis CI build environment updates?
+              We set up a mailing list for you!
+              Sign up <a href="http://eepurl.com/9OCsP">here</a>.
+            </p>
+          </div>
+        </span>
+      </div>
+
       <% if Travis.config.build_email_footer? -%>
       <div style="padding-top: 10px; width: 570px">
         <img id="mascot" src="https://<%= Travis.config.assets.host %>/images/mailer/travis-mascot.png" width="80" >
@@ -385,7 +397,7 @@
         </div>
 
         <div class="tiny-footer">
-          <p class="grey"> 
+          <p class="grey">
             <span>Travis CI is powered by </span><a href="http://bluebox.net"><img src="https://travis-ci.org/images/sponsors/bluebox-78x15.png"></a>
           </p>
         </div>
