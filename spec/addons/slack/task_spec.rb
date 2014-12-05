@@ -51,7 +51,7 @@ describe Travis::Addons::Slack::Task do
     run(targets)
     http.verify_stubbed_calls
   end
-  
+
   it "allows specifying a custom template" do
     targets = ['team-1:token-1']
     payload['build']['config']['notifications'] = { slack: { template: 'Custom: %{author}'}} 
@@ -95,7 +95,8 @@ describe Travis::Addons::Slack::Task do
 
   it "sends information about pull requests" do
     targets = ['team-1:token-1#channel1']
-    payload['build']['pull_request'] = '1'
+    payload['build']['pull_request'] = true
+    payload['build']['pull_request_number'] = '1'
 
     expected_text = 'Build <http://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master in PR <https://github.com/svenfuchs/minimal/pull/1|#1> by Sven Fuchs passed in 1 min 0 sec'
 

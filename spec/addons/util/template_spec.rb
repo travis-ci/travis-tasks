@@ -18,6 +18,7 @@ describe Travis::Addons::Util::Template do
     build_url
     result
     pull_request
+    pull_request_number
   )
   TEMPLATE  = VAR_NAMES.map { |name| "#{name}=%{#{name}}" }.join(' ')
 
@@ -66,17 +67,37 @@ describe Travis::Addons::Util::Template do
     it 'replaces the pull request' do
       result.should =~ /pull_request=false/
     end
-  end
 
-  describe 'pull_request_url' do
-    it 'returns nil when there is no pull request' do
-      template.pull_request_url.should be_nil
+    it 'replaces the pull request number' do
+      result.should =~ /pull_request_number=/
     end
 
-    it 'returns the pull request url based on the comparison url' do
-      data = Marshal.load(Marshal.dump(TASK_PAYLOAD.merge({"build" => {"pull_request" => "1"}})))
-      template = Travis::Addons::Util::Template.new(TEMPLATE.dup, data)
+    it "doesn't generate a pull request url" do
+      template.pull_request_url.should be_nil
+    end
+  end
 
+  describe 'interpolation for pull requests' do
+    let(:payload) do
+      TASK_PAYLOAD.dup.tap do |payload|
+        payload["build"].merge!({"pull_request" => "true", "pull_request_number" => "1"})
+      end
+    end
+
+    let(:data) { Marshal.load(Marshal.dump(payload)) }
+    let(:template) { Travis::Addons::Util::Template.new(TEMPLATE.dup, data) }
+
+    let(:result) { template.interpolate }
+
+    it 'replaces the pull request' do
+      result.should =~ /pull_request=true/
+    end
+
+    it 'replaces the pull request number' do
+      result.should =~ /pull_request_number=1/
+    end
+
+    it 'generates the pull request url based on the comparison url' do
       expectation = "https://github.com/svenfuchs/minimal/pull/1"
       template.pull_request_url.should == expectation
     end
