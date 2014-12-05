@@ -23,6 +23,7 @@ module Travis
             build_number:          data[:build][:number].to_s,
             build_id:              data[:build][:id].to_s,
             pull_request:          data[:build][:pull_request],
+            pull_request_number:   data[:build][:pull_request_number],
             branch:                data[:commit][:branch],
             commit:                data[:commit][:sha][0..6],
             author:                data[:commit][:author_name],
@@ -51,11 +52,11 @@ module Travis
         end
 
         def pull_request_url
-          if pr = data[:build][:pull_request]
+          if data[:build][:pull_request]
             uri = URI.parse(data[:commit][:compare_url])
 
             parts = uri.path.split("/", 4)[0..2]
-            parts << "pull/#{pr}"
+            parts << "pull/#{data[:build][:pull_request_number]}"
 
             uri.path = parts.join("/")
 
