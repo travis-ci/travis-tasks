@@ -22,6 +22,7 @@ module Travis
             repository_name:       data[:repository][:name],
             build_number:          data[:build][:number].to_s,
             build_id:              data[:build][:id].to_s,
+            pull_request:          data[:build][:pull_request],
             branch:                data[:commit][:branch],
             commit:                data[:commit][:sha][0..6],
             author:                data[:commit][:author_name],
@@ -30,7 +31,8 @@ module Travis
             duration:              seconds_to_duration(data[:build][:duration]),
             message:               message,
             compare_url:           compare_url,
-            build_url:             build_url
+            build_url:             build_url,
+            pull_request_url:      pull_request_url
           }
         end
 
@@ -46,6 +48,19 @@ module Travis
         def build_url
           url = "http://#{Travis.config.host}/#{data[:repository][:slug]}/builds/#{data[:build][:id]}"
           short_urls? ? shorten_url(url) : url
+        end
+
+        def pull_request_url
+          if pr = data[:build][:pull_request]
+            uri = URI.parse(data[:commit][:compare_url])
+
+            parts = uri.path.split("/", 4)[0..2]
+            parts << "pull/#{pr}"
+
+            uri.path = parts.join("/")
+
+            short_urls? ? shorten_url(uri.to_s) : uri.to_s
+          end
         end
 
         private
