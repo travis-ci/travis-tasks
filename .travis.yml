@@ -1,12 +1,18 @@
-sudo: false
 language: ruby
-cache: bundler
+
 rvm:
   - jruby-1.7.16
   - jruby-head
+
+sudo: false
+
+cache: bundler
+
 script: bundle exec rspec -fs --color --order rand spec
+
 notifications:
   webhooks: http://requestb.in/14h19sy1
+
 matrix:
   allow_failures:
     - rvm: jruby-head
