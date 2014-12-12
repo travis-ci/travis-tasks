@@ -46,7 +46,7 @@ module Travis
 
           def process_with_token(token)
             authenticated(token) do
-              GH.post(url, :state => state, :description => description, :target_url => target_url, context: 'travis-ci')
+              GH.post(url, :state => state, :description => description, :target_url => target_url, context: 'continuous-integration/travis-ci')
             end
           rescue GH::Error(:response_status => 401)
             nil
