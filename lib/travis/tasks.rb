@@ -21,7 +21,6 @@ if Travis.config.sentry.dsn
   require 'raven'
   Raven.configure do |config|
     config.dsn = Travis.config.sentry.dsn
-    puts "Configuring sentry with dsn #{Travis.config.sentry.dsn}"
 
     config.current_environment = Travis.env
     config.environments = ["staging", "production"]
@@ -75,5 +74,5 @@ Travis::Addons::Email.setup
 
 
 %w(AES DES RC2 RSA).each do |cipher|
-  info "Maximum allowed key length for #{cipher}: #{javax.crypto::Cipher.getMaxAllowedKeyLength(cipher)}"
+  puts "Maximum allowed key length for #{cipher}: #{javax.crypto::Cipher.getMaxAllowedKeyLength(cipher)}"
 end
