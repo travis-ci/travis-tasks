@@ -13,6 +13,7 @@ require 'travis/task'
 require 'travis/addons'
 require 'travis/tasks/middleware/metriks'
 require 'travis/tasks/middleware/logging'
+require 'unlimited-jce-policy-jdk7'
 
 $stdout.sync = true
 
@@ -20,7 +21,6 @@ if Travis.config.sentry.dsn
   require 'raven'
   Raven.configure do |config|
     config.dsn = Travis.config.sentry.dsn
-    puts "Configuring sentry with dsn #{Travis.config.sentry.dsn}"
 
     config.current_environment = Travis.env
     config.environments = ["staging", "production"]
@@ -71,3 +71,8 @@ end
 
 Travis::Metrics.setup
 Travis::Addons::Email.setup
+
+
+%w(AES DES RC2 RSA).each do |cipher|
+  puts "Maximum allowed key length for #{cipher}: #{javax.crypto::Cipher.getMaxAllowedKeyLength(cipher)}"
+end
