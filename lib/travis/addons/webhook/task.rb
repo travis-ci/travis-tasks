@@ -1,5 +1,3 @@
-require 'unlimited-jce-policy-jdk7'
-
 module Travis
   module Addons
     module Webhook

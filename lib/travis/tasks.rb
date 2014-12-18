@@ -13,6 +13,7 @@ require 'travis/task'
 require 'travis/addons'
 require 'travis/tasks/middleware/metriks'
 require 'travis/tasks/middleware/logging'
+require 'unlimited-jce-policy-jdk7'
 
 $stdout.sync = true
 
@@ -71,3 +72,8 @@ end
 
 Travis::Metrics.setup
 Travis::Addons::Email.setup
+
+
+%w(AES DES RC2 RSA).each do |cipher|
+  info "Maximum allowed key length for #{cipher}: #{javax.crypto::Cipher.getMaxAllowedKeyLength(cipher)}"
+end
