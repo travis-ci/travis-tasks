@@ -5,7 +5,7 @@ Travis Task is a [Sidekiq](http://sidekiq.org/) based background processor whose
 
 These notifications are all queued up by state changes which are processed by [Travis Hub](https://github.com/travis-ci/travis-hub) and [Travis Gatekeeper](https://github.com/travis-ci/travis-gatekeeper).
 
-And, to make Travis Tasks even more special, there is no database connection required! Travis Tasks is all about talking to 3rd party services, if it be [Pusher](http://pusher.com), [Mandrill](https://mandrillapp.com), [Campfire](http://campfirenow.com/), or [Slack](http://slack.com/).
+And, to make Travis Tasks even more special, there is no database connection required! Travis Tasks is all about talking to 3rd party services, if it be [Pusher](http://pusher.com), [Mandrill](https://mandrillapp.com), [Campfire](http://campfirenow.com/), [Slack](http://slack.com/), or [Pushover](https://pushover.net/).
 
 You can find the full list of addon services Travis natively talks to within [Travis Core](https://github.com/travis-ci/travis-core/tree/master/lib/travis/addons).
 
