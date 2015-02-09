@@ -32,10 +32,10 @@ module Travis
           @socket = self.class.wrap_ssl(@socket) if options[:ssl]
           @ping_thread = start_ping_thread
 
-          socket.puts "PASS #{options[:password]}" if options[:password]
-          socket.puts "NICK #{nick}"
-          socket.puts "PRIVMSG NickServ :IDENTIFY #{options[:nickserv_password]}" if options[:nickserv_password]
-          socket.puts "USER #{nick} #{nick} #{nick} :#{nick}"
+          socket.puts "PASS #{options[:password]}\r" if options[:password]
+          socket.puts "NICK #{nick}\r"
+          socket.puts "PRIVMSG NickServ :IDENTIFY #{options[:nickserv_password]}\r" if options[:nickserv_password]
+          socket.puts "USER #{nick} #{nick} #{nick} :#{nick}\r"
         end
 
         def wait_for_numeric
@@ -50,7 +50,7 @@ module Travis
         end
 
         def join(channel, key = nil)
-          socket.puts "JOIN ##{channel} #{key}".strip
+          socket.puts("JOIN ##{channel} #{key}".strip + "\r")
         end
 
         def run(&block)
@@ -58,16 +58,16 @@ module Travis
         end
 
         def leave(channel)
-          socket.puts "PART ##{channel}"
+          socket.puts "PART ##{channel}\r"
         end
 
         def say(message, channel, use_notice = false)
           message_type = use_notice ? "NOTICE" : "PRIVMSG"
-          socket.puts "#{message_type} ##{channel} :#{message}"
+          socket.puts "#{message_type} ##{channel} :#{message}\r"
         end
 
         def quit
-          socket.puts 'QUIT'
+          socket.puts "QUIT\r"
           socket.gets until socket.eof?
           socket.close
           ping_thread.exit
@@ -81,7 +81,7 @@ module Travis
                 case s.gets
                 when /^PING (.*)/
                   # PING received
-                  s.puts "PONG #{$1}"
+                  s.puts "PONG #{$1}\r"
                 when /^:\S+ \d{3} .*$/
                   # Numeric received (second word is a 3-digit number).
                   @numeric_received = true

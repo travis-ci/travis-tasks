@@ -35,8 +35,8 @@ describe Travis::Addons::Irc::Client do
       end
 
       def expect_standard_sequence
-        @socket.expects(:puts).with("NICK #{nick}")
-        @socket.expects(:puts).with("USER #{nick} #{nick} #{nick} :#{nick}")
+        @socket.expects(:puts).with("NICK #{nick}\r")
+        @socket.expects(:puts).with("USER #{nick} #{nick} #{nick} :#{nick}\r")
       end
 
       describe 'without a password' do
@@ -48,7 +48,7 @@ describe Travis::Addons::Irc::Client do
 
       describe 'with a password' do
         it 'by sending PASS then NICK then USER' do
-          @socket.expects(:puts).with("PASS #{password}")
+          @socket.expects(:puts).with("PASS #{password}\r")
           expect_standard_sequence
           subject.new(server, nick, password: password)
         end
@@ -56,7 +56,7 @@ describe Travis::Addons::Irc::Client do
 
       describe "with a nickserv password" do
         it "should identify with nickserv" do
-          @socket.expects(:puts).with("PRIVMSG NickServ :IDENTIFY pass")
+          @socket.expects(:puts).with("PRIVMSG NickServ :IDENTIFY pass\r")
           expect_standard_sequence
           subject.new(server, nick, nickserv_password: 'pass')
         end
@@ -79,9 +79,9 @@ describe Travis::Addons::Irc::Client do
       end
 
       def expect_standard_sequence
-        @socket.expects(:puts).with("NICK #{nick}")
-        @socket.expects(:puts).with("USER #{nick} #{nick} #{nick} :#{nick}")
-        @socket.expects(:puts).with("PONG #{ping}")
+        @socket.expects(:puts).with("NICK #{nick}\r")
+        @socket.expects(:puts).with("USER #{nick} #{nick} #{nick} :#{nick}\r")
+        @socket.expects(:puts).with("PONG #{ping}\r")
       end
 
       describe "without a password" do
@@ -102,8 +102,8 @@ describe Travis::Addons::Irc::Client do
       end
 
       def expect_standard_sequence
-        @socket.expects(:puts).with("NICK #{nick}")
-        @socket.expects(:puts).with("USER #{nick} #{nick} #{nick} :#{nick}")
+        @socket.expects(:puts).with("NICK #{nick}\r")
+        @socket.expects(:puts).with("USER #{nick} #{nick} #{nick} :#{nick}\r")
       end
 
       def expect_numeric_sequence
@@ -140,22 +140,22 @@ describe Travis::Addons::Irc::Client do
     end
 
     it 'can message a channel before joining' do
-      socket.expects(:puts).with("PRIVMSG #travis :hello")
+      socket.expects(:puts).with("PRIVMSG #travis :hello\r")
       @client.say 'hello', 'travis'
     end
 
     it 'can notice a channel before joining' do
-      socket.expects(:puts).with("NOTICE #travis :hello")
+      socket.expects(:puts).with("NOTICE #travis :hello\r")
       @client.say 'hello', 'travis', true
     end
 
     it 'can join a channel' do
-      socket.expects(:puts).with("JOIN ##{channel}")
+      socket.expects(:puts).with("JOIN ##{channel}\r")
       @client.join(channel)
     end
 
     it 'can join a channel with a key' do
-      socket.expects(:puts).with("JOIN ##{channel} mykey")
+      socket.expects(:puts).with("JOIN ##{channel} mykey\r")
       @client.join(channel, 'mykey')
     end
 
@@ -164,25 +164,25 @@ describe Travis::Addons::Irc::Client do
         @client.join(channel)
       end
       it 'can leave the channel' do
-        socket.expects(:puts).with("PART ##{channel}")
+        socket.expects(:puts).with("PART ##{channel}\r")
         @client.leave(channel)
       end
       it 'can message the channel' do
-        socket.expects(:puts).with("PRIVMSG ##{channel} :hello")
+        socket.expects(:puts).with("PRIVMSG ##{channel} :hello\r")
         @client.say 'hello', channel
       end
       it 'can notice the channel' do
-        socket.expects(:puts).with("NOTICE ##{channel} :hello")
+        socket.expects(:puts).with("NOTICE ##{channel} :hello\r")
         @client.say 'hello', channel, true
       end
     end
 
     it 'can run a series of commands' do
-      socket.expects(:puts).with("JOIN #travis")
-      socket.expects(:puts).with("PRIVMSG #travis :hello")
-      socket.expects(:puts).with("NOTICE #travis :hi")
-      socket.expects(:puts).with("PRIVMSG #travis :goodbye")
-      socket.expects(:puts).with("PART #travis")
+      socket.expects(:puts).with("JOIN #travis\r")
+      socket.expects(:puts).with("PRIVMSG #travis :hello\r")
+      socket.expects(:puts).with("NOTICE #travis :hi\r")
+      socket.expects(:puts).with("PRIVMSG #travis :goodbye\r")
+      socket.expects(:puts).with("PART #travis\r")
 
       @client.run do |client|
         client.join 'travis'
@@ -194,7 +194,7 @@ describe Travis::Addons::Irc::Client do
     end
 
     it 'can abandon the connection' do
-      socket.expects(:puts).with("QUIT")
+      socket.expects(:puts).with("QUIT\r")
       socket.expects(:eof?).returns(true)
       socket.expects(:close)
       @client.quit

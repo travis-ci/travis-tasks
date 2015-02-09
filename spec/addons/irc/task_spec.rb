@@ -16,7 +16,7 @@ describe Travis::Addons::Irc::Task do
 
   def expect_irc(host, port, channel, messages)
     TCPSocket.expects(:open).with(host, port).in_sequence(seq).returns(tcp)
-    messages.each { |message| tcp.expects(:puts).with(message).in_sequence(seq) }
+    messages.map {|msg| msg + "\r" }.each { |message| tcp.expects(:puts).with(message).in_sequence(seq) }
   end
 
   def run(channels = nil)
