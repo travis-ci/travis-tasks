@@ -41,7 +41,6 @@ module Travis
           (data[:commit][:message] || "").split("\n").first
         end
 
-        end
         def message
           ResultMessage.new(data[:build]).full
         end
