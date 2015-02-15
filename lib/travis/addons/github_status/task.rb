@@ -46,7 +46,7 @@ module Travis
 
           def process_with_token(token)
             authenticated(token) do
-              GH.post(url, :state => state, :description => description, :target_url => target_url, context: 'continuous-integration/travis-ci')
+              GH.post(url, :state => state, :description => description, :target_url => target_url, :context => context)
             end
           rescue GH::Error(:response_status => 401)
             nil
@@ -67,6 +67,11 @@ module Travis
 
           def sha
             pull_request? ? request[:head_commit] : commit[:sha]
+          end
+
+          def context
+            build_type = pull_request? ? "pr" : "push"
+            "continuous-integration/#{build_type}/travis-ci"
           end
 
           def state
