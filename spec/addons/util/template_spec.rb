@@ -79,9 +79,9 @@ describe Travis::Addons::Util::Template do
 
   describe 'interpolation for pull requests' do
     let(:payload) do
-      TASK_PAYLOAD.dup.tap do |payload|
-        payload["build"].merge!({"pull_request" => "true", "pull_request_number" => "1"})
-      end
+      payload = Marshal.load(Marshal.dump(TASK_PAYLOAD))
+      payload["build"].merge!({"pull_request" => "true", "pull_request_number" => "1"})
+      payload
     end
 
     let(:data) { Marshal.load(Marshal.dump(payload)) }
