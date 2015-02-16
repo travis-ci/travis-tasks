@@ -1,5 +1,5 @@
 # Travis Tasks
-**********************
+**************************
 
 Travis Task is a [Sidekiq](http://sidekiq.org/) based background processor whose main job is to send all manner of notifications based on events within Travis (job started, build finished).
 
