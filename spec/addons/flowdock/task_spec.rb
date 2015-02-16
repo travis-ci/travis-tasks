@@ -6,7 +6,7 @@ describe Travis::Addons::Flowdock::Task do
   let(:subject) { Travis::Addons::Flowdock::Task }
   let(:http)    { Faraday::Adapter::Test::Stubs.new }
   let(:client)  { Faraday.new { |f| f.request :url_encoded; f.adapter :test, http } }
-  let(:payload) { TASK_PAYLOAD.dup }
+  let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
 
   before do
     subject.any_instance.stubs(:http).returns(client)
