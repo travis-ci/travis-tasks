@@ -1,7 +1,7 @@
 language: ruby
 
 rvm:
-  - jruby-1.7.16
+  - jruby-1.7.18
   - jruby-head
 
 sudo: false
