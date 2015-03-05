@@ -63,6 +63,12 @@ module Travis
         build[:pull_request]
       end
 
+      def pull_request_number
+        if pull_request?
+          payload[:pull_request_number]
+        end
+      end
+
       def http
         @http ||= Faraday.new(http_options) do |f|
           f.request :url_encoded
