@@ -23,7 +23,7 @@ module Travis
           def process
             if recipients.any?
               Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
-              info "Email sent to: #{recipients.map { |r| obfuscate_email_addrss(r) }.join(', ')}"
+              info "Email sent to: #{recipients.map { |r| obfuscate_email_address(r) }.join(', ')}"
             end
           rescue Net::SMTPServerBusy => e
             error("Could not send email to: #{recipients} (error: #{e.message})")
@@ -44,8 +44,8 @@ module Travis
             false
           end
 
-          def obfuscate_email_addrss(add)
-            match_data = add.match /^(?<name>[^@]+)@(?<domain>[^\.]+)\.(?<tld>[^\.]+)$/
+          def obfuscate_email_address(add)
+            match_data = add.match /^(?<name>[^@]+)@(?<domain>.+?)\.(?<tld>[^\.]+)$/
             name       = match_data[:name]
             domain     = match_data[:domain]
             tld        = match_data[:tld]
