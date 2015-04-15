@@ -23,7 +23,7 @@ module Travis
           def process
             if recipients.any?
               Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
-              info "Email sent to: #{recipients.map { |r| obfuscate_email_address(r) }.join(', ')}"
+              info "status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
             end
           rescue Net::SMTPServerBusy => e
             error("Could not send email to: #{recipients} (error: #{e.message})")
