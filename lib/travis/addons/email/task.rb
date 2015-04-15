@@ -46,6 +46,8 @@ module Travis
 
           def obfuscate_email_address(add)
             match_data = add.match /^(?<name>[^@]+)@(?<domain>.+?)\.(?<tld>[^\.]+)$/
+            return add unless match_data
+
             name       = match_data[:name]
             domain     = match_data[:domain]
             tld        = match_data[:tld]
