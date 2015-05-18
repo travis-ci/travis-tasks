@@ -17,7 +17,7 @@ gem 'roadie'
 gem 'metriks'
 gem 'metriks-librato_metrics'
 gem 'multi_json'
-gem 'pusher'
+gem 'pusher', '~> 0.14.5'
 
 group :test do
   gem 'rspec',        '~> 2.14.0'
