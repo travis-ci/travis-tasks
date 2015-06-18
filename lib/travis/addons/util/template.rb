@@ -52,7 +52,7 @@ module Travis
         end
 
         def build_url
-          url = "http://#{Travis.config.host}/#{data[:repository][:slug]}/builds/#{data[:build][:id]}"
+          url = [Travis.config.http_host, data[:repository][:slug], 'builds', data[:build][:id]].join('/')
           short_urls? ? shorten_url(url) : url
         end
 
