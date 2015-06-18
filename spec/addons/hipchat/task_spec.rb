@@ -27,7 +27,7 @@ describe Travis::Addons::Hipchat::Task do
     message = [
       'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
       'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
-      'Build details: http://travis-ci.org/svenfuchs/minimal/builds/1'
+      'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1'
     ]
 
     expect_hipchat('room_1', room_1_token, message)
@@ -55,7 +55,7 @@ describe Travis::Addons::Hipchat::Task do
     message = [
       'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
       'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
-      'Build details: http://travis-ci.org/svenfuchs/minimal/builds/1'
+      'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1'
     ]
 
     payload['build']['config']['notifications'] = { hipchat: { notify: true } }
@@ -69,7 +69,7 @@ describe Travis::Addons::Hipchat::Task do
   it "sends HTML notifications if requested" do
     targets = ["#{room_1_token}@room_1"]
     template = ['<a href="%{build_url}">Details</a>']
-    messages = ['<a href="http://travis-ci.org/svenfuchs/minimal/builds/1">Details</a>']
+    messages = ['<a href="https://travis-ci.org/svenfuchs/minimal/builds/1">Details</a>']
 
     payload['build']['config']['notifications'] = { hipchat: { template: template, format: 'html' } }
     expect_hipchat('room_1', room_1_token, messages, 'message_format' => 'html')
@@ -84,7 +84,7 @@ describe Travis::Addons::Hipchat::Task do
     messages = [
       'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
       'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
-      'Build details: http://travis-ci.org/svenfuchs/minimal/builds/1'
+      'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1'
     ]
 
     payload['build']['config']['notifications'] = { hipchat: [] }
@@ -99,7 +99,7 @@ describe Travis::Addons::Hipchat::Task do
     message = [
       'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
       'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
-      'Build details: http://travis-ci.org/svenfuchs/minimal/builds/1'
+      'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1'
     ]
 
     expect_hipchat('room_1', room_1_token, message, {}, 'hipchat.example.com')
@@ -114,7 +114,7 @@ describe Travis::Addons::Hipchat::Task do
     messages = [
       "svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has errored",
       "Change view: https://github.com/svenfuchs/minimal/compare/master...develop",
-      "Build details: http://travis-ci.org/svenfuchs/minimal/builds/1"
+      "Build details: https://travis-ci.org/svenfuchs/minimal/builds/1"
     ]
 
     payload["build"]["state"] = "errored"

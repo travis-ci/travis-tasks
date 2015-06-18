@@ -22,8 +22,8 @@ describe Travis::Addons::Slack::Task do
       icon_url: "https://travis-ci.org/images/travis-mascot-150.png",
       channel: '#channel1',
       attachments: [{
-        fallback: 'Build <http://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
-        text: 'Build <http://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
+        fallback: 'Build <https://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
+        text: 'Build <https://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
         color: 'good'
       }.stringify_keys]
     }.stringify_keys
@@ -40,8 +40,8 @@ describe Travis::Addons::Slack::Task do
     message = {
       icon_url: "https://travis-ci.org/images/travis-mascot-150.png",
       attachments: [{
-        fallback: 'Build <http://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
-        text: 'Build <http://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
+        fallback: 'Build <https://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
+        text: 'Build <https://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
         color: 'good'
       }.stringify_keys]
     }.stringify_keys
@@ -98,7 +98,7 @@ describe Travis::Addons::Slack::Task do
     payload['build']['pull_request'] = true
     payload['build']['pull_request_number'] = '1'
 
-    expected_text = 'Build <http://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master in PR <https://github.com/svenfuchs/minimal/pull/1|#1> by Sven Fuchs passed in 1 min 0 sec'
+    expected_text = 'Build <https://travis-ci.org/svenfuchs/minimal/builds/1|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master in PR <https://github.com/svenfuchs/minimal/pull/1|#1> by Sven Fuchs passed in 1 min 0 sec'
 
     message = {
       icon_url: "https://travis-ci.org/images/travis-mascot-150.png",
