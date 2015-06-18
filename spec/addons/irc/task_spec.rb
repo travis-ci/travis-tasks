@@ -30,7 +30,7 @@ describe Travis::Addons::Irc::Task do
       'JOIN #travis',
       'PRIVMSG #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'PRIVMSG #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'PRIVMSG #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'PRIVMSG #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #travis',
       'QUIT'
     ]
@@ -56,7 +56,7 @@ describe Travis::Addons::Irc::Task do
       'JOIN #travis',
       'NOTICE #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'NOTICE #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'NOTICE #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'NOTICE #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #travis',
       'QUIT'
     ]
@@ -71,7 +71,7 @@ describe Travis::Addons::Irc::Task do
       'USER travis-ci travis-ci travis-ci :travis-ci',
       'PRIVMSG #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'PRIVMSG #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'PRIVMSG #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'PRIVMSG #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'QUIT'
     ]
     run
@@ -114,7 +114,7 @@ describe Travis::Addons::Irc::Task do
         "JOIN ##{channel}",
         "PRIVMSG ##{channel} :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.",
         "PRIVMSG ##{channel} :Change view : https://github.com/svenfuchs/minimal/compare/master...develop",
-        "PRIVMSG ##{channel} :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1",
+        "PRIVMSG ##{channel} :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1",
         "PART ##{channel}",
         'QUIT'
       ]
@@ -129,12 +129,12 @@ describe Travis::Addons::Irc::Task do
       'JOIN #travis',
       'PRIVMSG #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'PRIVMSG #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'PRIVMSG #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'PRIVMSG #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #travis',
       'JOIN #example',
       'PRIVMSG #example :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'PRIVMSG #example :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'PRIVMSG #example :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'PRIVMSG #example :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #example',
       'QUIT'
     ]
@@ -151,7 +151,7 @@ describe Travis::Addons::Irc::Task do
       'JOIN #travis',
       'NOTICE #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'NOTICE #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'NOTICE #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'NOTICE #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #travis',
       'QUIT'
     ]
@@ -169,7 +169,7 @@ describe Travis::Addons::Irc::Task do
       'JOIN #travis',
       'NOTICE #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'NOTICE #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'NOTICE #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'NOTICE #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #travis',
       'QUIT'
     ]
@@ -187,7 +187,7 @@ describe Travis::Addons::Irc::Task do
       'JOIN #travis',
       'NOTICE #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'NOTICE #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'NOTICE #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'NOTICE #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #travis',
       'QUIT'
     ]
@@ -203,7 +203,7 @@ describe Travis::Addons::Irc::Task do
       'JOIN #travis',
       'PRIVMSG #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'PRIVMSG #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'PRIVMSG #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'PRIVMSG #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #travis',
       'QUIT'
     ]
@@ -219,7 +219,7 @@ describe Travis::Addons::Irc::Task do
       'JOIN #travis pass',
       'NOTICE #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'NOTICE #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'NOTICE #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'NOTICE #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #travis',
       'QUIT'
     ]
@@ -235,7 +235,7 @@ describe Travis::Addons::Irc::Task do
       'JOIN #travis pass',
       'NOTICE #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
       'NOTICE #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      'NOTICE #travis :Build details : http://travis-ci.org/svenfuchs/minimal/builds/1',
+      'NOTICE #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
       'PART #travis',
       'QUIT'
     ]

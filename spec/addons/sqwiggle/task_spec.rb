@@ -21,7 +21,7 @@ describe Travis::Addons::Sqwiggle::Task do
     targets = ['12345@2', '23456@3']
 
     message = %Q[svenfuchs/minimal - build number: 2 (master - 62aae5f : Sven Fuchs) -
-          <a href="http://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has
+          <a href="https://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has
           <strong>passed</strong>
     ].squish
 
@@ -63,7 +63,7 @@ describe Travis::Addons::Sqwiggle::Task do
     targets = ["12345@1"]
 
     message = %Q[svenfuchs/minimal - build number: 2 (master - 62aae5f : Sven Fuchs) -
-          <a href="http://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has
+          <a href="https://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has
           <strong>failed</strong>
     ].squish
 
@@ -85,7 +85,7 @@ describe Travis::Addons::Sqwiggle::Task do
     targets = ["12345@1"]
 
     message = %Q[svenfuchs/minimal - build number: 2 (master - 62aae5f : Sven Fuchs) -
-          <a href="http://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has
+          <a href="https://travis-ci.org/svenfuchs/minimal/builds/1" target="_blank">build</a> has
           <strong>errored</strong>
     ].squish
 
