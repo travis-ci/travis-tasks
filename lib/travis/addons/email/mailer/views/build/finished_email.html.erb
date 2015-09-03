@@ -310,7 +310,7 @@
     <div id="body">
       <table class="repository" background="" style="">
         <tr style="">
-          <td><img src="<%= @repository.owner_avatar_url %>?s=40&d=<%= CGI.escape("https://#{Travis.config.assets.host}/images/mailer/mascot-avatar-40px.png") %>"/> <span><strong><%= link_to @repository.slug.gsub(/\//, " / "), "https://#{Travis.config.host}/#{@repository.slug}" -%></strong> (<%= link_to @commit.branch, "https://github.com/#{@repository.slug}/tree/#{@commit.branch}" -%>)</span></td>
+          <td><img src="<%= @repository.owner_avatar_url %>?s=40&d=<%= CGI.escape("https://#{Travis.config.assets.host}/images/mailer/mascot-avatar-40px.png") %>"/> <span><strong><%= link_to @repository.slug.gsub(/\//, " / "), "https://#{Travis.config.host}/#{@repository.slug}" -%></strong> (<%= link_to @commit.branch, "#{Travis.config.github.url}/#{@repository.slug}/tree/#{@commit.branch}" -%>)</span></td>
         </tr>
       </table>
       <div id="build" class="<%= build_email_css_class(@build) %>">
@@ -327,7 +327,7 @@
               <tr>
                 <td class="profile-image"><img src="https://secure.gravatar.com/avatar/<%= Digest::MD5.hexdigest(@commit.author_email) %>?s=15&d=<%= CGI.escape("https://#{Travis.config.assets.host}/images/mailer/mascot-avatar-15px.png") %>"></td>
                 <td class="grey"><strong><%= @commit.author_name %></strong></td>
-                <td align="right" class="grey"><a href="https://github.com/<%= @repository.slug -%>/commit/<%= @commit.sha %>"><%= @commit.sha[0..6] %></a> <%= link_to "Changeset →", @commit.compare_url %></a></td>
+                <td align="right" class="grey"><a href="<%= Travis.config.github.url %>/<%= @repository.slug -%>/commit/<%= @commit.sha %>"><%= @commit.sha[0..6] %></a> <%= link_to "Changeset →", @commit.compare_url %></a></td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
