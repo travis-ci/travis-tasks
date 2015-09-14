@@ -14,7 +14,7 @@ module Travis
   module Addons
     module Irc
       class Client
-        attr_accessor :channel, :socket, :ping_thread, :numeric_received
+        attr_accessor :channel, :socket, :ping_thread, :numeric_received, :connection_info
 
         def self.wrap_ssl(socket)
           ssl_context = OpenSSL::SSL::SSLContext.new
@@ -26,11 +26,12 @@ module Travis
         end
 
         def initialize(server, nick, options = {})
-          Travis.logger.info("Connecting to #{server} on port #{options[:port] || 6667} with nick #{nick}")
-
+          @connection_info = "host=#{server} port=#{options[:port] || 6667} nick=#{nick} protocol=#{options[:ssl] ? 'ircs' : 'irc'}"
           @socket = TCPSocket.open(server, options[:port] || 6667)
           @socket = self.class.wrap_ssl(@socket) if options[:ssl]
           @ping_thread = start_ping_thread
+
+          Travis.logger.info("task=irc message=connection_init #{connection_info}")
 
           socket.puts "PASS #{options[:password]}\r" if options[:password]
           socket.puts "NICK #{nick}\r"
@@ -46,7 +47,7 @@ module Travis
             end
           end
         rescue Timeout::Error => e
-          Travis.logger.warn("Gave up waiting for #{server}:#{options[:port] || 6667} to return a numeric")
+          Travis.logger.warn("task=irc message=conntection_timeout #{connection_info}")
         end
 
         def join(channel, key = nil)
@@ -68,7 +69,11 @@ module Travis
 
         def quit
           socket.puts "QUIT\r"
-          socket.gets until socket.eof?
+          until socket.eof? do
+            res = socket.gets
+            log_level = res.split[1] =~ /[45]\d\d/ ? ERROR : DEBUG
+            Travis.logger.log("task=irc message=#{res}")
+          end
           socket.close
           ping_thread.exit
         end
