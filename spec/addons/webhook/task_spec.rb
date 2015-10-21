@@ -64,35 +64,6 @@ describe Travis::Addons::Webhook::Task do
     http.verify_stubbed_calls
   end
 
-  describe "handling errors" do
-    it "doesn't raise on an invalid URI" do
-      expect {
-        subject.new(payload, targets: ["https://s3-eu-west-1.amazonaws.com/wunderlist-api-test-results/results/%{branch}/%{build_number}/rspec.html"]).run
-      }.not_to raise_error
-    end
-
-    it "delivers working webhooks before raising" do
-      targets = ['http://one.webhook.com/path', 'http://second.webhook.com/path']
-
-      targets.each do |url|
-        uri = URI.parse(url)
-        http.post uri.path do |env|
-          if env[:url].host =~ /second/
-            raise Faraday::ConnectionFailed
-          else
-            [ 200, {}, 'shrimp' ]
-          end
-        end
-      end
-
-      expect {
-        run(targets)
-      }.to raise_error
-
-      http.verify_stubbed_calls
-    end
-  end
-
   def payload_from(env)
     JSON.parse(Rack::Utils.parse_query(env[:body])['payload'])
   end
