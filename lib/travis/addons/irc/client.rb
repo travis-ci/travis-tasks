@@ -71,8 +71,8 @@ module Travis
           socket.puts "QUIT\r"
           until socket.eof? do
             res = socket.gets
-            log_level = res.split[1] =~ /[45]\d\d/ ? ERROR : DEBUG
-            Travis.logger.log("task=irc message=#{res}")
+            log_level = res.split[1] =~ /[45]\d\d/ ? Logger::ERROR : Logger::DEBUG
+            Travis.logger.log(log_level, "task=irc message=#{res}")
           end
           socket.close
           ping_thread.exit
