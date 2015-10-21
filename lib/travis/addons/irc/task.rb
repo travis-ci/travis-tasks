@@ -60,11 +60,15 @@ module Travis
           # TODO move parsing irc urls to irc client class
           def parsed_channels
             channels.inject(Hash.new([])) do |servers, url|
-              uri = Addressable::URI.heuristic_parse(url, :scheme => 'irc')
-              ssl = uri.scheme == 'irc' ? nil : :ssl
-              servers[[uri.host, uri.port, ssl]] += [URI.decode(uri.fragment)]
-              servers
-            end
+              begin
+                uri = Addressable::URI.heuristic_parse(url, :scheme => 'irc')
+                ssl = uri.scheme == 'irc' ? nil : :ssl
+                servers[[uri.host, uri.port, ssl]] += [URI.decode(uri.fragment)]
+                servers
+              rescue
+                nil
+              end
+            end.compact
           end
 
           def notice?
