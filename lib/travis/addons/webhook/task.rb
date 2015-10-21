@@ -25,7 +25,7 @@ module Travis
             end
 
             if errors.any?
-              raise "task=webhook failures=#{errors.size} build=#{payload[:id]} errors=#{errors}"
+              error "task=webhook failures=#{errors.size} build=#{payload[:id]} errors=#{errors}"
             end
           end
 
