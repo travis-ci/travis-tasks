@@ -4,6 +4,9 @@ rvm:
   - jruby-1.7.22
   - jruby-head
 
+jdk:
+  - oraclejdk8
+
 sudo: false
 
 cache: bundler
