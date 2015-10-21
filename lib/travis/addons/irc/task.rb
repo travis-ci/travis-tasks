@@ -66,9 +66,9 @@ module Travis
                 servers[[uri.host, uri.port, ssl]] += [URI.decode(uri.fragment)]
                 servers
               rescue
-                nil
+                {}
               end
-            end.compact
+            end
           end
 
           def notice?
