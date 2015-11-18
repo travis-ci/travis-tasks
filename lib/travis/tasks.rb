@@ -12,7 +12,6 @@ require 'travis/task'
 require 'travis/addons'
 require 'travis/tasks/middleware/metriks'
 require 'travis/tasks/middleware/logging'
-require 'unlimited-jce-policy-jdk7'
 
 $stdout.sync = true
 
