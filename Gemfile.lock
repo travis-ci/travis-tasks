@@ -23,12 +23,6 @@ GIT
   specs:
     travis-support (0.0.1)
 
-GIT
-  remote: git://github.com/travis-ci/unlimited-jce-policy-jdk7.git
-  revision: 16230176b2b85f7c569550ce3544b273d77616ee
-  specs:
-    unlimited-jce-policy-jdk7 (0.1.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -219,5 +213,7 @@ DEPENDENCIES
   sidekiq (~> 2.17.0)
   travis-config (~> 0.1.0)
   travis-support!
-  unlimited-jce-policy-jdk7!
   webmock (~> 1.8.0)
+
+BUNDLED WITH
+   1.10.6
