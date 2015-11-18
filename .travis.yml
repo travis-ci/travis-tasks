@@ -20,6 +20,8 @@ notifications:
 matrix:
   include:
     - rvm: 2.2.2
+      jdk: oraclejdk8
   allow_failures:
     - rvm: jruby-head
     - rvm: 2.2.2
+      jdk: oraclejdk8
