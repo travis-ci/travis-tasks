@@ -65,8 +65,3 @@ end
 
 Travis::Metrics.setup
 Travis::Addons::Email.setup
-
-
-%w(AES DES RC2 RSA).each do |cipher|
-  puts "Maximum allowed key length for #{cipher}: #{javax.crypto::Cipher.getMaxAllowedKeyLength(cipher)}"
-end
