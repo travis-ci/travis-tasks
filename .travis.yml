@@ -1,11 +1,11 @@
 language: ruby
 
 rvm:
+  - 2.1.6
   - jruby-1.7.22
   - jruby-head
 
 jdk:
-  - openjdk7
   - oraclejdk8
 
 sudo: false
@@ -19,9 +19,10 @@ notifications:
 
 matrix:
   include:
-    - rvm: 2.1.6
-      jdk: oraclejdk8
-  allow_failures:
+    - rvm: jruby-1.7.22
+      jdk: openjdk7
     - rvm: jruby-head
-    - rvm: 2.1.6
-      jdk: oraclejdk8
+      jdk: openjdk7
+  allow_failures:
+    - rvm: jruby-1.7.22
+    - rvm: jruby-head
