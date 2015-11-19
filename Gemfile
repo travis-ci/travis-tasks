@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3', engine: 'jruby', engine_version: '1.7.22' if ENV.key?('DYNO')
+ruby '2.1.6' if ENV.key?('DYNO')
 
 gem 'travis-support',  github: 'travis-ci/travis-support'
 gem 'travis-config',  '~> 0.1.0'
-gem 'unlimited-jce-policy-jdk7', github: 'travis-ci/unlimited-jce-policy-jdk7'
 
 gem 'sidekiq',         '~> 2.17.0'
 gem 'gh',              github: 'travis-ci/gh'
@@ -18,6 +17,7 @@ gem 'metriks'
 gem 'metriks-librato_metrics'
 gem 'multi_json'
 gem 'pusher', '~> 0.14.5'
+gem 'jemalloc'
 
 group :test do
   gem 'rspec',        '~> 2.14.0'

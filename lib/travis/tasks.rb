@@ -3,7 +3,6 @@ $:.unshift(File.expand_path('..', File.dirname(__FILE__)))
 require 'bundler/setup'
 require 'gh'
 require 'roadie'
-require 'roadie/action_mailer_extensions'
 require 'ostruct'
 require 'metriks/librato_metrics_reporter'
 require 'travis/tasks/error_handler'
@@ -13,7 +12,6 @@ require 'travis/task'
 require 'travis/addons'
 require 'travis/tasks/middleware/metriks'
 require 'travis/tasks/middleware/logging'
-require 'unlimited-jce-policy-jdk7'
 
 $stdout.sync = true
 
@@ -61,18 +59,9 @@ module Roadie
   end
 end
 
-ActiveSupport.on_load(:action_mailer) do
-  include Roadie::ActionMailerExtensions
-end
-
 if Travis.config.sentry
   Travis::Exceptions::Reporter.start
 end
 
 Travis::Metrics.setup
 Travis::Addons::Email.setup
-
-
-%w(AES DES RC2 RSA).each do |cipher|
-  puts "Maximum allowed key length for #{cipher}: #{javax.crypto::Cipher.getMaxAllowedKeyLength(cipher)}"
-end
