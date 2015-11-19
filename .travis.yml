@@ -2,11 +2,6 @@ language: ruby
 
 rvm:
   - 2.1.6
-  - jruby-1.7.22
-  - jruby-head
-
-jdk:
-  - oraclejdk8
 
 sudo: false
 
@@ -16,13 +11,3 @@ script: bundle exec rspec -fs --color --order rand spec
 
 notifications:
   webhooks: http://requestb.in/14h19sy1
-
-matrix:
-  include:
-    - rvm: jruby-1.7.22
-      jdk: openjdk7
-    - rvm: jruby-head
-      jdk: openjdk7
-  allow_failures:
-    - rvm: jruby-1.7.22
-    - rvm: jruby-head
