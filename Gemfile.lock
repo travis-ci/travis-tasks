@@ -90,6 +90,7 @@ GEM
     hitimes (1.2.3)
     httpclient (2.7.0.1)
     i18n (0.7.0)
+    jemalloc (1.0.1)
     jmespath (1.1.3)
     journey (1.0.4)
     json (1.8.3)
@@ -193,6 +194,7 @@ DEPENDENCIES
   gh!
   guard
   guard-rspec
+  jemalloc
   metriks
   metriks-librato_metrics
   mocha (~> 0.10.0)
@@ -207,3 +209,6 @@ DEPENDENCIES
   travis-config (~> 0.1.0)
   travis-support!
   webmock (~> 1.8.0)
+
+BUNDLED WITH
+   1.10.5
