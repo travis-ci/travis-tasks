@@ -50,6 +50,9 @@ module Travis
             end
           rescue GH::Error(:response_status => 401)
             nil
+          rescue GH::Error(:response_status => 422)
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=422 reason=maximum_number_of_statuses")
+            nil
           rescue GH::Error => e
             message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} message=#{e.message}"
             error(message)
@@ -99,4 +102,3 @@ module Travis
     end
   end
 end
-
