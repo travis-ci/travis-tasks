@@ -33,7 +33,7 @@ module Travis
              sidekiq: { namespace: "sidekiq", pool_size: 3 },
              smtp:    { },
              ssl:     { },
-             pusher:  { },
+             pusher:  { secure: false },
              email:   { },
              assets:  { host: HOSTS[Travis.env.to_sym] }
 
