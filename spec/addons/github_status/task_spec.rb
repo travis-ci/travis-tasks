@@ -63,6 +63,16 @@ describe Travis::Addons::GithubStatus::Task do
     subject.new(payload, token: '12345').run
   end
 
+  it 'does not raise if a 422 error was raised by GH' do
+    error = { response_status: 422 }
+    GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
+    expect {
+      run
+    }.not_to raise_error
+    io.string.should include('response_status=422')
+    io.string.should include('reason=maximum_number_of_statuses')
+  end
+
   describe 'logging' do
     it 'warns about a failed request' do
       GH.stubs(:post).raises(GH::Error.new(nil))
@@ -74,7 +84,7 @@ describe Travis::Addons::GithubStatus::Task do
     end
 
     it "doesn't raise an error with bad credentials" do
-      error = {response_status: 401}
+      error = { response_status: 401 }
       GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
       expect {
         run
@@ -82,4 +92,3 @@ describe Travis::Addons::GithubStatus::Task do
     end
   end
 end
-
