@@ -48,7 +48,7 @@ GH.set(
   client_secret:  Travis.config.oauth2.try(:client_secret),
   origin:         Travis.config.host,
   api_url:        Travis.config.github.api_url,
-  ssl:            Travis.config.ssl.merge(Travis.config.github.ssl || {}).to_hash.compact,
+  ssl:            Travis.config.ssl.to_h.merge(Travis.config.github.ssl || {}).to_h.compact,
   user_agent:     "Travis-CI GH/#{GH::VERSION}"
 )
 
