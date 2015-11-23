@@ -96,8 +96,8 @@ describe Travis::Addons::Pusher::Task do
 
     describe 'for a public repo' do
       describe 'with config.pusher.secure being false' do
-        before :each do
-          Travis.config.pusher.stubs(:secure?).returns(false)
+        before do
+          Travis.config.pusher.secure = false
         end
 
         describe 'build event' do
@@ -128,8 +128,8 @@ describe Travis::Addons::Pusher::Task do
       end
 
       describe 'with config.pusher.secure being true' do
-        before :each do
-          Travis.config.pusher.stubs(:secure?).returns(true)
+        before do
+          Travis.config.pusher.secure = true
         end
 
         describe 'build event' do
