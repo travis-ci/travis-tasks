@@ -63,7 +63,7 @@ describe Travis::Addons::GithubStatus::Task do
     subject.new(payload, token: '12345').run
   end
 
-  it 'does not raise if a 422 error was raised by GH' do
+  it 'does not raise if a 422 error was returned by GH' do
     error = { response_status: 422 }
     GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
     expect {
@@ -71,6 +71,16 @@ describe Travis::Addons::GithubStatus::Task do
     }.not_to raise_error
     io.string.should include('response_status=422')
     io.string.should include('reason=maximum_number_of_statuses')
+  end
+
+  it 'does not raise if a 404 error was returned by GH' do
+    error = { response_status: 404 }
+    GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
+    expect {
+      run
+    }.not_to raise_error
+    io.string.should include('response_status=404')
+    io.string.should include('reason=repo_not_found_or_incorrect_auth')
   end
 
   describe 'logging' do
