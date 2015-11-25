@@ -25,6 +25,13 @@ module Travis
             data['job'] = payload['id'] if params['event'] && params['event'] =~ /^job/
             data['time'] = "%.3f" % (time/1000) if time
             data['jid'] = message['jid']
+
+            if payload['pull_request']
+              data['pull_request'] = 'yes'
+              data['pull_request_number'] = payload['pull_request_number']
+            else
+              data['pull_request'] = 'no'
+            end
           end
           log(data)
         end
