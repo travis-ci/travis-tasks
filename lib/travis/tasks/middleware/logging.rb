@@ -25,9 +25,9 @@ module Travis
             data['time'] = "%.3f" % (time/1000) if time
             data['jid'] = message['jid']
 
-            if payload['pull_request']
+            if payload['build'] && payload['build']['pull_request']
               data['event'] = 'pull_request'
-              data['pull_request_number'] = payload['pull_request_number']
+              data['pull_request_number'] = payload['build']['pull_request_number']
             else
               data['event'] = 'push'
             end
