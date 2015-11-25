@@ -1,23 +1,4 @@
 GIT
-  remote: git://github.com/jamesgolick/rollout.git
-  revision: 3e7312cc018061b1ac6a8aeb9f11bbd0331da889
-  ref: v1.1.0
-  specs:
-    rollout (1.1.0)
-
-GIT
-  remote: git://github.com/travis-ci/gh.git
-  revision: 27e30fd01f6d5144d8d7d0c88db7875b95ed8939
-  specs:
-    gh (0.14.0)
-      addressable
-      backports
-      faraday (~> 0.8)
-      multi_json (~> 1.0)
-      net-http-persistent (>= 2.7)
-      net-http-pipeline
-
-GIT
   remote: git://github.com/travis-ci/travis-support.git
   revision: 2cd02d2a06fdd1e2fc2f129148c168b56f7c190f
   specs:
@@ -49,12 +30,12 @@ GEM
     atomic (1.1.99)
     avl_tree (1.2.1)
       atomic (~> 1.1)
-    aws-sdk (2.2.1)
-      aws-sdk-resources (= 2.2.1)
-    aws-sdk-core (2.2.1)
+    aws-sdk (2.2.3)
+      aws-sdk-resources (= 2.2.3)
+    aws-sdk-core (2.2.3)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.2.1)
-      aws-sdk-core (= 2.2.1)
+    aws-sdk-resources (2.2.3)
+      aws-sdk-core (= 2.2.3)
     backports (3.6.7)
     builder (3.0.4)
     coderay (1.1.0)
@@ -72,6 +53,13 @@ GEM
     foreman (0.78.0)
       thor (~> 0.19.1)
     formatador (0.2.5)
+    gh (0.14.0)
+      addressable
+      backports
+      faraday (~> 0.8)
+      multi_json (~> 1.0)
+      net-http-persistent (>= 2.7)
+      net-http-pipeline
     guard (2.13.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, <= 4.0)
@@ -117,7 +105,6 @@ GEM
     nenv (0.2.0)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
-    newrelic_rpm (3.3.5)
     nokogiri (1.6.6.4)
       mini_portile (~> 0.6.0)
     notiffany (0.0.8)
@@ -188,7 +175,7 @@ DEPENDENCIES
   actionmailer (~> 3.2.18)
   aws-sdk
   foreman
-  gh!
+  gh
   guard
   guard-rspec
   jemalloc
@@ -196,11 +183,9 @@ DEPENDENCIES
   metriks-librato_metrics
   mocha (~> 0.10.0)
   multi_json
-  newrelic_rpm (~> 3.3.2)
   pusher (~> 0.14.5)
   redis-namespace
   roadie
-  rollout!
   rspec (~> 2.14.0)
   sentry-raven
   sidekiq (~> 4.0.0)
