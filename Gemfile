@@ -17,7 +17,6 @@ gem 'aws-sdk'
 gem 'actionmailer',    '~> 3.2.18'
 gem 'roadie'
 gem 'multi_json'
-gem 'pusher',          '~> 0.14.5'
 
 group :test do
   gem 'rspec',         '~> 2.14.0'
