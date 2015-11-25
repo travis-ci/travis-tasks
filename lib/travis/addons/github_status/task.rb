@@ -96,7 +96,7 @@ module Travis
 
           def headers
             {
-              "Accept" => "application/vnd.github.she-hulk-preview+json"
+              "Accept" => "application/vnd.github.v3+json"
             }
           end
       end
