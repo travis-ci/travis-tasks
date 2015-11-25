@@ -1,20 +1,8 @@
 require 'travis/config'
-require 'pusher'
 
 module Travis
   def self.config
     @config ||= Tasks::Config.load
-  end
-
-  def self.pusher
-    @pusher ||= ::Pusher.tap do |pusher|
-      pusher.scheme = config.pusher.scheme if config.pusher.scheme.present?
-      pusher.host   = config.pusher.host   if config.pusher.host.present?
-      pusher.port   = config.pusher.port   if config.pusher.port.present?
-      pusher.app_id = config.pusher.app_id
-      pusher.key    = config.pusher.key
-      pusher.secret = config.pusher.secret
-    end
   end
 
   module Tasks
@@ -33,7 +21,6 @@ module Travis
              sidekiq: { namespace: "sidekiq", pool_size: 3 },
              smtp:    { },
              ssl:     { },
-             pusher:  { },
              email:   { },
              assets:  { host: HOSTS[Travis.env.to_sym] }
 
