@@ -30,7 +30,7 @@ module Travis
         end
 
         def log(data)
-          Travis.logger.info(data.map {|k, v| "#{k}=#{v}"}.join(" "))
+          Travis.logger.info(data.map {|k, v| "#{k}=#{v}" if v}.join(" "))
         end
       end
     end
