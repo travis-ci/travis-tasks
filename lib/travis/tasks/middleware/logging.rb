@@ -20,17 +20,23 @@ module Travis
               data['repo'] = payload['repository']['slug']
             end
 
-            data['event'] = params['event'] if params['event']
             data['uuid'] = uuid
             data['job'] = payload['id'] if params['event'] && params['event'] =~ /^job/
             data['time'] = "%.3f" % (time/1000) if time
             data['jid'] = message['jid']
+
+            if payload['build'] && payload['build']['pull_request']
+              data['event'] = 'pull_request'
+              data['pull_request_number'] = payload['build']['pull_request_number']
+            else
+              data['event'] = 'push'
+            end
           end
           log(data)
         end
 
         def log(data)
-          Travis.logger.info(data.map {|k, v| "#{k}=#{v}"}.join(" "))
+          Travis.logger.info(data.map {|k, v| "#{k}=#{v}" if v}.join(" "))
         end
       end
     end
