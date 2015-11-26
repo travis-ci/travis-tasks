@@ -35,7 +35,7 @@ module Travis
           end
 
           def roadie_options
-            {}
+            Roadie::Rails::Options.new
           end
 
           private
