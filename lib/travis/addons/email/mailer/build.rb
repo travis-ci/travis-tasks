@@ -1,4 +1,5 @@
 require 'action_mailer'
+require 'roadie-rails'
 
 module Travis
   module Addons
