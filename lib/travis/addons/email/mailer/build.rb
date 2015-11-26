@@ -5,6 +5,7 @@ module Travis
     module Email
       module Mailer
         class Build < ActionMailer::Base
+          include Roadie::Rails::Automatic
 
           helper Mailer::Helpers
 
