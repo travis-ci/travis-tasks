@@ -34,6 +34,10 @@ module Travis
             nil
           end
 
+          def roadie_options
+            {}
+          end
+
           private
 
             def subject
