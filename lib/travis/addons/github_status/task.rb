@@ -49,6 +49,12 @@ module Travis
               GH.post(url, :state => state, :description => description, :target_url => target_url, :context => context)
             end
           rescue GH::Error(:response_status => 401)
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=401 reason=incorrect_auth")
+            nil
+          rescue GH::Error(:response_status => 403)
+            raise if Travis.config.env == 'production'
+          rescue GH::Error(:response_status => 404)
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=404 reason=repo_not_found_or_incorrect_auth")
             nil
           rescue GH::Error(:response_status => 422)
             error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=422 reason=maximum_number_of_statuses")
@@ -56,12 +62,7 @@ module Travis
           rescue GH::Error => e
             message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} message=#{e.message}"
             error(message)
-            response_status = e.info[:response_status]
-            case response_status
-            when 401, 422, 404
-            else
-              raise message
-            end
+            raise message
           end
 
           def target_url
@@ -95,7 +96,7 @@ module Travis
 
           def headers
             {
-              "Accept" => "application/vnd.github.she-hulk-preview+json"
+              "Accept" => "application/vnd.github.v3+json"
             }
           end
       end

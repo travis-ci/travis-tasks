@@ -1,3 +1,5 @@
+require 'active_support/core_ext/string/inflections'
+
 module Travis
   module Tasks
     module Middleware
@@ -7,9 +9,10 @@ module Travis
             yield
           end
         ensure
-          uuid, _, _, payload, params = *message['args']
+          uuid, notifier, _, payload, params = *message['args']
           data = Hash.new.tap do |data|
-            data['type'] = queue
+            data['queue'] = queue
+            data['notifier'] = notifier.to_s.underscore.split('/')[2]
             if payload['build']
               data['build'] = payload['build']['id']
             elsif message['build_id']
