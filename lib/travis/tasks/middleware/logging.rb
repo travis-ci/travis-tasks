@@ -10,7 +10,8 @@ module Travis
           uuid, notifier, _, payload, params = *message['args']
           data = Hash.new.tap do |data|
             data['queue'] = queue
-            date['notifier'] = notifier.to_s.split('::')[2]
+            puts notifier
+            date['notifier'] = notifier.to_s.downcase.split('::')[2]
             if payload['build']
               data['build'] = payload['build']['id']
             elsif message['build_id']
