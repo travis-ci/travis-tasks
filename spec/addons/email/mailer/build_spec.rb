@@ -88,11 +88,6 @@ describe Travis::Addons::Email::Mailer::Build do
         html.should include("まつもとゆきひろ a.k.a. Matz")
       end
 
-      it 'includes the build footer' do
-        email.deliver # inline css interceptor is called before delivery.
-        email.html_part.decoded.should =~ %r(<div class="tiny-footer">)
-      end
-
       describe 'with the footer disabled' do
         before do
           Travis.config.build_email_footer = false

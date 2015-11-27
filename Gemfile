@@ -7,15 +7,16 @@ gem 'travis-config',   '~> 1.0.0'
 
 gem 'sidekiq',         '~> 4.0.0'
 gem 'redis-namespace'
-gem 'gh'
 gem 'sentry-raven'
 gem 'metriks'
 gem 'metriks-librato_metrics'
 gem 'jemalloc'
 
+gem 'gh'
 gem 'aws-sdk'
 gem 'actionmailer',    '~> 3.2.18'
 gem 'roadie'
+gem 'roadie-rails',    '~> 1.0'
 gem 'multi_json'
 
 group :test do
