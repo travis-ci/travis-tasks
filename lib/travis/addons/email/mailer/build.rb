@@ -1,10 +1,12 @@
 require 'action_mailer'
+require 'roadie-rails'
 
 module Travis
   module Addons
     module Email
       module Mailer
         class Build < ActionMailer::Base
+          include Roadie::Rails::Automatic
 
           helper Mailer::Helpers
 
@@ -30,6 +32,10 @@ module Travis
 
           def url_options
             nil
+          end
+
+          def roadie_options
+            Roadie::Rails::Options.new
           end
 
           private
