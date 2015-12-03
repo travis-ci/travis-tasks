@@ -43,6 +43,10 @@ Sidekiq.configure_server do |config|
   end
 end
 
+class Travis::Async::Sidekiq::Worker
+  sidekiq_options retry: Travis.config.sidekiq.retry
+end
+
 GH.set(
   client_id:      Travis.config.oauth2.try(:client_id),
   client_secret:  Travis.config.oauth2.try(:client_secret),
