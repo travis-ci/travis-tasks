@@ -44,7 +44,7 @@ Sidekiq.configure_server do |config|
 end
 
 class Travis::Async::Sidekiq::Worker
-  sidekiq_options retry: Travis.config.sidekiq.retry
+  sidekiq_options retry: Travis.config.sidekiq.retry, dead: false
 end
 
 GH.set(
