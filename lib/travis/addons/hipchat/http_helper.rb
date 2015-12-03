@@ -31,7 +31,7 @@ module Travis
             @headers = {}
           when API_V2_TOKEN_LENGTH
             @api_version = 'v2'
-            @url = 'https://%s/v2/room/%s/notification?auth_token=%s' % [ @hostname, encode(room_id), token]
+            @url = 'https://%s/v2/room/%s/notification?auth_token=%s' % [ @hostname, encode(@room_id), token]
             @headers = { 'Content-type' => 'application/json' }
           end
         end
