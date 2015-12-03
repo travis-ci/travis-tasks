@@ -27,7 +27,7 @@ module Travis
             branch:                data[:commit][:branch],
             commit:                data[:commit][:sha][0..6],
             author:                data[:commit][:author_name],
-            commit_subject:        commit_subject, 
+            commit_subject:        commit_subject,
             commit_message:        data[:commit][:message],
             result:                data[:build][:state].to_s,
             duration:              seconds_to_duration(data[:build][:duration]),
@@ -80,7 +80,7 @@ module Travis
           end
 
           def seconds_to_duration(seconds)
-            (seconds / 60).floor.to_s + ' min ' + seconds.modulo(60).to_s + ' sec'
+            (seconds.to_i / 60).floor.to_s + ' min ' + seconds.modulo(60).to_s + ' sec'
           end
       end
     end
