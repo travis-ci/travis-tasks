@@ -40,11 +40,8 @@ Sidekiq.configure_server do |config|
 
     chain.remove(Sidekiq::Middleware::Server::Logging)
     chain.add(Travis::Tasks::ErrorHandler)
+    chain.add Sidekiq::Middleware::Server::RetryJobs, :max_retries => Travis.config.sidekiq.retry
   end
-end
-
-class Travis::Async::Sidekiq::Worker
-  sidekiq_options retry: Travis.config.sidekiq.retry, dead: false
 end
 
 GH.set(
