@@ -36,6 +36,9 @@ module Travis
       timeout after: params[:timeout] || 60 do
         process
       end
+    rescue Timeout::Error => e
+      error "error=timeout repository=#{slug} build_url=#{build_url}"
+      raise e
     end
 
     private
