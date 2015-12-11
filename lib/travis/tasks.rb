@@ -22,6 +22,7 @@ if Travis.config.sentry.dsn
 
     config.current_environment = Travis.env
     config.environments = ["staging", "production"]
+    config.excluded_exceptions = ['Timeout::Error']
   end
 end
 
