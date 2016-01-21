@@ -27,7 +27,10 @@ module Travis
             headers['Travis-CI-Repository'] = repository.slug
             headers['Travis-CI-Result'] = result_message.short.downcase
 
-            mail(from: from, to: recipients, subject: subject, template_path: 'build')
+
+            recipients.each do |recipient|
+              mail(from: from, to: recipient, subject: subject, template_path: 'build')
+            end
           end
 
           def url_options
