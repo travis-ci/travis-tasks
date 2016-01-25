@@ -80,7 +80,8 @@ module Travis
           end
 
           def seconds_to_duration(seconds)
-            (seconds.to_i / 60).floor.to_s + ' min ' + seconds.modulo(60).to_s + ' sec'
+            sec = seconds.to_i
+            (sec / 60).floor.to_s + ' min ' + sec.modulo(60).to_s + ' sec'
           end
       end
     end
