@@ -14,7 +14,7 @@ module Travis
         def message
           @message ||= Util::Template.new(template, payload).interpolate
         end
-        
+
         def users
           params[:users]
         end
@@ -22,11 +22,11 @@ module Travis
         def api_key
           params[:api_key]
         end
-        
+
         private
 
-          def process
-            token = api_key        
+          def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
+            token = api_key
             users.each { |user| send_message(user, message, token) }
           end
 

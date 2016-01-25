@@ -25,7 +25,7 @@ module Travis
 
         private
 
-          def process
+          def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
             targets.each do |target|
               helper = HttpHelper.new(target)
               if helper.url.nil?

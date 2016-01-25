@@ -42,7 +42,7 @@ module Travis
 
         private
 
-          def process
+          def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
             targets.each { |target| send_message(target) }
           end
 

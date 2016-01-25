@@ -12,6 +12,8 @@ module Travis
 
     class_attribute :run_local
 
+    DEFAULT_TIMEOUT = 60
+
     class << self
       extend Exceptions::Handling
 
@@ -32,9 +34,7 @@ module Travis
     end
 
     def run
-      timeout after: params[:timeout] || 60 do
-        process
-      end
+      process(params[:timeout])
     end
 
     private
@@ -78,10 +78,6 @@ module Travis
 
       def http_options
         { ssl: Travis.config.ssl.compact }
-      end
-
-      def timeout(options = { after: 60 }, &block)
-        Timeout::timeout(options[:after], &block)
       end
   end
 end

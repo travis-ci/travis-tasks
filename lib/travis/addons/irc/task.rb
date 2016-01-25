@@ -25,7 +25,7 @@ module Travis
 
         private
 
-          def process
+          def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
             # Notifications to the same host are grouped so that they can be sent with a single connection
             parsed_channels.each do |server, channels|
               host, port, ssl = *server
