@@ -27,16 +27,17 @@ module Travis
 
           def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
             token = api_key
-            users.each { |user| send_message(user, message, token) }
+            users.each { |user| send_message(user, message, token, timeout) }
           end
 
-          def send_message(user, message, token)
+          def send_message(user, message, token, timeout)
             # this is roughly per https://pushover.net/faq#library-ruby
             msg_h = {:token => token, :user => user, :message => message}
             if is_failure
               msg_h[:sound] = 'falling'
             end
             http.post("https://api.pushover.net/1/messages.json") do |r|
+              r.options.timeout = timeout
               r.body = msg_h
             end
           rescue => e

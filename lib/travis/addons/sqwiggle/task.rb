@@ -28,12 +28,13 @@ module Travis
 
         def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
           targets.each do |target|
-            send_message(*parse(target))
+            send_message(*parse(target), timeout)
           end
         end
 
-        def send_message(url, stream_id)
+        def send_message(url, stream_id, timeout)
           http.post(url) do |r|
+            r.options.timeout = timeout
             r.body = MultiJson.encode(sqwiggle_payload(stream_id))
             r.headers['Content-Type'] = 'application/json'
           end

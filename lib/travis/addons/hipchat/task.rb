@@ -33,14 +33,15 @@ module Travis
                 next
               end
 
-              send_message(helper, message)
+              send_message(helper, message, timeout = timeout)
 
             end
           end
 
-          def send_message(helper, message)
+          def send_message(helper, message, timeout)
             message.each do |line|
               response = http.post(helper.url) do |r|
+                r.options.timeout = timeout
                 r.body = helper.body(line: line, color: color, message_format: message_format, notify: notify)
                 helper.add_content_type!(r.headers)
               end

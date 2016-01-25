@@ -26,19 +26,20 @@ module Travis
         private
 
           def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
-            targets.each { |target| send_message(target, message) }
+            targets.each { |target| send_message(target, message, timeout) }
           end
 
-          def send_message(target, lines)
+          def send_message(target, lines, timeout)
             url, token = parse(target)
             http.basic_auth(token, 'X')
-            lines.each { |line| send_line(url, line) }
+            lines.each { |line| send_line(url, line, timeout) }
           rescue => e
             Travis.logger.info("Error connecting to Campfire service for #{target}: #{e.message}")
           end
 
-          def send_line(url, line)
+          def send_line(url, line, timeout)
             http.post(url) do |r|
+              r.options.timeout = timeout
               r.body = MultiJson.encode({ message: { body: line } })
               r.headers['Content-Type'] = 'application/json'
             end
