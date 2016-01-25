@@ -34,7 +34,7 @@ module Travis
     end
 
     def run
-      process(params[:timeout])
+      process(params[:timeout] || DEFAULT_TIMEOUT)
     end
 
     private

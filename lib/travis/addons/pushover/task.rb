@@ -25,7 +25,7 @@ module Travis
 
         private
 
-          def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
+          def process(timeout)
             token = api_key
             users.each { |user| send_message(user, message, token, timeout) }
           end

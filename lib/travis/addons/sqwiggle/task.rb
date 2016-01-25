@@ -26,7 +26,7 @@ module Travis
           (config[:template] rescue nil) || DEFAULT_TEMPLATE
         end
 
-        def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
+        def process(timeout)
           targets.each do |target|
             send_message(*parse(target), timeout)
           end

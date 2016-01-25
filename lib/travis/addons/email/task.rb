@@ -20,7 +20,7 @@ module Travis
 
         private
 
-          def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
+          def process(timeout)
             if recipients.any?
               Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
               info "type=email status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"

@@ -6,7 +6,7 @@ module Travis
         BRANCH_BUILD_MESSAGE_TEMPLATE = "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}"
         PULL_REQUEST_MESSAGE_TEMPLATE = "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} in PR <%{pull_request_url}|#%{pull_request_number}> by %{author} %{result} in %{duration}"
 
-        def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
+        def process(timeout)
           targets.each do |target|
             if illegal_format?(target)
               warn "task=slack build=#{payload[:id]} result=invalid_target target=#{target}"

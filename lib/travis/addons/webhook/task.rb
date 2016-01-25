@@ -12,7 +12,7 @@ module Travis
 
         private
 
-          def process(timeout = Travis::Task::DEFAULT_TIMEOUT)
+          def process(timeout)
             errors = {}
 
             Array(targets).each do |target|
