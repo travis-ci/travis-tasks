@@ -18,6 +18,9 @@ module Travis
             Array(targets).each do |target|
               begin
                 send_webhook(target)
+              rescue Faraday::TimeoutError => e
+                error "task=webhook status=failed url=#{target}"
+                errors[target] = e.message
               rescue => e
                 error "task=webhook status=failed url=#{target}"
                 errors[target] = e.message
