@@ -22,6 +22,7 @@ if Travis.config.sentry.dsn
 
     config.current_environment = Travis.env
     config.environments = ["staging", "production"]
+    config.excluded_exceptions = ['Timeout::Error']
   end
 end
 
@@ -40,6 +41,7 @@ Sidekiq.configure_server do |config|
 
     chain.remove(Sidekiq::Middleware::Server::Logging)
     chain.add(Travis::Tasks::ErrorHandler)
+    chain.add Sidekiq::Middleware::Server::RetryJobs, :max_retries => Travis.config.sidekiq.retry
   end
 end
 
