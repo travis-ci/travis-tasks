@@ -18,7 +18,7 @@ module Travis
              redis:   { url: "redis://localhost:6379" },
              sentry:  { },
              metrics: { reporter: 'librato' },
-             sidekiq: { namespace: "sidekiq", pool_size: 3 },
+             sidekiq: { namespace: "sidekiq", pool_size: 3, retry: 4 },
              smtp:    { },
              ssl:     { },
              email:   { },

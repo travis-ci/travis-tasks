@@ -18,6 +18,7 @@ module Travis
       extend Exceptions::Handling
 
       def run(queue, *args)
+        info "async_options: #{async_options(queue)}; args: #{args}"
         Travis::Async.run(self, :perform, async_options(queue), *args)
       end
 
@@ -41,6 +42,14 @@ module Travis
 
       def repository
         @repository ||= payload[:repository]
+      end
+
+      def slug
+        @slug ||= payload.values_at(:owner_name, :name).join("/")
+      end
+
+      def build_url
+        @build_url ||= payload[:build_url]
       end
 
       def job
