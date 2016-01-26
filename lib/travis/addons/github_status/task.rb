@@ -28,7 +28,7 @@ module Travis
 
         private
 
-          def process
+          def process(timeout)
             info("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha}")
 
             tokens.each do |username, token|

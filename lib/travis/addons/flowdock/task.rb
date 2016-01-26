@@ -42,7 +42,7 @@ module Travis
 
         private
 
-          def process
+          def process(timeout)
             targets.each { |target| send_message(target) }
           end
 

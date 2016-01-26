@@ -14,7 +14,7 @@ module Travis
         def message
           @message ||= Util::Template.new(template, payload).interpolate
         end
-        
+
         def users
           params[:users]
         end
@@ -22,21 +22,22 @@ module Travis
         def api_key
           params[:api_key]
         end
-        
+
         private
 
-          def process
-            token = api_key        
-            users.each { |user| send_message(user, message, token) }
+          def process(timeout)
+            token = api_key
+            users.each { |user| send_message(user, message, token, timeout) }
           end
 
-          def send_message(user, message, token)
+          def send_message(user, message, token, timeout)
             # this is roughly per https://pushover.net/faq#library-ruby
             msg_h = {:token => token, :user => user, :message => message}
             if is_failure
               msg_h[:sound] = 'falling'
             end
             http.post("https://api.pushover.net/1/messages.json") do |r|
+              r.options.timeout = timeout
               r.body = msg_h
             end
           rescue => e
