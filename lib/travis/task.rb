@@ -12,10 +12,13 @@ module Travis
 
     class_attribute :run_local
 
+    DEFAULT_TIMEOUT = 60
+
     class << self
       extend Exceptions::Handling
 
       def run(queue, *args)
+        info "async_options: #{async_options(queue)}; args: #{args}"
         Travis::Async.run(self, :perform, async_options(queue), *args)
       end
 
@@ -32,15 +35,21 @@ module Travis
     end
 
     def run
-      timeout after: params[:timeout] || 60 do
-        process
-      end
+      process(params[:timeout] || DEFAULT_TIMEOUT)
     end
 
     private
 
       def repository
         @repository ||= payload[:repository]
+      end
+
+      def slug
+        @slug ||= payload.values_at(:owner_name, :name).join("/")
+      end
+
+      def build_url
+        @build_url ||= payload[:build_url]
       end
 
       def job
@@ -78,10 +87,6 @@ module Travis
 
       def http_options
         { ssl: Travis.config.ssl.compact }
-      end
-
-      def timeout(options = { after: 60 }, &block)
-        Timeout::timeout(options[:after], &block)
       end
   end
 end

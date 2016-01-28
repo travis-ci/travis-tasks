@@ -12,12 +12,12 @@ module Travis
 
         private
 
-          def process
+          def process(timeout)
             errors = {}
 
             Array(targets).each do |target|
               begin
-                send_webhook(target)
+                send_webhook(target, timeout)
               rescue => e
                 error "task=webhook status=failed url=#{target}"
                 errors[target] = e.message
@@ -29,8 +29,9 @@ module Travis
             end
           end
 
-          def send_webhook(target)
+          def send_webhook(target, timeout)
             response = http.post(target) do |req|
+              req.options.timeout = timeout
               req.body = { payload: payload.except(:params).to_json }
               uri = URI(target)
               if uri.user && uri.password

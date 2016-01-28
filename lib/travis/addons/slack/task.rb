@@ -6,12 +6,12 @@ module Travis
         BRANCH_BUILD_MESSAGE_TEMPLATE = "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}"
         PULL_REQUEST_MESSAGE_TEMPLATE = "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} in PR <%{pull_request_url}|#%{pull_request_number}> by %{author} %{result} in %{duration}"
 
-        def process
+        def process(timeout)
           targets.each do |target|
             if illegal_format?(target)
               warn "task=slack build=#{payload[:id]} result=invalid_target target=#{target}"
             else
-              send_message(target)
+              send_message(target, timeout)
             end
           end
         end
@@ -24,9 +24,10 @@ module Travis
           !target.match(/^[a-zA-Z0-9-]+:[a-zA-Z0-9_-]+(#.+)?$/)
         end
 
-        def send_message(target)
+        def send_message(target, timeout)
           url, channel = parse(target)
           http.post(url) do |request|
+            request.options.timeout = timeout
             request.body = MultiJson.encode(message(channel))
           end
         end
