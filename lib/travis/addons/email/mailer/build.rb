@@ -1,5 +1,6 @@
 require 'action_mailer'
 require 'roadie-rails'
+require 'active_support/hash_with_indifferent_access'
 
 module Travis
   module Addons
