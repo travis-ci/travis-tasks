@@ -75,7 +75,7 @@ module Travis
           return '?' if started_at.nil? || finished_at.nil?
           started_at  = Time.parse(started_at) if started_at.is_a?(String)
           finished_at = Time.parse(finished_at) if finished_at.is_a?(String)
-          (finished_at - started_at).to_i
+          seconds_to_duration((finished_at - started_at).to_i)
         end
 
         private
