@@ -1,4 +1,5 @@
 require 'core_ext/hash/deep_symbolize_keys'
+require 'time'
 
 module Travis
   module Addons
@@ -31,6 +32,7 @@ module Travis
             commit_message:        data[:commit][:message],
             result:                data[:build][:state].to_s,
             duration:              seconds_to_duration(data[:build][:duration]),
+            elapsed_time:          elapsed_time(data[:build][:started_at], data[:build][:finished_at]),
             message:               message,
             compare_url:           compare_url,
             build_url:             build_url,
@@ -67,6 +69,13 @@ module Travis
 
             short_urls? ? shorten_url(uri.to_s) : uri.to_s
           end
+        end
+
+        def elapsed_time(started_at, finished_at)
+          return '?' if started_at.nil? || finished_at.nil?
+          started_at  = Time.parse(started_at) if started_at.is_a?(String)
+          finished_at = Time.parse(finished_at) if finished_at.is_a?(String)
+          seconds_to_duration((finished_at - started_at).to_i)
         end
 
         private
