@@ -73,8 +73,8 @@ module Travis
 
         def elapsed_time(started_at, finished_at)
           return '?' if started_at.nil? || finished_at.nil?
-          started_at  = Time.parse(started_at) if started_at.is_a?(String)
-          finished_at = Time.parse(finished_at) if finished_at.is_a?(String)
+          started_at  = Time.parse(started_at)
+          finished_at = Time.parse(finished_at)
           seconds_to_duration((finished_at - started_at).to_i)
         end
 
