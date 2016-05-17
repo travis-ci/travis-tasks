@@ -65,5 +65,7 @@ if Travis.config.sentry
   Travis::Exceptions::Reporter.start
 end
 
+Travis.logger.info("Tasks started with Ciphers: #{OpenSSL::Cipher.ciphers.sort}")
+
 Travis::Metrics.setup
 Travis::Addons::Email.setup
