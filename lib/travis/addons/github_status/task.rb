@@ -91,7 +91,7 @@ module Travis
           end
 
           def http_options(token)
-            super().merge(token: token, headers: headers)
+            super().merge(token: token, headers: headers, ssl: (Travis.config.github.ssl || {}).to_hash.compact)
           end
 
           def headers
