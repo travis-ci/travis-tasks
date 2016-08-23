@@ -36,8 +36,22 @@ describe Travis::Addons::Webhook::Task do
     http.verify_stubbed_calls
   end
 
-  it 'posts with automatically-parsed basic auth credentials' do
-    url = 'https://Aladdin:open%20sesame@fancy.webhook.com/path'
+  context "when request token is invalid" do
+    it "raises an error when token is an empty string" do
+      expect{
+        subject.new(payload, token: "").send(:authorization)
+      }.to raise_error(Travis::Addons::Webhook::InvalidTokenError)
+    end
+
+    it "raises an error when token is nil" do
+      expect{
+        subject.new(payload, token: nil).send(:authorization)
+      }.to raise_error(Travis::Addons::Webhook::InvalidTokenError)
+    end
+  end
+
+  it "posts with automatically-parsed basic auth credentials" do
+    url = "https://Aladdin:open%20sesame@fancy.webhook.com/path"
     uri = URI.parse(url)
     http.post uri.path do |env|
       env[:url].host.should == uri.host
@@ -60,7 +74,7 @@ describe Travis::Addons::Webhook::Task do
       payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
     end
 
-    subject.new(payload, targets: [url]).run
+    subject.new(payload, targets: [url], token: "abc123").run
     http.verify_stubbed_calls
   end
 
