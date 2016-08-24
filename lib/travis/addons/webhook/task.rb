@@ -18,6 +18,7 @@ module Travis
 
             Array(targets).each do |target|
               begin
+                puts "***** About to send webhook *****"
                 send_webhook(target, timeout)
               rescue => e
                 error "task=webhook status=failed url=#{target}"
@@ -51,6 +52,7 @@ module Travis
           end
 
           def authorization
+            puts "***** Calculating auth header if token passed *****"
             raise InvalidTokenError if missing_token?
             Digest::SHA2.hexdigest(repo_slug + params[:token].to_s)
           end
@@ -68,7 +70,7 @@ module Travis
           end
 
           def missing_token?
-            params[:token].nil? || params[:token].empty?
+            params[:token].to_s.empty?
           end
       end
     end
