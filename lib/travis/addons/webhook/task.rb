@@ -52,7 +52,7 @@ module Travis
 
           def authorization
             raise InvalidTokenError if missing_token?
-            Digest::SHA2.hexdigest(repo_slug + params[:token])
+            Digest::SHA2.hexdigest(repo_slug + params[:token].to_s)
           end
 
           def log_success(response)
