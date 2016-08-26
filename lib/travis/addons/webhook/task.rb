@@ -1,3 +1,6 @@
+require 'openssl'
+require 'base64'
+
 module Travis
   module Addons
     module Webhook
@@ -43,7 +46,11 @@ module Travis
               else
                 req.headers['Authorization'] = authorization
               end
+              if add_signature?
+                req.headers['Signature'] = signature(req.body)
+              end
               req.headers['Travis-Repo-Slug'] = repo_slug
+              req.headers['User-Agent'] = "Travis CI Notifications"
             end
             response.success? ? log_success(response) : log_error(response)
           rescue URI::InvalidURIError => e
@@ -53,6 +60,15 @@ module Travis
           def authorization
             raise InvalidTokenError if missing_token?
             Digest::SHA2.hexdigest(repo_slug + params[:token])
+          end
+
+          def add_signature?
+            Travis.config.webhook.signing_private_key?
+          end
+
+          def signature(content)
+            key = OpenSSL::PKey::RSA.new(Travis.config.webhook.signing_private_key)
+            Base64.encode64(key.sign(OpenSSL::Digest::SHA1.new, content.to_s))
           end
 
           def log_success(response)

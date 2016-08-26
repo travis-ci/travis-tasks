@@ -22,6 +22,7 @@ module Travis
              smtp:    { },
              ssl:     { },
              email:   { },
+             webhook: { },
              assets:  { host: HOSTS[Travis.env.to_sym] }
 
       default _access: [:key]
