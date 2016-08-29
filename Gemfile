@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.3.1'
+
 gem 'travis-support',  github: 'travis-ci/travis-support'
 gem 'travis-config',   '~> 1.0.6'
 
@@ -8,7 +10,8 @@ gem 'redis-namespace'
 gem 'sentry-raven'
 gem 'metriks'
 gem 'metriks-librato_metrics'
-gem 'jemalloc'
+
+gem 'jemalloc', github: 'joshk/jemalloc-rb'
 
 gem 'gh'
 gem 'aws-sdk'
