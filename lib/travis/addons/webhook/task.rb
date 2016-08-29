@@ -69,7 +69,7 @@ module Travis
 
           def signature(content)
             key = OpenSSL::PKey::RSA.new(Travis.config.webhook.signing_private_key)
-            Base64.encode64(key.sign(OpenSSL::Digest::SHA1.new, content))
+            Base64.encode64(key.sign(OpenSSL::Digest::SHA1.new, content)).gsub("\n","")
           end
 
           def log_success(response)
