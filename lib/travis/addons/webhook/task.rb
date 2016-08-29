@@ -37,34 +37,30 @@ module Travis
             response = http.post(target) do |req|
               req.options.timeout = timeout
               req.body = { payload: payload.except(:params).to_json }
-              add_headers(req, target, req.body[:payload])
+              uri = URI(target)
+              if uri.user && uri.password
+                req.headers['Authorization'] =
+                  Faraday::Request::BasicAuthentication.header(
+                    URI.unescape(uri.user), URI.unescape(uri.password)
+                  )
+              else
+                req.headers['Authorization'] = authorization
+              end
+              if add_signature?
+                req.headers['Signature'] = signature(req.body[:payload])
+              end
+              req.headers['Travis-Repo-Slug'] = repo_slug
+              req.headers['User-Agent'] = "Travis CI Notifications"
             end
 
-            if response.success?
-              log_success(response)
-            else
-              log_error(response)
-            end
+            response.success? ? log_success(response) : log_error(response)
           rescue URI::InvalidURIError => e
             error "task=webhook status=invalid_uri build=#{payload[:id]} slug=#{repo_slug} url=#{target}"
           end
 
-          def add_headers(request, target, payload)
-            uri = URI(target)
-            if uri.user && uri.password
-              request.headers['Authorization'] = basicauth(uri.user, uri.password)
-            end
-            if add_signature?
-              request.headers['Signature'] = signature(payload)
-            end
-            request.headers['Travis-Repo-Slug'] = repo_slug
-            request.headers['User-Agent'] = "Travis CI Notifications"
-          end
-
-          def basicauth(user, password)
-            Faraday::Request::BasicAuthentication.header(
-              URI.unescape(user), URI.unescape(password)
-            )
+          def authorization
+            raise InvalidTokenError if missing_token?
+            Digest::SHA2.hexdigest(repo_slug + params[:token])
           end
 
           def add_signature?
@@ -86,6 +82,10 @@ module Travis
 
           def repo_slug
             repository.values_at(:owner_name, :name).join('/')
+          end
+
+          def missing_token?
+            params[:token].nil? || params[:token].empty?
           end
       end
     end
