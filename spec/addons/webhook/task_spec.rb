@@ -124,7 +124,7 @@ describe Travis::Addons::Webhook::Task do
         uri = URI.parse(url)
         http.post uri.path do |env|
           env[:url].host.should == uri.host
-          signature_verified?(payload, "lkhslgh").should == true
+          signature_verified?(env.body, env.request_headers["Signature"]).should == true
           payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
           200
         end
@@ -135,7 +135,8 @@ describe Travis::Addons::Webhook::Task do
     end
   end
 
-  def signature_verified?(payload, signature)
+  def signature_verified?(body, signature)
+    payload = CGI.unescape(body).sub!(/^payload=/, '')
     key = OpenSSL::PKey::RSA.new(private_key.public_key)
     key.verify(OpenSSL::Digest::SHA1.new, Base64.decode64(signature), payload)
   end

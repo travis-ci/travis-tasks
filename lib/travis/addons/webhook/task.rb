@@ -47,11 +47,12 @@ module Travis
                 req.headers['Authorization'] = authorization
               end
               if add_signature?
-                req.headers['Signature'] = signature(req.body)
+                req.headers['Signature'] = signature(req.body[:payload])
               end
               req.headers['Travis-Repo-Slug'] = repo_slug
               req.headers['User-Agent'] = "Travis CI Notifications"
             end
+
             response.success? ? log_success(response) : log_error(response)
           rescue URI::InvalidURIError => e
             error "task=webhook status=invalid_uri build=#{payload[:id]} slug=#{repo_slug} url=#{target}"
@@ -68,7 +69,7 @@ module Travis
 
           def signature(content)
             key = OpenSSL::PKey::RSA.new(Travis.config.webhook.signing_private_key)
-            Base64.encode64(key.sign(OpenSSL::Digest::SHA1.new, content.to_s))
+            Base64.encode64(key.sign(OpenSSL::Digest::SHA1.new, content))
           end
 
           def log_success(response)
