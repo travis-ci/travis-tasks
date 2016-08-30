@@ -6,7 +6,6 @@ module Travis
     require 'travis/addons/github_status'
     require 'travis/addons/hipchat'
     require 'travis/addons/irc'
-    require 'travis/addons/sqwiggle'
     require 'travis/addons/util'
     require 'travis/addons/webhook'
     require 'travis/addons/slack'
