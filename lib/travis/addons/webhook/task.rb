@@ -4,7 +4,6 @@ require 'base64'
 module Travis
   module Addons
     module Webhook
-      class InvalidTokenError < StandardError; end
       class WebhookError < StandardError; end
 
       # Sends build notifications to webhooks as defined in the configuration
@@ -59,8 +58,7 @@ module Travis
           end
 
           def authorization
-            raise InvalidTokenError if missing_token?
-            Digest::SHA2.hexdigest(repo_slug + params[:token])
+            Digest::SHA2.hexdigest(repo_slug + params[:token].to_s)
           end
 
           def add_signature?
@@ -82,10 +80,6 @@ module Travis
 
           def repo_slug
             repository.values_at(:owner_name, :name).join('/')
-          end
-
-          def missing_token?
-            params[:token].nil? || params[:token].empty?
           end
       end
     end
