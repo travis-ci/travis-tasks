@@ -37,22 +37,6 @@ describe Travis::Addons::Webhook::Task do
     http.verify_stubbed_calls
   end
 
-  it 'posts with automatically-parsed basic auth credentials' do
-    url = 'https://Aladdin:open%20sesame@fancy.webhook.com/path'
-    uri = URI.parse(url)
-    http.post uri.path do |env|
-      env[:url].host.should == uri.host
-      auth = env[:request_headers]['Authorization']
-      auth.should == 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
-      auth.should == Faraday::Request::BasicAuthentication.header('Aladdin', 'open sesame')
-      payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
-      200
-    end
-
-    subject.new(payload, targets: [url]).run
-    http.verify_stubbed_calls
-  end
-
   it 'includes a Travis-Repo-Slug header' do
     url = 'https://one.webhook.com/path'
     uri = URI.parse(url)
