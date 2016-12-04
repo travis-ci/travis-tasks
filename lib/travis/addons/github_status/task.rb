@@ -52,7 +52,8 @@ module Travis
             error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=401 reason=incorrect_auth")
             nil
           rescue GH::Error(:response_status => 403)
-            raise if Travis.config.env == 'production'
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=403 reason=incorrect_auth_or_suspended_acct")
+            nil
           rescue GH::Error(:response_status => 404)
             error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=404 reason=repo_not_found_or_incorrect_auth")
             nil
