@@ -73,6 +73,16 @@ describe Travis::Addons::GithubStatus::Task do
     io.string.should include('reason=maximum_number_of_statuses')
   end
 
+  it 'does not raise if a 403 error was returned by GH' do
+    error = { response_status: 403 }
+    GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
+    expect {
+      run
+    }.not_to raise_error
+    io.string.should include('response_status=403')
+    io.string.should include('reason=incorrect_auth_or_suspended_acct')
+  en
+
   it 'does not raise if a 404 error was returned by GH' do
     error = { response_status: 404 }
     GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
