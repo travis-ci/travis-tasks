@@ -81,7 +81,7 @@ describe Travis::Addons::GithubStatus::Task do
     }.not_to raise_error
     io.string.should include('response_status=403')
     io.string.should include('reason=incorrect_auth_or_suspended_acct')
-  en
+  end
 
   it 'does not raise if a 404 error was returned by GH' do
     error = { response_status: 404 }
