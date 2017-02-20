@@ -8,6 +8,7 @@ module Travis
 
         def process(timeout)
           targets.each do |target|
+            info("type=discord build=#{build[:id]} repo=#{repository[:slug]}")
             if illegal_format?(target)
               warn "task=discord build=#{payload[:id]} result=invalid_target target=#{target}"
             else
