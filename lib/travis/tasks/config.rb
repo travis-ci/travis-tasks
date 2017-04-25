@@ -23,6 +23,7 @@ module Travis
              ssl:     { },
              email:   { },
              webhook: { },
+             utm:     Travis.env == 'test',
              assets:  { host: HOSTS[Travis.env.to_sym] }
 
       default _access: [:key]

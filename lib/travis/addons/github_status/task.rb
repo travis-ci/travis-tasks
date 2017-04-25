@@ -67,7 +67,7 @@ module Travis
           end
 
           def target_url
-            "#{Travis.config.http_host}/#{repository[:slug]}/builds/#{build[:id]}"
+            with_utm("#{Travis.config.http_host}/#{repository[:slug]}/builds/#{build[:id]}", :github_status)
           end
 
           def sha

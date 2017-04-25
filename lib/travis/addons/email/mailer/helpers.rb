@@ -14,8 +14,27 @@ module Travis
             "data:#{type};base64,#{data}"
           end
 
+          def repo_url(repo)
+            url = "https://#{Travis.config.host}/#{repo.slug}"
+            Travis.config.utm ? with_utm(url) :url
+          end
+
+          def branch_url(repo, branch)
+            "#{Travis.config.github.url}/#{repo.slug}/tree/#{branch}"
+          end
+
           def repository_build_url(options)
-            [Travis.config.http_host, options[:slug], 'builds', options[:id]].join('/')
+            config = Travis.config
+            url = [config.http_host, options[:slug], 'builds', options[:id]].join('/')
+            config.utm ? with_utm(url) :url
+          end
+
+          def with_utm(url)
+            with_query_params(url, utm_source: :email, utm_medium: :notification)
+          end
+
+          def with_query_params(url, params)
+            "#{url}?#{params.map { |pair| pair.join('=') }.join('&')}"
           end
 
           def title(repository)
