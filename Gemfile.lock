@@ -1,12 +1,12 @@
 GIT
-  remote: git://github.com/joshk/jemalloc-rb.git
-  revision: 870facda6891ffd9a0b44195b45c485192413742
+  remote: https://github.com/joshk/jemalloc-rb
+  revision: 8c9dbef98f6bd4f96b371ec336b7e0c4fdc02d49
   specs:
-    jemalloc (1.0.1)
+    jemalloc (1.4.5)
 
 GIT
-  remote: git://github.com/travis-ci/travis-support.git
-  revision: 2cd02d2a06fdd1e2fc2f129148c168b56f7c190f
+  remote: https://github.com/travis-ci/travis-support
+  revision: 113cff17fe383bb72fcfae3a97a8ce98c228342f
   specs:
     travis-support (0.0.1)
 
@@ -206,5 +206,8 @@ DEPENDENCIES
   travis-support!
   webmock (~> 1.8.0)
 
+RUBY VERSION
+   ruby 2.3.1p112
+
 BUNDLED WITH
-   1.12.5
+   1.14.6
