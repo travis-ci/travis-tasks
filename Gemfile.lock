@@ -5,10 +5,17 @@ GIT
     jemalloc (1.4.5)
 
 GIT
-  remote: https://github.com/travis-ci/travis-support
-  revision: 113cff17fe383bb72fcfae3a97a8ce98c228342f
+  remote: https://github.com/travis-ci/travis-exceptions
+  revision: 71b11939f1f3b86d1e2fd94f3b9b8f78af290e12
   specs:
-    travis-support (0.0.1)
+    travis-exceptions (0.0.2)
+      sentry-raven
+
+GIT
+  remote: https://github.com/travis-ci/travis-logger
+  revision: b589e0ca0e9f1a5d6cd8536ff7288d21d36c7560
+  specs:
+    travis-logger (0.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -85,6 +92,8 @@ GEM
     jmespath (1.1.3)
     journey (1.0.4)
     json (1.8.3)
+    keen (0.7.8)
+      multi_json (~> 1.0)
     listen (3.0.6)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9.7)
@@ -174,6 +183,8 @@ GEM
     tilt (1.4.1)
     travis-config (1.1.2)
       hashr (~> 2.0.0)
+    travis-metrics (2.0.0)
+      metriks-librato_metrics (~> 1.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -192,6 +203,7 @@ DEPENDENCIES
   guard
   guard-rspec
   jemalloc!
+  keen
   metriks
   metriks-librato_metrics
   mocha (~> 0.10.0)
@@ -203,7 +215,9 @@ DEPENDENCIES
   sentry-raven
   sidekiq (~> 4.0.0)
   travis-config (~> 1.1.0)
-  travis-support!
+  travis-exceptions!
+  travis-logger!
+  travis-metrics (~> 2.0.0.rc3)
   webmock (~> 1.8.0)
 
 RUBY VERSION

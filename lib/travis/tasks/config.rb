@@ -1,8 +1,14 @@
 require 'travis/config'
 
 module Travis
-  def self.config
-    @config ||= Tasks::Config.load
+  class << self
+    def config
+      @config ||= Tasks::Config.load
+    end
+
+    def env
+     ENV['ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
+    end
   end
 
   module Tasks
