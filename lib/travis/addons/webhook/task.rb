@@ -1,5 +1,6 @@
 require 'openssl'
 require 'base64'
+require 'travis/addons/webhook/payload'
 
 module Travis
   module Addons
@@ -9,6 +10,12 @@ module Travis
       # Sends build notifications to webhooks as defined in the configuration
       # (`.travis.yml`).
       class Task < Travis::Task
+        def initialize(payload, params = {})
+          payload = payload.except(:params) # TODO do we really include these in the payload?
+          payload = Payload.new(payload.deep_symbolize_keys).data unless payload.key?('status_message')
+          super
+        end
+
         def targets
           params[:targets]
         end
@@ -35,7 +42,7 @@ module Travis
           def send_webhook(target, timeout)
             response = http.post(target) do |req|
               req.options.timeout = timeout
-              req.body = { payload: payload.except(:params).to_json }
+              req.body = { payload: payload.to_json }
               add_headers(req, target, req.body[:payload])
             end
 

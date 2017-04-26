@@ -147,7 +147,7 @@ describe Travis::Addons::Email::Mailer::Build do
 
     describe 'for a cron build' do
       before :each do
-        data['build']['event_type'] = 'cron'
+        data['build']['type'] = 'cron'
       end
 
       it 'subject' do

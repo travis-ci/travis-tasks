@@ -46,7 +46,7 @@ module Travis
             end
 
             def subject_prefix
-              if build[:event_type] == 'cron'
+              if build[:type] == 'cron'
                 "[CRON] "
               else
                 ""

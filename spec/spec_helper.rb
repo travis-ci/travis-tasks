@@ -6,8 +6,7 @@ end
 
 require 'travis/task'
 require 'travis/addons'
-require 'travis/support'
-require 'travis/support/testing/webmock'
+require 'travis/testing/webmock'
 require 'travis/testing'
 require 'travis/tasks/config'
 require 'payloads'

@@ -4,7 +4,6 @@ require 'rack'
 describe Travis::Addons::Webhook::Task do
   include Travis::Testing::Stubs
 
-  let(:subject) { Travis::Addons::Webhook::Task }
   let(:http)    { Faraday::Adapter::Test::Stubs.new }
   let(:client)  { Faraday.new { |f| f.request :url_encoded; f.adapter :test, http } }
   let(:payload) { Marshal.load(Marshal.dump(WEBHOOK_PAYLOAD)) }
@@ -12,12 +11,85 @@ describe Travis::Addons::Webhook::Task do
 
   before do
     Travis.config.notifications = [:webhook]
-    subject.any_instance.stubs(:http).returns(client)
-    subject.any_instance.stubs(:repo_slug).returns(repo_slug)
+    described_class.any_instance.stubs(:http).returns(client)
+    described_class.any_instance.stubs(:repo_slug).returns(repo_slug)
   end
 
   def run(targets)
-    subject.new(payload, targets: targets, token: '123456').run
+    described_class.new(payload, targets: targets, token: '123456').run
+  end
+
+  describe 'given a task payload' do
+    let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
+    let(:data)    { described_class.new(payload).payload }
+
+    it 'data' do
+      expect(data.except(:repository, :matrix)).to eql(
+        id: 1,
+        number: 2,
+        status: 0,
+        result: 0,
+        status_message: 'Passed',
+        result_message: 'Passed',
+        started_at: '2014-04-03T10:21:05Z',
+        finished_at: '2014-04-03T10:22:05Z',
+        duration: 60,
+        build_url: "https://travis-ci.org/svenfuchs/minimal/builds/1",
+        config:  { rvm: ['1.8.7', '1.9.2'] },
+        commit_id: 1,
+        commit: '62aae5f70ceee39123ef',
+        base_commit: '62aae5f70ceee39123ef',
+        head_commit: 'head-commit',
+        branch: 'master',
+        compare_url: 'https://github.com/svenfuchs/minimal/compare/master...develop',
+        message: 'the commit message',
+        committed_at: '2014-04-03T09:22:05Z',
+        committer_name: 'Sven Fuchs',
+        committer_email: 'svenfuchs@artweb-design.de',
+        author_name: 'Sven Fuchs',
+        author_email: 'svenfuchs@artweb-design.de',
+        type: 'push',
+        state: 'passed',
+        pull_request: 1,
+        pull_request_number: 1,
+        pull_request_title: 'title',
+        tag: 'v1.0.0'
+      )
+    end
+
+    it 'repository' do
+      expect(data[:repository]).to eql(
+        id: 1,
+        name: 'minimal',
+        owner_name: 'svenfuchs',
+        url: 'https://github.com/svenfuchs/minimal'
+      )
+    end
+
+    it 'includes the build matrix' do
+      expect(data[:matrix].first).to eql(
+        id: 1,
+        repository_id: 1,
+        parent_id: 1,
+        number: '2.1',
+        state: 'passed',
+        started_at: nil,
+        finished_at: nil,
+        config: { rvm: '1.8.7' },
+        status: 0,
+        result: 0,
+        commit: '62aae5f70ceee39123ef',
+        branch: 'master',
+        message: 'the commit message',
+        author_name: 'Sven Fuchs',
+        author_email: 'svenfuchs@artweb-design.de',
+        committer_name: 'Sven Fuchs',
+        committer_email: 'svenfuchs@artweb-design.de',
+        committed_at: '2014-04-03T09:22:05Z',
+        compare_url: 'https://github.com/svenfuchs/minimal/compare/master...develop',
+        allow_failure: false
+      )
+    end
   end
 
   it 'posts to the given targets, with the given payload and the given access token' do
@@ -47,7 +119,7 @@ describe Travis::Addons::Webhook::Task do
       200
     end
 
-    subject.new(payload, targets: [url]).run
+    described_class.new(payload, targets: [url]).run
     http.verify_stubbed_calls
   end
 
@@ -63,7 +135,7 @@ describe Travis::Addons::Webhook::Task do
           200
         end
 
-        subject.new(payload, targets: [url], token: "abc123").run
+        described_class.new(payload, targets: [url], token: "abc123").run
         http.verify_stubbed_calls
       end
     end
@@ -85,7 +157,7 @@ describe Travis::Addons::Webhook::Task do
           200
         end
 
-        subject.new(payload, targets: [url], token: "abc123").run
+        described_class.new(payload, targets: [url], token: "abc123").run
         http.verify_stubbed_calls
       end
 
@@ -99,7 +171,7 @@ describe Travis::Addons::Webhook::Task do
           200
         end
 
-        subject.new(payload, targets: [url], token: "abc123").run
+        described_class.new(payload, targets: [url], token: "abc123").run
         http.verify_stubbed_calls
       end
     end
