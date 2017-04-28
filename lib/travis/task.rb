@@ -78,6 +78,15 @@ module Travis
         end
       end
 
+      def with_utm(url, source)
+        utm = { utm_source: source, utm_medium: :notification }
+        Travis.config.utm ? with_query_params(url, utm) : url
+      end
+
+      def with_query_params(url, params)
+        "#{url}?#{params.map { |pair| pair.join('=') }.join('&')}"
+      end
+
       def http
         @http ||= Faraday.new(http_options) do |f|
           f.request :url_encoded
