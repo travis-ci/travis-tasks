@@ -21,6 +21,7 @@ module Travis
              sidekiq: { namespace: "sidekiq", pool_size: 3, retry: 4 },
              smtp:    { },
              ssl:     { },
+             fixie:   { url: ENV['FIXIE_URL'] },
              email:   { },
              webhook: { },
              utm:     Travis.env == 'test',
