@@ -33,6 +33,14 @@ module Travis
 
           Travis.logger.info("task=irc message=connection_init #{connection_info}")
 
+          # this is very basic sasl support, it's very hacky, it only does plaintext
+          # this should however be enough to authenticate against freenode
+          # which is requiring ec2 ips to authenticate via sasl
+          if options[:sasl]
+            socket.puts "AUTHENTICATE PLAIN\r"
+            socket.puts "AUTHENTICATE #{[nick, nick, options[:password]].join("\0")}\r"
+          end
+
           socket.puts "PASS #{options[:password]}\r" if options[:password]
           socket.puts "NICK #{nick}\r"
           socket.puts "PRIVMSG NickServ :IDENTIFY #{options[:nickserv_password]}\r" if options[:nickserv_password]
@@ -99,4 +107,3 @@ module Travis
     end
   end
 end
-
