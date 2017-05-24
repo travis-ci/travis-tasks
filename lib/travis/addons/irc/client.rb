@@ -37,8 +37,9 @@ module Travis
           # this should however be enough to authenticate against freenode
           # which is requiring ec2 ips to authenticate via sasl
           if options[:sasl]
+            auth = Base64.strict_encode64([nick, nick, options[:password]].join("\0"))
             socket.puts "AUTHENTICATE PLAIN\r"
-            socket.puts "AUTHENTICATE #{[nick, nick, options[:password]].join("\0")}\r"
+            socket.puts "AUTHENTICATE #{auth}\r"
           end
 
           socket.puts "PASS #{options[:password]}\r" if options[:password]
