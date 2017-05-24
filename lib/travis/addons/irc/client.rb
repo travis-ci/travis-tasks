@@ -26,7 +26,7 @@ module Travis
         end
 
         def initialize(server, nick, options = {})
-          @connection_info = "host=#{server} port=#{options[:port] || 6667} nick=#{nick} protocol=#{options[:ssl] ? 'ircs' : 'irc'}"
+          @connection_info = "host=#{server} port=#{options[:port] || 6667} nick=#{nick} protocol=#{options[:ssl] ? 'ircs' : 'irc'} sasl=#{options[:sasl] ? 'true' : 'false'}"
           @socket = TCPSocket.open(server, options[:port] || 6667)
           @socket = self.class.wrap_ssl(@socket) if options[:ssl]
           @ping_thread = start_ping_thread
