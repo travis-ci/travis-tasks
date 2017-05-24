@@ -38,8 +38,10 @@ module Travis
           # which is requiring ec2 ips to authenticate via sasl
           if options[:sasl]
             auth = Base64.strict_encode64([nick, nick, options[:password]].join("\0"))
+            socket.puts "CAP REQ :sasl\r"
             socket.puts "AUTHENTICATE PLAIN\r"
             socket.puts "AUTHENTICATE #{auth}\r"
+            socket.puts "CAP END\r"
           end
 
           socket.puts "PASS #{options[:password]}\r" if options[:password]
