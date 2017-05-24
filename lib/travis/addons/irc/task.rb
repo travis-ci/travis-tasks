@@ -92,7 +92,7 @@ module Travis
             }
 
             freenode_password = Travis.config.irc.try(:freenode_password)
-            if freenode_password && is_freenode(host)
+            if freenode_password && freenode?(host)
               options[:password] = freenode_password
               options[:nickserv_password] = freenode_password
               options[:sasl] = true
@@ -112,7 +112,7 @@ module Travis
             try_config(:nick) || Travis.config.irc.try(:nick) || 'travis-ci'
           end
 
-          def is_freenode(host)
+          def freenode?(host)
             ['irc.freenode.net', 'irc.freenode.org'].include?(host) && nick == 'travis-ci'
           end
 
