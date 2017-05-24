@@ -113,7 +113,7 @@ module Travis
           end
 
           def freenode?(host)
-            (host.end_with?('.freenode.net') || host.end_with?('.freenode.com')) && nick == 'travis-ci'
+            (host.end_with?('.freenode.net') || host.end_with?('.freenode.org')) && nick == 'travis-ci'
           end
 
           def try_config(option)
