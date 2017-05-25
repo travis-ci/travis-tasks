@@ -58,7 +58,7 @@ module Travis
             end
           end
         rescue Timeout::Error => e
-          Travis.logger.warn("task=irc message=conntection_timeout #{connection_info}")
+          Travis.logger.warn("task=irc message=connection_timeout #{connection_info}")
         end
 
         def join(channel, key = nil)
