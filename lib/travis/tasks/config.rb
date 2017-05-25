@@ -25,7 +25,8 @@ module Travis
              email:   { },
              webhook: { },
              utm:     Travis.env == 'test',
-             assets:  { host: HOSTS[Travis.env.to_sym] }
+             assets:  { host: HOSTS[Travis.env.to_sym] },
+             irc:     { freenode_password: nil, nick: nil }
 
       default _access: [:key]
 
