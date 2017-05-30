@@ -42,7 +42,15 @@ module Travis
           private
 
             def subject
-              "#{result_message.short}: #{repository.slug}##{build.number} (#{commit.branch} - #{commit.sha[0..6]})"
+              subject_prefix + "#{result_message.short}: #{repository.slug}##{build.number} (#{commit.branch} - #{commit.sha[0..6]})"
+            end
+
+            def subject_prefix
+              if build[:event_type] == 'cron'
+                "[CRON] "
+              else
+                ""
+              end
             end
 
             def from
