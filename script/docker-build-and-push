@@ -6,6 +6,10 @@ app_name="tasks"
 local_image="travistasks_$app_name" # Docker Compose removes dashes and expects the name to end with the build app name
 quay_image=quay.io/travisci/travis-tasks;
 
+# scrub some files and folders so they are not included in the docker image
+rm -rf .git
+rm .travis.yml
+
 docker-compose build "$app_name";
 docker login -u="$QUAY_ROBOT_HANDLE" -p="$QUAY_ROBOT_TOKEN" quay.io;
 docker images;
