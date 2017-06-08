@@ -1,4 +1,4 @@
 version: "2"
 services:
-  web:
-    tasks: .
+  tasks:
+    build: .
