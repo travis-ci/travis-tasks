@@ -42,7 +42,7 @@ GEM
       jmespath (~> 1.0)
     aws-sdk-resources (2.2.26)
       aws-sdk-core (= 2.2.26)
-    backports (3.8.0)
+    backports (3.6.8)
     builder (3.0.4)
     coderay (1.1.1)
     concurrent-ruby (1.0.1)
@@ -53,18 +53,18 @@ GEM
       addressable
     diff-lcs (1.2.5)
     erubis (2.7.0)
-    faraday (0.12.1)
+    faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.10)
     foreman (0.78.0)
       thor (~> 0.19.1)
     formatador (0.2.5)
-    gh (0.15.1)
-      addressable (~> 2.4.0)
+    gh (0.14.0)
+      addressable
       backports
       faraday (~> 0.8)
       multi_json (~> 1.0)
-      net-http-persistent (~> 2.9)
+      net-http-persistent (>= 2.7)
       net-http-pipeline
     guard (2.13.0)
       formatador (>= 0.2.4)
@@ -104,7 +104,7 @@ GEM
     mini_portile2 (2.0.0)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.12.1)
+    multi_json (1.11.2)
     multipart-post (2.0.0)
     nenv (0.3.0)
     net-http-persistent (2.9.4)
@@ -206,8 +206,5 @@ DEPENDENCIES
   travis-support!
   webmock (~> 1.8.0)
 
-RUBY VERSION
-   ruby 2.3.1p112
-
 BUNDLED WITH
-   1.14.3
+   1.12.5
