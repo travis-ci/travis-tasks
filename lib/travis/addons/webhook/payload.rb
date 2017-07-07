@@ -31,7 +31,7 @@ module Travis
             author_email:        commit[:author_email],
             committer_name:      commit[:committer_name],
             committer_email:     commit[:committer_email],
-            pull_request:        pull_request[:number],
+            pull_request:        pull_request?,
             pull_request_number: pull_request[:number],
             pull_request_title:  pull_request[:title],
             tag:                 tag[:name],
@@ -100,6 +100,10 @@ module Travis
 
         def jobs
           payload[:jobs] || []
+        end
+
+        def pull_request?
+          build[:type] == 'pull_request'
         end
 
         def result(obj)

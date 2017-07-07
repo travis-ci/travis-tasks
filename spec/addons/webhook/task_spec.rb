@@ -6,7 +6,7 @@ describe Travis::Addons::Webhook::Task do
 
   let(:http)    { Faraday::Adapter::Test::Stubs.new }
   let(:client)  { Faraday.new { |f| f.request :url_encoded; f.adapter :test, http } }
-  let(:payload) { Marshal.load(Marshal.dump(WEBHOOK_PAYLOAD)) }
+  let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:repo_slug) { 'svenfuchs/minimal' }
 
   before do
@@ -50,7 +50,7 @@ describe Travis::Addons::Webhook::Task do
         author_email: 'svenfuchs@artweb-design.de',
         type: 'push',
         state: 'passed',
-        pull_request: 1,
+        pull_request: false,
         pull_request_number: 1,
         pull_request_title: 'title',
         tag: 'v1.0.0'
