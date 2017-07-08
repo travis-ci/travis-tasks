@@ -57,15 +57,16 @@ describe Travis::Addons::Email::Mailer::Build do
         Author: まつもとゆきひろ a.k.a. Matz
         Message: the commit message
         View the changeset: https://github.com/svenfuchs/minimal/compare/master...develop
-        View the full build log and details: https://travis-ci.org/svenfuchs/minimal/builds/#{build.id}
+        View the full build log and details: https://travis-ci.org/svenfuchs/minimal/builds/#{build.id}?utm_source=email&utm_medium=notification
       ))
     end
 
     it 'contains the expected html part' do
       email.html_part.body.should include_lines(%(
         Build #2 passed
+        https://travis-ci.org/svenfuchs/minimal?utm_source=email&amp;utm_medium=notification
         https://github.com/svenfuchs/minimal/compare/master...develop
-        https://travis-ci.org/svenfuchs/minimal/builds/#{build.id}
+        https://travis-ci.org/svenfuchs/minimal/builds/#{build.id}?utm_source=email&amp;utm_medium=notification
         62aae5f
         まつもとゆきひろ a.k.a. Matz
         the commit message
@@ -141,6 +142,16 @@ describe Travis::Addons::Email::Mailer::Build do
       it 'allows mixing in the build state into a custom email address' do
         Travis.config.email.from = 'notifications+%s@travis-ci.org'
         email.from.should include('notifications+passed@travis-ci.org')
+      end
+    end
+
+    describe 'for a cron build' do
+      before :each do
+        data['build']['type'] = 'cron'
+      end
+
+      it 'subject' do
+        email.subject.should == '[CRON] Passed: svenfuchs/minimal#2 (master - 62aae5f)'
       end
     end
   end

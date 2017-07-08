@@ -20,7 +20,7 @@ module Travis
         end
 
         def message
-          @messages ||= template.map { |line| Util::Template.new(line, payload).interpolate }
+          @messages ||= template.map { |line| Util::Template.new(line, payload, source: :hipchat).interpolate }
         end
 
         private

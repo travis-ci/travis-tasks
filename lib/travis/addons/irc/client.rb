@@ -26,12 +26,23 @@ module Travis
         end
 
         def initialize(server, nick, options = {})
-          @connection_info = "host=#{server} port=#{options[:port] || 6667} nick=#{nick} protocol=#{options[:ssl] ? 'ircs' : 'irc'}"
+          @connection_info = "host=#{server} port=#{options[:port] || 6667} nick=#{nick} protocol=#{options[:ssl] ? 'ircs' : 'irc'} sasl=#{options[:sasl] ? 'true' : 'false'}"
           @socket = TCPSocket.open(server, options[:port] || 6667)
           @socket = self.class.wrap_ssl(@socket) if options[:ssl]
           @ping_thread = start_ping_thread
 
           Travis.logger.info("task=irc message=connection_init #{connection_info}")
+
+          # this is very basic sasl support, it's very hacky, it only does plaintext
+          # this should however be enough to authenticate against freenode
+          # which is requiring ec2 ips to authenticate via sasl
+          if options[:sasl]
+            auth = Base64.strict_encode64([nick, nick, options[:password]].join("\0"))
+            socket.puts "CAP REQ :sasl\r"
+            socket.puts "AUTHENTICATE PLAIN\r"
+            socket.puts "AUTHENTICATE #{auth}\r"
+            socket.puts "CAP END\r"
+          end
 
           socket.puts "PASS #{options[:password]}\r" if options[:password]
           socket.puts "NICK #{nick}\r"
@@ -47,7 +58,7 @@ module Travis
             end
           end
         rescue Timeout::Error => e
-          Travis.logger.warn("task=irc message=conntection_timeout #{connection_info}")
+          Travis.logger.warn("task=irc message=connection_timeout #{connection_info}")
         end
 
         def join(channel, key = nil)
@@ -99,4 +110,3 @@ module Travis
     end
   end
 end
-

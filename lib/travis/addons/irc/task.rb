@@ -34,7 +34,7 @@ module Travis
           end
 
           def send_messages(host, port, ssl, channels)
-            client(host, nick, client_options(port, ssl)) do |client|
+            client(host, nick, client_options(host, port, ssl)) do |client|
               channels.each do |channel|
                 begin
                   send_message(client, channel)
@@ -83,13 +83,22 @@ module Travis
             Array(try_config(:template) || DEFAULT_TEMPLATE)
           end
 
-          def client_options(port, ssl)
-            {
+          def client_options(host, port, ssl)
+            options = {
               :port => port,
               :ssl => (ssl == :ssl),
               :password => try_config(:password),
-              :nickserv_password => try_config(:nickserv_password)
+              :nickserv_password => try_config(:nickserv_password),
             }
+
+            freenode_password = Travis.config.irc.try(:freenode_password)
+            if freenode_password && freenode?(host)
+              options[:password] = freenode_password
+              options[:nickserv_password] = freenode_password
+              options[:sasl] = true
+            end
+
+            options
           end
 
           def client(host, nick, options, &block)
@@ -101,6 +110,10 @@ module Travis
 
           def nick
             try_config(:nick) || Travis.config.irc.try(:nick) || 'travis-ci'
+          end
+
+          def freenode?(host)
+            (host.end_with?('.freenode.net') || host.end_with?('.freenode.org')) && nick == 'travis-ci'
           end
 
           def try_config(option)

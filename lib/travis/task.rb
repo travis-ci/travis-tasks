@@ -3,8 +3,8 @@ require 'core_ext/hash/compact'
 require 'core_ext/hash/deep_symbolize_keys'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/class/attribute'
-require 'travis/support/logging'
-require 'travis/support/exceptions'
+require 'travis/support'
+require 'travis/task/keenio'
 
 module Travis
   class Task
@@ -15,30 +15,32 @@ module Travis
     DEFAULT_TIMEOUT = 60
 
     class << self
-      extend Exceptions::Handling
-
-      def run(queue, *args)
-        info "async_options: #{async_options(queue)}; args: #{args}"
-        Travis::Async.run(self, :perform, async_options(queue), *args)
-      end
+      extend ExceptionHandling
 
       def perform(*args)
         new(*args).run
       end
     end
 
-    attr_reader :payload, :params
+    attr_reader :payload, :params, :retry_count
 
     def initialize(payload, params = {})
-      @payload = payload.deep_symbolize_keys
-      @params  = params.deep_symbolize_keys
+      @payload     = payload.deep_symbolize_keys
+      @params      = params.deep_symbolize_keys
+      @retry_count = params.delete(:retry_count)
     end
 
     def run
-      process(params[:timeout] || DEFAULT_TIMEOUT)
+      with_keenio do
+        process(params[:timeout] || DEFAULT_TIMEOUT)
+      end
     end
 
     private
+
+      def type
+        self.class.name.sub('::Task', '').split('::').last.underscore
+      end
 
       def repository
         @repository ||= payload[:repository]
@@ -78,6 +80,15 @@ module Travis
         end
       end
 
+      def with_utm(url, source)
+        utm = { utm_source: source, utm_medium: :notification }
+        Travis.config.utm ? with_query_params(url, utm) : url
+      end
+
+      def with_query_params(url, params)
+        "#{url}?#{params.map { |pair| pair.join('=') }.join('&')}"
+      end
+
       def http
         @http ||= Faraday.new(http_options) do |f|
           f.request :url_encoded
@@ -86,7 +97,28 @@ module Travis
       end
 
       def http_options
-        { ssl: Travis.config.ssl.compact }
+        {
+          ssl: Travis.config.ssl.compact,
+          proxy: Travis.config.fixie.url
+        }.compact
+      end
+
+      def with_keenio
+        yield
+      rescue => e
+      ensure
+        status = e ? :failure : :success
+        notify_keenio(status) if notify_keenio?(status)
+        raise e if e
+      end
+
+      def notify_keenio?(status)
+        return unless ENV['KEEN_PROJECT_ID']
+        status == :success || retry_count == Travis.config.sidekiq.retry
+      end
+
+      def notify_keenio(status)
+        Travis::Task::Keenio.new(type, status, payload).publish
       end
   end
 end

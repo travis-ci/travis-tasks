@@ -5,7 +5,7 @@ describe Travis::Addons::GithubStatus::Task do
 
   let(:subject)    { Travis::Addons::GithubStatus::Task }
   let(:url)        { '/repos/svenfuchs/minimal/statuses/62aae5f70ceee39123ef' }
-  let(:target_url) { 'https://travis-ci.org/svenfuchs/minimal/builds/1' }
+  let(:target_url) { 'https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=github_status&utm_medium=notification' }
   let(:payload)    { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:io)         { StringIO.new }
 
@@ -71,6 +71,16 @@ describe Travis::Addons::GithubStatus::Task do
     }.not_to raise_error
     io.string.should include('response_status=422')
     io.string.should include('reason=maximum_number_of_statuses')
+  end
+
+  it 'does not raise if a 403 error was returned by GH' do
+    error = { response_status: 403 }
+    GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
+    expect {
+      run
+    }.not_to raise_error
+    io.string.should include('response_status=403')
+    io.string.should include('reason=incorrect_auth_or_suspended_acct')
   end
 
   it 'does not raise if a 404 error was returned by GH' do

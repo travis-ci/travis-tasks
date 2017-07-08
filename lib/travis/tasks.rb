@@ -4,10 +4,12 @@ require 'bundler/setup'
 require 'gh'
 require 'roadie'
 require 'ostruct'
-require 'metriks/librato_metrics_reporter'
+require 'travis/exceptions'
+require 'travis/logger'
+require 'travis/metrics'
 require 'travis/tasks/error_handler'
-require 'travis/support'
 require 'travis/tasks/config'
+require 'travis/tasks/worker'
 require 'travis/task'
 require 'travis/addons'
 require 'travis/tasks/middleware/metriks'
@@ -26,6 +28,13 @@ if Travis.config.sentry.dsn
   end
 end
 
+class RetryCount
+  def call(worker, msg, queue)
+    worker.retry_count = msg['retry_count']
+    yield
+  end
+end
+
 Sidekiq.configure_server do |config|
   config.redis = {
     :url       => Travis.config.redis.url,
@@ -34,6 +43,7 @@ Sidekiq.configure_server do |config|
   config.server_middleware do |chain|
     chain.add Travis::Tasks::Middleware::Metriks
     chain.add Travis::Tasks::Middleware::Logging
+    chain.add RetryCount
 
     if defined?(::Raven::Sidekiq)
       chain.remove(::Raven::Sidekiq)
@@ -43,6 +53,12 @@ Sidekiq.configure_server do |config|
     chain.add(Travis::Tasks::ErrorHandler)
     chain.add Sidekiq::Middleware::Server::RetryJobs, :max_retries => Travis.config.sidekiq.retry
   end
+end
+
+Sidekiq.configure_client do |c|
+  url = Travis.config.redis.url
+  config = Travis.config.sidekiq
+  c.redis = { url: url, namespace: config[:namespace], size: config[:pool_size] }
 end
 
 GH.set(
@@ -62,10 +78,10 @@ module Roadie
 end
 
 if Travis.config.sentry
-  Travis::Exceptions::Reporter.start
+  Travis::Exceptions.setup(Travis.config, Travis.config.env, Travis.logger)
 end
 
 Travis.logger.info("Tasks started with Ciphers: #{OpenSSL::Cipher.ciphers.sort}")
 
-Travis::Metrics.setup
+Travis::Metrics.setup(Travis.config.metrics, Travis.logger)
 Travis::Addons::Email.setup

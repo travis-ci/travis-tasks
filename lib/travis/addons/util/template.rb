@@ -5,11 +5,12 @@ module Travis
   module Addons
     module Util
       class Template
-        attr_reader :template, :data
+        attr_reader :template, :data, :opts
 
-        def initialize(template, data)
+        def initialize(template, data, opts = {})
           @template = template
           @data = data.deep_symbolize_keys
+          @opts = opts
         end
 
         def interpolate
@@ -55,7 +56,18 @@ module Travis
 
         def build_url
           url = [Travis.config.http_host, data[:repository][:slug], 'builds', data[:build][:id]].join('/')
-          short_urls? ? shorten_url(url) : url
+          url = short_urls? ? shorten_url(url) : url
+          url = with_query_params(url, utm) if Travis.config.utm && opts[:source]
+          url
+        end
+
+        def utm
+          { utm_source: opts[:source], utm_medium: :notification }
+        end
+
+        def with_query_params(url, params)
+          url = "#{url}?#{params.map { |pair| pair.join('=') }.join('&')}" if params.any?
+          url
         end
 
         def pull_request_url
