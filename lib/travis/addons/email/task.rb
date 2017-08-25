@@ -21,10 +21,7 @@ module Travis
         private
 
           def process(timeout)
-            if recipients.any?
-              Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
-              info "type=email status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
-            end
+            send_email if recipients.any?
           rescue Net::SMTPServerBusy => e
             error("Could not send email to: #{recipients} (error: #{e.message})")
             raise unless e.message =~ /Bad recipient address syntax/ || e.message =~ /Recipient address rejected/
@@ -32,6 +29,11 @@ module Travis
             error("Could not send email to: #{recipients}")
             log_exception(e)
             raise
+          end
+
+          def send_email
+            Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
+            info "type=email status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end
 
           def valid?(email)
