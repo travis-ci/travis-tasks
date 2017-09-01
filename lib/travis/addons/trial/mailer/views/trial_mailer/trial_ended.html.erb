@@ -1,0 +1,25 @@
+        <h3>Your Travis CI Trial</h3>
+
+        <p>
+          Unfortunately the trial for your account <strong><%= @owner[:name].blank? ? @owner[:login] : "#{@owner[:name]} (GitHub name: #{@owner[:login]})" %></strong> has just expired.
+        </p>
+
+        <p>
+          To ensure uninterrupted service, <a href="https://billing.travis-ci.com/subscriptions/<%= @owner[:billing_slug] %>">sign the account up for a subscription</a> before the trial runs out. Note that you need to be an owner of the account to sign up for a subscription.
+        </p>
+
+        <p>
+          If <strong>you need more trial builds</strong>, simply <strong>reply to this email</strong>, and we can add more builds for you!
+        </p>
+
+        <p>
+          And if you have any questions, just shoot us an <a href="mailto:support@travis-ci.com">email</a>, we are here to help :)
+        </p>
+
+        <p>
+          Thank you and have a great day!
+        </p>
+
+        <p>
+          The Travis CI Team
+        </p>
