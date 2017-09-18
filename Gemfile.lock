@@ -206,5 +206,8 @@ DEPENDENCIES
   travis-support!
   webmock (~> 1.8.0)
 
+RUBY VERSION
+   ruby 2.3.5p376
+
 BUNDLED WITH
-   1.12.5
+   1.15.4
