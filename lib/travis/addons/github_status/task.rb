@@ -29,10 +29,10 @@ module Travis
         private
 
           def process(timeout)
-            info("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha}")
+            info("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} tokens_count=#{tokens.size}")
 
             tokens.each do |username, token|
-              if process_with_token(token)
+              if process_with_token(username, token)
                 return
               else
                 error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} username=#{username} url=#{GH.api_host + url}")
@@ -44,21 +44,21 @@ module Travis
             params.fetch(:tokens) { { '<legacy format>' => params[:token] } }
           end
 
-          def process_with_token(token)
+          def process_with_token(username, token)
             authenticated(token) do
               GH.post(url, :state => state, :description => description, :target_url => target_url, :context => context)
             end
-          rescue GH::Error(:response_status => 401)
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=401 reason=incorrect_auth")
+          rescue GH::Error(:response_status => 401) => e
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=401 reason=incorrect_auth body=#{e.info[:response_body]}")
             nil
-          rescue GH::Error(:response_status => 403)
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=403 reason=incorrect_auth_or_suspended_acct")
+          rescue GH::Error(:response_status => 403) => e
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=403 reason=incorrect_auth_or_suspended_acct body=#{e.info[:response_body]}")
             nil
-          rescue GH::Error(:response_status => 404)
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=404 reason=repo_not_found_or_incorrect_auth")
+          rescue GH::Error(:response_status => 404) => e
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=404 reason=repo_not_found_or_incorrect_auth body=#{e.info[:response_body]}")
             nil
           rescue GH::Error(:response_status => 422)
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} response_status=422 reason=maximum_number_of_statuses")
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=422 reason=maximum_number_of_statuses")
             nil
           rescue GH::Error => e
             message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} message=#{e.message}"
