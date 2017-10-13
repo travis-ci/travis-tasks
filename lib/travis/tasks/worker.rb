@@ -3,6 +3,8 @@ module Travis
     class Worker
       include ::Sidekiq::Worker
 
+      sidekiq_options dead: false
+
       attr_accessor :retry_count
 
       def perform(_, target, method, payload, params = {})
