@@ -37,6 +37,11 @@ module Travis
 
       default _access: [:key]
 
+      def metrics
+        # TODO cleanup keychain?
+        super.to_h.merge(librato: librato.to_h.merge(source: librato_source))
+      end
+
       def env
         Travis.env
       end
