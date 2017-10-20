@@ -32,9 +32,15 @@ module Travis
              webhook: { },
              utm:     Travis.env == 'test',
              assets:  { host: HOSTS[Travis.env.to_sym] },
-             irc:     { freenode_password: nil, nick: nil }
+             irc:     { freenode_password: nil, nick: nil },
+             librato: { email: nil, token: nil }
 
       default _access: [:key]
+
+      def metrics
+        # TODO cleanup keychain?
+        super.to_h.merge(librato: librato.to_h.merge(source: librato_source))
+      end
 
       def env
         Travis.env
