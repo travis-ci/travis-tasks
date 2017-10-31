@@ -11,6 +11,7 @@ describe Travis::Addons::Irc::Task do
 
   before do
     Travis.config.notifications = [:irc]
+    Travis.config.irc.freenode_blocked_channels = %w[foibled fables]
     Travis::Addons::Irc::Client.any_instance.stubs(:wait_for_numeric)
   end
 
@@ -246,6 +247,24 @@ describe Travis::Addons::Irc::Task do
     Travis::Addons::Irc::Client.expects(:wrap_ssl).with(tcp).returns(tcp)
     expect_irc 'irc.freenode.net', 1234, 'travis', simple_irc_notfication_messages
     run(['ircs://irc.freenode.net:1234#travis'])
+  end
+
+  it 'skips blocked freenode channels' do
+    expect_irc 'irc.freenode.net', 1234, 'travis', [
+      'NICK travis-ci',
+      'USER travis-ci travis-ci travis-ci :travis-ci',
+      'JOIN #travis',
+      'PRIVMSG #travis :svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): The build passed.',
+      'PRIVMSG #travis :Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
+      'PRIVMSG #travis :Build details : https://travis-ci.org/svenfuchs/minimal/builds/1',
+      'PART #travis',
+      'QUIT'
+    ]
+    run([
+      'irc.freenode.net:1234#travis',
+      'irc.freenode.net:1234#foibled',
+      'irc.freenode.net:1234#fables'
+    ])
   end
 
   describe 'parsed_channels' do
