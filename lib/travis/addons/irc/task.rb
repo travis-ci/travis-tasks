@@ -36,12 +36,18 @@ module Travis
           def send_messages(host, port, ssl, channels)
             client(host, nick, client_options(host, port, ssl)) do |client|
               channels.each do |channel|
+                addr = "#{host}:#{port}##{channel}"
+                if freenode?(host) && freenode_blocked?(channel)
+                  info("Skipping blocked #{addr}")
+                  next
+                end
+
                 begin
                   send_message(client, channel)
-                  info("Successfully notified #{host}:#{port}##{channel}")
+                  info("Successfully notified #{addr}")
                 rescue StandardError => e
                   # TODO notify the repo
-                  error("Could not notify #{host}:#{port}##{channel}: #{e.inspect}")
+                  error("Could not notify #{addr}: #{e.inspect}")
                 end
               end
             end
@@ -114,6 +120,10 @@ module Travis
 
           def freenode?(host)
             (host.end_with?('.freenode.net') || host.end_with?('.freenode.org')) && nick == 'travis-ci'
+          end
+
+          def freenode_blocked?(channel)
+            Array(Travis.config.irc.freenode_blocked_channels).include?(channel)
           end
 
           def try_config(option)
