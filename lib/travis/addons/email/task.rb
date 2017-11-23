@@ -33,12 +33,17 @@ module Travis
 
           def send_email
             Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
-            info "type=email build=#{build_id(payload)} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
+            info "type=email repo= #{repository_slug(payload)} build=#{build_id(payload)} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end
 
           def build_id(data)
             build = Hashr.new(data[:build])
             build.id
+          end
+
+          def repository_slug(data)
+            repository = @repository = Hashr.new(data[:repository])
+            repository.slug
           end
 
           def valid?(email)
