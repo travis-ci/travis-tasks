@@ -36,14 +36,26 @@ module Travis
           private
 
             def from
-              config.email && config.email.from || "builds@#{config.host}"
+              "\"Travis CI\" <#{from_email}>"
             end
+
+            def from_email
+              config email && config.email.from || "builds@#{config.host}"
+            end
+
+            # def from
+            #   config.email && config.email.from || "Travis CI <builds@#{config.host}>"
+            # end
 
             def to
               config.email && config.email.trials_to_placeholder || "trials@#{config.host}"
             end
 
             def reply_to
+              "\"Travis CI Support\" <#{reply_to_email}>"
+            end
+
+            def reply_to_email
               config.email && config.email.reply_to || "support@#{config.host}"
             end
 
