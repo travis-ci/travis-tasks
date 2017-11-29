@@ -30,7 +30,7 @@ module Travis
           def trial_ended(receivers, owner, builds_remaining)
             @owner = owner
             subject = "Your Travis CI trial just ended!"
-            mail(from: from, to: to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
 
           private
@@ -41,6 +41,10 @@ module Travis
 
             def to
               config.email && config.email.trials_to_placeholder || "trials@#{config.host}"
+            end
+
+            def reply_to
+              config.email && config.email.reply_to || "support@#{config.host}"
             end
 
             def config
