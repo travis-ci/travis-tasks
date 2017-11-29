@@ -43,10 +43,6 @@ module Travis
               config.email && config.email.from || "builds@#{config.host}"
             end
 
-            # def from
-            #   config.email && config.email.from || "Travis CI <builds@#{config.host}>"
-            # end
-
             def to
               config.email && config.email.trials_to_placeholder || "trials@#{config.host}"
             end
