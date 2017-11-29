@@ -12,19 +12,19 @@ module Travis
           def trial_started(receivers, owner, builds_remaining)
             @owner, @builds_remaining = owner, builds_remaining
             subject = "Welcome to your Travis CI trial!"
-            mail(from: from, to: to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
 
           def trial_halfway(receivers, owner, builds_remaining)
             @owner, @builds_remaining = owner, builds_remaining
             subject = "Travis CI: Halfway through your trial"
-            mail(from: from, to: to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
 
           def trial_about_to_end(receivers, owner, builds_remaining)
             @owner, @builds_remaining = owner, builds_remaining
             subject = "Travis CI: #{builds_remaining} builds left in your trial"
-            mail(from: from, to: to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
 
           def trial_ended(receivers, owner, builds_remaining)
