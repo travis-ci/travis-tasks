@@ -7,8 +7,8 @@ gem 'travis-exceptions', git: 'https://github.com/travis-ci/travis-exceptions'
 gem 'travis-metrics',    git: 'https://github.com/travis-ci/travis-metrics'
 gem 'travis-config',   '~> 1.1.0'
 
-gem 'metriks',                 git: 'https://github.com/travis-ci/metriks', ref: 'igor-hdr-histogram'
-gem 'metriks-librato_metrics', git: 'https://github.com/travis-ci/metriks-librato_metrics', ref: 'igor-hdr-histogram'
+gem 'metriks',                 git: 'https://github.com/travis-ci/metriks'
+gem 'metriks-librato_metrics', git: 'https://github.com/travis-ci/metriks-librato_metrics'
 
 gem 'sidekiq',         '~> 4.0.0'
 gem 'redis-namespace'
