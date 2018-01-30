@@ -610,7 +610,7 @@ GEM
       addressable
     diff-lcs (1.3)
     erubis (2.7.0)
-    faraday (0.13.1)
+    faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
     foreman (0.84.0)
