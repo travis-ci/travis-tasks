@@ -31,14 +31,9 @@
       }
 
       #email-content-container {
+        max-width: 500px;
         padding: 0px 10px;
         background-color: #FFFFFF;
-      }
-
-      @media only screen and (min-width: 768px) {
-        #email-content-container {
-          max-width: 500px;
-        }
       }
 
       #travis-ci-logo-section {
@@ -97,7 +92,7 @@
       }
 
       #owner-of-account-note-section {
-        padding: 0px 20px 40px 20px;
+        padding: 0px 20px 52px 20px;
         color: #9EA3A8;
         font-size: 13px;
         text-align: center;
@@ -106,13 +101,13 @@
       @media only screen and (max-width: 480px) {
         #owner-of-account-note-section {
           font-size: 10px;
-          padding: 0px 5px 40px 5px;
+          padding: 0px 5px 52px 5px;
         }
       }
 
       #sign-up-section {
         text-align: center;
-        padding-bottom: 70px;
+        padding-bottom: 52px;
       }
 
       #sign-up-section a:active {
@@ -133,10 +128,7 @@
         background-color: #32D282;
         text-decoration: none;
         padding: 12px 50px;
-        border-top-left-radius: 2px;
-        border-top-right-radius: 2px;
-        border-bottom-right-radius: 2px;
-        border-bottom-left-radius: 2px;
+        border-radius: 2px;
       }
 
       #need-more-builds-section {
@@ -186,12 +178,7 @@
         line-height: 200%;
         text-align: center;
         color: #9EA3A8;
-      }
-
-      @media only screen and (min-width: 768px) {
-        #email-footer-section {
-          max-width: 500px;
-        }
+        max-width: 500px;
       }
 
       #email-footer-section a {
@@ -220,8 +207,7 @@
                  border="0"
                  cellpadding="0"
                  cellspacing="0"
-                 width="100%"
-                 style="padding: 0px 10px; background-color: #FFFFFF;">
+                 style="max-width: 500px; padding: 0px 10px; background-color: #FFFFFF;">
             <!-- Travis CI Logo Section -->
             <tr>
               <td id="travis-ci-logo-section" align="center" valign="top" style="padding: 20px 0px;">
@@ -285,13 +271,13 @@
             <!-- Owner of Account Signup Note Section -->
             <tr>
               <td id="owner-of-account-note-section"
-                  style="padding: 0px 20px 40px 20px; color: #9ea3a8; font-size: 13px; text-align: center;">
+                  style="padding: 0px 20px 52px 20px; color: #9ea3a8; font-size: 13px; text-align: center;">
                 <p style="margin: 0px;"><strong>Note: </strong>You must be an <strong>owner of the account</strong> to sign up for a subscription.</p>
               </td>
             </tr>
             <!-- Sign Up for Travis CI Section -->
             <tr>
-              <td id="sign-up-section" align="center" valign="top" style="text-align: center; padding-bottom: 70px;">
+              <td id="sign-up-section" align="center" valign="top" style="text-align: center; padding-bottom: 52px;">
                 <a id="sign-up-button"
                    href="https://billing.travis-ci.com/subscriptions/<%= @owner[:billing_slug] %>"
                    style="font: bold 11px Arial; color: #FFFFFF; background-color: #32d282; text-decoration: none;
@@ -328,7 +314,7 @@
       <!-- Email Footer Section -->
       <tr>
         <td align="center" valign="top">
-          <table id="travis-ci-email-footer-container" border="0" cellpadding="20" cellspacing="0" width="100%">
+          <table id="travis-ci-email-footer-container" border="0" cellpadding="20" cellspacing="0" style="max-width: 500px;">
             <tr>
               <td id="questions-section" align="center" valign="top" style="color:#0068ff; font-weight: 300;">
                 <span>Have any questions?</span>
@@ -343,13 +329,13 @@
               </td>
             </tr>
             <tr>
-              <td id="email-footer-section" style="color: #9ea3a8; font-size: 10px; line-height: 200%; text-align: center; color: #9ea3a8;">
-                <p style="margin: 0px;">Travis CI GmbH, Riggter Str. 8, 10427 Berlin, Germany | GF: Konstantin Haase, Fritz Thielemann | <span>Contact:<a href="mailto:contact@travis-ci.org" style="color: #9ea3a8;">contact@travis-ci.org</a>
+              <td id="email-footer-section" style="color: #9EA3A8; font-size: 10px; line-height: 200%; text-align: center; color: #9EA3A8; padding-top:0px;">
+                <p style="margin: 0px;">Travis CI GmbH, Riggter Str. 8, 10427 Berlin, Germany | GF: Konstantin Haase, Fritz Thielemann | <span>Contact:<a href="mailto:contact@travis-ci.org" style="color: #9EA3A8;">contact@travis-ci.org</a>
                 | Amstgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß § a Umsatzsteuergesetz: DE282002648</span>
                 </p>
                 <br>
                 <p style="margin: 0px;">Don't want to receive amazing emails from us?</p>
-                <p id="unsubscribe-from-travis-links" style="margin: 0px;"><a href="" style="color: #9ea3a8;">Unsubscribe</a> from Travis for public projects. | <a href="" style="color: #9ea3a8;">Unsubsribe</a> from Travis private projects.</p>
+                <p id="unsubscribe-from-travis-links" style="margin: 0px;"><a href="" style="color: #9EA3A8;">Unsubscribe</a> from Travis for public projects. | <a href="" style="color: #9EA3A8;">Unsubsribe</a> from Travis private projects.</p>
               </td>
             </tr>
           </table>
