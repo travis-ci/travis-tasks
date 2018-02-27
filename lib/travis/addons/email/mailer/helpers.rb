@@ -14,6 +14,18 @@ module Travis
             "data:#{type};base64,#{data}"
           end
 
+          def get_repo_username(repo_slug)
+            repo_slug.split('/').first
+          end
+
+          def get_repo_name(repo_slug)
+            repo_slug.split('/').last
+          end
+
+          def asset_url(build_state)
+            "#{Travis.config.s3.url}/#{build_state}.png"
+          end
+
           def repo_url(repo)
             url = "https://#{Travis.config.host}/#{repo.slug}"
             Travis.config.utm ? with_utm(url) :url
@@ -111,6 +123,19 @@ module Travis
             else
               'error'
             end
+          end
+
+          def gravatar_url(author_email)
+            "https://secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(author_email)}"
+          end
+
+          def build_status(status_result)
+            status_result.gsub('.', '')
+          end
+
+          def broadcast_category(category)
+            email_asset_base_url = 'https://s3.amazonaws.com/travis-email-assets'
+            category == 'announcement' ? "#{email_asset_base_url}/announcement_dot.png" : "#{email_asset_base_url}/warning_dot.png"
           end
 
           # def formated_note(format, message, numbers)
