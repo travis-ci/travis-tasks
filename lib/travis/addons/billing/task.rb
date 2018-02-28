@@ -1,5 +1,5 @@
 require 'travis/addons/email/task'
-require 'travis/addons/billing/mailer/billling_mailer'
+require 'travis/addons/billing/mailer/billing_mailer'
 
 module Travis
   module Addons
