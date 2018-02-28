@@ -7,6 +7,10 @@ module Travis
 
       # Sends out billing emails using ActionMailer.
       class Task < Travis::Addons::Email::Task
+        def type
+          :"#{params[:email_type]}"
+        end
+
         def subscription
           params[:subscription]
         end
@@ -27,7 +31,7 @@ module Travis
         private
 
           def send_email
-            Mailer::BillingMailer.public_send(recipient, subscription, charge, event).deliver
+            Mailer::BillingMailer.public_send(params[:email_type], recipient, subscription, charge, event).deliver
             info "type=#{type} status=sent msg='email sent email=' #{ obfuscate_email_address(recipient) }"
           end
       end
