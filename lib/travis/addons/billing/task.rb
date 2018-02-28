@@ -15,7 +15,7 @@ module Travis
           params[:subscription]
         end
 
-        # are charge and event is optional
+        # charge and event is optional
         def charge
           params[:charge]
         end
@@ -24,15 +24,15 @@ module Travis
           params[:event]
         end
 
-        def recipient
+        def billing_email
           params[:billing_email]
         end
 
         private
 
           def send_email
-            Mailer::BillingMailer.public_send(params[:email_type], recipient, subscription, charge, event).deliver
-            info "type=#{type} status=sent msg='email sent email=' #{ obfuscate_email_address(recipient) }"
+            Mailer::BillingMailer.public_send(params[:email_type], billing_email, subscription, charge, event).deliver
+            info "type=#{type} status=sent msg='email sent email=' #{ obfuscate_email_address(billing_email) }"
           end
       end
     end
