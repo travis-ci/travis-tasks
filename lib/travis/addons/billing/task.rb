@@ -24,6 +24,10 @@ module Travis
           params[:event]
         end
 
+        def owner
+          params[:owner]
+        end
+
         def billing_email
           params[:billing_email]
         end
@@ -31,7 +35,7 @@ module Travis
         private
 
           def send_email
-            Mailer::BillingMailer.public_send(params[:email_type], billing_email, subscription, charge, event).deliver
+            Mailer::BillingMailer.public_send(params[:email_type], billing_email, subscription, owner, charge, event).deliver
             info "type=#{type} status=sent msg='email sent email=' #{ obfuscate_email_address(billing_email) }"
           end
       end

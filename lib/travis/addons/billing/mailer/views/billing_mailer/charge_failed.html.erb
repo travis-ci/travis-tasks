@@ -155,7 +155,7 @@
 <div>
   <h3>Hello, <%= @subscription.first_name %> <%= @subscription.last_name %>,</h3>
   <p>
-    Unfortunately we had issues charging your credit card for the account <%= @subscription.owner.login %>.
+    Unfortunately we had issues charging your credit card for the account <%= @owner.login %>.
   </p>
 
   <% if @charge -%>
