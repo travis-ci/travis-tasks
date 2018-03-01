@@ -9,10 +9,11 @@ module Travis
 
           layout 'yield_email'
 
-          def charge_failed(billing_email, subscription, owner, charge, event)
-            @billing_email, @subscription, @owner, @charge, @event = billing_email, subscription, owner, charge, event
+          def charge_failed(subscription, owner, charge, event)
+            @subscription, @owner, @charge, @event = billing_email, subscription, owner, charge, event
+            @billing_email = @subscription[:billing_email]
             subject = "Travis CI: Charging Your Credit Card Failed"
-            mail(from: from, to: to, reply_to: reply_to, bcc: @billing_email, subject: subject, template_path: 'billing_mailer')
+            mail(from: from, to: @billing_email, subject: subject, template_path: 'billing_mailer')
           end
 
           private
@@ -23,18 +24,6 @@ module Travis
 
             def from_email
               config.email && config.email.from || "support@#{config.host}"
-            end
-
-            def to
-              # config.email && config.email.trials_to_placeholder
-            end
-
-            def reply_to
-              "Travis CI Support <#{reply_to_email}>"
-            end
-
-            def reply_to_email
-              config.email && config.email.reply_to || "support@#{config.host}"
             end
 
             def config
