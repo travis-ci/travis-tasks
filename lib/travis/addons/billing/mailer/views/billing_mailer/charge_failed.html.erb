@@ -133,11 +133,6 @@
   </head>
   <body>
     <div class="header">
-      <% if @rendering_pdf %>
-      <img src="data:image/png;base64,<%= Base64.encode64(File.read("#{Rails.root}/public/images/travis-ci.png")) %>"/>
-      <% else -%>
-      <img src="https://<%= Travis::Billing.config.domain -%>/images/travis-ci.png"/>
-      <% end -%>
       <ul class="contact">
         <li>
           E-Mail:
@@ -153,27 +148,27 @@
     <div class="content">
 
 <div>
-  <h3>Hello, <%= @subscription.first_name %> <%= @subscription.last_name %>,</h3>
+  <h3>Hello, <%= @subscription[:first_name] %> <%= @subscription[:last_name] %>,</h3>
   <p>
-    Unfortunately we had issues charging your credit card for the account <%= @owner.login %>.
+    Unfortunately we had issues charging your credit card for the account <%= @owner[:login] %>.
   </p>
 
-  <% if @charge -%>
+  <% if @charge %>
   <p>
-    Here's the message we received from our payment provider: <%= @charge["failure_message"] %>
+    Here's the message we received from our payment provider: <%= @charge[:failure_message] %>
   </p>
   <% end -%>
 
   <p>
-  <% if @event["next_payment_attempt"].blank? %>
+  <% if @event[:next_payment_attempt].blank? %>
     This was our last attempt to charge your credit card. For continued service, please make sure to update your credit card details.
-  <% else -%>
-    No worries if this is just a temporary failure. We'll try charging your card again in <%= distance_of_time_in_words(Time.at(@event["next_payment_attempt"]), Time.now.utc) %>.
-  <% end -%>
+  <% else %>
+    No worries if this is just a temporary failure. We'll try charging your card again in <%= Time.at(@event[:next_payment_attempt]).strftime('%F') %>.
+  <% end %>
   </p>
 
   <p>
-    Should your credit card have changed, you can update your <%= link_to "card details", edit_subscription_url(owner_id(@subscription.owner), protocol: 'https') %> any time.
+    Should your credit card have changed, you can update your <a href="https://billing.travis-ci.com/subscriptions/"<%= @owner[:login] %> > card details </a> any time.
   </p>
 
   <p>

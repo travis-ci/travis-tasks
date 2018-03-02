@@ -10,7 +10,7 @@ module Travis
           layout 'yield_email'
 
           def charge_failed(subscription, owner, charge, event)
-            @subscription, @owner, @charge, @event = billing_email, subscription, owner, charge, event
+            @subscription, @owner, @charge, @event = subscription, owner, charge, event
             @billing_email = @subscription[:billing_email]
             subject = "Travis CI: Charging Your Credit Card Failed"
             mail(from: from, to: @billing_email, subject: subject, template_path: 'billing_mailer')
