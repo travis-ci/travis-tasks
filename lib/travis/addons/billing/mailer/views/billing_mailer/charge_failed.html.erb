@@ -163,7 +163,7 @@
   <% if @event[:next_payment_attempt].blank? %>
     This was our last attempt to charge your credit card. For continued service, please make sure to update your credit card details.
   <% else %>
-    No worries if this is just a temporary failure. We'll try charging your card again in <%= Time.at(@event[:next_payment_attempt]).strftime('%F') %>.
+    No worries if this is just a temporary failure. We'll try charging your card again in <%= @next_payment_attempt %>.
   <% end %>
   </p>
 
