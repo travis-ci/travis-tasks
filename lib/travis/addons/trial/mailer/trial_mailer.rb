@@ -40,7 +40,7 @@ module Travis
             end
 
             def from_email
-              config.email && config.email.from || "builds@#{config.host}"
+              config.email && config.email.trials_from || "trials@#{config.host}"
             end
 
             def to
