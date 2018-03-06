@@ -61,7 +61,7 @@ module Travis
         end
 
         def message_text
-          lines = Array(template_from_config || default_template)
+          lines = notification_template
           lines.map {|line| Util::Template.new(line, payload, source: :slack).interpolate}.join("\n")
         end
 
@@ -76,20 +76,22 @@ module Travis
           end
         end
 
-        def template_from_config
-          slack_config.is_a?(Hash) ? slack_config[:template] : nil
-        end
-
         def slack_config
           build[:config].try(:[], :notifications).try(:[], :slack) || {}
         end
 
-        def default_template
-          if pull_request?
-            PULL_REQUEST_MESSAGE_TEMPLATE
+        def notification_template
+          if template_from_config(:template)
+            Array(template_from_config(:template))            
+          elsif pull_request?
+            Array(template_from_config(:pr_template) || PULL_REQUEST_MESSAGE_TEMPLATE)
           else
-            BRANCH_BUILD_MESSAGE_TEMPLATE
+            Array(template_from_config(:branch_template) || BRANCH_BUILD_MESSAGE_TEMPLATE)
           end
+        end
+
+        def template_from_config(key)
+          slack_config.is_a?(Hash) ? slack_config[key] : nil
         end
       end
     end
