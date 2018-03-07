@@ -7,6 +7,7 @@ module Travis
 
       # Sends out billing emails using ActionMailer.
       class Task < Travis::Addons::Email::Task
+        # checks whether to send invoice_payment_succeeded emails or charge_failed email
         def type
           :"#{params[:email_type]}"
         end
@@ -15,7 +16,11 @@ module Travis
           params[:subscription]
         end
 
-        # charge and event is optional
+        def owner
+          params[:owner]
+        end
+
+        # charge and event is only needed for charge_failed email
         def charge
           params[:charge]
         end
@@ -24,14 +29,19 @@ module Travis
           params[:event]
         end
 
-        def owner
-          params[:owner]
+        # invoice and cc_last_digits is only needed for invoice_payment_succeeded email
+        def invoice
+          params[:invoice]
+        end
+
+        def cc_last_digits
+          params[:cc_last_digits]
         end
 
         private
 
           def send_email
-            Mailer::BillingMailer.public_send(params[:email_type], subscription, owner, charge, event).deliver
+            Mailer::BillingMailer.public_send(params[:email_type], subscription, owner, charge, event, invoice, cc_last_digits).deliver
             info "type=#{type} status=sent msg='email sent email=' #{ obfuscate_email_address(subscription[:billing_email]) }"
           end
       end

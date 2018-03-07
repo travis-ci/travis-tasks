@@ -114,35 +114,37 @@
                     <p style="color:#AAD9BF;font-weight:400;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-top:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;margin-bottom:10px;" >Billed To</p>
                     <p style="color:#504E4E;font-weight:400;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-top:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;margin-bottom:10px;" >
                       <address style="color:#fff;font-style:normal;font-weight:200;line-height:1.7;" >
-                        <% if @subscription['company'].present? %>
-                          <em ><%= @subscription['company'] %></em><br>
+                        <% if @subscription[:company].present? %>
+                          <em ><%= @subscription[:company] %></em><br>
                         <% end %>
-                        <% if @subscription['first_name'].present? %>
-                            <%= @subscription['first_name'] %>
+                        <% if @subscription[:first_name].present? %>
+                            <%= @subscription[:first_name] %>
                         <% end %>
-                        <% if @subscription['last_name'].present? %>
-                            <%= @subscription['last_name'] %><br>
+                        <% if @subscription[:last_name].present? %>
+                            <%= @subscription[:last_name] %><br>
                         <% end %>
-                        <% if @subscription['address'].present? %>
-                            <%= @subscription['address'] %><br>
+                        <% if @subscription[:address].present? %>
+                            <%= @subscription[:address] %><br>
                         <% end %>
-                        <% if @subscription['city'].present? %>
-                            <%= @subscription['city'] %>
+                        <% if @subscription[:city].present? %>
+                            <%= @subscription[:city] %>
                         <% end %>
-                        <% if @subscription['zip_code'].present? %>
-                            <%= @subscription['zip_code'] %><br>
+                        <% if @subscription[:zip_code].present? %>
+                            <%= @subscription[:zip_code] %><br>
                         <% end %>
-                        <% %w(state country vat_id).each do |attr| %>
-                          <% if @subscription.send(attr).present? %>
-                            <%= @subscription[attr] %><br>
-                          <% end %>
-                        <% end %>
+                        <%# %w(state country vat_id).each do |attr| %>
+                          <%# if @subscription.send(attr.to_sym).present? %>
+                            <%# @subscription[attr.to_sym] %><br>
+                          <%# end %>
+                        <%# end %>
                       </address>
                     </p>
                   </td><td style="word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;padding-top:10px;padding-bottom:10px;padding-right:10px;padding-left:10px;width:173px;" ></td><td style="word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;padding-top:10px;padding-bottom:10px;padding-right:10px;padding-left:10px;width:173px;" >
                     <p style="color:#AAD9BF;font-weight:400;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-top:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;margin-bottom:10px;" >Total (in USD)</p>
-                    <p style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;background-color:#2B7D4F;color:#ffffff;font-size:24px;padding-top:0.5em;padding-bottom:0.5em;padding-right:0.5em;padding-left:0.5em;font-weight:200;border-radius:2px;line-height:39px;text-align:left;" ><%= number_to_currency(@invoice.object["amount_due"] / 100.0) %></p>
-                    <p style="color:#fff;font-weight:200;font-style:italic;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-top:10px;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;margin-bottom:10px;" ><time datetime="sdjdj"><%= l @invoice.created_at, format: :long %></time></p>
+                    <p style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;background-color:#2B7D4F;color:#ffffff;font-size:24px;padding-top:0.5em;padding-bottom:0.5em;padding-right:0.5em;padding-left:0.5em;font-weight:200;border-radius:2px;line-height:39px;text-align:left;" >
+                      <%# number_to_currency(@invoice.object["amount_due"] / 100.0) %></p>
+                    <p style="color:#fff;font-weight:200;font-style:italic;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-top:10px;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;margin-bottom:10px;" >
+                      <time datetime="sdjdj"><%# l @invoice[:created_at], format: :long %></time></p>
                   </td>
                 </tr>
               </table>
@@ -166,63 +168,74 @@
                   <td class="two-thirds" style="word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;width:98%;display:inline-block;padding-top:10px;padding-bottom:10px;padding-right:10px;padding-left:10px;" >
                     <table class="two-two-up" style="border-spacing:0;border-collapse:collapse;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;width:100%;" >
                       <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
-                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Account Name</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><%= @subscription.owner.login %></td>
+                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Account Name</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >
+                          <%# @subscription.owner.login %></td>
                       </tr>
                       <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
-                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Subscription Period</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><%= l set_period(@invoice.object, "start", @subscription), format: :long -%> to <%= l set_period(@invoice.object, "end", @subscription), format: :long -%></td>
+                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Subscription Period</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >
+                          <%# l set_period(@invoice.object, "start", @subscription), format: :long -%>
+                          to <%# l set_period(@invoice.object, "end", @subscription), format: :long -%></td>
                       </tr>
                       <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
-                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Status</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >Paid with credit card ending in <%= @charge_cc_last_digits %></td>
+                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Status</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >Paid with credit card ending in <%# @charge_cc_last_digits %></td>
                       </tr>
 
-                      <% unless is_proration?(@invoice.object) %>
+                      <%# unless is_proration?(@invoice.object) %>
                         <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
-                          <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Plan</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><%= Travis::Billing.config.plans[parse_subscription(@invoice.object)["plan"]["id"].to_sym][:name] %></td>
+                          <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Plan</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >
+                            <%# Travis::Billing.config.plans[parse_subscription(@invoice.object)["plan"]["id"].to_sym][:name] %></td>
                         </tr>
-                      <% end %>
+                      <%# end %>
                       <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
-                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Price</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><%= number_to_currency(get_plan_amount(@invoice.object) / 100.0) %></td>
+                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Price</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >
+                          <%# number_to_currency(get_plan_amount(@invoice.object) / 100.0) %></td>
                       </tr>
 
-                    <% (invoice_items(@invoice.object) || []).each do |invoice_item| %>
+                    <%# (invoice_items(@invoice.object) || []).each do |invoice_item| %>
                       <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;">
-                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" ><%= invoice_item["description"] %></strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;"><%= number_to_currency(invoice_item["amount"] / 100.0) %></td>
+                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >
+                          <%# invoice_item["description"] %></strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;">
+                          <%# number_to_currency(invoice_item["amount"] / 100.0) %></td>
                       </tr>
-                    <% end -%>
+                    <%# end -%>
 
-                    <% if @invoice.object["discount"].present? %>
+                    <%# if @invoice.object["discount"].present? %>
                       <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
                         <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Discount</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >
-                        <% if @invoice.object["discount"]["coupon"]["percent_off"] -%>
-                          <%= @invoice.object["discount"]["coupon"]["percent_off"] %>%
-                        <% else -%>
-                          <%= number_to_currency(@invoice.object["discount"]["coupon"]["amount_off"] / 100.0) %>
-                        <% end -%></td>
+                        <%# if @invoice.object["discount"]["coupon"]["percent_off"] -%>
+                          <%# @invoice.object["discount"]["coupon"]["percent_off"] %>%
+                        <%# else -%>
+                          <%# number_to_currency(@invoice.object["discount"]["coupon"]["amount_off"] / 100.0) %>
+                        <%# end -%></td>
                       </tr>
-                    <% end -%>
+                    <%# end -%>
 
-                    <% if (balance = @invoice.object["starting_balance"].to_i) != 0 -%>
+                    <%# if (balance = @invoice.object["starting_balance"].to_i) != 0 -%>
                       <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
-                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" ><%= balance > 0 ? "Debit" : "Credit" %></strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><%= applied_balance(balance, @invoice.object["ending_balance"]) %></td>
+                        <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >
+                          <%# balance > 0 ? "Debit" : "Credit" %></strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;">
+                          <%# applied_balance(balance, @invoice.object["ending_balance"]) %></td>
                       </tr>
-                    <% end -%>
+                    <%# end -%>
                       <tr style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
-                        <td style="padding-top:13px;padding-bottom:10px;padding-right:0;padding-left:0;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Total</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><%= number_to_currency(@invoice.object["amount_due"] / 100.0) %></td>
+                        <td style="padding-top:13px;padding-bottom:10px;padding-right:0;padding-left:0;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Total</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >
+                          <%# number_to_currency(@invoice.object["amount_due"] / 100.0) %></td>
                       </tr>
-                       <% unless @subscription.vat_required? -%>
+                       <%# unless @subscription.vat_required? -%>
                          <tr style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
                            <td style="padding-top:13px;padding-bottom:10px;padding-right:0;padding-left:0;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >(VAT due to the recipient)</td>
                          </tr>
-                       <% end -%>
+                       <%# end -%>
                     </table>
                   </td><td class="one-third" style="word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;width:100%;display:inline-block;padding-top:10px;padding-bottom:10px;padding-right:10px;padding-left:10px;" >
                     <table style="border-spacing:0;border-collapse:collapse;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
                       <tr style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
                         <td class="invoice-number" align="top" style="vertical-align:top;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;padding-top:10px;padding-bottom:10px;padding-right:10px;" >
-                          <p style="padding-top:0;padding-bottom:10px;padding-right:0;padding-left:0;color:#6AACAC;font-weight:400;margin-top:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;margin-bottom:10px;" >Invoice #<%= @invoice.invoice_id %></p>
+                          <p style="padding-top:0;padding-bottom:10px;padding-right:0;padding-left:0;color:#6AACAC;font-weight:400;margin-top:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;margin-bottom:10px;" >
+                            Invoice #<%# @invoice.invoice_id %></p>
                         <% if not @hide_pdf_notice -%>
                           <p style="color:#504E4E;font-weight:400;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-top:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;margin-bottom:10px;" >
-                            <a href="<%= invoice_url(Digest::SHA1.hexdigest(@invoice.stripe_id + @invoice.invoice_id), format: 'pdf', protocol: 'https') %>" class="link" style="display:inline-block;text-decoration:none;color:#737272;padding-top:5px;padding-bottom:5px;padding-right:0;padding-left:0;line-height:18px;" >
+                            <a href="<%# invoice_url(Digest::SHA1.hexdigest(@invoice.stripe_id + @invoice.invoice_id), format: 'pdf', protocol: 'https') %>" class="link" style="display:inline-block;text-decoration:none;color:#737272;padding-top:5px;padding-bottom:5px;padding-right:0;padding-left:0;line-height:18px;" >
                               <img src="https://billing<% unless Travis.env == 'production' %>-staging<% end -%>.travis-ci.com/images/email/icon-pdf.png" alt="PDF icon" width="14" height="17" style="margin-right:8px;width:14px !important;display:block;outline-color:0;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:100%;float:left;clear:both;border-style:none;" />
                               Download a PDF copy</a><br />
                             <!-- <a href="#" class="link" style="display:inline-block;text-decoration:none;color:#737272;padding-top:5px;padding-bottom:5px;padding-right:0;padding-left:0;line-height:18px;" >
@@ -259,14 +272,14 @@
                       <img src="https://billing<% unless Travis.env == 'production' %>-staging<% end -%>.travis-ci.com/images/email/icon-annual-plan.png" alt="Anual plan icon" width="35" height="26" style="margin-right:8px;margin-top:5px;width:35px !important;display:block;outline-color:0;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:100%;float:left;clear:both;" />
                       <span style="display:inline-block;" >
                         <strong style="color:#6AACAC;font-weight:600;" >Want Travis CI FREE for one month?</strong><br />
-                        <a href="<%= edit_subscription_url(@subscription.owner.login, protocol: 'https') %>" style="color:#737272;">Simplify your accounting and switch to annual billing!</a>
+                        <a href="<%# edit_subscription_url(@subscription.owner.login, protocol: 'https') %>" style="color:#737272;">Simplify your accounting and switch to annual billing!</a>
                       </span>
                     </p>
                   </td></tr>
                   <tr style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" ><td style="word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;padding-top:10px;padding-bottom:10px;padding-right:10px;padding-left:10px;" >
                     <p style="line-height:1.3;color:#737272;font-weight:400;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-top:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;margin-bottom:10px;" >
                     <img src="https://billing<% unless Travis.env == 'production' %>-staging<% end -%>.travis-ci.com/images/email/icon-credit-card.png" alt="Credit card icon" width="35" height="22" style="margin-right:12px;margin-top:-3px;width:35px !important;display:block;outline-color:0;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:100%;float:left;clear:both;" />
-                    Need to change your billing details? You can <a href="<%= edit_subscription_url(@subscription.owner.login, protocol: 'https') %>" style="color:#737272;" >update them anytime</a>.</p>
+                    Need to change your billing details? You can <a href="<%# edit_subscription_url(@subscription.owner.login, protocol: 'https') %>" style="color:#737272;" >update them anytime</a>.</p>
 
                   </td>
                 </tr>
@@ -277,7 +290,7 @@
       </center>
     </td>
   </tr>
-</table> <!-- / stuff -->
+</table> <!-- 
 <% end -%>
 
 
