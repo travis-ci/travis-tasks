@@ -7,19 +7,17 @@ module Travis
         class BillingMailer < ActionMailer::Base
           append_view_path File.expand_path('../views', __FILE__)
 
-          def charge_failed(subscription, owner, charge, event, invoice, cc_last_digits)
+          def charge_failed(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription, @owner, @charge, @event = subscription, owner, charge, event
-            @billing_email = @subscription[:billing_email]
             @next_payment_attempt = Time.at(@event[:next_payment_attempt]).strftime('%F')
             subject = "Travis CI: Charging Your Credit Card Failed"
-            mail(from: from, to: @billing_email, subject: subject, template_path: 'billing_mailer')
+            mail(from: from, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
-          def invoice_payment_succeeded(subscription, owner, charge, event, invoice, cc_last_digits)
+          def invoice_payment_succeeded(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription, @owner, @invoice, @cc_last_digits = subscription, owner, invoice, cc_last_digits
-            @billing_email = @subscription[:billing_email]
             subject = "Travis CI: Your Invoice"
-            mail(from: from, to: @billing_email, subject: subject, template_path: 'billing_mailer')
+            mail(from: from, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
           private

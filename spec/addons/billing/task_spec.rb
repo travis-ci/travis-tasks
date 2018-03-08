@@ -5,20 +5,57 @@ describe Travis::Addons::Billing::Task do
 
   let(:mailer) { Travis::Addons::Billing::Mailer::BillingMailer }
   let(:email) { stub('email', deliver: true) }
-  let(:email_type) { 'charge_failed' }
-  let(:handler) { described_class.new({}, email_type: email_type, subscription: subscription, charge: charge, event: event) }
-  let(:subscription) { { first_name: 'Anja', last_name: 'Miller', valid_to: Time.now + 1.month } }
-  let(:owner) { { name: 'Anja', login: 'anja' } }
-  let(:billing_email) { 'anja@travis-test.com' }
+  let(:handler) { described_class.new({}, email_type: email_type, recipients: recipients, subscription: subscription, owner: owner, charge: charge, event: event, invoice: invoice, cc_last_digits: cc_last_digits) }
+  let(:subscription) { { first_name: 'Anja', last_name: 'Miller', valid_to: Time.now + 86400.to_i } }
+  let(:owner) { { name: 'Anja', login: 'ami' } }
+  let(:recipients) { ['anja@travis-ci.com'] }
+  let(:charge) { { "object": "charge", "status": "succeeded" } }
+  let(:event) { { "object": "event", "type": "invoice.payment_succeeded" } }
+  let(:invoice) { { "object": "invoice" } }
+  let(:cc_last_digits) { 1234 }
   let(:io) { StringIO.new }
 
   before do
     Travis.logger = Logger.new(io)
   end
 
-  describe 'sends charge failed email' do
-    mailer.expects(email_type).with(subscription, owner, charge, event).returns(email)
-    handler.run
+  shared_examples 'sends billing email' do |email_type|
+    let(:email_type) { email_type }
+
+    specify 'sends to all recipients' do
+      mailer.expects(email_type).with(recipients, subscription, owner, charge, event, invoice, cc_last_digits).returns(email)
+      handler.run
+    end
   end
 
+  shared_examples 'no email sent' do |email_type|
+    let(:email_type) { email_type }
+
+    specify do
+      mailer.expects(email_type).never
+      handler.run
+    end
+  end
+
+  describe 'sends charge failed email' do
+    context 'with recipients' do
+      include_examples 'sends billing email', 'charge_failed'
+    end
+
+    context 'with no recipients' do
+      let(:recipients) { [] }
+      include_examples 'no email sent', 'charge_failed'
+    end
+  end
+
+  describe 'sends invoice_payment_succeeded email' do
+    context 'with recipients' do
+      include_examples 'sends billing email', 'invoice_payment_succeeded'
+    end
+
+    context 'with no recipients' do
+      let(:recipients) { [] }
+      include_examples 'no email sent', 'charge_failed'
+    end
+  end
 end

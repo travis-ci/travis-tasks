@@ -38,11 +38,13 @@ module Travis
           params[:cc_last_digits]
         end
 
+
         private
 
           def send_email
-            Mailer::BillingMailer.public_send(params[:email_type], subscription, owner, charge, event, invoice, cc_last_digits).deliver
-            info "type=#{type} status=sent msg='email sent email=' #{ obfuscate_email_address(subscription[:billing_email]) }"
+            Mailer::BillingMailer.public_send(params[:email_type], recipients, subscription, owner, charge, event, invoice, cc_last_digits).deliver
+            emails = recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')
+            info "type=#{type} status=sent msg='email sent #{emails}"
           end
       end
     end
