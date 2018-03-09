@@ -55,7 +55,29 @@ describe Travis::Addons::Billing::Task do
 
     context 'with no recipients' do
       let(:recipients) { [] }
-      include_examples 'no email sent', 'charge_failed'
+      include_examples 'no email sent', 'invoice_payment_succeeded'
+    end
+  end
+
+  describe 'sends subscription cancelled email' do
+    context 'with recipients' do
+      include_examples 'sends billing email', 'subscription_cancelled'
+    end
+
+    context 'with no recipients' do
+      let(:recipients) { [] }
+      include_examples 'no email sent', 'subscription_cancelled'
+    end
+  end
+
+  describe 'sends user feedback email' do
+    context 'with recipients' do
+      include_examples 'sends billing email', 'user_feedback'
+    end
+
+    context 'with no recipients' do
+      let(:recipients) { [] }
+      include_examples 'no email sent', 'user_feedback'
     end
   end
 end

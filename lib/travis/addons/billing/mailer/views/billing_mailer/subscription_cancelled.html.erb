@@ -1,0 +1,64 @@
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>Your Travis CI Subscription has been cancelled.</title>
+</head>
+
+<body>
+
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff">
+    <tr>
+        <td>
+            <table id="main" width="600" align="center" cellpadding="0" cellspacing="0" bgcolor="ffffff">
+                    <tr>
+                        <td>
+                            <table id="header" cellpadding="10" cellspacing="0" align="center">
+                                <tr>
+                                    <td width="570" height="100"><h1 style="color: #797976 !important; font-family: Helvetica, Arial, sans-serif; font-size: 24px; margin-bottom: 0!important; padding-bottom: 0;">We're sorry to see you go!</h1></td>
+                                </tr>
+                                <tr>
+                                    <td width="570" bgcolor="a63133"><h2 style="color: #ffffff !important; font-family: Helvetica, Arial, sans-serif; font-size: 20px; margin: 0 !important; padding-bottom: 0;">Your subscription has been cancelled.</h2></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <table id="content" cellpadding="10" cellspacing="0" align="center" bgcolor="efefea">
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td width="570">
+                                      <p style="font-size: 14px; color: #797976 !important; font-family: Helvetica, Arial, sans-serif; line-height: 1.7; margin: 0 0 1.0em 0;">This email is to confirm your subscription with Travis CI has been cancelled and is set to expire on
+                                        <%= @subscription[:valid_to].strftime("%B %d, %Y") %>.</p>
+
+                                        <p style="font-size: 14px; color: #797976 !important; font-family: Helvetica, Arial, sans-serif; line-height: 1.7; margin: 0 0 1.0em 0;">If you cancelled by mistake, please respond to this email, and we'll help you getting back up and running.</p>
+
+                                        <p style="font-size: 14px; color: #797976 !important; font-family: Helvetica, Arial, sans-serif; line-height: 1.7; margin: 0 0 1.0em 0;">Thank you,<br>
+                                            The Travis CI Team
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <table id="footer" cellpadding="0" cellspacing="0" width="600" height="200" align="center">
+                    <tr>
+                        <td align="right">
+                            <h1 style="color: #797976 !important; font-family: Helvetica, Arial, sans-serif; font-size: 24px; margin-bottom: 0!important; padding-bottom: 0;">Travis CI</h1>
+                            <h2 style="color: #797976 !important; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; margin: 0 !important; padding-bottom: 0;">Build Apps with Confidence.</h2>
+                        </td>
+                        <td width="110" align="right">
+                            <img src="https://blog.travis-ci.com/images/travis-mascot-200px.png" height="100" width="100">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
