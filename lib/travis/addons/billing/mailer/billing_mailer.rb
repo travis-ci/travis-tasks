@@ -27,11 +27,7 @@ module Travis
             end
 
             def from_email
-              config.email && config.email.from || "support@#{config.host}"
-            end
-
-            def config
-              Travis.config
+              "success@travis-ci.com"
             end
         end
       end
