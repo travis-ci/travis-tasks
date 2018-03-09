@@ -38,7 +38,6 @@ module Travis
           params[:cc_last_digits]
         end
 
-
         private
 
           def send_email

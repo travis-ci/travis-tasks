@@ -11,18 +11,29 @@ module Travis
             @subscription, @owner, @charge, @event = subscription, owner, charge, event
             @next_payment_attempt = Time.at(@event[:next_payment_attempt]).strftime('%F')
             subject = "Travis CI: Charging Your Credit Card Failed"
-            mail(from: from, to: receivers, subject: subject, template_path: 'billing_mailer')
+            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
           def invoice_payment_succeeded(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription, @owner, @invoice, @cc_last_digits = subscription, owner, invoice, cc_last_digits
             subject = "Travis CI: Your Invoice"
-            mail(from: from, to: receivers, subject: subject, template_path: 'billing_mailer')
+            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
+          def subscription_cancelled(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
+            @subscription = subscription
+            subject = "Travis CI: Cancellation confirmed"
+            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
+          end
+
+          def user_feedback(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
+            @subscription, @owner = subscription, owner
+            subject = "Subscription cancelled for #{owner[:login]}"
+            mail(from: travis_email, to: travis_email, reply_to: receivers, subject: subject, template_path: 'billing_mailer')
+          end
           private
 
-            def from
+            def travis_email
               "Travis CI <#{from_email}>"
             end
 
