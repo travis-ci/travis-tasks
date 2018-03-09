@@ -1,19 +1,19 @@
-The subscription for the account <%= @owner[:login] %> was cancelled by <%# @user.name %> (<%# @user.login %>).
+The subscription for the account <%= @owner[:login] %> was cancelled by <%= @user[:name] %> (<%= @user[:login] %>).
 
-<%# if @feedback[:reason].present? %>
+<% if @feedback[:reason].present? %>
 The reason was <%# @feedback[:reason] %>
-<%# end -%>
+<% end -%>
 
-<%# if @feedback[:feedback].present? %>
+<% if @feedback[:feedback].present? %>
 The customer provided the following feedback:
 
 ---
-<%# @feedback[:feedback] %>
+<%= @feedback[:feedback] %>
 ---
 
-<%# else %>
+<% else %>
 The customer provided no further feedback.
-<%# end %>
+<% end %>
 
 They were subscribed to the "<%= @subscription[:selected_plan] %>" plan.
 

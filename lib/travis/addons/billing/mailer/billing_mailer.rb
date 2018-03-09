@@ -26,11 +26,6 @@ module Travis
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
-          def user_feedback(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
-            @subscription, @owner = subscription, owner
-            subject = "Subscription cancelled for #{owner[:login]}"
-            mail(from: travis_email, to: travis_email, reply_to: receivers, subject: subject, template_path: 'billing_mailer')
-          end
           private
 
             def travis_email

@@ -4,6 +4,7 @@ module Travis
     require 'travis/addons/email'
     require 'travis/addons/trial'
     require 'travis/addons/billing'
+    require 'travis/addons/billing_feedback'
     require 'travis/addons/flowdock'
     require 'travis/addons/github_status'
     require 'travis/addons/hipchat'
