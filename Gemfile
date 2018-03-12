@@ -18,7 +18,6 @@ gem 'keen'
 gem 'jemalloc', git: 'https://github.com/joshk/jemalloc-rb'
 
 gem 'gh'
-gem 'aws-sdk'
 gem 'actionmailer',    '~> 3.2.18'
 gem 'roadie'
 gem 'roadie-rails',    '~> 1.0'
