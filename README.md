@@ -31,6 +31,29 @@ Travis.config.smtp.user_name = 'your smtp username'
 ```
 Travis::Addons::Trial::Mailer::TrialMailer.trial_started(%w{your_email@address.com}, { name: 'Clark', login: 'github_username', billing_slug: 'user' }, 100).deliver
 ```
+
+### Send Billing Emails
+When a charge failed we call this method: `charge_failed(receivers, subscription, owner, charge, event, invoice, cc_last_digits)`
+
+To check it and receive an email:
+
+```
+Travis::Addons::Billing::Mailer::BillingMailer.charge_failed( ["your_email@address.com"], { first_name: "Firstname", last_name: "Lastname", company: "Org", selected_plan: "travis-ci-two-builds"}, { name: 'Name', login: 'login' }, {"object": "charge"}, { "object": "invoice", "paid": false, "next_payment_attempt": Time.now + 86400.to_i  }, {"object": "invoice"}, {cc_last_digest: 1234}).deliver
+```
+
+We have the similar methods for: `invoice_payment_succeeded` and `subscription_cancelled`.
+
+### Send Feedback Emails
+
+When a user gives feedback after the cancellation that method gets called :`user_feedback(recipients, subscription, owner, user, feedback)`
+
+To check it and receive an email at: `success@travis-ci.org`:
+
+```
+Travis::Addons::BillingFeedback::Mailer::BillingFeedbackMailer.user_feedback( ["your_email@address.com"], {first_name: "Firstname", last_name: "Lastname", company: "Org", selected_plan: "travis-ci-two-builds", valid_to: Time.now }, { name: 'Name', login: 'login' }, {name: 'user', login: 'userlogin', email: "your_email@address.com" }, {"feedback": "test"}).deliver
+```
+
+
 ## Reporting Issues
 
 Please file any issues on the [central Travis CI issue tracker](https://github.com/travis-ci/travis-ci/issues).
