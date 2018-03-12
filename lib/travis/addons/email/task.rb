@@ -32,7 +32,7 @@ module Travis
           end
 
           def send_email
-            Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
+            Mailer::Build.finished_email(payload, recipients, broadcasts).deliver_now
             info "type=email repo=#{repository_slug(payload)} build=#{build_id(payload)} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end
 

@@ -4,7 +4,7 @@ describe Travis::Addons::Trial::Task do
   include Travis::Testing::Stubs
 
   let(:mailer) { Travis::Addons::Trial::Mailer::TrialMailer }
-  let(:email) { stub('email', deliver: true) }
+  let(:email) { stub('email', deliver_now: true) }
   let(:handler) { described_class.new({}, stage: stage, recipients: recipients, owner: owner, builds_remaining: builds_remaining) }
   let(:owner) { { name: 'Joe', login: 'joe', billing_slug: 'user' } }
   let(:recipients) { %w{joe@travis-ci.com joe@[bademail].home} }
