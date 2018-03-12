@@ -1,0 +1,205 @@
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <style type="text/css">
+      html, body {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 800px;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        background-color: #fff;
+      }
+
+      body {
+        padding: 20px;
+      }
+      h3 {
+        font-size: 16px;
+      }
+      em {
+        font-style: normal;
+        background-color: #fff780;
+      }
+
+      dl {
+        display: inline-block;
+        margin: 0;
+        line-height: 24px;
+        font-size: 15px;
+      }
+      dt {
+        float: left;
+        clear: left;
+        width: 150px;
+      }
+      dd {
+        float: left;
+      }
+      p sup {
+        position: relative;
+        top: -0.5em;
+        vertical-align: baseline;
+        line-height: 0;
+        font-size: 75%;
+      }
+
+      .header {
+        height: 70px;
+      }
+      .header img {
+        float: left;
+        width: 200px;
+        height: 64px;
+      }
+      .header ul {
+        float: right;
+        margin: 14px 0 0 0;
+        padding: 0;
+        font-size: 14px;
+        line-height: 160%;
+        color: #999;
+        list-style-type: none;
+      }
+      .header ul a {
+        color: #999;
+        text-decoration: none;
+      }
+      .header ul a:hover {
+        text-decoration: underline;
+      }
+      .header li {
+        margin: 0;
+        padding: 0;
+      }
+
+      .footnotes {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        color: #999;
+        list-style-type: none;
+      }
+      .footnotes li {
+        position: relative;
+        margin: 0;
+        padding-left: 10px;
+        line-height: 160%;
+      }
+      .footnotes li sup {
+        position: absolute;
+        left: 0;
+        top: -0.33em;
+      }
+      .footnotes li a {
+        color: inherit;
+      }
+      p.footnotes {
+        margin-top: 20px;
+      }
+      #invoice .stamp {
+        position: absolute;
+        right: 96px;
+      }
+
+      div.footer {
+        margin-top: 20px;
+        font-size: 14px;
+      }
+      div.footer h2 {
+        margin-top: 0;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      div.footer ul {
+        display: inline-block;
+        float: left;
+        margin: 0 35px 0 0;
+        padding: 0;
+        list-style-type: none;
+      }
+      div.footer li {
+        line-height: 160%;
+        font-size: 15px;
+        color: #999;
+        margin: 0;
+        padding: 0;
+      }
+      div.footer a {
+        color: #89a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <ul class="contact">
+        <li>
+          E-Mail:
+          <a href="mailto:support@travis-ci.com">support@travis-ci.com</a>
+        </li>
+        <li>
+          Twitter:
+          <a href="http://twitter.com/travisci">@travisci</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="content">
+
+<div>
+  <h3>Hello, <%= @subscription[:first_name] %> <%= @subscription[:last_name] %>,</h3>
+  <p>
+    Unfortunately we had issues charging your credit card for the account <%= @owner[:login] %>.
+  </p>
+
+  <% if @charge %>
+  <p>
+    Here's the message we received from our payment provider: <%= @charge[:failure_message] %>
+  </p>
+  <% end -%>
+
+  <p>
+  <% if @event[:next_payment_attempt].blank? %>
+    This was our last attempt to charge your credit card. For continued service, please make sure to update your credit card details.
+  <% else %>
+    No worries if this is just a temporary failure. We'll try charging your card again in <%= @next_payment_attempt %>.
+  <% end %>
+  </p>
+
+  <p>
+    Should your credit card have changed, you can update your <a href="https://billing.travis-ci.com/subscriptions/"<%= @owner[:login] %> > card details </a> any time.
+  </p>
+
+  <p>
+    Regards,
+    The Travis CI Team
+  </p>
+
+  <p class="footnotes">
+    Travis CI GmbH, Rigaer Str. 8, 10247 Berlin, Germany, VAT ID: DE282002648, Managing Directors: Konstantin Haase and Fritz Thielemann, Register Berlin HRB 140133 B
+  </p>
+  <p class="footnotes">
+    We use <a href="https://stripe.com">Stripe Inc.</a>, 3180 18th Street, Suite 100, San Francisco, CA 94110, U.S.A., as our payment partner.
+  </p>
+</div>
+
+
+</div>
+
+    <div class="footer">
+      <ul class="address">
+        <li>Travis CI GmbH</li>
+        <li>Rigaer Str. 8</li>
+        <li>10247 Berlin</li>
+        <li>Germany</li>
+      </ul>
+
+      <ul>
+        <li> <a href="http://travis-ci.com">http://travis-ci.com</a></li>
+        <li> <a href="mailto:support@travis-ci.com">support@travis-ci.com</a></li>
+        <li> <a href="http://twitter.com/travisci">@travisci</a></li>
+      </ul>
+    </div>
+  </body>
+</html>

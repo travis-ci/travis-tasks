@@ -1,0 +1,22 @@
+The subscription for the account <%= @owner[:login] %> was cancelled by <%= @user[:name] %> (<%= @user[:login] %>).
+
+<% if @feedback[:reason].present? %>
+The reason was <%# @feedback[:reason] %>
+<% end -%>
+
+<% if @feedback[:feedback].present? %>
+The customer provided the following feedback:
+
+---
+<%= @feedback[:feedback] %>
+---
+
+<% else %>
+The customer provided no further feedback.
+<% end %>
+
+They were subscribed to the "<%= @subscription[:selected_plan] %>" plan.
+
+Best regards,
+
+Your Travis CI Billing Bot
