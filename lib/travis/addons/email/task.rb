@@ -54,9 +54,8 @@ module Travis
             # stolen from http://is.gd/Dzd6fp because of it's beauty and all
             return false if email =~ /\.local$/
             mail = Mail::Address.new(email)
-            tree = mail.__send__(:tree)
-            mail.domain && mail.address == email && (tree.domain.dot_atom_text.elements.size > 1)
-          rescue Exception => e
+            mail.domain && mail.address == email && mail.domain.include?(".")
+          rescue Mail::Field::FieldError => e
             false
           end
 
