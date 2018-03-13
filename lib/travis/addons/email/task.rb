@@ -32,7 +32,7 @@ module Travis
           end
 
           def send_email
-            Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
+            Mailer::Build.finished_email(payload, recipients, broadcasts).deliver_now
             info "type=email repo=#{repository_slug(payload)} build=#{build_id(payload)} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end
 
@@ -54,9 +54,8 @@ module Travis
             # stolen from http://is.gd/Dzd6fp because of it's beauty and all
             return false if email =~ /\.local$/
             mail = Mail::Address.new(email)
-            tree = mail.__send__(:tree)
-            mail.domain && mail.address == email && (tree.domain.dot_atom_text.elements.size > 1)
-          rescue Exception => e
+            mail.domain && mail.address == email && mail.domain.include?(".")
+          rescue Mail::Field::FieldError => e
             false
           end
 

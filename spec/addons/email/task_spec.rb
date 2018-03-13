@@ -6,7 +6,7 @@ describe Travis::Addons::Email::Task do
   let(:subject)    { Travis::Addons::Email::Task }
   let(:mailer)     { Travis::Addons::Email::Mailer::Build }
   let(:payload)    { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
-  let(:email)      { stub('email', deliver: true) }
+  let(:email)      { stub('email', deliver_now: true) }
   let(:handler)    { subject.new(payload, recipients: recipients, broadcasts: broadcasts) }
   let(:broadcasts) { [broadcast] }
   let(:io)         { StringIO.new }
@@ -25,34 +25,34 @@ describe Travis::Addons::Email::Task do
   end
 
   it 'sends the email' do
-    email.expects(:deliver)
+    email.expects(:deliver_now)
     handler.run
   end
 
   it 'reraises an error when sending an email' do
     expect {
-      email.stubs(:deliver).raises(StandardError, "something's broken")
+      email.stubs(:deliver_now).raises(StandardError, "something's broken")
       handler.run
     }.to raise_error(StandardError)
   end
 
   it "doesn't reraise an error with bad recipient syntax" do
     expect {
-      email.stubs(:deliver).raises(Net::SMTPServerBusy, "401 4.1.3 Bad recipient address syntax")
+      email.stubs(:deliver_now).raises(Net::SMTPServerBusy, "401 4.1.3 Bad recipient address syntax")
       handler.run
     }.not_to raise_error
   end
 
   it "doesn't reraise an error when recipient was rejected" do
     expect {
-      email.stubs(:deliver).raises(Net::SMTPServerBusy, "450 4.1.1 <test@localhost.localdomain>: Recipient address rejected: User unknown in local recipient table")
+      email.stubs(:deliver_now).raises(Net::SMTPServerBusy, "450 4.1.1 <test@localhost.localdomain>: Recipient address rejected: User unknown in local recipient table")
       handler.run
     }.not_to raise_error
   end
 
  it "reraises an smtp server busy error when it's not about the syntax" do
     expect {
-      email.stubs(:deliver).raises(Net::SMTPServerBusy, "403 2.2.2 Out of fish")
+      email.stubs(:deliver_now).raises(Net::SMTPServerBusy, "403 2.2.2 Out of fish")
       handler.run
     }.to raise_error(Net::SMTPServerBusy)
   end
