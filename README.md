@@ -11,7 +11,7 @@ You can find the full list of addon services Travis natively talks to within [Tr
 
 ![Travis Tasks Diagram](/img/diagram.jpg)
 
-## Sending Trial Emails
+## Sending Email Setup
 
 ### Start an Interactive Ruby Shell
 ```
@@ -27,12 +27,36 @@ Travis.config.smtp.password = 'your smtp password for your enviorment'
 Travis.config.smtp.port = 587
 Travis.config.smtp.user_name = 'your smtp username'
 ```
-### Send Trial Email
+## Send Build Emails
+To send diffent types of build emails the `state`, `previous_state` attributes in the build hash and `state` attribute job hash will need to be modified
+
+You can send email to multiple addresses by adding them to the array following the `jobs` hash
+### Success Build
+```
+Travis::Addons::Email::Mailer::Build.finished_email({ build: {id: 1, repository_id: 1, commit_id: 1, number: 2, pull_request: false, config: {rvm: ['1.8.7, 1.9.2']}, state: 'passed', previous_state: 'passed', started_at: '2014-04-03T10:21:05Z', finished_at: '2014-04-03T10:22:05Z', duration: 60, jobs_ids: [1, 2], type: 'push'}, repository: {id: 1, key: '-----BEGIN PUBLIC KEY-----', slug: 'wonderfulPerson/minimal', name: 'minimal', owner_name: 'wonderPerson', owner_email: 'someone@internet.com', owner_avatar_url: nil, url: 'repo url here}, commit: {id: 1, sha: '62aae5f70ceee39123ef', branch: 'this-branch-is-awesome', message: 'the commit message', committed_at: '2014-04-03T09:22:05Z', author_name: 'Wonderful Person', author_email: 'someone@internet.com', committer_name: 'Wonderful Person', committer_email: 'someone@internet.com', compare_url: 'https://github.com/wonderfulperson/minimal/compare/master...develop'}, jobs: [{id: 1, number: '2.1', state: 'passed', config: {rvm: '1.8.7'}}]},['recipient@internet.com'],[{message: 'Testing testing this is a message', category: 'announcement'}, {message: 'Testing testing this is a message', category: 'warning'}]).deliver
+```
+
+### Failed Build
+```
+Travis::Addons::Email::Mailer::Build.finished_email({ build: {id: 1, repository_id: 1, commit_id: 1, number: 2, pull_request: false, config: {rvm: ['1.8.7, 1.9.2']}, state: 'failed', previous_state: 'passed', started_at: '2014-04-03T10:21:05Z', finished_at: '2014-04-03T10:22:05Z', duration: 60, jobs_ids: [1, 2], type: 'push'}, repository: {id: 1, key: '-----BEGIN PUBLIC KEY-----', slug: 'wonderfulPerson/minimal', name: 'minimal', owner_name: 'wonderPerson', owner_email: 'someone@internet.com', owner_avatar_url: nil, url: 'repo url here}, commit: {id: 1, sha: '62aae5f70ceee39123ef', branch: 'this-branch-is-awesome', message: 'the commit message', committed_at: '2014-04-03T09:22:05Z', author_name: 'Wonderful Person', author_email: 'someone@internet.com', committer_name: 'Wonderful Person', committer_email: 'someone@internet.com', compare_url: 'https://github.com/wonderfulperson/minimal/compare/master...develop'}, jobs: [{id: 1, number: '2.1', state: 'failed', config: {rvm: '1.8.7'}}]},['recipient@internet.com'],[{message: 'Testing testing this is a message', category: 'announcement'}, {message: 'Testing testing this is a message', category: 'warning'}]).deliver
+```
+
+### Still Failing Build
+```
+Travis::Addons::Email::Mailer::Build.finished_email({ build: {id: 1, repository_id: 1, commit_id: 1, number: 2, pull_request: false, config: {rvm: ['1.8.7, 1.9.2']}, state: 'failed', previous_state: 'failed', started_at: '2014-04-03T10:21:05Z', finished_at: '2014-04-03T10:22:05Z', duration: 60, jobs_ids: [1, 2], type: 'push'}, repository: {id: 1, key: '-----BEGIN PUBLIC KEY-----', slug: 'wonderfulPerson/minimal', name: 'minimal', owner_name: 'wonderPerson', owner_email: 'someone@internet.com', owner_avatar_url: nil, url: 'repo url here}, commit: {id: 1, sha: '62aae5f70ceee39123ef', branch: 'this-branch-is-awesome', message: 'the commit message', committed_at: '2014-04-03T09:22:05Z', author_name: 'Wonderful Person', author_email: 'someone@internet.com', committer_name: 'Wonderful Person', committer_email: 'someone@internet.com', compare_url: 'https://github.com/wonderfulperson/minimal/compare/master...develop'}, jobs: [{id: 1, number: '2.1', state: 'failed', config: {rvm: '1.8.7'}}]},['recipient@internet.com'],[{message: 'Testing testing this is a message', category: 'announcement'}, {message: 'Testing testing this is a message', category: 'warning'}]).deliver
+```
+
+### Error Build
+```
+Travis::Addons::Email::Mailer::Build.finished_email({ build: {id: 1, repository_id: 1, commit_id: 1, number: 2, pull_request: false, config: {rvm: ['1.8.7, 1.9.2']}, state: 'errored', previous_state: 'passed', started_at: '2014-04-03T10:21:05Z', finished_at: '2014-04-03T10:22:05Z', duration: 60, jobs_ids: [1, 2], type: 'push'}, repository: {id: 1, key: '-----BEGIN PUBLIC KEY-----', slug: 'wonderfulPerson/minimal', name: 'minimal', owner_name: 'wonderPerson', owner_email: 'someone@internet.com', owner_avatar_url: nil, url: 'repo url here}, commit: {id: 1, sha: '62aae5f70ceee39123ef', branch: 'this-branch-is-awesome', message: 'the commit message', committed_at: '2014-04-03T09:22:05Z', author_name: 'Wonderful Person', author_email: 'someone@internet.com', committer_name: 'Wonderful Person', committer_email: 'someone@internet.com', compare_url: 'https://github.com/wonderfulperson/minimal/compare/master...develop'}, jobs: [{id: 1, number: '2.1', state: 'errored', config: {rvm: '1.8.7'}}]},['recipient@internet.com'],[{message: 'Testing testing this is a message', category: 'announcement'}, {message: 'Testing testing this is a message', category: 'warning'}]).deliver
+```
+
+## Send Trial Emails
 ```
 Travis::Addons::Trial::Mailer::TrialMailer.trial_started(%w{your_email@address.com}, { name: 'Clark', login: 'github_username', billing_slug: 'user' }, 100).deliver
 ```
 
-### Send Billing Emails
+## Send Billing Emails
 When a charge failed we call this method: `charge_failed(receivers, subscription, owner, charge, event, invoice, cc_last_digits)`
 
 To check it and receive an email:
@@ -43,7 +67,7 @@ Travis::Addons::Billing::Mailer::BillingMailer.charge_failed( ["your_email@addre
 
 We have the similar methods for: `invoice_payment_succeeded` and `subscription_cancelled`.
 
-### Send Feedback Emails
+## Send Feedback Emails
 
 When a user gives feedback after the cancellation that method gets called :`user_feedback(recipients, subscription, owner, user, feedback)`
 
