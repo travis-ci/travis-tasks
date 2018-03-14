@@ -6,7 +6,7 @@ describe Travis::Addons::Email::Mailer::Build do
 
   let(:data) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:recipients) { ['owner@example.com', 'committer@example.com', 'author@example.com'] }
-  let(:broadcasts) { [{ message: 'message' }] }
+  let(:broadcasts) { [{ message: 'message', category: 'announcement' }] }
   let(:email)      { described_class.finished_email(data, recipients, broadcasts) }
 
   before :each do
@@ -48,6 +48,20 @@ describe Travis::Addons::Email::Mailer::Build do
       email.should be_multipart
     end
 
+    it 'contains the expected html part' do
+      email.html_part.body.should include_lines(%(
+        master
+        Build #2 passed
+        1 minute and 0 seconds
+        まつもとゆきひろ a.k.a. Matz
+        62aae5f CHANGESET →
+        the commit message
+        System Message
+        Want to know about upcoming build environment updates?
+        about Travis CI
+       ))
+    end
+
     it 'contains the expected text part' do
       email.text_part.body.should include_lines(%(
         Build: #2
@@ -58,19 +72,6 @@ describe Travis::Addons::Email::Mailer::Build do
         Message: the commit message
         View the changeset: https://github.com/svenfuchs/minimal/compare/master...develop
         View the full build log and details: https://travis-ci.org/svenfuchs/minimal/builds/#{build.id}?utm_source=email&utm_medium=notification
-      ))
-    end
-
-    it 'contains the expected html part' do
-      email.html_part.body.should include_lines(%(
-        Build #2 passed
-        https://travis-ci.org/svenfuchs/minimal?utm_source=email&amp;utm_medium=notification
-        https://github.com/svenfuchs/minimal/compare/master...develop
-        https://travis-ci.org/svenfuchs/minimal/builds/#{build.id}?utm_source=email&amp;utm_medium=notification
-        62aae5f
-        まつもとゆきひろ a.k.a. Matz
-        the commit message
-        1 minute and 0 seconds
       ))
     end
 
