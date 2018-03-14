@@ -77,7 +77,7 @@ describe Travis::Addons::Email::Mailer::Build do
     context 'in HTML' do
       it 'escapes newlines in the commit message' do
         data["commit"]["message"] = "bar\nbaz"
-        email.deliver_now # inline css interceptor is called before delivery.
+        email.deliver # inline css interceptor is called before delivery.
         email.html_part.decoded.should =~ %r(bar<br( ?/)?>baz) # nokogiri seems to convert <br> to <br /> on mri, but not jruby?
       end
 
@@ -99,7 +99,7 @@ describe Travis::Addons::Email::Mailer::Build do
         end
 
         it "doesn't include the build footer" do
-          email.deliver_now # inline css interceptor is called before delivery.
+          email.deliver # inline css interceptor is called before delivery.
           email.html_part.decoded.should_not =~ %r(<div class="tiny-footer">)
         end
       end
@@ -109,7 +109,7 @@ describe Travis::Addons::Email::Mailer::Build do
       let(:broadcasts) { [{ message: 'message 1' }, { message: 'message 2' }] }
 
       it 'includes a the first broadcast' do
-        email.deliver_now
+        email.deliver
         email.html_part.decoded.should =~ /message 1/
       end
     end

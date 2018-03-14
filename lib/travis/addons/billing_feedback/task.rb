@@ -30,7 +30,7 @@ module Travis
         private
 
           def send_email
-            Mailer::BillingFeedbackMailer.public_send(params[:email_type], recipients, subscription, owner, user, feedback).deliver_now
+            Mailer::BillingFeedbackMailer.public_send(params[:email_type], recipients, subscription, owner, user, feedback).deliver
             emails = recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')
             info "type=#{type} status=sent msg='email sent #{emails} and success@travis-ci.org"
           end
