@@ -4,7 +4,7 @@ describe Travis::Addons::Billing::Task do
   include Travis::Testing::Stubs
 
   let(:mailer) { Travis::Addons::Billing::Mailer::BillingMailer }
-  let(:email) { stub('email', deliver_now: true) }
+  let(:email) { stub('email', deliver: true) }
   let(:handler) { described_class.new({}, email_type: email_type, recipients: recipients, subscription: subscription, owner: owner, charge: charge, event: event, invoice: invoice, cc_last_digits: cc_last_digits) }
   let(:recipients) { ['anja@travis-ci.com'] }
   let(:subscription) { { first_name: 'Anja', last_name: 'Miller', valid_to: Time.now + 86400.to_i } }

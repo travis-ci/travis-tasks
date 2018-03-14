@@ -22,7 +22,7 @@ module Travis
         private
 
           def send_email
-            Mailer::TrialMailer.public_send(params[:stage], recipients, owner, builds_remaining).deliver_now
+            Mailer::TrialMailer.public_send(params[:stage], recipients, owner, builds_remaining).deliver
             info "type=#{type} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end
       end
