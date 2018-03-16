@@ -3,16 +3,16 @@ require 'spec_helper'
 describe Travis::Addons::Email::Mailer::Helpers do
   include Travis::Addons::Email::Mailer::Helpers, Travis::Testing::Stubs
 
-  it 'returns username' do
-    repo_slug = 'clark/superman'
+  it 'returns the organization name' do
+    repository_slug = 'clark/superman'
 
-    expect(get_repo_username(repo_slug)).to eq 'clark'
+    expect(organization_name(repository_slug)).to eq 'clark'
   end
 
   it 'returns repository name' do
-    repo_slug = 'clark/superman'
+    repository_slug = 'clark/superman'
 
-    expect(get_repo_name(repo_slug)).to eq 'superman'
+    expect(repository_name(repository_slug)).to eq 'superman'
   end
 
   it 'returns a s3 asset url' do
