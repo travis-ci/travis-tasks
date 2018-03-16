@@ -85,7 +85,31 @@
         color: #32D282;
       }
 
+      .success:visited {
+        color: #32D282;
+      }
+
+      .success:hover {
+        color: #32D282;
+      }
+
+      .success:active {
+        color: #32D282;
+      }
+
       .failure {
+        color: #DB4545;
+      }
+
+      .failure:visited {
+        color: #DB4545;
+      }
+
+      .failure:hover {
+        color: #DB4545;
+      }
+
+      .failure:active {
         color: #DB4545;
       }
 
@@ -93,8 +117,23 @@
         color: #666766;
       }
 
+      .error:visited {
+        color: #666766;
+      }
+
+      .error:hover {
+        color: #666766;
+      }
+
+      .error:active {
+        color: #666766;
+      }
+
       #status-section-message {
-        font-size: 28px; font-weight: 600; margin-bottom: 28px;
+        font-size: 28px;
+        font-weight: 600;
+        text-decoration: none;
+        margin-bottom: 28px;
       }
 
       #build-time-section {
@@ -106,7 +145,7 @@
       #build-time-arrow-icon {
         display: block;
         width: 20px;
-        padding-bottom: 10px;
+        padding: 28px 0px 10px 0px;
       }
 
       #build-time {
@@ -419,15 +458,14 @@
             </tr>
             <tr>
               <td id="status-section" align="center" valign="top">
-                <p id="status-section-message" class="<%= build_email_css_class(@build) %>" style="font-size: 28px; font-weight: 600; margin-bottom: 28px;">
-                  <%= build_status(@result_message.email) %>
-                </p>
+                <%= link_to build_status(@result_message.email), repository_build_url(slug: @repository.slug, id: @build.id),
+                  {id: 'status-section-message', class: build_email_css_class(@build), style: 'font-size: 28px; font-weight: 600; margin-bottom: 28px; text-decoration: none;'}%>
               </td>
             </tr>
             <tr>
               <td id="build-time-section" align="center" valign="top" style="padding-bottom: 32px;">
                 <%= image_tag('https://s3.amazonaws.com/travis-email-assets/arrow.png', id: 'build-time-arrow-icon',
-                alt: 'arrow to build duration', style: 'display: block; width: 20px; padding-bottom: 10px;') %>
+                alt: 'arrow to build duration', style: 'display: block; width: 20px; padding: 28px 0px 10px 0px;') %>
                 <p id="build-time" style="display: inline; font-size: 18px; font-weight: 400;">
                   <%= image_tag('https://s3.amazonaws.com/travis-email-assets/timer.png', id: 'build-time-clock-icon',
                   alt: 'clock icon', style: 'width: 19px; height: auto; padding-right: 5px; vertical-align: sub;') %>
