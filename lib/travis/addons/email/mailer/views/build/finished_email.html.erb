@@ -64,6 +64,23 @@
         color: #9EA3A8;
       }
 
+      #repo-username-link {
+        color: #333333;
+        text-decoration: none;
+      }
+
+      #repo-username-link:visited {
+        color: #333333;
+      }
+
+      #repo-username-link:hover {
+        color: #333333;
+      }
+
+      #repo-username-link:active {
+        color: #333333;
+      }
+
       #branch-name {
         margin: 0px;
         font-size: 28px;
@@ -75,6 +92,21 @@
         height: auto;
         padding-right: 8px;
         vertical-align: bottom;
+      }
+
+      #branch-name-link {
+        color: #333333;
+        text-decoration: none;
+      }
+
+      #branch-name-link:visited {
+        color: #333333;
+      }
+      #branch-name-link:hover {
+        color: #333333;
+      }
+      #branch-name-link:active {
+        color: #333333;
       }
 
       #status-icon-section img {
@@ -416,8 +448,8 @@
             <!-- Travis CI Logo Section -->
             <tr>
               <td id="travis-ci-logo-section" align="center" valign="top" style="padding-bottom: 10px;">
-                <%= link_to(image_tag('https://s3.amazonaws.com/travis-email-assets/travis_ci_logo.png',
-                alt: 'Travis CI Logo', id: 'travis-ci-logo', style: 'max-width: 150px; cursor: pointer;'), 'http://travis-ci.com')%>
+                <%= link_to(image_tag("#{Travis.config.s3.url}/travis_ci_logo.png",
+                alt: 'travis ci logo', id: 'travis-ci-logo', style: 'max-width: 150px; cursor: pointer;'), 'http://travis-ci.com')%>
               </td>
             </tr>
             <!-- Travis Logo Border Section -->
@@ -435,25 +467,27 @@
             <!-- Repository Username Section -->
             <tr>
               <td id="repo-username-section" align="center" valign="top" style="padding-bottom: 20px;">
-                <span class="repo-slug"style="font-size: 30px; font-weight: 600; line-height: 36px; padding-right: 5px;"><%= get_repo_username(@repository.slug) %></span>
-                <span id="repo-slug-divider" style="font-size: 30px; font-weight: 100; color: #9EA3A8;">/</span>
-                <span class="repo-slug" style="font-size: 30px; font-weight: 600; line-height: 36px; padding-left: 5px;"><%= get_repo_name(@repository.slug) %></span>
+                <%= link_to(repository_url(@repository), id: 'repo-username-link', style: 'color: #333333;') do %>
+                  <span class="repo-slug"style="font-size: 30px; font-weight: 600; line-height: 36px; padding-right: 5px;"><%= organization_name(@repository.slug) %></span>
+                  <span id="repo-slug-divider" style="font-size: 30px; font-weight: 100; color: #9EA3A8;">/</span>
+                  <span class="repo-slug" style="font-size: 30px; font-weight: 600; line-height: 36px; padding-left: 5px;"><%= repository_name(@repository.slug) %></span>
+                <% end %>
               </td>
             </tr>
             <!-- Branch Name Section -->
             <tr>
               <td id="branch-name-section" align="center" valign="top">
                 <p id="branch-name" style="margin: 0px; font-size: 28px; font-weight: 300;">
-                  <%= image_tag('https://s3.amazonaws.com/travis-email-assets/branch.png', alt: 'branch icon',
+                  <%= image_tag("#{Travis.config.s3.url}/branch.png", alt: 'branch icon',
                   style: 'width: 16px; height: auto; padding-right: 8px; vertical-align: bottom;')%>
-                  <%= @commit.branch %>
+                  <%= link_to(@commit.branch, branch_url(@repository, @commit.branch), id: 'branch-name-link')%>
                 </p>
               </td>
             </tr>
             <!-- Build Status Section -->
             <tr>
               <td id="status-icon-section" align="center" valign="top">
-                <%= image_tag(asset_url(@build.state), alt: "#{@build.state} status icon", style: 'margin: 32px 0px;')%>
+                <%= image_tag(asset_url(@build.state), alt: "build has #{@build.state}", style: 'margin: 32px 0px;')%>
               </td>
             </tr>
             <tr>
@@ -464,10 +498,10 @@
             </tr>
             <tr>
               <td id="build-time-section" align="center" valign="top" style="padding-bottom: 32px;">
-                <%= image_tag('https://s3.amazonaws.com/travis-email-assets/arrow.png', id: 'build-time-arrow-icon',
+                <%= image_tag("#{Travis.config.s3.url}/arrow.png", id: 'build-time-arrow-icon',
                 alt: 'arrow to build duration', style: 'display: block; width: 20px; padding: 28px 0px 10px 0px;') %>
                 <p id="build-time" style="display: inline; font-size: 18px; font-weight: 400;">
-                  <%= image_tag('https://s3.amazonaws.com/travis-email-assets/timer.png', id: 'build-time-clock-icon',
+                  <%= image_tag("#{Travis.config.s3.url}/timer.png", id: 'build-time-clock-icon',
                   alt: 'clock icon', style: 'width: 19px; height: auto; padding-right: 5px; vertical-align: sub;') %>
                   <%= duration_in_words(@build.started_at, @build.finished_at) %>
                 </p>
@@ -477,9 +511,8 @@
               <td id="user-avatar-changeset-section" align="center" valign="top" style="padding-bottom: 32px;">
                 <div id="user-avatar-changeset-left" style="float: left;">
                   <p style="display: inline; font-size: 14px; font-weight: 700; color: #333333;">
-                    <%= image_tag(gravatar_url(@commit.author_email), alt: "#{@commit.author_email} avatar",
-                    style: 'width: 22px; height: auto; border-radius: 10px; vertical-align: middle; margin-right: 8px;') %>
-                    <%= @commit.author_name %>
+                    <%= image_tag(gravatar_url(@commit.author_email), alt: "#{@commit.author_name} avatar",
+                    style: 'width: 22px; height: auto; border-radius: 10px; vertical-align: middle; margin-right: 8px;') %><%= @commit.author_name %>
                   </p>
                 </div>
                 <div id="user-avatar-changeset-right" style="float: right;">
@@ -504,7 +537,7 @@
           <tr>
             <td id="broadcast-logo-section" align="center" valign="top">
               <div class="system-message-item" style="padding-bottom: 32px;">
-                <%= image_tag('https://s3.amazonaws.com/travis-email-assets/system_message.png',
+                <%= image_tag("#{Travis.config.s3.url}/system_message.png",
                               id: 'system-message-logo', alt: 'broadcast tower image',
                               style: 'padding-right: 8px; width: 20px; height: auto; vertical-align: sub;')%>
                 <h2 id="system-message-header" style="color: #0068FF; display: inline; font-weight: 300; font-size: 31px; margin: 0px;">System Message</h2>
@@ -512,7 +545,7 @@
               <% @broadcasts.each do |broadcast| -%>
               <div>
                 <%= image_tag(broadcast_category(broadcast.category), class: 'broadcast-category-icon',
-                alt: "#{broadcast.category}_category_indicator",
+                alt: "#{broadcast.category} broadcast indicator",
                 style: 'width: 11px; height: auto; float: left; margin-right: 10px; padding-top: 7px;')%>
               </div>
               <div>
@@ -546,7 +579,7 @@
               <tr>
                 <td id="documentation-section" align="center" valign="top">
                   <div>
-                    <%= image_tag('https://s3.amazonaws.com/travis-email-assets/documentation.png', alt: 'book icon',
+                    <%= image_tag("#{Travis.config.s3.url}/documentation.png", alt: 'book icon',
                     id: 'documentation-icon', style: 'display: inline; vertical-align: bottom; padding-right: 5px;')%>
                     <p id='documentation-text' style="font-size: 26px; font-weight: 300; color: #0068FF; display: inline;">
                       <%= link_to('Documentation', 'https://docs.travis-ci.com/', id: 'documentation-link') %> about Travis CI
@@ -571,7 +604,7 @@
               </tr>
               <tr>
                 <td id="travis-ci-footer-logo-section" style="text-align: center;">
-                  <%= link_to(image_tag('https://s3.amazonaws.com/travis-ci-dzone/TravisCI-Logo-BW.png', alt: 'Black and White Travis Logo'), 'https://travis-ci.com')%>
+                  <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), 'https://travis-ci.com')%>
                 </td>
               </tr>
               <tr>
