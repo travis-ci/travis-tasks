@@ -93,7 +93,7 @@ describe Travis::Addons::Webhook::Task do
   end
 
   it 'posts to the given targets, with the given payload and the given access token' do
-    targets = ['http://one.webhook.com/path', 'http://second.webhook.com/path']
+    targets = ['http://one.webhook.com/path', 'http://second.webhook.com/path', 'http://user:password@three.webhook.com/path']
 
     targets.each do |url|
       uri = URI.parse(url)

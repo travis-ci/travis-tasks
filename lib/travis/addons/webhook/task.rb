@@ -58,7 +58,7 @@ module Travis
           def add_headers(request, target, payload)
             uri = URI(target)
             if uri.user && uri.password
-              request.headers['Authorization'] = basicauth(uri.user, uri.password)
+              request.headers['Authorization'] = basic_auth(uri.user, uri.password)
             end
             if add_signature?
               request.headers['Signature'] = signature(payload)
