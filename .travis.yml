@@ -7,6 +7,3 @@ sudo: false
 cache: bundler
 
 script: bundle exec rspec -fs --color --order rand spec
-
-notifications:
-  webhooks: http://requestb.in/14h19sy1
