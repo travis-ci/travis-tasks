@@ -18,7 +18,7 @@ describe Travis::Addons::Email::Mailer::Helpers do
   it 'returns a s3 asset url' do
     build_state = 'passed'
 
-    expect(asset_url(build_state)).to eq 'https://s3.amazonaws.com/travis-email-assets/passed.png'
+    expect(asset_url(build_state)).to eq 'https://s3.amazonaws.com/travis-email-assets/status-passed.png'
   end
 
   it 'returns gravatar url' do
