@@ -11,7 +11,7 @@ module Travis
           ONE_MINUTE = 60
 
           def asset_url(build_state)
-            "#{Travis.config.s3.url}/#{build_state}.png"
+            "#{Travis.config.s3.url}/status-#{build_state}.png"
           end
 
           def branch_url(repo, branch)
