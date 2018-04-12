@@ -14,7 +14,6 @@
         width: 100%;
         padding: 10px;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 18px;
         line-height: 150%;
         text-align: center;
         color: #333333;
@@ -67,6 +66,8 @@
       #repo-username-link {
         color: #333333;
         text-decoration: none;
+        border-bottom: 1px solid #333333;
+        padding-bottom: 4px;
       }
 
       #repo-username-link:visited {
@@ -188,9 +189,9 @@
 
       #build-time-clock-icon {
         width: 18px;
-        height: auto;
+        height: 22px;
         padding-right: 8px;
-        vertical-align: sub;
+        vertical-align: bottom;
       }
 
       #user-avatar-changeset-section {
@@ -286,9 +287,9 @@
       }
 
       #system-message-header {
+        font-size: 24px;
         display: inline;
         font-weight: 300;
-        font-size: 26px;
         color: #0068FF;
         margin: 0px;
       }
@@ -303,7 +304,7 @@
 
       .broadcast-message {
         max-width: 85%;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 300;
         text-align: left;
         line-height: 26px;
@@ -323,7 +324,7 @@
       }
 
       #update-header {
-        font-size: 26px;
+        font-size: 24px;
         line-height: 31px;
         margin-bottom: 20px;
         padding-bottom: 10px;
@@ -331,7 +332,7 @@
       }
 
       #update-message {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 300;
         line-height: 26px;
         margin-bottom: 32px;
@@ -463,14 +464,14 @@
       cellspacing="0"
       height="100%"
       width="100%"
-      style="height: 100%;width: 100%;padding: 10px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 18px;line-height: 150%;text-align: center;color: #333333;background-color: #F4F5F9;background-image: url(https://s3.amazonaws.com/travis-email-assets/build_background.png);">
+      style="height: 100%;width: 100%;padding: 10px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;line-height: 150%;text-align: center;color: #333333;background-color: #F4F5F9;background-image: url(https://s3.amazonaws.com/travis-email-assets/build_background.png);">
       <tr>
         <td align="center" valign="top" style="padding-bottom: 20px;">
           <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 32px; background-color: #FFFFFF;">
             <!-- Repository Username Section -->
             <tr>
               <td id="repo-username-section" align="center" valign="top" style="padding-bottom: 20px;">
-                <%= link_to(repository_url(@repository), id: 'repo-username-link', style: 'color: #333333; border-bottom: 1px solid #333333; text-decoration: none;') do %>
+                <%= link_to(repository_url(@repository), id: 'repo-username-link', style: 'color: #333333; border-bottom: 1px solid #333333; text-decoration: none; padding-bottom: 4px;') do %>
                   <p class="repo-slug"style="display: inline; font-size: 30px; font-weight: 600; line-height: 36px; padding-right: 5px; padding-left: 0px;"><%= organization_name(@repository.slug) %></p>
                   <p id="repo-slug-divider" style="display: inline; font-size: 30px; font-weight: 100; color: #9EA3A8;">/</p>
                   <p class="repo-slug" style="display: inline; font-size: 30px; font-weight: 600; line-height: 36px; padding-left: 5px;"><%= repository_name(@repository.slug) %></p>
@@ -481,17 +482,23 @@
             <tr>
               <td id="branch-name-section" align="center" valign="top" style="padding-bottom: 35px;">
                 <p id="branch-name" style="margin: 0px; font-size: 28px; font-weight: 300;">
-                  <%= image_tag("#{Travis.config.s3.url}/branch.png", alt: 'branch icon', style: 'width: 16px; height: auto; padding-right: 8px; vertical-align: bottom;')%><%= link_to(@commit.branch, branch_url(@repository, @commit.branch), id: 'branch-name-link', style: 'text-decoration: none; border-bottom: 1px solid #333333;')%>
+                  <%= image_tag("#{Travis.config.s3.url}/branch.png", alt: 'branch icon', style: 'width: 16px; height: auto; padding-right: 8px; vertical-align: bottom;')%><%= link_to(@commit.branch, branch_url(@repository, @commit.branch), id: 'branch-name-link', style: 'text-decoration: none; border-bottom: 1px solid #333333; padding-bottom: 2px;')%>
                 </p>
               </td>
             </tr>
             <!-- Build Status Section -->
             <tr>
               <td align="center" valign="top" style="padding-bottom: 20px;">
-                <table cellpadding="0" cellspacing="0" class="build-status-border build-status-border-<%= build_email_css_class(@build) %>">
+                <table cellpadding="0" cellspacing="0" class="build-status-border build-status-border-<%= build_email_css_class(@build) %>" style="width: 100%;">
                   <tr class="build-status-background-<%= build_email_css_class(@build) %>">
-                    <td id="status-icon-section" align="center" valign="top" class="build-status-border-bottom-<%= build_email_css_class(@build) %>" style="font-size: 15px; text-align: left; padding: 15px 15px;">
-                      <span><%= image_tag(asset_url(@build.state), alt: "build has #{@build.state}", style: 'display: inline; vertical-align: sub; width: 20px; height: 20px; padding-right: 8px;')%></span><span><%= link_to build_status(@result_message.email), repository_build_url(slug: @repository.slug, id: @build.id), {id: 'status-section-message', class: build_email_css_class(@build), style: 'font-size: 18px; font-weight: 600;'}%></span><span><%= image_tag("#{Travis.config.s3.url}/green-arrow.png", id: 'arrow', alt: 'arrow to build time', style: 'width: 8px; height: auto; vertical-align: sub; padding: 0px 8px;') %></span><span><%= image_tag("#{Travis.config.s3.url}/time.png", id: 'build-time-clock-icon', alt: 'clock icon', style: 'width: 19px; height: 22px; padding-right: 8px; vertical-align: sub;') %></span><span><%= duration_in_words(@build.started_at, @build.finished_at) %></span>
+                    <td id="status-icon-section" align="center" valign="top" class="build-status-border-bottom-<%= build_email_css_class(@build) %>" style="font-size: 15px; padding: 15px 15px;">
+                    <div style="float: left;">
+                      <div style="display: inline;"><%= image_tag(asset_url(@build.state), alt: "build has #{@build.state}", style: 'display: inline; vertical-align: sub; width: 20px; height: 20px; padding-right: 8px; text-align: left;')%></div><div style="display: inline;"><%= link_to build_status(@result_message.email), repository_build_url(slug: @repository.slug, id: @build.id), {id: 'status-section-message', class: build_email_css_class(@build), style: 'font-size: 18px; font-weight: 600; text-align: left;'}%></div>
+                    </div>
+                      <div style="display: inline;"><%= image_tag("#{Travis.config.s3.url}/green-arrow.png", id: 'arrow', alt: 'arrow to build time', style: 'width: 8px; height: auto; vertical-align: bottom; padding: 0px 8px;') %></div>
+                    <div style="float: right;">
+                      <span><%= image_tag("#{Travis.config.s3.url}/time.png", id: 'build-time-clock-icon', alt: 'clock icon', style: 'width: 19px; height: 22px; padding-right: 8px; vertical-align: sub; text-align: right;') %></span><span style="text-align: right;"><%= duration_in_words(@build.started_at, @build.finished_at) %></span>
+                    </div>
                     </td>
                   </tr>
                   <tr>
@@ -530,7 +537,7 @@
                 <%= image_tag("#{Travis.config.s3.url}/system_message.png",
                               id: 'system-message-logo', alt: 'broadcast tower image',
                               style: 'padding-right: 8px; width: 20px; height: auto; vertical-align: sub;')%>
-                <h2 id="system-message-header" style="color: #0068FF; display: inline; font-weight: 300; font-size: 26px; margin: 0px;">System Message</h2>
+                <h2 id="system-message-header" style="display: inline; font-size: 24px; font-weight: 300; color: #0068FF; margin: 0px;">System Message</h2>
               </div>
               <% @broadcasts.each do |broadcast| -%>
               <div>
@@ -539,7 +546,7 @@
                 style: 'width: 11px; height: auto; float: left; margin-right: 10px; padding-top: 7px;')%>
               </div>
               <div>
-                <p class="broadcast-message" style="font-size: 18px; line-height: 26px; font-weight: 300; text-align: left; max-width: 85%; border-bottom: 1px solid #DCDFE2; padding-bottom: 20px; margin-bottom: 20px;"><%= broadcast.message.html_safe -%></p>
+                <p class="broadcast-message" style="font-size: 16px; line-height: 26px; font-weight: 300; text-align: left; max-width: 85%; border-bottom: 1px solid #DCDFE2; padding-bottom: 20px; margin-bottom: 20px;"><%= broadcast.message.html_safe -%></p>
               </div>
               <% end -%>
             </td>
@@ -554,8 +561,8 @@
           <table id="update-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 32px 32px 42px 32px; background-color: #FFFFFF";>
             <tr>
               <td align="center" valign="top">
-                <p id="update-header" style="border-bottom: 2px solid #0068FF; padding-bottom: 10px; font-size: 26px; line-height: 31px; margin-bottom: 20px;">Want to know about upcoming build environment updates?</p>
-                <p id="update-message" style="font-size: 18px; line-height: 26px; font-weight: 300; margin-bottom: 32px;">Would you like to stay up-to-date with the upcoming Travis CI build environment updates? We set up a mailing list for you!</p>
+                <p id="update-header" style="border-bottom: 2px solid #0068FF; padding-bottom: 10px; font-size: 24px; line-height: 31px; margin-bottom: 20px;">Want to know about upcoming build environment updates?</p>
+                <p id="update-message" style="font-size: 16px; line-height: 26px; font-weight: 300; margin-bottom: 32px;">Would you like to stay up-to-date with the upcoming Travis CI build environment updates? We set up a mailing list for you!</p>
                 <%= link_to('SIGN UP HERE', 'http://eepurl.com/9OCsP', id: 'sign-up-button', style: 'font-size: 14px; font-weight: 600; color: #FFFFFF; background-color: #0068FF; text-decoration: none; padding: 12px 20px; border-radius: 3px;' )%>
               </td>
             </tr>
