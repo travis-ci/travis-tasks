@@ -161,39 +161,6 @@
         color: #666766;
       }
 
-      #status-section-message {
-        font-size: 18px;
-        font-weight: 600;
-      }
-
-      #status-icon-section {
-        font-size: 16px;
-      }
-
-      #build-time-section {
-        font-size: 16px;
-        font-weight: 300;
-      }
-
-      #build-time-arrow-icon {
-        display: block;
-        width: 20px;
-        padding: 28px 0px 10px 0px;
-      }
-
-      #build-time {
-        display: inline;
-        font-size: 18px;
-        font-weight: 400;
-      }
-
-      #build-time-clock-icon {
-        width: 18px;
-        height: 22px;
-        padding-right: 8px;
-        vertical-align: bottom;
-      }
-
       #user-avatar-changeset-section {
         padding-bottom: 32px;
       }
@@ -491,13 +458,13 @@
               <td align="center" valign="top" style="padding-bottom: 20px;">
                 <table cellpadding="0" cellspacing="0" class="build-status-border build-status-border-<%= build_email_css_class(@build) %>" style="width: 100%;">
                   <tr class="build-status-background-<%= build_email_css_class(@build) %>">
-                    <td id="status-icon-section" align="center" valign="top" class="build-status-border-bottom-<%= build_email_css_class(@build) %>" style="font-size: 15px; padding: 15px 15px;">
+                    <td id="status-icon-section" align="center" valign="top" class="build-status-border-bottom-<%= build_email_css_class(@build) %>" style="padding: 15px 15px;">
                     <div style="float: left;">
-                      <div style="display: inline;"><%= image_tag(asset_url(@build.state), alt: "build has #{@build.state}", style: 'display: inline; vertical-align: sub; width: 20px; height: 20px; padding-right: 8px; text-align: left;')%></div><div style="display: inline;"><%= link_to build_status(@result_message.email), repository_build_url(slug: @repository.slug, id: @build.id), {id: 'status-section-message', class: build_email_css_class(@build), style: 'font-size: 18px; font-weight: 600; text-align: left;'}%></div>
+                      <div style="display: inline;"><%= image_tag(asset_url(@build.state), alt: "build has #{@build.state}", style: 'display: inline; vertical-align: sub; width: 17px; height: 17px; padding-right: 8px;')%></div><div style="display: inline;"><%= link_to build_status(@result_message.email), repository_build_url(slug: @repository.slug, id: @build.id), {id: 'status-section-message', class: build_email_css_class(@build), style: 'font-size: 16px; font-weight: 600;'}%></div>
                     </div>
-                      <div style="display: inline;"><%= image_tag("#{Travis.config.s3.url}/green-arrow.png", id: 'arrow', alt: 'arrow to build time', style: 'width: 8px; height: auto; vertical-align: bottom; padding: 0px 8px;') %></div>
+                      <div style="display: inline; float: left;"><%= image_tag("#{Travis.config.s3.url}/#{build_email_css_class(@build)}-arrow.png", id: 'arrow', alt: 'arrow to build time', style: 'width: 7px; height: auto; vertical-align: text-bottom; padding: 0px 8px;') %></div>
                     <div style="float: right;">
-                      <span><%= image_tag("#{Travis.config.s3.url}/time.png", id: 'build-time-clock-icon', alt: 'clock icon', style: 'width: 19px; height: 22px; padding-right: 8px; vertical-align: sub; text-align: right;') %></span><span style="text-align: right;"><%= duration_in_words(@build.started_at, @build.finished_at) %></span>
+                      <span><%= image_tag("#{Travis.config.s3.url}/time.png", id: 'build-time-clock-icon', alt: 'clock icon', style: 'width: 15px; height: 17px; padding-right: 8px; vertical-align: sub') %></span><span style="font-size: 14px;"><%= duration_in_words(@build.started_at, @build.finished_at) %></span>
                     </div>
                     </td>
                   </tr>

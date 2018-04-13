@@ -52,7 +52,7 @@ describe Travis::Addons::Email::Mailer::Build do
       email.html_part.body.should include_lines(%(
         master
         Build #2 passed
-        1 minute and 0 seconds
+        1 min and 0 sec
         まつもとゆきひろ a.k.a. Matz
         62aae5f CHANGESET →
         the commit message
@@ -66,7 +66,7 @@ describe Travis::Addons::Email::Mailer::Build do
       email.text_part.body.should include_lines(%(
         Build: #2
         Status: Passed
-        Duration: 1 minute and 0 seconds
+        Duration: 1 min and 0 sec
         Commit: 62aae5f (master)
         Author: まつもとゆきひろ a.k.a. Matz
         Message: the commit message

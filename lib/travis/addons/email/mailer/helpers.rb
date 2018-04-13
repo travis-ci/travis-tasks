@@ -11,7 +11,7 @@ module Travis
           ONE_MINUTE = 60
 
           def asset_url(build_state)
-            "#{Travis.config.s3.url}/#{build_state}.png"
+            "#{Travis.config.s3.url}/status-#{build_state}.png"
           end
 
           def branch_url(repo, branch)
@@ -71,7 +71,7 @@ module Travis
             time_pieces << I18n.t(:'datetime.distance_in_words.hours_exact',   count: hours)   if hours > 0
             time_pieces << I18n.t(:'datetime.distance_in_words.minutes_exact', count: minutes) if hours > 0 || minutes > 0
             time_pieces << I18n.t(:'datetime.distance_in_words.seconds_exact', count: seconds)
-            
+
             time_pieces.to_sentence
           end
 
