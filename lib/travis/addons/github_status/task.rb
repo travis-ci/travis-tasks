@@ -75,7 +75,7 @@ module Travis
           end
 
           def context
-            build_type = pull_request? ? "pr" : "push"
+            build_type = pull_request? ? "pr" : "branch"
             "continuous-integration/travis-ci/#{build_type}"
           end
 
