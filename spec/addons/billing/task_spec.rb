@@ -23,7 +23,6 @@ describe Travis::Addons::Billing::Task do
     let(:email_type) { email_type }
 
     specify 'sends to all recipients' do
-      pending "Needs fix for ActionMailer 4.x fix"
       mailer.expects(email_type).with(recipients, subscription, owner, charge, event, invoice, cc_last_digits).returns(email)
       handler.run
     end
