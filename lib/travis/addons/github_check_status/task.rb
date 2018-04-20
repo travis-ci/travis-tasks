@@ -27,21 +27,19 @@ module Travis
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} payload=#{payload}")
 
           ## DO STUFF
-          github_apps.post_with_app(url, payload)
-        end
+          github_apps.post_with_app(url, check_status_payload)
+         end
 
         def url
           "/repos/#{repository[:slug]}/check-runs"
         end
 
-        def headers
-          {
-            "Accept" => "application/vnd.github.antiope-preview+json"
-          }
+        def check_api_media_type
+          "application/vnd.github.antiope-preview+json"
         end
 
         def github_apps
-          @github_apps ||= Travis::GithubApps.new(accept_header: headers)
+          @github_apps ||= Travis::GithubApps.new(accept_header: check_api_media_type)
         end
 
         def installation_id
@@ -95,7 +93,7 @@ module Travis
           }
         end
 
-        def payload
+        def check_status_payload
           data = {
             name: "Travis CI",
             details_url: details_url,
