@@ -30,11 +30,12 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-github_apps
-  revision: 5e00f7d3af2ed27049da39c108fb3b37219371a3
+  revision: e7dfa774dda9342097278b72214032d259a6a06f
   branch: ha-post-payload
   specs:
-    travis-github_apps (0.1.0)
+    travis-github_apps (0.2.0)
       activesupport (>= 3.2)
+      faraday
       jwt
       redis
 
