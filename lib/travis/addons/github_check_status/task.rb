@@ -41,7 +41,7 @@ module Travis
         end
 
         def github_apps
-          @github_apps ||= Travis::GitHubApps.new(accept_header: headers)
+          @github_apps ||= Travis::GithubApps.new(accept_header: headers)
         end
 
         def installation_id
