@@ -27,6 +27,7 @@ module Travis
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]}")
 
           ## DO STUFF
+          github_apps.post_with_app(url, payload)
         end
 
         def url
@@ -40,7 +41,7 @@ module Travis
         end
 
         def github_apps
-          @github_apps ||= Travis::GitHubApps.new
+          @github_apps ||= Travis::GitHubApps.new(accept_header: headers)
         end
 
         def installation_id
