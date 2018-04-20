@@ -30,7 +30,9 @@ module Travis
           response = github_apps.post_with_app(url, check_status_payload)
 
           info "status=#{response.status} body=#{response.body}"
-         end
+        rescue
+          info "url=#{url} payload=#{check_status_payload}"
+        end
 
         def url
           "/repos/#{repository[:slug]}/check-runs"
@@ -96,7 +98,9 @@ module Travis
         end
 
         def check_status_payload
-          data = {
+          return @data if @data
+
+          @data = {
             name: "Travis CI",
             details_url: details_url,
             external_id: external_id,
@@ -105,10 +109,10 @@ module Travis
           }
 
           if status == 'completed'
-            data.merge!({conclusion: conclusion, completed_at: completed_at})
+            @data.merge!({conclusion: conclusion, completed_at: completed_at})
           end
 
-          data
+          @data
         end
       end
     end
