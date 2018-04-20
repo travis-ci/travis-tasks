@@ -30,8 +30,9 @@ module Travis
           response = github_apps.post_with_app(url, check_status_payload)
 
           info "status=#{response.status} body=#{response.body}"
-        rescue
+        rescue => e
           info "url=#{url} payload=#{check_status_payload}"
+          raise e
         end
 
         def url
