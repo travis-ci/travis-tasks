@@ -24,7 +24,7 @@ module Travis
         private
 
         def process(timeout)
-          info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} payload=#{payload}")
+          info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} payload=#{payload}")
 
           ## DO STUFF
           response = github_apps.post_with_app(url, check_status_payload)
