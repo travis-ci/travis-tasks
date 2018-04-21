@@ -44,7 +44,7 @@ module Travis
         end
 
         def github_apps
-          @github_apps ||= Travis::GithubApps.new(installation_id, redis: Travis.config.redis.to_h, accept_header: check_api_media_type, debug: Travis.config.gh_apps_debug)
+          @github_apps ||= Travis::GithubApps.new(installation_id, redis: Travis.config.redis.to_h, accept_header: check_api_media_type, debug: Travis.config.gh_apps.debug)
         end
 
         def installation_id
