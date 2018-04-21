@@ -30,7 +30,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-github_apps
-  revision: 384fbf4bf864febeb089daada408f01b1cbd2b27
+  revision: 8e157a8361e191befb1e0e9af791c7037fab0b50
   branch: ha-post-payload
   specs:
     travis-github_apps (0.2.0)
