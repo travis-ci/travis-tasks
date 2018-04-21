@@ -42,7 +42,8 @@ module Travis
              s3:      { url: 'https://s3.amazonaws.com/travis-email-assets'},
              irc:     { freenode_password: nil, nick: nil },
              librato: { email: nil, token: nil },
-             auth:    { jwt_public_key: ENV['JWT_RSA_PUBLIC_KEY'], http_basic_auth: http_basic_auth }
+             auth:    { jwt_public_key: ENV['JWT_RSA_PUBLIC_KEY'], http_basic_auth: http_basic_auth },
+             gh_apps_debug: { ENV['GITHUB_APPS_DEBUG'] }
 
       default _access: [:key]
 

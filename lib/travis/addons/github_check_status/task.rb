@@ -44,7 +44,7 @@ module Travis
         end
 
         def github_apps
-          @github_apps ||= Travis::GithubApps.new(installation_id, redis: Travis.config.redis.to_h, accept_header: check_api_media_type)
+          @github_apps ||= Travis::GithubApps.new(installation_id, redis: Travis.config.redis.to_h, accept_header: check_api_media_type, debug: Travis.config.gh_apps_debug)
         end
 
         def installation_id
@@ -52,7 +52,7 @@ module Travis
         end
 
         def access_token
-          github_apps.access_token(installation_id)
+          github_apps.access_token
         end
 
         ## Convenience methods for building the GitHub Check API payload
