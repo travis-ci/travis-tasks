@@ -90,7 +90,8 @@ module Travis
         end
 
         def title
-          "Travis CI check"
+          type = pull_request? ? "Pull Request" : "#{branch} Branch"
+          "Travis CI #{type} Build Result"
         end
 
         def summary
