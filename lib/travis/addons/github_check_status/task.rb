@@ -73,11 +73,11 @@ module Travis
         end
 
         def details_url
-          # needs URL for this build's results
+          "#{Travis.config.http_host}/#{repository[:slug]}/builds/#{build[:id]}"
         end
 
         def external_id
-          # ?
+          build[:id]
         end
 
         def completed_at
