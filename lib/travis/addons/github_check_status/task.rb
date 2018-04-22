@@ -56,10 +56,6 @@ module Travis
           params.fetch(:installation)
         end
 
-        def access_token
-          github_apps.access_token
-        end
-
         ## Convenience methods for building the GitHub Check API payload
         def status
           STATUS[build[:state]]
