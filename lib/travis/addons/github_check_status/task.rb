@@ -27,7 +27,7 @@ module Travis
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} payload=#{payload}")
 
           ## DO STUFF
-          response = github_apps.post_with_app(url, check_status_payload)
+          response = github_apps.post_with_app(url, check_status_payload.to_json)
 
           info "status=#{response.status} body=#{response.body}"
         rescue => e
