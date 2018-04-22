@@ -24,14 +24,14 @@ module Travis
         private
 
         def process(timeout)
-          info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} payload=#{payload}")
+          info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} payload=#{check_status_payload}")
 
           ## DO STUFF
           response = github_apps.post_with_app(url, check_status_payload.to_json)
 
-          info "status=#{response.status} body=#{response.body}"
+          info "type=github_check_status response_status=#{response.status} body=#{response.body}"
         rescue => e
-          info "url=#{url} payload=#{check_status_payload}"
+          info "type=github_check_status error='#{e}' url=#{url} payload=#{check_status_payload}"
           raise e
         end
 
