@@ -29,7 +29,12 @@ module Travis
           ## DO STUFF
           response = github_apps.post_with_app(url, check_status_payload.to_json)
 
-          info "type=github_check_status response_status=#{response.status} body=#{response.body}"
+          if response.success?
+            response_data = JSON.parse(response.body)
+            log_data = "url=#{response_data['url']} html_url=#{response_data['html_url']}"
+          end
+
+          info "type=github_check_status response_status=#{response.status} #{log_data}"
         rescue => e
           info "type=github_check_status error='#{e}' url=#{url} payload=#{check_status_payload}"
           raise e
