@@ -94,11 +94,17 @@ module Travis
         end
 
         def summary
-          ""
+          "Build #{build[:state]}"
         end
 
         def text
-          ""
+          """
+          # Summary
+
+          Markdown text we can text
+
+          [More documentation](https://docs.travis-ci.com)
+          """.split("\n").map {|line| line.lstrip}.compact.join("\n")
         end
 
         def output
