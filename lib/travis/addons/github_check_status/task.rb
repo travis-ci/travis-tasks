@@ -64,6 +64,14 @@ module Travis
           CONCLUSION[build[:state]]
         end
 
+        def branch
+          commit[:branch]
+        end
+
+        def sha
+          pull_request? ? request[:head_commit] : commit[:sha]
+        end
+
         def details_url
           # needs URL for this build's results
         end
@@ -103,6 +111,8 @@ module Travis
 
           @data = {
             name: "Travis CI",
+            branch: branch,
+            sha: sha,
             details_url: details_url,
             external_id: external_id,
             status: status,
