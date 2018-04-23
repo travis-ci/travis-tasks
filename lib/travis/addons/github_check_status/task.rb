@@ -95,13 +95,12 @@ module Travis
         end
 
         def text
-          """
-          # Summary
+          """# Summary
 
           Markdown text we can text
 
           [More documentation](https://docs.travis-ci.com)
-          """.split("\n").map {|line| line.lstrip}.compact.join("\n")
+          """.split("\n").map(&:lstrip).join("\n")
         end
 
         def output
