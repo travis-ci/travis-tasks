@@ -27,7 +27,7 @@ describe Travis::Addons::GithubCheckStatus::Task do
 
   it 'makes expected API calls' do
     subject.expects(:github_apps).returns(gh_apps)
-    gh_apps.expects(:github_api_conn).with().returns(conn)
+    gh_apps.expects(:github_api_conn).with().times(2).returns(conn)
     subject.run
   end
 end
