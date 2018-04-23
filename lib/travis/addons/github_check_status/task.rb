@@ -27,7 +27,14 @@ module Travis
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} payload=#{check_status_payload}")
 
           ## DO STUFF
-          response = github_apps.post_with_app(url, check_status_payload.to_json)
+          if build[:state] == 'created'
+            response = github_apps.post_with_app(check_run_post_url, check_status_payload.to_json)
+          else
+            check_run = check_runs(sha).first
+            if check_run
+              response = github_apps.patch_with_app(check_run_patch_url(check_run["id"]), check_status_payload.to_json)
+            end
+          end
 
           if response.success?
             response_data = JSON.parse(response.body)
@@ -36,12 +43,27 @@ module Travis
 
           info "type=github_check_status response_status=#{response.status} #{log_data}"
         rescue => e
-          info "type=github_check_status error='#{e}' url=#{url} payload=#{check_status_payload}"
+          info "type=github_check_status error='#{e}' url=#{check_run_post_url} payload=#{check_status_payload}"
           raise e
         end
 
-        def url
+        def check_run_post_url
           "/repos/#{repository[:slug]}/check-runs"
+        end
+
+        def check_run_patch_url(id)
+          "/repos/#{repository[:slug]}/check-runs/#{id}"
+        end
+
+        def check_runs(ref)
+          path = "/repos/#{repository[:slug]}/commits/#{ref}/check-runs?#{URI.encode check_run_name}&filter=latest"
+
+          response = github_apps.get_with_app(path)
+
+          if response.success?
+            response_data = JSON.parse(response.body)
+            check_runs = response_data["check_runs"]
+          end
         end
 
         def check_api_media_type
@@ -49,14 +71,26 @@ module Travis
         end
 
         def github_apps
-          @github_apps ||= Travis::GithubApps.new(installation_id, redis: Travis.config.redis.to_h, accept_header: check_api_media_type, debug: Travis.config.gh_apps.debug)
+          @github_apps ||= Travis::GithubApps.new(installation_id, redis: Travis.config.redis.to_h, accept_header: check_api_media_type, debug: debug?)
         end
 
         def installation_id
           params.fetch(:installation)
         end
 
+        def debug?
+          Travis.config.gh_apps.debug
+        end
+
+        def type
+          pull_request? ? "Pull Request" : "#{branch} Branch"
+        end
+
         ## Convenience methods for building the GitHub Check API payload
+        def check_run_name
+          "Travis CI #{type} Build"
+        end
+
         def status
           STATUS[build[:state]]
         end
@@ -86,7 +120,6 @@ module Travis
         end
 
         def title
-          type = pull_request? ? "Pull Request" : "#{branch} Branch"
           "Travis CI #{type} Build Result"
         end
 
@@ -117,7 +150,7 @@ module Travis
           return @data if @data
 
           @data = {
-            name: "Travis CI",
+            name: check_run_name,
             branch: branch,
             sha: sha,
             details_url: details_url,
