@@ -69,8 +69,12 @@ module Travis
           pull_request? ? request[:head_commit] : commit[:sha]
         end
 
+        def check_run_name
+          check_status_payload[:name]
+        end
+
         def check_status_payload
-          @data ||= Output::Generator.new(build).to_h
+          @check_status_payload ||= Output::Generator.new(payload).to_h
         end
       end
     end
