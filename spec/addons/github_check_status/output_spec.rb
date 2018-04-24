@@ -19,7 +19,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     MARKDOWN
 
     example { should eq({
-      name:         'Travis CI: master Branch',
+      name:         'Travis CI − master Branch',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
       external_id:  1,
       branch:       'master',
@@ -28,7 +28,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       conclusion:   'success',
       status:       'completed',
       output: {
-        title:      'Travis CI: master Branch',
+        title:      'Build Passed',
         summary:    'The build **[passed](https://travis-ci.org/svenfuchs/minimal/builds/1)** on Travis CI, just like the previous build.',
         text:       text
       }
@@ -43,7 +43,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       This is a [pull request build](https://docs.travis-ci.com/user/pull-requests/).
 
       It is running a build against the merge commit, after merging [#1 (title)](https://github.com/svenfuchs/minimal/pull/1).
-      This means that any changes that have been made to the master branch before the build ran are also included.
+      Any changes that have been made to the master branch before the build ran are also included.
 
       ## Jobs and Stages
       This build only has a single job.
@@ -51,7 +51,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     MARKDOWN
 
     example { should eq({
-      name:         'Travis CI: Pull Request',
+      name:         'Travis CI − Pull Request',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
       external_id:  1,
       branch:       'master',
@@ -60,7 +60,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       conclusion:   'success',
       status:       'completed',
       output: {
-        title:      'Travis CI: Pull Request',
+        title:      'Build Passed',
         summary:    'The build **[passed](https://travis-ci.org/svenfuchs/minimal/builds/1)** on Travis CI. This is a change from the previous build, which **failed**.',
         text:       text
       }

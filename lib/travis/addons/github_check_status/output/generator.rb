@@ -29,7 +29,7 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def title
-      name
+      "Build #{state.capitalize}"
     end
 
     def summary

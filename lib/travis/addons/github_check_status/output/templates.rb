@@ -1,6 +1,6 @@
 module Travis::Addons::GithubCheckStatus::Output
   TEMPLATES = {
-    name: 'Travis CI: {{build_info.name}}',
+    name: 'Travis CI − {{build_info.name}}',
 
     summary: {
       changed:   'The build **[{{state}}]({{details_url}})** on Travis CI. This is a change from the previous build, which **{{previous_state}}**.',
