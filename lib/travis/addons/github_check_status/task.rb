@@ -4,23 +4,6 @@ module Travis
   module Addons
     module GithubCheckStatus
       class Task < Travis::Task
-        STATUS = {
-          'created'  => 'queued',
-          'queued'   => 'queued',
-          'started'  => 'in_progress',
-          'passed'   => 'completed',
-          'failed'   => 'completed',
-          'errored'  => 'completed',
-          'canceled' => 'completed',
-        }
-
-        CONCLUSION = {
-          'passed'   => 'success',
-          'failed'   => 'failure',
-          'errored'  => 'action_required',
-          'canceled' => 'neutral',
-        }
-
         private
 
         def process(timeout)
@@ -82,88 +65,16 @@ module Travis
           Travis.config.gh_apps.debug
         end
 
-        def type
-          pull_request? ? "Pull Request" : "#{branch} Branch"
-        end
-
-        ## Convenience methods for building the GitHub Check API payload
-        def check_run_name
-          "Travis CI #{type} Build"
-        end
-
-        def status
-          STATUS[build[:state]]
-        end
-
-        def conclusion
-          CONCLUSION[build[:state]]
-        end
-
-        def branch
-          commit[:branch]
-        end
-
         def sha
           pull_request? ? request[:head_commit] : commit[:sha]
         end
 
-        def details_url
-          "#{Travis.config.http_host}/#{repository[:slug]}/builds/#{build[:id]}"
-        end
-
-        def external_id
-          build[:id]
-        end
-
-        def completed_at
-          build[:finished_at]
-        end
-
-        def title
-          "Travis CI #{type} Build Result"
-        end
-
-        def summary
-          "Build #{build[:state]}"
-        end
-
-        def text
-          """# Summary
-
-          Markdown text we can text
-
-          [More documentation](https://docs.travis-ci.com)
-          """.split("\n").map(&:lstrip).join("\n")
-        end
-
-        def output
-          {
-            title: title,
-            summary: summary,
-            text: text,
-            # annotations: [],
-            # images: []
-          }
+        def check_run_name
+          check_status_payload[:name]
         end
 
         def check_status_payload
-          return @data if @data
-
-          @data = {
-            name: check_run_name,
-            branch: branch,
-            sha: sha,
-            details_url: details_url,
-            external_id: external_id,
-            status: status,
-            output: output
-          }
-
-          if status == 'completed'
-            @data.merge!({conclusion: conclusion, completed_at: completed_at})
-          end
-
-          @data
+          @check_status_payload ||= Output::Generator.new(payload).to_h
         end
       end
     end
