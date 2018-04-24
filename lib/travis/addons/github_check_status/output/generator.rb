@@ -41,7 +41,7 @@ module Travis::Addons::GithubCheckStatus::Output
       when 'queued'       then :queued
       when 'started'      then :running
       when previous_state then :unchanged
-      else                     :changed
+      else previous_state.present? ? :changed : :no_previous
       end
     end
 
