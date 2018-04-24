@@ -56,6 +56,10 @@ module Travis::Addons::GithubCheckStatus::Output
       "#{Travis.config.http_host}/images/stroke-icons/#{ICON.fetch(state(state))}"
     end
 
+    def icon(state = nil)
+      "<img src='#{icon_url(state)}' height='11'>"
+    end
+
     def payload
       generator.payload
     end
