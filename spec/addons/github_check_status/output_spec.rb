@@ -19,7 +19,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     MARKDOWN
 
     example { should eq({
-      name:         'Travis CI − master Branch',
+      name:         'Travis CI − Branch',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
       external_id:  1,
       branch:       'master',

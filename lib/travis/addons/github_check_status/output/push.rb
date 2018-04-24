@@ -3,7 +3,7 @@ module Travis::Addons::GithubCheckStatus::Output
     include Helpers
 
     def name
-      "#{branch} Branch"
+      "Branch"
     end
 
     def description
