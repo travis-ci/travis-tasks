@@ -47,8 +47,13 @@ module Travis::Addons::GithubCheckStatus::Output
       @generator = generator
     end
 
-    def icon_url(state = self.state)
-      "#{Travis.config.http_host}/images/stroke-icons/#{ICON.fetch(state)}"
+    def state(state = nil)
+      state ||= build[:state]
+      state == 'persisted' ? 'queued' : state
+    end
+
+    def icon_url(state = nil)
+      "#{Travis.config.http_host}/images/stroke-icons/#{ICON.fetch(state(state))}"
     end
 
     def payload

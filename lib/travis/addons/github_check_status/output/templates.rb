@@ -16,7 +16,7 @@ module Travis::Addons::GithubCheckStatus::Output
 
     stage_description: <<-MARKDOWN,
       ### Stage {{stage[:number]}}: {{stage[:name]}}
-      This stage **{{stage[:state]}}**.
+      This stage **{{state stage[:state]}}**.
     MARKDOWN
 
     text: <<-MARKDOWN
