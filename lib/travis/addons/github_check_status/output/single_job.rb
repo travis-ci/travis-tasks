@@ -4,7 +4,7 @@ module Travis::Addons::GithubCheckStatus::Output
 
     def description
       "This build only has a single job.\n" \
-      "You can uses jobs to [test against multiple versions](https://docs.travis-ci.com/user/customizing-the-build/#Build-Matrix) " \
+      "You can use jobs to [test against multiple versions](https://docs.travis-ci.com/user/customizing-the-build/#Build-Matrix) " \
       "of your runtime or dependencies, or to [speed up your build](https://docs.travis-ci.com/user/speeding-up-the-build/)."
     end
   end

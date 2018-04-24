@@ -47,7 +47,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
 
       ## Jobs and Stages
       This build only has a single job.
-      You can uses jobs to [test against multiple versions](https://docs.travis-ci.com/user/customizing-the-build/#Build-Matrix) of your runtime or dependencies, or to [speed up your build](https://docs.travis-ci.com/user/speeding-up-the-build/).
+      You can use jobs to [test against multiple versions](https://docs.travis-ci.com/user/customizing-the-build/#Build-Matrix) of your runtime or dependencies, or to [speed up your build](https://docs.travis-ci.com/user/speeding-up-the-build/).
     MARKDOWN
 
     example { should eq({
