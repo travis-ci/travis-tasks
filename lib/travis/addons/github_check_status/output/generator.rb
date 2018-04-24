@@ -33,7 +33,16 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def summary
-      template(:summary, state == previous_state ? :unchanged : :changed)
+      template(:summary, summary_type)
+    end
+
+    def summary_type
+      case state
+      when 'queued'       then :queued
+      when 'started'      then :running
+      when previous_state then :unchanged
+      else                     :changed
+      end
     end
 
     def text

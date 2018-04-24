@@ -29,7 +29,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       status:       'completed',
       output: {
         title:      'Build Passed',
-        summary:    'The build **[passed](https://travis-ci.org/svenfuchs/minimal/builds/1)** on Travis CI, just like the previous build.',
+        summary:    'The build **passed**, just like the previous build.',
         text:       text
       }
     })}
@@ -61,7 +61,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       status:       'completed',
       output: {
         title:      'Build Passed',
-        summary:    'The build **[passed](https://travis-ci.org/svenfuchs/minimal/builds/1)** on Travis CI. This is a change from the previous build, which **failed**.',
+        summary:    'The build **passed**. This is a change from the previous build, which **failed**.',
         text:       text
       }
     })}
@@ -93,5 +93,25 @@ describe Travis::Addons::GithubCheckStatus::Output do
     MARKDOWN
 
     example { subject[:output][:text].should eq(text) }
+  end
+
+  describe 'queued build' do
+    let(:payload) { base_payload.merge(build: base_payload[:build].merge(state: 'queued')) }
+    let(:base_payload) { TASK_PAYLOAD.deep_symbolize_keys }
+
+    example { subject[:status].should be == 'queued' }
+    example { subject.should_not include(:conclusion) }
+    example { subject.should_not include(:completed_at) }
+    example { subject[:output][:summary].should be == 'The build is currently waiting in the build queue for a VM to be ready.' }
+  end
+
+  describe 'started build' do
+    let(:payload) { base_payload.merge(build: base_payload[:build].merge(state: 'started')) }
+    let(:base_payload) { TASK_PAYLOAD.deep_symbolize_keys }
+
+    example { subject[:status].should be == 'in_progress' }
+    example { subject.should_not include(:conclusion) }
+    example { subject.should_not include(:completed_at) }
+    example { subject[:output][:summary].should be == 'The build is currently running.' }
   end
 end
