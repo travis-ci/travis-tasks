@@ -12,10 +12,10 @@ describe Travis::Addons::GithubCheckStatus::Output do
       ## Jobs and Stages
       This build has **two jobs**, running in parallel.
 
-       Job                                                   | State
-      -------------------------------------------------------|--------
-       [2.1](https://travis-ci.org/svenfuchs/minimal/jobs/1) | passed
-       [2.2](https://travis-ci.org/svenfuchs/minimal/jobs/2) | passed
+       Job                                                                                                                  | State
+      ----------------------------------------------------------------------------------------------------------------------|--------
+       ![](https://travis-ci.org/images/stroke-icons/icon-passed.png) [2.1](https://travis-ci.org/svenfuchs/minimal/jobs/1) | passed
+       ![](https://travis-ci.org/images/stroke-icons/icon-passed.png) [2.2](https://travis-ci.org/svenfuchs/minimal/jobs/2) | passed
     MARKDOWN
 
     example { should eq({
@@ -29,7 +29,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       status:       'completed',
       output: {
         title:      'Build Passed',
-        summary:    'The build **passed**, just like the previous build.',
+        summary:    '![](https://travis-ci.org/images/stroke-icons/icon-passed.png) The build **passed**, just like the previous build.',
         text:       text
       }
     })}
@@ -61,7 +61,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       status:       'completed',
       output: {
         title:      'Build Passed',
-        summary:    'The build **passed**. This is a change from the previous build, which **failed**.',
+        summary:    '![](https://travis-ci.org/images/stroke-icons/icon-passed.png) The build **passed**. This is a change from the previous build, which **failed**.',
         text:       text
       }
     })}
@@ -80,16 +80,16 @@ describe Travis::Addons::GithubCheckStatus::Output do
       ### Stage 1: Test
       This stage **passed**.
 
-       Job                                                   | State
-      -------------------------------------------------------|--------
-       [2.1](https://travis-ci.org/svenfuchs/minimal/jobs/1) | passed
+       Job                                                                                                                  | State
+      ----------------------------------------------------------------------------------------------------------------------|--------
+       ![](https://travis-ci.org/images/stroke-icons/icon-passed.png) [2.1](https://travis-ci.org/svenfuchs/minimal/jobs/1) | passed
 
       ### Stage 2: Deploy
       This stage **passed**.
 
-       Job                                                   | State
-      -------------------------------------------------------|--------
-       [2.2](https://travis-ci.org/svenfuchs/minimal/jobs/2) | passed
+       Job                                                                                                                  | State
+      ----------------------------------------------------------------------------------------------------------------------|--------
+       ![](https://travis-ci.org/images/stroke-icons/icon-passed.png) [2.2](https://travis-ci.org/svenfuchs/minimal/jobs/2) | passed
     MARKDOWN
 
     example { subject[:output][:text].should eq(text) }
@@ -102,7 +102,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     example { subject[:status].should be == 'queued' }
     example { subject.should_not include(:conclusion) }
     example { subject.should_not include(:completed_at) }
-    example { subject[:output][:summary].should be == 'The build is currently waiting in the build queue for a VM to be ready.' }
+    example { subject[:output][:summary].should be == '![](https://travis-ci.org/images/stroke-icons/icon-running.png) The build is currently waiting in the build queue for a VM to be ready.' }
   end
 
   describe 'started build' do
@@ -112,6 +112,6 @@ describe Travis::Addons::GithubCheckStatus::Output do
     example { subject[:status].should be == 'in_progress' }
     example { subject.should_not include(:conclusion) }
     example { subject.should_not include(:completed_at) }
-    example { subject[:output][:summary].should be == 'The build is currently running.' }
+    example { subject[:output][:summary].should be == '![](https://travis-ci.org/images/stroke-icons/icon-running.png) The build is currently running.' }
   end
 end

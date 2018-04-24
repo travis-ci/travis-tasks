@@ -49,7 +49,7 @@ module Travis::Addons::GithubCheckStatus::Output
     def table_data
       @table_data ||= jobs.map do |job|
         [
-          "[#{job[:number]}](#{job_url(job)})",
+          "![](#{icon_url(job[:state])}) [#{job[:number]}](#{job_url(job)})",
           job[:state]
         ]
       end

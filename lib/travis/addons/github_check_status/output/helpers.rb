@@ -17,6 +17,16 @@ module Travis::Addons::GithubCheckStatus::Output
       'canceled' => 'neutral',
     }
 
+    ICON = {
+      'created'  => 'icon-running.png',
+      'queued'   => 'icon-running.png',
+      'started'  => 'icon-running.png',
+      'passed'   => 'icon-passed.png',
+      'failed'   => 'icon-failed.png',
+      'errored'  => 'icon-errored.png',
+      'canceled' => 'icon-canceled.png',
+    }
+
     NUMBERS = %w[zero one two three four five six seven eight nine ten]
 
     def self.hash_accessors(method, *fields)
@@ -35,6 +45,10 @@ module Travis::Addons::GithubCheckStatus::Output
 
     def initialize(generator)
       @generator = generator
+    end
+
+    def icon_url(state = self.state)
+      "#{Travis.config.http_host}/images/stroke-icons/#{ICON.fetch(state)}"
     end
 
     def payload
