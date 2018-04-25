@@ -1,14 +1,13 @@
 module Travis::Addons::GithubCheckStatus::Output
   class Stage
-    HEADERS = ['Job', 'State', 'Notes']
-
     include Helpers
-    attr_reader :stage, :jobs
+    attr_reader :stage, :jobs, :headers
 
     def initialize(generator, stage, jobs)
       super(generator)
-      @stage = stage
-      @jobs  = jobs
+      @headers = ['Job', *MATRIX_KEYS.values, 'State', 'Notes']
+      @stage   = stage
+      @jobs    = jobs
     end
 
     def description
@@ -19,23 +18,12 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def table
-      [
-        format_row(HEADERS),
-        table_separator,
-        *table_data.map { |row| format_row(row) }
-      ].join("\n")
+      template(:jobs_table)
     end
 
-    def format_row(row)
-      row.each_with_index.map { |cell, index| " #{cell.to_s.ljust(cell_width(index))} " unless skip_cell?(index) }.compact.join('|').rstrip
-    end
-
-    def table_separator
-      HEADERS.size.times.map { |i| '-' * (cell_width(i)+2) unless skip_cell?(i) }.compact.join('|')
-    end
-
-    def cell_width(index)
-      [HEADERS[index].size, *table_data.map { |r| r[index].size }].max
+    def format_row(row, element = 'td')
+      html = row.each_with_index.map { |cell, index| "    <#{element}>#{cell}</#{element}>" unless skip_cell?(index) }.compact.join("\n")
+      "  <tr>\n#{html}\n  </tr>"
     end
 
     def skip_cell?(index)
@@ -46,13 +34,43 @@ module Travis::Addons::GithubCheckStatus::Output
       "#{Travis.config.http_host}/#{slug}/jobs/#{job[:id]}"
     end
 
+    def table_body
+      table_data.map { |row| format_row(row) }.join("\n")
+    end
+
+    def table_head
+      format_row(headers, 'th')
+    end
+
+    def matrix_attributes(job)
+      MATRIX_KEYS.each_key.map do |key|
+        matrix_value(key, job[:config][key], job) if job[:config][key] != build[:config][key]
+      end
+    end
+
+    def matrix_value(key, value, job)
+      return unless value.present?
+      case key
+      when :os      then os_description(job, value)
+      when :gemfile then "<a href='#{file_link(value)}'>#{escape(value)}</a>"
+      else escape(value)
+      end
+    end
+
+    def notes(job)
+      template(:allow_failure) if job[:allow_failure]
+    end
+
     def table_data
       @table_data ||= jobs.map do |job|
         [
-          "[#{job[:number]}](#{job_url(job)})",
-          job[:state]
+          "#{icon(job[:state])} <a href='#{job_url(job)}'>#{job[:number]}</a>",
+          *matrix_attributes(job),
+          state(job[:state]),
+          notes(job)
         ]
       end
     end
+
   end
 end
