@@ -7,7 +7,7 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def description
-      "This is a normal build for the #{branch} branch. You should be able to reproduce it by checking out the branch locally."
+      "This is a normal build for the #{escape branch} branch. You should be able to reproduce it by checking out the branch locally."
     end
 
     def sha

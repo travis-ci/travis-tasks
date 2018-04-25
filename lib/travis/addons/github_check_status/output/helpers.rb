@@ -27,7 +27,55 @@ module Travis::Addons::GithubCheckStatus::Output
       'canceled' => 'icon-canceled.png',
     }
 
-    NUMBERS = %w[zero one two three four five six seven eight nine ten]
+    DEFAULT_LANGUAGE = 'RUBY'
+    LANGUAGES        = {
+      go:               'Go',
+      php:              'PHP',
+      node_js:          'Node.js',
+      perl:             'Perl',
+      perl6:            'Perl6',
+      python:           'Python',
+      scala:            'Scala',
+      smalltalk:        'Smalltalk',
+      smalltalk_config: 'Config',
+      ruby:             'Ruby',
+      d:                'D',
+      julia:            'Julia',
+      csharp:           'C#',
+      mono:             'Mono',
+      dart:             'Dart',
+      dart_task:        'Task',
+      elixir:           'Elixir',
+      ghc:              'GHC',
+      haxe:             'Haxe',
+      jdk:              'JDK',
+      rvm:              'Ruby',
+      otp_release:      'OTP Release',
+      rust:             'Rust',
+      c:                'C',
+      cpp:              'C++',
+      clojure:          'Clojure',
+      lein:             'Lein',
+      compiler:         'Compiler',
+      crystal:          'Crystal',
+      osx_image:        'Xcode',
+      r:                'R',
+      nix:              'Nix'
+    }
+
+    OTHER_KEYS = {
+      env:          'ENV',
+      gemfile:      'Gemfile',
+      xcode_sdk:    'Xcode SDK',
+      xcode_scheme: 'Xcode Scheme',
+      compiler:     'Compiler',
+      os:           'OS'
+    }
+
+    MATRIX_KEYS        = LANGUAGES.merge(OTHER_KEYS)
+    SPECIAL_CHARACTERS = "<>*/\\'_[]#~"
+    ESCAPE_MATCHER     = /[#{Regexp.escape(SPECIAL_CHARACTERS)}]/
+    NUMBERS            = %w[zero one two three four five six seven eight nine ten]
 
     def self.hash_accessors(method, *fields)
       fields.each do |field|
@@ -80,9 +128,27 @@ module Travis::Addons::GithubCheckStatus::Output
       CONCLUSION[state]
     end
 
+    def language
+      @language ||= begin
+        language = build[:config].fetch(:language, DEFAULT_LANGUAGE)
+        LANGUAGES.fetch(language.to_sym, language.capitalize)
+      end
+    end
+
     def template(*keys)
       @templates       ||= {}
-      @templates[keys] ||= keys.inject(TEMPLATES) { |t,k| t.fetch(k) }.gsub(/^ +/, '').gsub(/\{\{([^\}]+)\}\}/) { eval($1) }
+      @templates[keys] ||= keys.inject(TEMPLATES) { |t,k| t.fetch(k) }.gsub(/^ +/, '').each_line.with_index.map do |line, index|
+        line.gsub(/\{\{([^\}]+)\}\}/) { eval($1, binding, "template:#{keys.join(':')}", index+1) }
+      end.join
+    end
+
+    def code(lang, source)
+      "<pre lang='#{lang}'>\n#{source.strip.gsub('<', '&lt;').gsub('>', '&gt;')}\n</pre>"
+    end
+
+    def escape(content, matcher = ESCAPE_MATCHER)
+      return if content.nil?
+      content.gsub(matcher, "\\\\\\0")
     end
 
     def number(input)

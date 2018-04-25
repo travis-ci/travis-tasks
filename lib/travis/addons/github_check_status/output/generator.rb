@@ -1,8 +1,7 @@
 module Travis::Addons::GithubCheckStatus::Output
   class Generator
-    FIELDS        = %i[ name branch sha details_url external_id status conclusion completed_at ]
-    OUTPUT_FIELDS = %i[ title summary text annotations images ]
-
+    FIELDS             = %i[ name branch sha details_url external_id status conclusion completed_at ]
+    OUTPUT_FIELDS      = %i[ title summary text annotations images ]
     include Helpers
     attr_reader :payload, :build_info, :job_info
 
@@ -57,6 +56,47 @@ module Travis::Addons::GithubCheckStatus::Output
 
     def completed_at
       finished_at if completed?
+    end
+
+    def build_script_info
+      script = Array(build[:config][:script])
+      if script.any?
+        "Tests are run via the following build script:\n\n#{code(:bash, script.join("\n"))}"
+      else
+        "It's using the default test runner for #{language}."
+      end
+    end
+
+    def language_info
+      content = ""
+      LANGUAGES.each do |key, description|
+        next unless values = Array(build[:config][key]) and values.any?
+        content << "#{description} Version#{'s' if values.size > 1}".ljust(16) << " | " << values.map { |v| escape(v) }.join(', ') << "\n"
+      end
+      content.strip
+    end
+
+    def os_description(os = build[:config][:os])
+      case os ||= 'linux'
+      when 'linux'
+        if dist = build[:config][:dist] and dist.is_a? String and !dist.empty?
+          "Linux (#{dist.capitalize})"
+        else
+          'Linux'
+        end
+      when 'osx'
+        'macOS'
+      when Array
+        return os_description(os.first) if os.size == 1
+        os.flatten.map { |o| os_description(o) }.join(', ')
+      else
+        os
+      end
+    end
+
+    def yaml(config)
+      # config.deep_stringify_keys.to_yaml.sub(/^---\n/, '')
+      JSON.pretty_generate(config)
     end
 
     def to_h(*fields)

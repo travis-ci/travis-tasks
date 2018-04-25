@@ -5,7 +5,7 @@ module Travis::Addons::GithubCheckStatus::Output
 
     def initialize(generator, stage, jobs)
       super(generator)
-      @headers = ['Job', 'State', 'Notes']
+      @headers = ['Job', *MATRIX_KEYS.values, 'State', 'Notes']
       @stage   = stage
       @jobs    = jobs
     end
@@ -42,11 +42,23 @@ module Travis::Addons::GithubCheckStatus::Output
       format_row(headers, 'th')
     end
 
+    def matrix_attributes(job)
+      MATRIX_KEYS.each_key.map do |key|
+        escape(job[:config][key]) if job[:config][key] != build[:config][key]
+      end
+    end
+
+    def notes(job)
+      template(:allow_failure) if job[:allow_failure]
+    end
+
     def table_data
       @table_data ||= jobs.map do |job|
         [
           "#{icon(job[:state])} <a href='#{job_url(job)}'>#{job[:number]}</a>",
-          state(job[:state])
+          *matrix_attributes(job),
+          state(job[:state]),
+          notes(job)
         ]
       end
     end
