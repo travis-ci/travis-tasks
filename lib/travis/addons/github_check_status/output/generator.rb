@@ -76,24 +76,6 @@ module Travis::Addons::GithubCheckStatus::Output
       content.strip
     end
 
-    def os_description(os = build[:config][:os])
-      case os ||= 'linux'
-      when 'linux'
-        if dist = build[:config][:dist] and dist.is_a? String and !dist.empty?
-          "Linux (#{dist.capitalize})"
-        else
-          'Linux'
-        end
-      when 'osx'
-        'macOS'
-      when Array
-        return os_description(os.first) if os.size == 1
-        os.flatten.map { |o| os_description(o) }.join(', ')
-      else
-        os
-      end
-    end
-
     def yaml(config)
       # config.deep_stringify_keys.to_yaml.sub(/^---\n/, '')
       JSON.pretty_generate(config)

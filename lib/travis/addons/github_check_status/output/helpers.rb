@@ -135,6 +135,24 @@ module Travis::Addons::GithubCheckStatus::Output
       end
     end
 
+    def os_description(config = build[:config], os = config[:os])
+      case os ||= 'linux'
+      when 'linux'
+        if dist = config[:dist] and dist.is_a? String and !dist.empty?
+          "Linux (#{dist.capitalize})"
+        else
+          'Linux'
+        end
+      when 'osx'
+        'macOS'
+      when Array
+        return os_description(config, os.first) if os.size == 1
+        os.flatten.map { |o| os_description(config, o) }.join(', ')
+      else
+        os
+      end
+    end
+
     def template(*keys)
       @templates       ||= {}
       @templates[keys] ||= keys.inject(TEMPLATES) { |t,k| t.fetch(k) }.gsub(/^ +/, '').each_line.with_index.map do |line, index|
@@ -149,6 +167,11 @@ module Travis::Addons::GithubCheckStatus::Output
     def escape(content, matcher = ESCAPE_MATCHER)
       return if content.nil?
       content.gsub(matcher, "\\\\\\0")
+    end
+
+    def file_link(path)
+      path = path.split('/').map { |p| URI.escape(p) }.join('/')
+      "#{Travis.config.github.url}/#{slug}/blob/#{commit[:sha]}/#{path}"
     end
 
     def number(input)

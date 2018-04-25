@@ -44,7 +44,16 @@ module Travis::Addons::GithubCheckStatus::Output
 
     def matrix_attributes(job)
       MATRIX_KEYS.each_key.map do |key|
-        escape(job[:config][key]) if job[:config][key] != build[:config][key]
+        matrix_value(key, job[:config][key]) if job[:config][key] != build[:config][key]
+      end
+    end
+
+    def matrix_value(key, value)
+      return unless value.present?
+      case key
+      when :os      then os_description(job, value)
+      when :gemfile then "<a href='#{file_link(value)}'>#{escape(value)}</a>"
+      else escape(value)
       end
     end
 
@@ -62,5 +71,6 @@ module Travis::Addons::GithubCheckStatus::Output
         ]
       end
     end
+
   end
 end
