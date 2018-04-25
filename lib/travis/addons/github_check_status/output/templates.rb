@@ -20,11 +20,22 @@ module Travis::Addons::GithubCheckStatus::Output
       This stage **{{state stage[:state]}}**.
     MARKDOWN
 
-    text: <<-MARKDOWN
+    text: <<-MARKDOWN,
       {{build_info.description}}
 
       ## Jobs and Stages
       {{job_info.description}}
     MARKDOWN
+
+    jobs_table: <<-HTML,
+      <table>
+        <thead>
+          {{ table_head.rstrip }}
+        </thead>
+        <tbody>
+          {{ table_body.rstrip }}
+        </tbody>
+      </table>
+    HTML
   }
 end

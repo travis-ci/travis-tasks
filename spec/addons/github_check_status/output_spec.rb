@@ -12,10 +12,24 @@ describe Travis::Addons::GithubCheckStatus::Output do
       ## Jobs and Stages
       This build has **two jobs**, running in parallel.
 
-       Job                                                                                                                                     | State
-      -----------------------------------------------------------------------------------------------------------------------------------------|--------
-       <img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> [2.1](https://travis-ci.org/svenfuchs/minimal/jobs/1) | passed
-       <img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> [2.2](https://travis-ci.org/svenfuchs/minimal/jobs/2) | passed
+      <table>
+      <thead>
+        <tr>
+          <th>Job</th>
+          <th>State</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> <a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'>2.1</a></td>
+          <td>passed</td>
+        </tr>
+        <tr>
+          <td><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> <a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'>2.2</a></td>
+          <td>passed</td>
+        </tr>
+      </tbody>
+      </table>
     MARKDOWN
 
     example { should eq({
@@ -80,16 +94,38 @@ describe Travis::Addons::GithubCheckStatus::Output do
       ### Stage 1: Test
       This stage **passed**.
 
-       Job                                                                                                                                     | State
-      -----------------------------------------------------------------------------------------------------------------------------------------|--------
-       <img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> [2.1](https://travis-ci.org/svenfuchs/minimal/jobs/1) | passed
+      <table>
+      <thead>
+        <tr>
+          <th>Job</th>
+          <th>State</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> <a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'>2.1</a></td>
+          <td>passed</td>
+        </tr>
+      </tbody>
+      </table>
 
       ### Stage 2: Deploy
       This stage **passed**.
 
-       Job                                                                                                                                     | State
-      -----------------------------------------------------------------------------------------------------------------------------------------|--------
-       <img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> [2.2](https://travis-ci.org/svenfuchs/minimal/jobs/2) | passed
+      <table>
+      <thead>
+        <tr>
+          <th>Job</th>
+          <th>State</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> <a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'>2.2</a></td>
+          <td>passed</td>
+        </tr>
+      </tbody>
+      </table>
     MARKDOWN
 
     example { subject[:output][:text].should eq(text) }

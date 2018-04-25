@@ -1,14 +1,13 @@
 module Travis::Addons::GithubCheckStatus::Output
   class Stage
-    HEADERS = ['Job', 'State', 'Notes']
-
     include Helpers
-    attr_reader :stage, :jobs
+    attr_reader :stage, :jobs, :headers
 
     def initialize(generator, stage, jobs)
       super(generator)
-      @stage = stage
-      @jobs  = jobs
+      @headers = ['Job', 'State', 'Notes']
+      @stage   = stage
+      @jobs    = jobs
     end
 
     def description
@@ -19,23 +18,12 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def table
-      [
-        format_row(HEADERS),
-        table_separator,
-        *table_data.map { |row| format_row(row) }
-      ].join("\n")
+      template(:jobs_table)
     end
 
-    def format_row(row)
-      row.each_with_index.map { |cell, index| " #{cell.to_s.ljust(cell_width(index))} " unless skip_cell?(index) }.compact.join('|').rstrip
-    end
-
-    def table_separator
-      HEADERS.size.times.map { |i| '-' * (cell_width(i)+2) unless skip_cell?(i) }.compact.join('|')
-    end
-
-    def cell_width(index)
-      [HEADERS[index].size, *table_data.map { |r| r[index].size }].max
+    def format_row(row, element = 'td')
+      html = row.each_with_index.map { |cell, index| "    <#{element}>#{cell}</#{element}>" unless skip_cell?(index) }.compact.join("\n")
+      "  <tr>\n#{html}\n  </tr>"
     end
 
     def skip_cell?(index)
@@ -46,10 +34,18 @@ module Travis::Addons::GithubCheckStatus::Output
       "#{Travis.config.http_host}/#{slug}/jobs/#{job[:id]}"
     end
 
+    def table_body
+      table_data.map { |row| format_row(row) }.join("\n")
+    end
+
+    def table_head
+      format_row(headers, 'th')
+    end
+
     def table_data
       @table_data ||= jobs.map do |job|
         [
-          "#{icon(job[:state])} [#{job[:number]}](#{job_url(job)})",
+          "#{icon(job[:state])} <a href='#{job_url(job)}'>#{job[:number]}</a>",
           state(job[:state])
         ]
       end
