@@ -7,7 +7,7 @@ module Travis
         private
 
         def process(timeout)
-          info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} payload=#{check_status_payload}")
+          info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id} payload=#{check_status_payload}")
 
           ## DO STUFF
           if build[:state] == 'created'
