@@ -44,11 +44,11 @@ module Travis::Addons::GithubCheckStatus::Output
 
     def matrix_attributes(job)
       MATRIX_KEYS.each_key.map do |key|
-        matrix_value(key, job[:config][key]) if job[:config][key] != build[:config][key]
+        matrix_value(key, job[:config][key], job) if job[:config][key] != build[:config][key]
       end
     end
 
-    def matrix_value(key, value)
+    def matrix_value(key, value, job)
       return unless value.present?
       case key
       when :os      then os_description(job, value)
