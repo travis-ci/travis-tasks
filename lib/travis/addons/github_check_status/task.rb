@@ -9,13 +9,15 @@ module Travis
         def process(timeout)
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id} payload=#{payload} params=#{params} check_status_payload=#{check_status_payload.to_json}")
 
-          ## DO STUFF
           if build[:state] == 'created'
             response = github_apps.post_with_app(check_run_post_url, check_status_payload.to_json)
           else
             check_run = check_runs(sha).first
             if check_run
               response = github_apps.patch_with_app(check_run_patch_url(check_run["id"]), check_status_payload.to_json)
+            else
+              error("type=github_check_status repo=#{repository[:slug]} sha=#{sha} reason=check_runs_empty ")
+              return
             end
           end
 
@@ -27,9 +29,9 @@ module Travis
             log_data = "response_body=#{response.body}"
           end
 
-          info "type=github_check_status response_status=#{response.status} #{log_data}"
+          info "type=github_check_status repo=#{repository[:slug]} response_status=#{response.status} #{log_data}"
         rescue => e
-          info "type=github_check_status error='#{e}' url=#{check_run_post_url} payload=#{check_status_payload}"
+          info "type=github_check_status repo=#{repository[:slug]} error='#{e}' url=#{check_run_post_url} payload=#{check_status_payload}"
           raise e
         end
 
@@ -49,6 +51,8 @@ module Travis
           if response.success?
             response_data = JSON.parse(response.body)
             check_runs = response_data["check_runs"]
+          else
+            error("type=github_check_status repo=#{repository[:slug]} path=#{path} status=#{response.status}")
           end
         end
 
