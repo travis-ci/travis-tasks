@@ -44,7 +44,7 @@ module Travis
         end
 
         def check_runs(ref)
-          path = "/repos/#{repository[:slug]}/commits/#{ref}/check-runs?#{URI.encode check_run_name}&filter=latest"
+          path = "/repos/#{repository[:slug]}/commits/#{ref}/check-runs?chreck_name=#{URI.encode check_run_name}&filter=latest"
 
           response = github_apps.get_with_app(path)
 
