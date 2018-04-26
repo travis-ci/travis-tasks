@@ -114,7 +114,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       name:         'Travis CI − Pull Request',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
       external_id:  1,
-      branch:       'master',
+      branch:       'svenfuchs-patch-1',
       sha:          'head-commit',
       completed_at: '2014-04-03T10:22:05Z',
       conclusion:   'success',

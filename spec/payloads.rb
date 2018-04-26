@@ -95,7 +95,8 @@ TASK_PAYLOAD_PULL_REQUEST = {
   },
   "pull_request" => {
     "number"=>1,
-    "title"=>"title"
+    "title"=>"title",
+    "head_ref"=>"svenfuchs-patch-1",
   },
   "tag" => {
     "name"=>"v1.0.0"

@@ -22,5 +22,9 @@ module Travis::Addons::GithubCheckStatus::Output
     def sha
       request[:head_commit]
     end
+
+    def head_ref
+      pull_request[:head_ref]
+    end
   end
 end

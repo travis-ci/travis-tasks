@@ -19,6 +19,10 @@ module Travis::Addons::GithubCheckStatus::Output
       template(:name)
     end
 
+    def branch
+      build_info.head_ref
+    end
+
     def sha
       build_info.sha
     end
