@@ -30,7 +30,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-github_apps
-  revision: 7df8beda46564112f5b513e24475d6626d9c6def
+  revision: 418161f82baaac3e59121a1624640f9f8ee942fd
   specs:
     travis-github_apps (0.2.0)
       activesupport (>= 3.2)
