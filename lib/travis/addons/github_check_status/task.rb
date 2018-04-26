@@ -12,7 +12,8 @@ module Travis
           if build[:state] == 'created'
             response = github_apps.post_with_app(check_run_post_url, check_status_payload.to_json)
           else
-            check_run = check_runs(sha).first
+            check_run = check_runs(sha).select { |check_run| check_run["external_id"] == build[:id].to_s }.first
+
             if check_run
               response = github_apps.patch_with_app(check_run_patch_url(check_run["id"]), check_status_payload.to_json)
             else
