@@ -19,9 +19,12 @@ module Travis
             end
           end
 
+          response_data = JSON.parse(response.body)
+
           if response.success?
-            response_data = JSON.parse(response.body)
             log_data = "url=#{response_data['url']} html_url=#{response_data['html_url']}"
+          else
+            log_data = "response_body=#{response.body}"
           end
 
           info "type=github_check_status response_status=#{response.status} #{log_data}"
