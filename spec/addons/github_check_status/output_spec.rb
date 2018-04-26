@@ -61,7 +61,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     example { should eq({
       name:         'Travis CI − Branch',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
-      external_id:  1,
+      external_id:  '1',
       branch:       'master',
       sha:          '62aae5f70ceee39123ef',
       completed_at: '2014-04-03T10:22:05Z',
@@ -113,7 +113,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     example { should eq({
       name:         'Travis CI − Pull Request',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
-      external_id:  1,
+      external_id:  '1',
       branch:       'svenfuchs-patch-1',
       sha:          'head-commit',
       completed_at: '2014-04-03T10:22:05Z',

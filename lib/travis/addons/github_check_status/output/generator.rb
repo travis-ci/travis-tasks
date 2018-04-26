@@ -27,6 +27,10 @@ module Travis::Addons::GithubCheckStatus::Output
       build_info.sha
     end
 
+    def external_id
+      payload[:build][:id].to_s
+    end
+
     def details_url
       "#{Travis.config.http_host}/#{slug}/builds/#{external_id}"
     end
