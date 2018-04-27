@@ -21,7 +21,7 @@ describe Travis::Addons::GithubCheckStatus::Task do
       builder.adapter :test do |stub|
         stub.post("/installations/12345/access_tokens") { |env| [201, {}, "{\"token\":\"github_apps_access_token\",\"expires_at\":\"2018-04-03T20:52:14Z\"}"] }
         stub.post("/repos/#{slug}/check-runs") { |env| [201, {}, check_run_response(response_data)] }
-        stub.get("/repos/#{slug}/commits/#{sha}/check-runs?Travis+CI+master+Branch+Build&filter=latest") { |env| [200, {}, check_run_list_response(response_data)] }
+        stub.get("/repos/#{slug}/commits/#{sha}/check-runs?check_name=Travis+CI+%E2%88%92+Branch&filter=latest") { |env| [200, {}, check_run_list_response(response_data)] }
         stub.patch("/repos/#{slug}/check-runs/1") { |env| [200, {}, check_run_response(response_data)] }
       end
     end
@@ -32,8 +32,8 @@ describe Travis::Addons::GithubCheckStatus::Task do
   end
 
   it 'makes expected API calls' do
-    subject.expects(:github_apps).times(2).returns(gh_apps)
-    gh_apps.expects(:github_api_conn).times(4) .returns(conn)
+    subject.expects(:github_apps).times(1).returns(gh_apps)
+    gh_apps.expects(:github_api_conn).times(2).returns(conn)
     subject.run
   end
 end
