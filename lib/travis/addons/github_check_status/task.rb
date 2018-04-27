@@ -64,8 +64,8 @@ module Travis
         def github_apps
           @github_apps ||= Travis::GithubApps.new(
             installation_id,
-            apps_id: Travis.config.github_apps_id,
-            private_pem: Travis.config.github_private_pem,
+            apps_id: Travis.config.github_apps.id,
+            private_pem: Travis.config.github_apps.private_pem,
             redis: Travis.config.redis.to_h,
             accept_header: check_api_media_type,
             debug: debug?
@@ -77,7 +77,7 @@ module Travis
         end
 
         def debug?
-          Travis.config.gh_apps.debug
+          Travis.config.github_apps.debug
         end
 
         def sha
