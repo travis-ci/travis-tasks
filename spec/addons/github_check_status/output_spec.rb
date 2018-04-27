@@ -59,7 +59,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     MARKDOWN
 
     example { should eq({
-      name:         'Travis CI − Branch',
+      name:         'Travis CI - Branch',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
       external_id:  '1',
       branch:       'master',
@@ -111,7 +111,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     MARKDOWN
 
     example { should eq({
-      name:         'Travis CI − Pull Request',
+      name:         'Travis CI - Pull Request',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
       external_id:  '1',
       branch:       'svenfuchs-patch-1',
