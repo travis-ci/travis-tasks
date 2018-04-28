@@ -1,6 +1,6 @@
 module Travis::Addons::GithubCheckStatus::Output
   class Generator
-    FIELDS             = %i[ name branch sha details_url external_id status conclusion completed_at ]
+    FIELDS             = %i[ name head_sha details_url external_id status conclusion completed_at ]
     OUTPUT_FIELDS      = %i[ title summary text annotations images ]
     include Helpers
     attr_reader :payload, :build_info, :job_info
@@ -23,7 +23,7 @@ module Travis::Addons::GithubCheckStatus::Output
       build_info.head_ref
     end
 
-    def sha
+    def head_sha
       build_info.sha
     end
 
