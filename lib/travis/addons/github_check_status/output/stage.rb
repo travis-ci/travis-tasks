@@ -64,7 +64,7 @@ module Travis::Addons::GithubCheckStatus::Output
     def table_data
       @table_data ||= jobs.map do |job|
         [
-          "#{icon(job[:state])} <a href='#{job_url(job)}'>#{job[:number]}</a>",
+          build_link(job[:state], job_url(job), job[:number]),
           *matrix_attributes(job),
           state(job[:state]),
           notes(job)

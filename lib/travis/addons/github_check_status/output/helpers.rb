@@ -108,6 +108,10 @@ module Travis::Addons::GithubCheckStatus::Output
       "<img src='#{icon_url(state)}' height='11'>"
     end
 
+    def build_link(state = nil, href = '', text = '')
+      "<a href='#{href}'>#{icon(state)} #{text}</a>"
+    end
+
     def payload
       generator.payload
     end

@@ -22,12 +22,12 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </thead>
       <tbody>
         <tr>
-          <td><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> <a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'>2.1</a></td>
+          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.1</a></td>
           <td>1.8.7</td>
           <td>passed</td>
         </tr>
         <tr>
-          <td><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> <a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'>2.2</a></td>
+          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.2</a></td>
           <td>1.9.2</td>
           <td>passed</td>
         </tr>
@@ -148,7 +148,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </thead>
       <tbody>
         <tr>
-          <td><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> <a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'>2.1</a></td>
+          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.1</a></td>
           <td>1.8.7</td>
           <td>passed</td>
         </tr>
@@ -168,7 +168,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </thead>
       <tbody>
         <tr>
-          <td><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> <a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'>2.2</a></td>
+          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.2</a></td>
           <td>1.9.2</td>
           <td>passed</td>
         </tr>
