@@ -68,7 +68,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       status:       'completed',
       output: {
         title:      'Build Passed',
-        summary:    "<img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> The build **passed**, just like the previous build.",
+        summary:    "<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> The build</a> **passed**, just like the previous build.",
         text:       text
       }
     })}
@@ -119,7 +119,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       status:       'completed',
       output: {
         title:      'Build Passed',
-        summary:    "<img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> The build **passed**. This is a change from the previous build, which **failed**.",
+        summary:    "<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> The build</a> **passed**. This is a change from the previous build, which **failed**.",
         text:       text
       }
     })}
@@ -209,7 +209,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     example { subject[:status].should be == 'queued' }
     example { subject.should_not include(:conclusion) }
     example { subject.should_not include(:completed_at) }
-    example { subject[:output][:summary].should be == "<img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build is currently waiting in the build queue for a VM to be ready." }
+    example { subject[:output][:summary].should be == "<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently waiting in the build queue for a VM to be ready." }
   end
 
   describe 'started build' do
@@ -219,6 +219,6 @@ describe Travis::Addons::GithubCheckStatus::Output do
     example { subject[:status].should be == 'in_progress' }
     example { subject.should_not include(:conclusion) }
     example { subject.should_not include(:completed_at) }
-    example { subject[:output][:summary].should be == "<img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build is currently running." }
+    example { subject[:output][:summary].should be == "<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently running." }
   end
 end

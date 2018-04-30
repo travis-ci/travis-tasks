@@ -3,11 +3,11 @@ module Travis::Addons::GithubCheckStatus::Output
     name: 'Travis CI - {{build_info.name}}',
 
     summary: {
-      queued:      '{{icon}} The build is currently waiting in the build queue for a VM to be ready.',
-      running:     '{{icon}} The build is currently running.',
-      changed:     '{{icon}} The build **{{state}}**. This is a change from the previous build, which **{{previous_state}}**.',
-      unchanged:   '{{icon}} The build **{{state}}**, just like the previous build.',
-      no_previous: '{{icon}} The build **{{state}}**.'
+      queued:      '{{build_link(state,details_url, "The build")}} is currently waiting in the build queue for a VM to be ready.',
+      running:     '{{build_link(state,details_url, "The build")}} is currently running.',
+      changed:     '{{build_link(state,details_url, "The build")}} **{{state}}**. This is a change from the previous build, which **{{previous_state}}**.',
+      unchanged:   '{{build_link(state,details_url, "The build")}} **{{state}}**, just like the previous build.',
+      no_previous: '{{build_link(state,details_url, "The build")}} **{{state}}**.'
     },
 
     matrix_description: {
