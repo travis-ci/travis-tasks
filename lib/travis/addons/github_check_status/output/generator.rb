@@ -1,6 +1,6 @@
 module Travis::Addons::GithubCheckStatus::Output
   class Generator
-    FIELDS             = %i[ name head_sha details_url external_id status conclusion completed_at ]
+    FIELDS             = %i[ name head_sha details_url external_id status conclusion started_at completed_at ]
     OUTPUT_FIELDS      = %i[ title summary text annotations images ]
     include Helpers
     attr_reader :payload, :build_info, :job_info
@@ -60,6 +60,10 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def images
+    end
+
+    def started_at
+      build[:started_at]
     end
 
     def completed_at
