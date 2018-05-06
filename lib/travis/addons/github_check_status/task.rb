@@ -7,7 +7,7 @@ module Travis
         private
 
         def process(timeout)
-          info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id} payload=#{payload} params=#{params} check_status_payload=#{check_status_payload.to_json}")
+          info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id}")
 
           if build[:state] == 'created'
             response = github_apps.post_with_app(check_run_post_url, check_status_payload.to_json)
