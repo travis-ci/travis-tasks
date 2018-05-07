@@ -170,7 +170,7 @@ module Travis::Addons::GithubCheckStatus::Output
 
     def escape(content, matcher = ESCAPE_MATCHER)
       return if content.nil?
-      content.gsub(matcher, "\\\\\\0")
+      content.to_s.gsub(matcher, "\\\\\\0")
     end
 
     def file_link(path)
