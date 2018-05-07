@@ -14,7 +14,6 @@
         width: 100%;
         padding: 10px;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 18px;
         line-height: 150%;
         text-align: center;
         color: #333333;
@@ -67,6 +66,8 @@
       #repo-username-link {
         color: #333333;
         text-decoration: none;
+        border-bottom: 1px solid #333333;
+        padding-bottom: 4px;
       }
 
       #repo-username-link:visited {
@@ -97,20 +98,19 @@
       #branch-name-link {
         color: #333333;
         text-decoration: none;
+        border-bottom: 1px solid #333333;
       }
 
       #branch-name-link:visited {
         color: #333333;
       }
+
       #branch-name-link:hover {
         color: #333333;
       }
+
       #branch-name-link:active {
         color: #333333;
-      }
-
-      #status-icon-section img {
-        margin: 32px 0px;
       }
 
       .success {
@@ -161,39 +161,6 @@
         color: #666766;
       }
 
-      #status-section-message {
-        font-size: 28px;
-        font-weight: 600;
-        text-decoration: none;
-        margin-bottom: 28px;
-      }
-
-      #build-time-section {
-        font-size: 28px;
-        font-weight: 300;
-        padding-bottom: 32px;
-      }
-
-      #build-time-arrow-icon {
-        display: block;
-        width: 20px;
-        padding: 28px 0px 10px 0px;
-      }
-
-      #build-time {
-        display: inline;
-        font-size: 18px;
-        font-weight: 400;
-      }
-
-      #build-time-clock-icon {
-        display: inline;
-        width: 19px;
-        height: auto;
-        padding-right: 5px;
-        vertical-align: sub;
-      }
-
       #user-avatar-changeset-section {
         padding-bottom: 32px;
       }
@@ -210,34 +177,57 @@
         font-size: 14px;
         font-weight: 600;
         color: #0068FF;
-        text-decoration: none;
       }
 
       #commit-message-section {
         min-height: 104px;
+        padding: 0px 20px 20px 20px;
       }
 
       #commit-message {
         font-family: cousine, monospace;
         font-size: 14px;
         line-height: 22px;
-        padding: 42px;
       }
 
-      .commit-message {
+      .build-status-border {
         border-radius: 3px;
       }
 
-      .commit-message-success {
+      .build-status-border-success {
         border: 1px solid #32D282;
       }
 
-      .commit-message-failure {
+      .build-status-border-failure {
         border: 1px solid #DB4545;
       }
 
-      .commit-message-error {
+      .build-status-border-error {
         border: 1px solid #666766;
+      }
+
+      .build-status-border-bottom-success {
+        border-bottom: 1px solid #32D282;
+      }
+
+      .build-status-border-bottom-failure {
+        border-bottom: 1px solid #DB4545;
+      }
+
+      .build-status-border-bottom-error {
+        border-bottom: 1px solid #666766;
+      }
+
+      .build-status-background-success {
+        background: rgba(50, 210, 130, 0.1);
+      }
+
+      .build-status-background-failure {
+        background: rgba(219, 69, 69, 0.1);
+      }
+
+      .build-status-background-error {
+        background: rgba(102, 103, 102, 0.1);
       }
 
       #system-message-section {
@@ -264,9 +254,9 @@
       }
 
       #system-message-header {
+        font-size: 24px;
         display: inline;
         font-weight: 300;
-        font-size: 31px;
         color: #0068FF;
         margin: 0px;
       }
@@ -281,7 +271,7 @@
 
       .broadcast-message {
         max-width: 85%;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 300;
         text-align: left;
         line-height: 26px;
@@ -301,7 +291,7 @@
       }
 
       #update-header {
-        font-size: 26px;
+        font-size: 24px;
         line-height: 31px;
         margin-bottom: 20px;
         padding-bottom: 10px;
@@ -309,7 +299,7 @@
       }
 
       #update-message {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 300;
         line-height: 26px;
         margin-bottom: 32px;
@@ -441,89 +431,63 @@
       cellspacing="0"
       height="100%"
       width="100%"
-      style="height: 100%;width: 100%;padding: 10px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 18px;line-height: 150%;text-align: center;color: #333333;background-color: #F4F5F9;background-image: url(https://s3.amazonaws.com/travis-email-assets/build_background.png);">
+      style="height: 100%;width: 100%;padding: 10px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;line-height: 150%;text-align: center;color: #333333;background-color: #F4F5F9;background-image: url(https://s3.amazonaws.com/travis-email-assets/build_background.png);">
       <tr>
         <td align="center" valign="top" style="padding-bottom: 20px;">
           <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 32px; background-color: #FFFFFF;">
-            <!-- Travis CI Logo Section -->
-            <tr>
-              <td id="travis-ci-logo-section" align="center" valign="top" style="padding-bottom: 10px;">
-                <%= link_to(image_tag("#{Travis.config.s3.url}/travis_ci_logo.png",
-                alt: 'travis ci logo', id: 'travis-ci-logo', style: 'max-width: 150px; cursor: pointer;'), 'http://travis-ci.com')%>
-              </td>
-            </tr>
-            <!-- Travis Logo Border Section -->
-            <tr>
-              <td id="travis-ci-logo-border-section" align="center" valign="top" style="background-color: #FFFFFF; padding-bottom: 20px;">
-                <table id="travis-ci-logo-border" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 100%; border-top: 1px solid #DCDFE2;">
-                  <tr>
-                    <td>
-                      <span></span>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
             <!-- Repository Username Section -->
             <tr>
               <td id="repo-username-section" align="center" valign="top" style="padding-bottom: 20px;">
-                <%= link_to(repository_url(@repository), id: 'repo-username-link', style: 'color: #333333;') do %>
-                  <span class="repo-slug"style="font-size: 30px; font-weight: 600; line-height: 36px; padding-right: 5px;"><%= organization_name(@repository.slug) %></span>
-                  <span id="repo-slug-divider" style="font-size: 30px; font-weight: 100; color: #9EA3A8;">/</span>
-                  <span class="repo-slug" style="font-size: 30px; font-weight: 600; line-height: 36px; padding-left: 5px;"><%= repository_name(@repository.slug) %></span>
+                <%= link_to(repository_url(@repository), id: 'repo-username-link', style: 'color: #333333; border-bottom: 1px solid #333333; text-decoration: none; padding-bottom: 4px;') do %>
+                  <p class="repo-slug"style="display: inline; font-size: 30px; font-weight: 600; line-height: 36px; padding-right: 5px; padding-left: 0px;"><%= organization_name(@repository.slug) %></p>
+                  <p id="repo-slug-divider" style="display: inline; font-size: 30px; font-weight: 100; color: #9EA3A8;">/</p>
+                  <p class="repo-slug" style="display: inline; font-size: 30px; font-weight: 600; line-height: 36px; padding-left: 5px;"><%= repository_name(@repository.slug) %></p>
                 <% end %>
               </td>
             </tr>
             <!-- Branch Name Section -->
             <tr>
-              <td id="branch-name-section" align="center" valign="top">
+              <td id="branch-name-section" align="center" valign="top" style="padding-bottom: 35px;">
                 <p id="branch-name" style="margin: 0px; font-size: 28px; font-weight: 300;">
-                  <%= image_tag("#{Travis.config.s3.url}/branch.png", alt: 'branch icon',
-                  style: 'width: 16px; height: auto; padding-right: 8px; vertical-align: bottom;')%>
-                  <%= link_to(@commit.branch, branch_url(@repository, @commit.branch), id: 'branch-name-link')%>
+                  <%= image_tag("#{Travis.config.s3.url}/branch.png", alt: 'branch icon', style: 'width: 16px; height: auto; padding-right: 8px; vertical-align: bottom;')%><%= link_to(@commit.branch, branch_url(@repository, @commit.branch), id: 'branch-name-link', style: 'text-decoration: none; border-bottom: 1px solid #333333; padding-bottom: 2px;')%>
                 </p>
               </td>
             </tr>
             <!-- Build Status Section -->
             <tr>
-              <td id="status-icon-section" align="center" valign="top">
-                <%= image_tag(asset_url(@build.state), alt: "build has #{@build.state}", style: 'margin: 32px 0px;')%>
-              </td>
-            </tr>
-            <tr>
-              <td id="status-section" align="center" valign="top">
-                <%= link_to build_status(@result_message.email), repository_build_url(slug: @repository.slug, id: @build.id),
-                  {id: 'status-section-message', class: build_email_css_class(@build), style: 'font-size: 28px; font-weight: 600; margin-bottom: 28px; text-decoration: none;'}%>
-              </td>
-            </tr>
-            <tr>
-              <td id="build-time-section" align="center" valign="top" style="padding-bottom: 32px;">
-                <%= image_tag("#{Travis.config.s3.url}/arrow.png", id: 'build-time-arrow-icon',
-                alt: 'arrow to build duration', style: 'display: block; width: 20px; padding: 28px 0px 10px 0px;') %>
-                <p id="build-time" style="display: inline; font-size: 18px; font-weight: 400;">
-                  <%= image_tag("#{Travis.config.s3.url}/timer.png", id: 'build-time-clock-icon',
-                  alt: 'clock icon', style: 'width: 19px; height: auto; padding-right: 5px; vertical-align: sub;') %>
-                  <%= duration_in_words(@build.started_at, @build.finished_at) %>
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td id="user-avatar-changeset-section" align="center" valign="top" style="padding-bottom: 32px;">
-                <div id="user-avatar-changeset-left" style="float: left;">
-                  <p style="display: inline; font-size: 14px; font-weight: 700; color: #333333;">
-                    <%= image_tag(gravatar_url(@commit.author_email), alt: "#{@commit.author_name} avatar",
-                    style: 'width: 22px; height: auto; border-radius: 10px; vertical-align: middle; margin-right: 8px;') %><%= @commit.author_name %>
-                  </p>
-                </div>
-                <div id="user-avatar-changeset-right" style="float: right;">
-                  <%= link_to "#{@commit.sha[0..6]} CHANGESET →", @commit.compare_url,
-                  {id: 'changeset-link', style: 'font-size: 14px; text-decoration: none; color: #0068FF; text-decoration: none; font-weight: 600;'}%>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td id="commit-message-section" align="center" valign="top" style="min-height: 104px;">
-                <p id="commit-message" class="commit-message-<%= build_email_css_class(@build) %>" style="font-family: cousine, monospace; font-size: 14px; line-height: 22px; padding: 42px;"><%= html_escape(@commit.message).gsub("\n", "<br/>").html_safe %></p>
+              <td align="center" valign="top" style="padding-bottom: 20px;">
+                <table cellpadding="0" cellspacing="0" class="build-status-border build-status-border-<%= build_email_css_class(@build) %>" style="width: 100%;">
+                  <tr class="build-status-background-<%= build_email_css_class(@build) %>">
+                    <td id="status-icon-section" align="center" valign="top" class="build-status-border-bottom-<%= build_email_css_class(@build) %>" style="padding: 15px 15px;">
+                    <div style="float: left;">
+                      <div style="display: inline;"><%= image_tag(asset_url(@build.state), alt: "build has #{@build.state}", style: 'display: inline; vertical-align: sub; width: 17px; height: 17px; padding-right: 8px;')%></div><div style="display: inline;"><%= link_to build_status(@result_message.email), repository_build_url(slug: @repository.slug, id: @build.id), {id: 'status-section-message', class: build_email_css_class(@build), style: 'font-size: 16px; font-weight: 600;'}%></div>
+                    </div>
+                      <div style="display: inline; float: left;"><%= image_tag("#{Travis.config.s3.url}/#{build_email_css_class(@build)}-arrow.png", id: 'arrow', alt: 'arrow to build time', style: 'width: 7px; height: auto; vertical-align: text-bottom; padding: 0px 8px;') %></div>
+                    <div style="float: right;">
+                      <span><%= image_tag("#{Travis.config.s3.url}/time.png", id: 'build-time-clock-icon', alt: 'clock icon', style: 'width: 15px; height: 17px; padding-right: 8px; vertical-align: sub') %></span><span style="font-size: 14px;"><%= duration_in_words(@build.started_at, @build.finished_at) %></span>
+                    </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="user-avatar-changeset-section" align="center" valign="top" style="padding: 20px 15px 35px 15px;">
+                      <div id="user-avatar-changeset-left" style="float: left;">
+                        <p style="display: inline; font-size: 14px; font-weight: 700; color: #333333;">
+                          <%= image_tag(gravatar_url(@commit.author_email), alt: "#{@commit.author_name} avatar",
+                          style: 'width: 22px; height: auto; border-radius: 10px; vertical-align: middle; margin-right: 8px;') %><%= @commit.author_name %>
+                        </p>
+                      </div>
+                      <div id="user-avatar-changeset-right" style="float: right;">
+                        <%= link_to "#{@commit.sha[0..6]} CHANGESET →", @commit.compare_url,
+                        {id: 'changeset-link', style: 'font-size: 14px; color: #0068FF; font-weight: 600;'}%>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="commit-message-section" align="center" valign="top" style="min-height: 104px; padding: 0px 15px 20px 15px;">
+                      <p id="commit-message" style="font-family: cousine, monospace; font-size: 14px; text-align: left; line-height: 22px;"><%= html_escape(@commit.message).gsub("\n", "<br/>").html_safe %></p>
+                    </td>
+                  </tr>
+                </table>
               </td>
             </tr>
           </table>
@@ -540,7 +504,7 @@
                 <%= image_tag("#{Travis.config.s3.url}/system_message.png",
                               id: 'system-message-logo', alt: 'broadcast tower image',
                               style: 'padding-right: 8px; width: 20px; height: auto; vertical-align: sub;')%>
-                <h2 id="system-message-header" style="color: #0068FF; display: inline; font-weight: 300; font-size: 31px; margin: 0px;">System Message</h2>
+                <h2 id="system-message-header" style="display: inline; font-size: 24px; font-weight: 300; color: #0068FF; margin: 0px;">System Message</h2>
               </div>
               <% @broadcasts.each do |broadcast| -%>
               <div>
@@ -549,7 +513,7 @@
                 style: 'width: 11px; height: auto; float: left; margin-right: 10px; padding-top: 7px;')%>
               </div>
               <div>
-                <p class="broadcast-message" style="font-size: 18px; line-height: 26px; font-weight: 300; text-align: left; max-width: 85%; border-bottom: 1px solid #DCDFE2; padding-bottom: 20px; margin-bottom: 20px;"><%= broadcast.message.html_safe -%></p>
+                <p class="broadcast-message" style="font-size: 16px; line-height: 26px; font-weight: 300; text-align: left; max-width: 85%; border-bottom: 1px solid #DCDFE2; padding-bottom: 20px; margin-bottom: 20px;"><%= broadcast.message.html_safe -%></p>
               </div>
               <% end -%>
             </td>
@@ -564,71 +528,70 @@
           <table id="update-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 32px 32px 42px 32px; background-color: #FFFFFF";>
             <tr>
               <td align="center" valign="top">
-                <p id="update-header" style="border-bottom: 2px solid #0068FF; padding-bottom: 10px; font-size: 26px; line-height: 31px; margin-bottom: 20px;">Want to know about upcoming build environment updates?</p>
-                <p id="update-message" style="font-size: 18px; line-height: 26px; font-weight: 300; margin-bottom: 32px;">Would you like to stay up-to-date with the upcoming Travis CI build environment updates? We set up a mailing list for you!</p>
+                <p id="update-header" style="border-bottom: 2px solid #0068FF; padding-bottom: 10px; font-size: 24px; line-height: 31px; margin-bottom: 20px;">Want to know about upcoming build environment updates?</p>
+                <p id="update-message" style="font-size: 16px; line-height: 26px; font-weight: 300; margin-bottom: 32px;">Would you like to stay up-to-date with the upcoming Travis CI build environment updates? We set up a mailing list for you!</p>
                 <%= link_to('SIGN UP HERE', 'http://eepurl.com/9OCsP', id: 'sign-up-button', style: 'font-size: 14px; font-weight: 600; color: #FFFFFF; background-color: #0068FF; text-decoration: none; padding: 12px 20px; border-radius: 3px;' )%>
               </td>
             </tr>
-            </table>
-          </td>
-        </tr>
-        <!-- Documentation Section -->
-        <tr>
-          <td align="center" valign="top" style="padding-bottom: 20px;">
-            <table id="documentation-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 25px; background-color: rgba(222,239,255,0.3); border: 1px solid #66A4FF; border-radius: 3px;">
-              <tr>
-                <td id="documentation-section" align="center" valign="top">
-                  <div>
-                    <%= image_tag("#{Travis.config.s3.url}/documentation.png", alt: 'book icon',
-                    id: 'documentation-icon', style: 'display: inline; vertical-align: bottom; padding-right: 5px;')%>
-                    <p id='documentation-text' style="font-size: 26px; font-weight: 300; color: #0068FF; display: inline;">
-                      <%= link_to('Documentation', 'https://docs.travis-ci.com/', id: 'documentation-link') %> about Travis CI
-                    </p>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <!-- Email Footer Section -->
-        <tr>
-          <td align="center" valign="top">
-            <table id="travis-ci-email-footer-container" border="0" cellpadding="20" cellspacing="0" style="width: 500px;">
-              <tr>
-                <td id="questions-section" align="center" valign="top" style="color:#0068FF; font-weight: 300;">
-                  <span>Have any questions?</span>
-                  <span>
-                    <a href="mailto:support@travis-ci.com" style="color: #0068FF">We're here to help.</a>
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td id="travis-ci-footer-logo-section" style="text-align: center;">
-                  <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), 'https://travis-ci.com')%>
-                </td>
-              </tr>
-              <tr>
-                <td id="email-footer-section" style="color: #9EA3A8; font-size: 10px; line-height: 200%; text-align: center; color: #9EA3A8; padding-top: 0px;">
-                  <p style="margin: 0px;">Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF: Konstantin Haase, Fritz Thielemann |
-                    <span>Contact:<%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8;')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
+          </table>
+        </td>
+      </tr>
+      <!-- Documentation Section -->
+      <tr>
+        <td align="center" valign="top" style="padding-bottom: 20px;">
+          <table id="documentation-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 25px; background-color: rgba(222,239,255,0.3); border: 1px solid #66A4FF; border-radius: 3px;">
+            <tr>
+              <td id="documentation-section" align="center" valign="top">
+                <div>
+                  <%= image_tag("#{Travis.config.s3.url}/documentation.png", alt: 'book icon', id: 'documentation-icon', style: 'display: inline; vertical-align: bottom; padding-right: 5px;')%>
+                  <p id='documentation-text' style="font-size: 26px; font-weight: 300; color: #0068FF; display: inline;">
+                    <%= link_to('Documentation', 'https://docs.travis-ci.com/', id: 'documentation-link') %> about Travis CI
                   </p>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      <script type="application/ld+json">
-      {
-        "@context": "http://schema.org",
-        "@type": "EmailMessage",
-        "action": {
-          "@type": "ViewAction",
-          "url": "<%= repository_build_url(slug: @repository.slug, id: @build.id) %>",
-          "name": "View Build"
-        },
-        "description": "View Build #<%= @build.number %> on Travis CI"
-      }
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- Email Footer Section -->
+      <tr>
+        <td align="center" valign="top">
+          <table id="travis-ci-email-footer-container" border="0" cellpadding="20" cellspacing="0" style="width: 500px;">
+            <tr>
+              <td id="questions-section" align="center" valign="top" style="color:#0068FF; font-weight: 300;">
+                <span>Have any questions?</span>
+                <span>
+                  <a href="mailto:support@travis-ci.com" style="color: #0068FF">We're here to help.</a>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td id="travis-ci-footer-logo-section" style="text-align: center;">
+                <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), 'https://travis-ci.com')%>
+              </td>
+            </tr>
+            <tr>
+              <td id="email-footer-section" style="color: #9EA3A8; font-size: 10px; line-height: 200%; text-align: center; color: #9EA3A8; padding-top: 0px;">
+                <p style="margin: 0px;">Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF: Konstantin Haase, Fritz Thielemann |
+                  <span>Contact:<%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8;')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "EmailMessage",
+      "action": {
+        "@type": "ViewAction",
+        "url": "<%= repository_build_url(slug: @repository.slug, id: @build.id) %>",
+        "name": "View Build"
+      },
+      "description": "View Build #<%= @build.number %> on Travis CI"
+    }
     </script>
   </body>
 </html>
