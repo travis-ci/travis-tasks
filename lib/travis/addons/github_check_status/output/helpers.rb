@@ -3,6 +3,7 @@ module Travis::Addons::GithubCheckStatus::Output
     STATUS = {
       'created'  => 'queued',
       'queued'   => 'queued',
+      'received' => 'queued',
       'started'  => 'in_progress',
       'passed'   => 'completed',
       'failed'   => 'completed',
@@ -20,6 +21,7 @@ module Travis::Addons::GithubCheckStatus::Output
     ICON = {
       'created'  => 'icon-running.png',
       'queued'   => 'icon-running.png',
+      'received' => 'icon-running.png',
       'started'  => 'icon-running.png',
       'passed'   => 'icon-passed.png',
       'failed'   => 'icon-failed.png',
