@@ -19,6 +19,13 @@ module Travis
         :development => 'localhost:3000'
       }
 
+      class << self
+        def http_basic_auth
+          tokens = ENV['HTTP_BASIC_AUTH'] || ''
+          tokens.split(',').map { |token| token.split(':').map(&:strip) }.to_h
+        end
+      end
+
       define host:    "travis-ci.org",
              github:  { url: 'https://github.com' },
              redis:   { url: "redis://localhost:6379" },
@@ -34,7 +41,9 @@ module Travis
              assets:  { host: HOSTS[Travis.env.to_sym] },
              s3:      { url: 'https://s3.amazonaws.com/travis-email-assets'},
              irc:     { freenode_password: nil, nick: nil },
-             librato: { email: nil, token: nil }
+             librato: { email: nil, token: nil },
+             auth:    { jwt_public_key: ENV['JWT_RSA_PUBLIC_KEY'], http_basic_auth: http_basic_auth },
+             github_apps: { debug: ENV['GITHUB_APPS_DEBUG'] }
 
       default _access: [:key]
 

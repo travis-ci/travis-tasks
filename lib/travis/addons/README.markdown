@@ -6,6 +6,7 @@ The Addons are event handlers that accepts events such as "build finished" and f
 - E-mail
 - Flowdock
 - GitHub Commit Statuses
+- GitHub Check Statuses
 - Hipchat
 - IRC
 - Sqwiggle
