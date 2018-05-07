@@ -53,7 +53,7 @@ module Travis
             response_data = JSON.parse(response.body)
             check_runs = response_data["check_runs"]
           else
-            error("type=github_check_status repo=#{repository[:slug]} path=#{path} status=#{response.status}")
+            error("type=github_check_status repo=#{repository[:slug]} path=#{path} response_status=#{response.status}")
             []
           end
         end
