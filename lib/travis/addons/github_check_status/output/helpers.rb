@@ -15,7 +15,9 @@ module Travis::Addons::GithubCheckStatus::Output
       'passed'   => 'success',
       'failed'   => 'failure',
       'errored'  => 'action_required',
-      'canceled' => 'neutral',
+      'canceled' => 'cancelled',
+      # x          => 'neutral',
+      # x          => 'timed_out'
     }
 
     ICON = {
