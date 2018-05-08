@@ -28,7 +28,7 @@ module Travis::Addons::GithubCheckStatus::Output
       'passed'   => 'icon-passed.png',
       'failed'   => 'icon-failed.png',
       'errored'  => 'icon-errored.png',
-      'canceled' => 'icon-canceled.png',
+      'canceled' => 'icon-cancelled.png',
     }
 
     DEFAULT_LANGUAGE = 'RUBY'
