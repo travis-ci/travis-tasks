@@ -37,15 +37,15 @@ module Travis
         end
 
         def check_run_post_url
-          "/repos/#{repository[:slug]}/check-runs"
+          "/repositories/#{repository[:github_id]}/check-runs"
         end
 
         def check_run_patch_url(id)
-          "/repos/#{repository[:slug]}/check-runs/#{id}"
+          "/repositories/#{repository[:github_id]}/check-runs/#{id}"
         end
 
         def check_runs(ref)
-          path = "/repos/#{repository[:slug]}/commits/#{ref}/check-runs?check_name=#{URI.encode check_run_name}&filter=latest"
+          path = "/repositories/#{repository[:github_id]}/commits/#{ref}/check-runs?check_name=#{URI.encode check_run_name}&filter=latest"
 
           response = github_apps.get_with_app(path)
 
