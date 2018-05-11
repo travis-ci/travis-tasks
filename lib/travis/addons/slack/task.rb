@@ -9,7 +9,7 @@ module Travis
         def process(timeout)
           targets.each do |target|
             if illegal_format?(target)
-              warn "task=slack build=#{payload[:id]} repo=#{repository[:slug]} result=invalid_target target=#{target}"
+              warn "task=slack build=#{build[:id]} repo=#{repository[:slug]} result=invalid_target target=#{target}"
             else
               send_message(target, timeout)
             end
@@ -32,7 +32,7 @@ module Travis
           end
 
           unless response.success?
-            warn "task=slack build=#{payload[:id]} repo=#{repository[:slug]} response_status=#{response.status} response_body=#{response.body}"
+            warn "task=slack build=#{build[:id]} repo=#{repository[:slug]} response_status=#{response.status} response_body=#{response.body}"
           end
         end
 
