@@ -9,7 +9,7 @@ module Travis
         def process(timeout)
           targets.each do |target|
             if illegal_format?(target)
-              warn "task=slack build=#{payload[:id]} result=invalid_target target=#{target}"
+              warn "task=slack build=#{payload[:id]} repo=#{repository[:slug]} result=invalid_target target=#{target}"
             else
               send_message(target, timeout)
             end
@@ -26,9 +26,13 @@ module Travis
 
         def send_message(target, timeout)
           url, channel = parse(target)
-          http.post(url) do |request|
+          response = http.post(url) do |request|
             request.options.timeout = timeout
             request.body = MultiJson.encode(message(channel))
+          end
+
+          unless response.success?
+            warn "task=slack build=#{payload[:id]} repo=#{repository[:slug]} response_status=#{response.status} response_body=#{response.body}"
           end
         end
 
