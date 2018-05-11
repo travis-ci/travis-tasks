@@ -25,6 +25,9 @@ gem 'roadie'
 gem 'roadie-rails',    '~> 1.0'
 gem 'multi_json'
 
+gem 'faraday'
+gem 'faraday_middleware'
+
 group :test do
   gem 'rspec',         '~> 2.14.0'
   gem 'mocha',         '~> 0.10.0'

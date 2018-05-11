@@ -755,6 +755,8 @@ PLATFORMS
 DEPENDENCIES
   actionmailer (~> 3.2.18)
   aws-sdk
+  faraday
+  faraday_middleware
   foreman
   gh
   guard
