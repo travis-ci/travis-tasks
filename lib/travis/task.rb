@@ -93,6 +93,8 @@ module Travis
         @http ||= Faraday.new(http_options) do |f|
           f.request :url_encoded
           f.adapter :net_http
+          f.use FaradayMiddleware::FollowRedirects, limit: 5
+          f.headers["User-Agent"] = user_agent_string
         end
       end
 
@@ -119,6 +121,10 @@ module Travis
 
       def notify_keenio(status)
         Travis::Task::Keenio.new(type, status, payload).publish
+      end
+
+      def user_agent_string
+        ["travis-tasks", ENV['HEROKU_SLUG_COMMIT']].compact.join(" ")
       end
   end
 end
