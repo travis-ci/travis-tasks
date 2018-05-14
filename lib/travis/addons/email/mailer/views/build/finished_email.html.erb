@@ -97,6 +97,7 @@
 
       #branch-name-link {
         color: #333333;
+        line-height: 36px;
         text-decoration: none;
         border-bottom: 1px solid #333333;
       }
@@ -449,7 +450,7 @@
             <tr>
               <td id="branch-name-section" align="center" valign="top" style="padding-bottom: 35px;">
                 <p id="branch-name" style="margin: 0px; font-size: 28px; font-weight: 300;">
-                  <%= image_tag("#{Travis.config.s3.url}/branch.png", alt: 'branch icon', style: 'width: 16px; height: auto; padding-right: 8px; vertical-align: bottom;')%><%= link_to(@commit.branch, branch_url(@repository, @commit.branch), id: 'branch-name-link', style: 'text-decoration: none; border-bottom: 1px solid #333333; padding-bottom: 2px;')%>
+                  <%= image_tag("#{Travis.config.s3.url}/branch.png", alt: 'branch icon', style: 'width: 16px; height: auto; padding-right: 8px; vertical-align: bottom;')%><%= link_to(@commit.branch, branch_url(@repository, @commit.branch), id: 'branch-name-link', style: 'text-decoration: none; border-bottom: 1px solid #333333; padding-bottom: 2px; line-height: 36px;')%>
                 </p>
               </td>
             </tr>
