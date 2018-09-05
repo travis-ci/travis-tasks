@@ -1,64 +1,84 @@
 <html>
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   <title>Your Travis CI Subscription has been cancelled.</title>
-</head>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<body>
+    <style type="text/css" media="screen">
+      p {
+        margin: 0px;
+      }
 
-<table width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff">
-    <tr>
-        <td>
-            <table id="main" width="600" align="center" cellpadding="0" cellspacing="0" bgcolor="ffffff">
-                    <tr>
-                        <td>
-                            <table id="header" cellpadding="10" cellspacing="0" align="center">
-                                <tr>
-                                    <td width="570" height="100"><h1 style="color: #797976 !important; font-family: Helvetica, Arial, sans-serif; font-size: 24px; margin-bottom: 0!important; padding-bottom: 0;">We're sorry to see you go!</h1></td>
-                                </tr>
-                                <tr>
-                                    <td width="570" bgcolor="a63133"><h2 style="color: #ffffff !important; font-family: Helvetica, Arial, sans-serif; font-size: 20px; margin: 0 !important; padding-bottom: 0;">Your subscription has been cancelled.</h2></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+      #travis-ci-email-container {
+        height: 100%;
+        width: 100%;
+        padding: 10px;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        line-height: 150%;
+        text-align: center;
+        color: #333333;
+        background-color: #F4F5F9;
+        background-image: url('https://s3.amazonaws.com/travis-email-assets/build_background.png');
+      }
 
-                    <tr>
-                        <td>
-                            <table id="content" cellpadding="10" cellspacing="0" align="center" bgcolor="efefea">
-                                <tr>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td width="570">
-                                      <p style="font-size: 14px; color: #797976 !important; font-family: Helvetica, Arial, sans-serif; line-height: 1.7; margin: 0 0 1.0em 0;">This email is to confirm your subscription with Travis CI has been cancelled and is set to expire on
-                                        <%= @subscription[:valid_to].strftime("%B %d, %Y") %>.</p>
+      #email-content-container {
+        width: 500px;
+        padding: 32px;
+        background-color: #FFFFFF;
+      }
+    </style>
+  </head>
 
-                                        <p style="font-size: 14px; color: #797976 !important; font-family: Helvetica, Arial, sans-serif; line-height: 1.7; margin: 0 0 1.0em 0;">If you cancelled by mistake, please respond to this email, and we'll help you getting back up and running.</p>
+  <body style="min-width: 100%;height: 100%;margin: 0;padding: 0;">
 
-                                        <p style="font-size: 14px; color: #797976 !important; font-family: Helvetica, Arial, sans-serif; line-height: 1.7; margin: 0 0 1.0em 0;">Thank you,<br>
-                                            The Travis CI Team
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-
-                <table id="footer" cellpadding="0" cellspacing="0" width="600" height="200" align="center">
-                    <tr>
-                        <td align="right">
-                            <h1 style="color: #797976 !important; font-family: Helvetica, Arial, sans-serif; font-size: 24px; margin-bottom: 0!important; padding-bottom: 0;">Travis CI</h1>
-                            <h2 style="color: #797976 !important; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; margin: 0 !important; padding-bottom: 0;">Build Apps with Confidence.</h2>
-                        </td>
-                        <td width="110" align="right">
-                            <img src="https://blog.travis-ci.com/images/travis-mascot-200px.png" height="100" width="100">
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+    <table
+      id="travis-ci-email-container"
+      align="center"
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      height="100%"
+      width="100%"
+      style="height: 100%;width: 100%;padding: 10px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;line-height: 150%;text-align: center;color: #333333;background-color: #F4F5F9;background-image: url(https://s3.amazonaws.com/travis-email-assets/build_background.png);">
+      <!-- Main Content Section -->
+      <tr>
+        <td align="center" valign="top" style="padding-bottom: 20px;">
+          <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 32px; background-color: #FFFFFF;">
+            <tr>
+              <td>
+                <h2 id="cancellation-header">We're sorry to see you go but we've cancelled your subscription</h2>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- Email Footer Section -->
+      <tr>
+        <td align="center" valign="top">
+          <table id="travis-ci-email-footer-container" border="0" cellpadding="20" cellspacing="0" style="width: 500px;">
+            <tr>
+              <td id="questions-section" align="center" valign="top" style="color:#0068FF; font-weight: 300;">
+                <span>Have any questions?</span>
+                <span>
+                  <a href="mailto:support@travis-ci.com" style="color: #0068FF">We're here to help.</a>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td id="travis-ci-footer-logo-section" style="text-align: center;">
+                <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), 'https://travis-ci.com')%>
+              </td>
+            </tr>
+            <tr>
+              <td id="email-footer-section" style="color: #9EA3A8; font-size: 10px; line-height: 200%; text-align: center; color: #9EA3A8; padding-top: 0px;">
+                <p style="margin: 0px;">Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF: Konstantin Haase, Fritz Thielemann |
+                  <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8;')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
     </table>
-</body>
+  </body>
 </html>
