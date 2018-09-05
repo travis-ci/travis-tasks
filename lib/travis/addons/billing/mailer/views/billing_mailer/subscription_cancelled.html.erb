@@ -26,6 +26,22 @@
         padding: 32px;
         background-color: #FFFFFF;
       }
+
+      #cancellation-header {
+        color: #e23a3c;
+        font-size: 24px;
+      }
+      
+      #questions-section {
+        font-size: 20px;
+      }
+
+      #email-footer-section {
+        margin: 0px;
+        line-height: 150%;
+        font-size: 12px;
+        font-size: 11.6px;
+      }
     </style>
   </head>
 
@@ -46,7 +62,7 @@
           <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 32px; background-color: #FFFFFF;">
             <tr>
               <td>
-                <h2 id="cancellation-header">We're sorry to see you go but we've cancelled your subscription</h2>
+                <h2 id="cancellation-header" style="color: #e23a3c;">We're sorry to see you go but we've cancelled your subscription</h2>
               </td>
             </tr>
           </table>
@@ -57,7 +73,7 @@
         <td align="center" valign="top">
           <table id="travis-ci-email-footer-container" border="0" cellpadding="20" cellspacing="0" style="width: 500px;">
             <tr>
-              <td id="questions-section" align="center" valign="top" style="color:#0068FF; font-weight: 300;">
+              <td id="questions-section" align="center" valign="top" style="color:#0068FF; font-weight: 300; font-size: 20px;">
                 <span>Have any questions?</span>
                 <span>
                   <a href="mailto:support@travis-ci.com" style="color: #0068FF">We're here to help.</a>
@@ -70,9 +86,10 @@
               </td>
             </tr>
             <tr>
-              <td id="email-footer-section" style="color: #9EA3A8; font-size: 10px; line-height: 200%; text-align: center; color: #9EA3A8; padding-top: 0px;">
-                <p style="margin: 0px;">Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF: Konstantin Haase, Fritz Thielemann |
-                  <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8;')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
+              <td id="email-footer-section" style="color: #9EA3A8; line-height: 150%; text-align: center; color: #9EA3A8; padding-top: 0px; font-size: 12px; font-size: 11.6px;">
+                <p style="margin: 0px;">
+                  Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF/CEO: Konstantin Haase, Fritz Thielemann |
+                  <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
                 </p>
               </td>
             </tr>
