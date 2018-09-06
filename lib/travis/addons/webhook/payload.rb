@@ -5,6 +5,9 @@ module Travis
     module Webhook
       class Payload < Struct.new(:payload)
         def data
+          p [:payload_commit, commit]
+          p [:payload_request, request]
+          p [:payload_pull_request, pull_request]
           {
             id:                  build[:id],
             number:              build[:number],
