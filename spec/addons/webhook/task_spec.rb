@@ -38,7 +38,7 @@ describe Travis::Addons::Webhook::Task do
         config:  { rvm: ['1.8.7', '1.9.2'] },
         commit_id: 1,
         commit: '62aae5f70ceee39123ef',
-        base_commit: '62aae5f70ceee39123ef',
+        base_commit: 'base-commit',
         head_commit: 'head-commit',
         branch: 'master',
         compare_url: 'https://github.com/svenfuchs/minimal/compare/master...develop',
