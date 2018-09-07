@@ -21,7 +21,7 @@ module Travis
             build_url:           build_url,
             commit_id:           commit[:id],
             commit:              commit[:sha],
-            base_commit:         commit[:sha],
+            base_commit:         request[:base_commit],
             head_commit:         request[:head_commit],
             branch:              commit[:branch],
             message:             commit[:message],
