@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -o errexit
+
+main() {
+  local top
+  top="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+  : "${TRAVIS_TASKS_SIDEKIQ_CONCURRENCY:=25}"
+  : "${TRAVIS_TASKS_SIDEKIQ_QUEUES:=notifications,campfire,email,flowdock,github_commit_status,github_status,hipchat,irc,webhook,slack,pushover,tasks,keenio,github_check_status}"
+
+  local skargs=(
+    -c
+    ${TRAVIS_TASKS_SIDEKIQ_CONCURRENCY:-25}
+    -r
+    ./lib/travis/tasks.rb
+  )
+
+  for qn in ${TRAVIS_TASKS_SIDEKIQ_QUEUES//,/ }; do
+    skargs=( "${skargs[@]}" -q "${qn}" )
+  done
+
+  cd "${top}"
+  local cmd=( bundle exec je sidekiq "${skargs[@]}" )
+  echo "---> ${cmd[*]}"
+  exec "${cmd[@]}"
+}
+
+main "${@}"
