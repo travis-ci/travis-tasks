@@ -52,7 +52,15 @@ module Travis
             error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=401 reason=incorrect_auth body=#{e.info[:response_body]}")
             nil
           rescue GH::Error(:response_status => 403) => e
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=403 reason=incorrect_auth_or_suspended_acct body=#{e.info[:response_body]}")
+            reason = 'incorrect_auth_or_suspended_acct'
+            sleep_seconds = 0
+            if error_message(e.info[:response_body]).start_with?('API rate limit exceeded')
+              sleep_seconds = Integer(e.info[:response_headers]['Retry-After'] || '0')
+              reason = "api_rate_limit_exceeded sleeping=#{sleep_seconds}"
+            end
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=403 reason=#{reason} body=#{e.info[:response_body]}")
+            # FIXME: Is sleep the right thing to do?  Should the sleep be somewhere else?
+            sleep sleep_seconds unless sleep_seconds.zero?
             nil
           rescue GH::Error(:response_status => 404) => e
             error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=404 reason=repo_not_found_or_incorrect_auth body=#{e.info[:response_body]}")
@@ -99,6 +107,12 @@ module Travis
             {
               "Accept" => "application/vnd.github.v3+json"
             }
+          end
+
+          def error_message(response_body)
+            JSON.parse(response_body).fetch('message')
+          rescue
+            ''
           end
       end
     end
