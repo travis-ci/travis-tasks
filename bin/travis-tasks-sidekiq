@@ -1,27 +1,80 @@
-#!/usr/bin/env bash
-set -o errexit
+#!/usr/bin/env ruby
+require 'optparse'
 
-main() {
-  local top
-  top="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-  : "${TRAVIS_TASKS_SIDEKIQ_CONCURRENCY:=25}"
-  : "${TRAVIS_TASKS_SIDEKIQ_QUEUES:=notifications,campfire,email,flowdock,github_commit_status,github_status,hipchat,irc,webhook,slack,pushover,tasks,keenio,github_check_status}"
+DEFAULT_QUEUES = %w[
+  campfire
+  email
+  flowdock
+  github_check_status
+  github_commit_status
+  github_status
+  hipchat
+  irc
+  keenio
+  notifications
+  pushover
+  slack
+  tasks
+  webhook
+].join(',')
 
-  local skargs=(
-    -c
-    ${TRAVIS_TASKS_SIDEKIQ_CONCURRENCY:-25}
-    -r
-    ./lib/travis/tasks.rb
-  )
+def main
+  options = {
+    concurrency: ENV.fetch('TRAVIS_TASKS_SIDEKIQ_CONCURRENCY', '25'),
+    queues: ENV.fetch('TRAVIS_TASKS_SIDEKIQ_QUEUES', ''),
+    except: ENV.fetch('TRAVIS_TASKS_SIDEKIQ_EXCEPT', nil),
+    only: ENV.fetch('TRAVIS_TASKS_SIDEKIQ_ONLY', nil),
+    noop: false
+  }
 
-  for qn in ${TRAVIS_TASKS_SIDEKIQ_QUEUES//,/ }; do
-    skargs=( "${skargs[@]}" -q "${qn}" )
-  done
+  OptionParser.new do |opts|
+    opts.on('--except=PATTERN', String, 'queues to exclude') do |v|
+      options[:except] = /#{v.strip}/
+    end
 
-  cd "${top}"
-  local cmd=( bundle exec je sidekiq "${skargs[@]}" )
-  echo "---> ${cmd[*]}"
-  exec "${cmd[@]}"
-}
+    opts.on('--only=PATTERN', String, 'only queues to observe') do |v|
+      options[:only] = /#{v.strip}/
+    end
 
-main "${@}"
+    opts.on('--concurrency=INT', String, 'sidekiq concurrency') do |v|
+      options[:concurrency] = v.strip
+    end
+
+    opts.on('--noop', 'echo command and exit') do
+      options[:noop] = true
+    end
+  end.parse!
+
+  top = File.expand_path('../../', __dir__)
+  options[:queues] = DEFAULT_QUEUES if options[:queues].to_s.empty?
+
+  queues = options[:queues].to_s.split(/,/).map(&:strip)
+  unless options[:except].nil?
+    queues.reject! { |e| e =~ options[:except] }
+  end
+
+  unless options[:only].nil?
+    queues.select! { |e| e =~ options[:only] }
+  end
+
+  sidekiq_args = %W[
+    -c #{options[:concurrency]}
+    -r #{top}/lib/travis/tasks.rb
+  ]
+
+  queues.each do |queue_name|
+    sidekiq_args += %W[-q #{queue_name}]
+  end
+
+  Dir.chdir(top)
+  cmd = %w[bundle exec je sidekiq] + sidekiq_args
+  $stderr.puts "---> #{cmd.join(' ')}"
+  if options[:noop]
+    $stderr.puts 'noop'
+    return 0
+  end
+
+  exec(cmd.join(' '))
+end
+
+exit(main) if $PROGRAM_NAME == __FILE__
