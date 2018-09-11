@@ -45,7 +45,7 @@ def main
     end
   end.parse!
 
-  top = File.expand_path('../../', __dir__)
+  top = File.expand_path('../', __dir__)
   options[:queues] = DEFAULT_QUEUES if options[:queues].to_s.empty?
 
   queues = options[:queues].to_s.split(/,/).map(&:strip)
