@@ -15,4 +15,6 @@ View the full build log and details: <%= repository_build_url(slug: @repository.
 
 --
 
-You can configure recipients for build notifications in your .travis.yml file. See https://docs.travis-ci.com/user/notifications
+You can unsubscribe to build emails from the <%= @repository.slug %> repository going to <%= repository_unsubscribe_url(@repository) %>.
+Or unsubscribe from *all* email updating your settings at <%= unsubscribe_url %>.
+Or configure specific recipients for build notifications in your .travis.yml file. See https://docs.travis-ci.com/user/notifications.

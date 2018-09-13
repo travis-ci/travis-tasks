@@ -71,7 +71,7 @@ describe Travis::Addons::Email::Mailer::Build do
         Author: まつもとゆきひろ a.k.a. Matz
         Message: the commit message
         View the changeset: https://github.com/svenfuchs/minimal/compare/master...develop
-        View the full build log and details: https://travis-ci.org/svenfuchs/minimal/builds/#{build.id}?utm_source=email&utm_medium=notification
+        View the full build log and details: https://travis-ci.org/svenfuchs/minimal/builds/#{build.id}
       ))
     end
 

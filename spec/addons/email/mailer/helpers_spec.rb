@@ -48,4 +48,20 @@ describe Travis::Addons::Email::Mailer::Helpers do
   it '#title returns title for the build' do
     expect(title(repository)).to eq 'Build Update for svenfuchs/minimal'
   end
+
+  it '#repository_url returns correct URL' do
+    expect(repository_url(repository)).to match_url 'https://travis-ci.org/svenfuchs/minimal?utm_source=email&utm_medium=notification'
+  end
+
+  it '#repository_build_url returns correct URL' do
+    expect(repository_build_url(slug: 'svenfuchs/minimal', id: 111)).to match_url 'https://travis-ci.org/svenfuchs/minimal/builds/111?utm_source=email&utm_medium=notification'
+  end
+
+  it '#unsubscribe_url returns correct URL' do
+    expect(unsubscribe_url).to match_url 'https://travis-ci.org/account/unsubscribe?utm_source=email&utm_medium=notification'
+  end
+
+  it '#repository_unsubscribe_url returns correct URL' do
+    expect(repository_unsubscribe_url(repository)).to match_url "https://travis-ci.org/account/unsubscribe?utm_source=email&utm_medium=notification&repository=#{repository.id}"
+  end
 end
