@@ -4,17 +4,21 @@ describe Travis::Addons::GithubStatus::Task do
   include Travis::Testing::Stubs
 
   let(:subject)    { Travis::Addons::GithubStatus::Task }
+  let(:params)     { { tokens: { 'svenfuchs' => '12345', 'jdoe' => '67890' } } }
+  let(:instance)   { subject.new(payload, params) }
   let(:url)        { '/repos/svenfuchs/minimal/statuses/62aae5f70ceee39123ef' }
   let(:target_url) { 'https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=github_status&utm_medium=notification' }
   let(:payload)    { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:io)         { StringIO.new }
+  let(:gh_apps)    { stub('github_apps') }
+  let(:installation_id) { '12345' }
 
   before do
     Travis.logger = Logger.new(io)
   end
 
   def run
-    subject.new(payload, tokens: { 'svenfuchs' => '12345', 'jdoe' => '67890' }).run
+    instance.run
   end
 
   it 'posts status info for a created build' do
@@ -109,6 +113,21 @@ describe Travis::Addons::GithubStatus::Task do
       expect {
         run
       }.to_not raise_error
+    end
+  end
+
+  context 'with a github apps installation id' do
+    let(:params) { { installation: installation_id } }
+    let :response do
+      stub(success?: true, status: 201)
+    end
+
+    it 'processes via github apps' do
+      instance.stubs(:github_apps).returns(gh_apps)
+      gh_apps.expects(:post_with_app)
+        .with(url, instance.send(:status_payload).to_json)
+        .returns(response)
+      run
     end
   end
 end

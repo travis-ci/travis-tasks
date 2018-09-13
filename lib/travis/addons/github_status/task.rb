@@ -22,6 +22,13 @@ module Travis
           'error'   => 'The Travis CI build could not complete due to an error',
         }
 
+        ERROR_REASONS = {
+          401 => :incorrect_auth,
+          403 => :incorrect_auth_or_suspended_acct,
+          404 => :repo_not_found_or_incorrect_auth,
+          422 => :maximum_number_of_statuses,
+        }
+
         def url
           "/repos/#{repository[:slug]}/statuses/#{sha}"
         end
@@ -29,7 +36,11 @@ module Travis
         private
 
           def process(timeout)
-            info("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} tokens_count=#{tokens.size}")
+            info("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} tokens_count=#{tokens.size} installation_id=#{installation_id}")
+
+            if !installation_id.nil? && process_via_github_app
+              return
+            end
 
             tokens.each do |username, token|
               if process_with_token(username, token)
@@ -46,19 +57,19 @@ module Travis
 
           def process_with_token(username, token)
             authenticated(token) do
-              GH.post(url, :state => state, :description => description, :target_url => target_url, :context => context)
+              GH.post(url, status_payload)
             end
           rescue GH::Error(:response_status => 401) => e
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=401 reason=incorrect_auth body=#{e.info[:response_body]}")
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=401 reason=#{ERROR_REASONS.fetch(401)} body=#{e.info[:response_body]}")
             nil
           rescue GH::Error(:response_status => 403) => e
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=403 reason=incorrect_auth_or_suspended_acct body=#{e.info[:response_body]}")
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=403 reason=#{ERROR_REASONS.fetch(403)} body=#{e.info[:response_body]}")
             nil
           rescue GH::Error(:response_status => 404) => e
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=404 reason=repo_not_found_or_incorrect_auth body=#{e.info[:response_body]}")
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=404 reason=#{ERROR_REASONS.fetch(404)} body=#{e.info[:response_body]}")
             nil
           rescue GH::Error(:response_status => 422)
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=422 reason=maximum_number_of_statuses")
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=422 reason=#{ERROR_REASONS.fetch(422)}")
             nil
           rescue GH::Error => e
             message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} message=#{e.message}"
@@ -66,8 +77,60 @@ module Travis
             raise message
           end
 
+          def process_via_github_app
+            response = github_apps.post_with_app(url, status_payload.to_json)
+
+            if response.success?
+              info "type=github_status repo=#{repository[:slug]} response_status=#{response.status}"
+              return true
+            end
+
+            status_int = Integer(response.status)
+            case status_int
+            when 401, 403, 404, 422
+              error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=#{status_int} reason=#{ERROR_REASONS.fetch(status_int)} body=#{response.body}")
+              return nil
+            else
+              message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} response_status=#{status_int} body=#{response.body}"
+              error(message)
+              raise message
+            end
+          end
+
           def target_url
             with_utm("#{Travis.config.http_host}/#{repository[:slug]}/builds/#{build[:id]}", :github_status)
+          end
+
+          def status_payload
+            {
+              state: state,
+              description: description,
+              target_url: target_url,
+              context: context
+            }
+          end
+
+          def check_api_media_type
+            'application/vnd.github.antiope-preview+json'
+          end
+
+          def github_apps
+            @github_apps ||= Travis::GithubApps.new(
+              installation_id,
+              apps_id: Travis.config.github_apps.id,
+              private_pem: Travis.config.github_apps.private_pem,
+              redis: Travis.config.redis.to_h,
+              accept_header: check_api_media_type,
+              debug: debug?
+            )
+          end
+
+          def installation_id
+            params.fetch(:installation, nil)
+          end
+
+          def debug?
+            Travis.config.github_apps.debug
           end
 
           def sha
