@@ -24,7 +24,7 @@ module Travis
 
         ERROR_REASONS = {
           401 => :incorrect_auth,
-          403 => :incorrect_auth_or_suspended_acct,
+          403 => :incorrect_auth_or_suspended_acct_or_rate_limited,
           404 => :repo_not_found_or_incorrect_auth,
           422 => :maximum_number_of_statuses,
         }
@@ -59,20 +59,33 @@ module Travis
             authenticated(token) do
               GH.post(url, status_payload)
             end
-          rescue GH::Error(:response_status => 401) => e
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=401 reason=#{ERROR_REASONS.fetch(401)} body=#{e.info[:response_body]}")
-            nil
-          rescue GH::Error(:response_status => 403) => e
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=403 reason=#{ERROR_REASONS.fetch(403)} body=#{e.info[:response_body]}")
-            nil
-          rescue GH::Error(:response_status => 404) => e
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=404 reason=#{ERROR_REASONS.fetch(404)} body=#{e.info[:response_body]}")
-            nil
-          rescue GH::Error(:response_status => 422)
-            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=422 reason=#{ERROR_REASONS.fetch(422)}")
+          rescue GH::Error(:response_status => 401),
+                 GH::Error(:response_status => 403),
+                 GH::Error(:response_status => 404),
+                 GH::Error(:response_status => 422) => e
+            error(%W[
+              type=github_status
+              build=#{build[:id]}
+              repo=#{repository[:slug]}
+              state=#{state}
+              commit=#{sha}
+              username=#{username}
+              response_status=#{e.info[:response_status]}
+              reason=#{ERROR_REASONS.fetch(Integer(e.info[:response_status]))}
+              body=#{e.info[:response_body]}
+            ].join(' '))
             nil
           rescue GH::Error => e
-            message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} message=#{e.message}"
+            message = %W[
+              type=github_status
+              build=#{build[:id]}
+              repo=#{repository[:slug]}
+              error=not_updated
+              commit=#{sha}
+              url=#{GH.api_host + url}
+              response_status=#{e.info[:response_status]}
+              message=#{e.message}
+            ].join(' ')
             error(message)
             raise message
           end
