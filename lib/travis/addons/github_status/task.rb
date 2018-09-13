@@ -36,7 +36,7 @@ module Travis
         private
 
           def process(timeout)
-            info(%W[
+            message = %W[
               type=github_status
               build=#{build[:id]}
               repo=#{repository[:slug]}
@@ -44,14 +44,16 @@ module Travis
               commit=#{sha}
               tokens_count=#{tokens.size}
               installation_id=#{installation_id}
-            ].join(' '))
+            ].join(' ')
 
             if !installation_id.nil? && process_via_github_app
+              info("#{message} processed_with=github_apps")
               return
             end
 
             tokens.each do |username, token|
               if process_with_token(username, token)
+                info("#{message} processed_with=user_token")
                 return
               else
                 error(%W[
@@ -62,6 +64,7 @@ module Travis
                   commit=#{sha}
                   username=#{username}
                   url=#{GH.api_host + url}
+                  processed_with=user_token
                 ].join(' '))
               end
             end
@@ -88,6 +91,7 @@ module Travis
               username=#{username}
               response_status=#{e.info[:response_status]}
               reason=#{ERROR_REASONS.fetch(Integer(e.info[:response_status]))}
+              processed_with=user_token
               body=#{e.info[:response_body]}
             ].join(' '))
             nil
@@ -101,6 +105,7 @@ module Travis
               url=#{GH.api_host + url}
               response_status=#{e.info[:response_status]}
               message=#{e.message}
+              processed_with=user_token
               body=#{e.info[:response_body]}
             ].join(' ')
             error(message)
@@ -115,6 +120,7 @@ module Travis
                 type=github_status
                 repo=#{repository[:slug]}
                 response_status=#{response.status}
+                processed_with=github_apps
               ].join(' '))
               return true
             end
@@ -131,6 +137,7 @@ module Travis
                 installation_id=#{installation_id}
                 response_status=#{status_int}
                 reason=#{ERROR_REASONS.fetch(status_int)}
+                processed_with=github_apps
                 body=#{response.body}
               ].join(' '))
               return nil
@@ -143,6 +150,7 @@ module Travis
                 commit=#{sha}
                 url=#{GH.api_host + url}
                 response_status=#{status_int}
+                processed_with=github_apps
                 body=#{response.body}
               ].join(' ')
               error(message)
