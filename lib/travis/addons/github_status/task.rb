@@ -36,7 +36,15 @@ module Travis
         private
 
           def process(timeout)
-            info("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} tokens_count=#{tokens.size} installation_id=#{installation_id}")
+            info(%W[
+              type=github_status
+              build=#{build[:id]}
+              repo=#{repository[:slug]}
+              state=#{state}
+              commit=#{sha}
+              tokens_count=#{tokens.size}
+              installation_id=#{installation_id}
+            ].join(' '))
 
             if !installation_id.nil? && process_via_github_app
               return
@@ -46,7 +54,15 @@ module Travis
               if process_with_token(username, token)
                 return
               else
-                error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} username=#{username} url=#{GH.api_host + url}")
+                error(%W[
+                  type=github_status
+                  build=#{build[:id]}
+                  repo=#{repository[:slug]}
+                  error=not_updated
+                  commit=#{sha}
+                  username=#{username}
+                  url=#{GH.api_host + url}
+                ].join(' '))
               end
             end
           end
@@ -85,6 +101,7 @@ module Travis
               url=#{GH.api_host + url}
               response_status=#{e.info[:response_status]}
               message=#{e.message}
+              body=#{e.info[:response_body]}
             ].join(' ')
             error(message)
             raise message
@@ -94,17 +111,40 @@ module Travis
             response = github_apps.post_with_app(url, status_payload.to_json)
 
             if response.success?
-              info "type=github_status repo=#{repository[:slug]} response_status=#{response.status}"
+              info(%W[
+                type=github_status
+                repo=#{repository[:slug]}
+                response_status=#{response.status}
+              ].join(' '))
               return true
             end
 
             status_int = Integer(response.status)
             case status_int
             when 401, 403, 404, 422
-              error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=#{status_int} reason=#{ERROR_REASONS.fetch(status_int)} body=#{response.body}")
+              error(%W[
+                type=github_status
+                build=#{build[:id]}
+                repo=#{repository[:slug]}
+                state=#{state}
+                commit=#{sha}
+                username=#{username}
+                response_status=#{status_int}
+                reason=#{ERROR_REASONS.fetch(status_int)}
+                body=#{response.body}
+              ].join(' '))
               return nil
             else
-              message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} response_status=#{status_int} body=#{response.body}"
+              message = %W[
+                type=github_status
+                build=#{build[:id]}
+                repo=#{repository[:slug]}
+                error=not_updated
+                commit=#{sha}
+                url=#{GH.api_host + url}
+                response_status=#{status_int}
+                body=#{response.body}
+              ].join(' ')
               error(message)
               raise message
             end
