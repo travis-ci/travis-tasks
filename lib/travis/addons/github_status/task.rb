@@ -128,7 +128,7 @@ module Travis
                 repo=#{repository[:slug]}
                 state=#{state}
                 commit=#{sha}
-                username=#{username}
+                installation_id=#{installation_id}
                 response_status=#{status_int}
                 reason=#{ERROR_REASONS.fetch(status_int)}
                 body=#{response.body}
