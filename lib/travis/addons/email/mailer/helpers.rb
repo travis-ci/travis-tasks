@@ -104,11 +104,11 @@ module Travis
           end
 
           def unsubscribe_url
-            travis_url :account, :unsubscribe
+            travis_url :account, :preferences, :unsubscribe
           end
 
           def repository_unsubscribe_url(repository)
-            travis_url :account, :unsubscribe, repository: repository.id
+            travis_url :account, :preferences, :unsubscribe, repository: repository.id
           end
 
           def travis_url(*path_fragments)

@@ -58,10 +58,10 @@ describe Travis::Addons::Email::Mailer::Helpers do
   end
 
   it '#unsubscribe_url returns correct URL' do
-    expect(unsubscribe_url).to match_url 'https://travis-ci.org/account/unsubscribe?utm_source=email&utm_medium=notification'
+    expect(unsubscribe_url).to match_url 'https://travis-ci.org/account/preferences/unsubscribe?utm_source=email&utm_medium=notification'
   end
 
   it '#repository_unsubscribe_url returns correct URL' do
-    expect(repository_unsubscribe_url(repository)).to match_url "https://travis-ci.org/account/unsubscribe?utm_source=email&utm_medium=notification&repository=#{repository.id}"
+    expect(repository_unsubscribe_url(repository)).to match_url "https://travis-ci.org/account/preferences/unsubscribe?utm_source=email&utm_medium=notification&repository=#{repository.id}"
   end
 end
