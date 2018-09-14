@@ -17,7 +17,7 @@
         width: 100%;
         padding: 10px;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        line-height: 175%;
+        line-height: 200%;
         text-align: center;
         color: #333333;
         background-color: #F4F5F9;
@@ -26,13 +26,13 @@
 
       #email-content-container {
         width: 500px;
-        padding: 32px;
+        padding: 20px 30px;
         background-color: #FFFFFF;
         text-align: center;
       }
 
       #email-content-container p {
-        font-size: 18px;
+        font-size: 17px;
       }
 
       #cancellation-header {
@@ -41,7 +41,7 @@
       }
 
       #closing-message-section {
-        padding: 0 30px 20px 30px;
+        padding: 40px 30px 0px 30px;
       }
 
       #closing-message-section > p {
@@ -50,9 +50,19 @@
 
       #travis-ci-twitter-section {
         text-align: center;
-        padding-bottom: 20px;
       }
       
+      #travis-ci-twitter-section a {
+        display: inline-block;
+        height: 32px;
+        vertical-align: bottom;
+      }
+
+      #travis-ci-twitter-section img {
+        width: 32px;
+        height: 32px;
+      }
+
       #questions-section {
         font-size: 20px;
       }
@@ -80,6 +90,11 @@
       <tr>
         <td align="center" valign="top" style="padding-bottom: 20px; font-family: inherit;">
           <table id="email-content-container" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <img src="https://s3.amazonaws.com/travis-email-assets/travis_ci_logo.png" alt="Travis CI Logo" />
+              </td>
+            </tr>
             <!-- Header - Sorry to see you go -->
             <tr>
               <td>
