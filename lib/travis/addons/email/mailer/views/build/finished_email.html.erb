@@ -567,6 +567,20 @@
               </td>
             </tr>
             <tr>
+              <td id="email-footer-section" align="center" valign="top">
+                <span>
+                    <%= link_to 'Unsubscribe', repository_unsubscribe_url(@repository) %> from build emails from the <%= @repository.slug %> repository.
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td id="email-footer-section" align="center" valign="top">
+                <span>
+                  To unsubscribe from <strong>all</strong> build emails, please update your <%= link_to 'settings', unsubscribe_url %>.
+                </span>
+              </td>
+            </tr>
+            <tr>
               <td id="travis-ci-footer-logo-section" style="text-align: center;">
                 <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), 'https://travis-ci.com')%>
               </td>

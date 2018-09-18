@@ -91,27 +91,35 @@ module Travis
             repository_slug.split('/').last
           end
 
-          def repository_url(repository)
-            url = "https://#{Travis.config.host}/#{repository.slug}"
-            Travis.config.utm ? with_utm(url) :url
-          end
-
-          def repository_build_url(options)
-            config = Travis.config
-            url = [config.http_host, options[:slug], 'builds', options[:id]].join('/')
-            config.utm ? with_utm(url) :url
-          end
-
           def title(repository)
             "Build Update for #{repository.slug}"
           end
 
-          def with_query_params(url, params)
-            "#{url}?#{params.map { |pair| pair.join('=') }.join('&')}"
+          def repository_url(repository)
+            travis_url repository.slug
           end
 
-          def with_utm(url)
-            with_query_params(url, utm_source: :email, utm_medium: :notification)
+          def repository_build_url(options)
+            travis_url options.fetch(:slug), :builds, options.fetch(:id)
+          end
+
+          def unsubscribe_url
+            travis_url :account, :preferences, :unsubscribe
+          end
+
+          def repository_unsubscribe_url(repository)
+            travis_url :account, :preferences, :unsubscribe, repository: repository.id
+          end
+
+          def travis_url(*path_fragments)
+            query_params = path_fragments.last.is_a?(Hash) ? path_fragments.pop : {}
+            query_params.merge!(utm_source: :email, utm_medium: :notification) if Travis.config.utm
+            path = path_fragments.join('/')
+
+            Addressable::URI.parse(Travis.config.http_host).tap do |uri|
+              uri.path = path
+              uri.query_values = query_params unless query_params.empty?
+            end.to_s
           end
         end
       end
