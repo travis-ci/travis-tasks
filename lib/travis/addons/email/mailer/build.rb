@@ -24,7 +24,7 @@ module Travis
             @result_message = ::Travis::Addons::Util::ResultMessage.new(@build)
 
             headers['X-MC-Tags'] = Travis.env
-            headers['In-Reply-To'] = "<%s+%s+%s@travis-ci.org>" % [ repository.slug, build.id, result_message.short.downcase ]
+            headers['In-Reply-To'] = "<%s+%s+%s@%s>" % [ repository.slug, build.id, result_message.short.downcase, Travis.config.host ]
             headers['Travis-CI-Repository'] = repository.slug
             headers['Travis-CI-Result'] = result_message.short.downcase
 
