@@ -69,6 +69,24 @@
         color: #32d282;
       }
 
+      #email-content-container .button {
+        display: inline-block;
+        padding: 10px 15px;
+        color: #333333;
+        background-color: #f4f5f9;
+        font-size: 14px;
+        margin: 10px 0 10px 0;
+        border-radius: 5px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      #email-content-container .button--green {
+        color: #ffffff;
+        background-color: #32d282;
+      }
+
       #closing-message-section {
         padding: 10.227% 0 1.136% 0;
       }
@@ -157,18 +175,36 @@
                   <!-- Body text -->
                   <tr>
                     <td>
+                      <!-- Basic info -->
                       <p>
-                        Hey {Person}, unfortunately we had issues charging your credit card for the account
-                        <span class="green-highlight">{Account Person}</span>.
+                        Hey <%= @subscription[:first_name] %> <%= @subscription[:last_name] %>,
+                        unfortunately we had issues charging your credit card for the account
+                        <span class="green-highlight"><%= @owner[:login] %></span>.
                       </p>
+
+                      <!-- Charge info -->
+                      <% if @charge %>
+                        <p>
+                          Here&rsquo;s the message we received from our payment provider: <%= @charge[:failure_message] %>
+                        </p>
+                      <% end %>
+                    
+                      <!-- Payment attempts -->
                       <p>
-                        <strong>This was our last attempt to charge your credit card.</strong>
-                        <span>
-                          If you wish to continue with our service, please make sure
-                          we have your updated credit card details.
-                        </span>
+                        <% if @event[:next_payment_attempt].blank? %>
+                          <strong>This was our last attempt to charge your credit card.</strong>
+                          <span>
+                            If you wish to continue with our service, please make sure
+                            we have your updated credit card details.
+                          </span>
+                        <% else %>
+                          No worries if this is just a temporary failure.
+                          We'll try charging your card again on <%= @next_payment_attempt %>.
+                        <% end %>
                       </p>
-                      <a href="https://travis-ci.org/" class="button button--green">Update My Details</a>
+
+                      <!-- Update Details -->
+                      <a href="https://billing.travis-ci.com/subscriptions/<%= @owner[:login] %>" class="button button--green">Update My Details</a>
                     </td>
                   </tr>
                   <!-- Closing Message Section -->
@@ -207,6 +243,9 @@
                   </tr>
                   <tr>
                     <td id="email-footer-section">
+                      <p>
+                        We use <a href="https://stripe.com">Stripe Inc.</a>, 3180 18th Street, Suite 100, San Francisco, CA 94110, USA, as our payment partner.
+                      </p>
                       <p>
                         Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF/CEO: Konstantin Haase, Fritz Thielemann |
                         <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
