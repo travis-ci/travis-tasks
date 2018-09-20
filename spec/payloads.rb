@@ -16,6 +16,7 @@ TASK_PAYLOAD = {
   },
   "request" => {
     "token"=>"token",
+    "base_commit"=>"base-commit",
     "head_commit"=>"head-commit"
   },
   "pull_request" => {
