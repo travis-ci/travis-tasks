@@ -34,7 +34,6 @@
       }
 
       #email-central-container {
-        padding-bottom: 20px;
         font-family: inherit;
         width: 500px;
       }
@@ -111,7 +110,7 @@
       }
 
       #travis-ci-email-footer-container {
-        padding: 13% 7% 5% 7%;
+        padding: 10% 7% 0% 7%;
       }
 
       #questions-section {
@@ -125,7 +124,7 @@
       }
 
       #travis-ci-footer-logo-section {
-        padding-bottom: 7.954%;
+        padding-bottom: 6.818%;
         text-align: center;
       }
 
@@ -137,8 +136,17 @@
         margin: 0px;
       }
 
+      #email-footer-section a {
+        color: #9ea3a8;
+      }
+
       #email-footer-section p {
         margin: 0px;
+      }
+
+      #email-footer-section #payment-processor-message {
+        margin-bottom: 3.409%;
+        padding: 0 1%;
       }
     </style>
   </head>
@@ -199,7 +207,8 @@
                           </span>
                         <% else %>
                           No worries if this is just a temporary failure.
-                          We'll try charging your card again on <%= @next_payment_attempt %>.
+                          We'll try charging your card again in
+                          <%= distance_of_time_in_words(Time.at(@event[:next_payment_attempt]), Time.now.utc) %>.
                         <% end %>
                       </p>
 
@@ -243,8 +252,8 @@
                   </tr>
                   <tr>
                     <td id="email-footer-section">
-                      <p>
-                        We use <a href="https://stripe.com">Stripe Inc.</a>, 3180 18th Street, Suite 100, San Francisco, CA 94110, USA, as our payment partner.
+                      <p id="payment-processor-message">
+                        We use <a href="https://stripe.com">Stripe Inc.</a>, 3180 18th Street, Suite 100, San Francisco, CA 94110, USA, as our payment partner
                       </p>
                       <p>
                         Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF/CEO: Konstantin Haase, Fritz Thielemann |
