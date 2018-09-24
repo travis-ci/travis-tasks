@@ -16,8 +16,10 @@
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       }
 
-      strong {
-        display: block;
+      hr {
+        border-style: solid;
+        color: #e5e7e9;
+        margin: 1em 0;
       }
 
       #travis-ci-email-container {
@@ -28,9 +30,7 @@
         text-align: center;
         color: #333333;
         line-height: 1.4;
-        background-color: #F4F5F9;
-        background-image: url('https://s3.amazonaws.com/travis-email-assets/billing-background.png');
-        background-size: 600px 600px;
+        background-color: #f6f7fa;
       }
 
       #email-central-container {
@@ -41,7 +41,6 @@
       #email-content-container {
         padding: 6% 7% 5% 7%;
         background-color: #FFFFFF;
-        text-align: center;
         width: 100%;
       }
 
@@ -50,64 +49,23 @@
         margin: 0 0 10px 0;
       }
 
-      #travis-logo-img-container {
-        border-bottom: 2px solid #e5e7e9;
-        padding-bottom: 4.545%;
-      }
-      
-      #travis-logo-img {
-        width: 42%;
-      }
-
-      #charge-fail-header {
-        font-size: 24px;
-        font-weight: 600;
-        margin: 10.227% 0 6.818% 0;
-      }
-
-      .green-highlight {
-        color: #32d282;
-      }
-
-      #email-content-container .button {
-        display: inline-block;
-        padding: 10px 15px;
-        color: #333333;
-        background-color: #f4f5f9;
-        font-size: 14px;
-        margin: 10px 0 10px 0;
-        border-radius: 5px;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-weight: 600;
-      }
-
-      #email-content-container .button--green {
-        color: #ffffff;
-        background-color: #32d282;
-      }
-
-      #closing-message-section {
-        padding: 10.227% 0 1.136% 0;
-      }
-
-      #closing-message-section > p {
-        margin: 0;
-      }
-
-      #travis-ci-twitter-section {
+      .invoice-header-container {
         text-align: center;
       }
-      
-      #travis-ci-twitter-section a {
-        display: inline-block;
-        height: 32px;
-        vertical-align: bottom;
+
+      #invoice-header {
+        font-size: 42px;
+        font-weight: 600;
+        margin: 1.136% 0 6.818% 0;
+        color: #0068ff;
       }
 
-      #travis-ci-twitter-section img {
-        width: 32px;
-        height: 32px;
+      .blue-highlight {
+        color: #0068ff;
+      }
+
+      .download-and-update {
+        text-align: center;
       }
 
       #travis-ci-email-footer-container {
@@ -116,12 +74,12 @@
 
       #questions-section {
         font-size: 18px;
-        color: #0068FF;
+        color: #0068ff;
         padding-bottom: 10.227%;
       }
 
       #questions-section a {
-        color: #0068FF;
+        color: #0068ff;
       }
 
       #travis-ci-footer-logo-section {
@@ -169,69 +127,90 @@
             <tr>
               <td>
                 <table id="email-content-container" border="0" cellpadding="0" cellspacing="0">
-                  <!-- Logo -->
+                  <!-- Header - Thanks -->
                   <tr>
-                    <td id="travis-logo-img-container">
-                      <img src="https://s3.amazonaws.com/travis-email-assets/travis_ci_logo.png" alt="Travis CI Logo" id="travis-logo-img" />
+                    <td class="invoice-header-container">
+                      <h2 id="invoice-header">Thank you.</h2>
+                      <p>
+                        We love our customers! Below is your Travis CI invoice for the account
+                        <span class="blue-highlight">{Account Name}</span>.
+                      </p>
+                      <% unless Travis.env == "production" %>
+                        <p>Test Email! Not a valid invoice!</p>
+                      <% end -%>
                     </td>
                   </tr>
-                  <!-- Header - Payment failed -->
+                  <tr>
+                    <td><hr /></td>
+                  </tr>
+                  <!-- Main Invoice Content -->
                   <tr>
                     <td>
-                      <h2 id="charge-fail-header">Oops! Payment failed,</h2>
+                      <table class="invoice-address-and-total">
+                        <tr>
+                          <td class="invoice-address-container">
+                            <label class="label-grey">Billed To:</label>
+                          </td>
+                          <td class="invoice-total-container">
+                            <label class="label-grey">Total (In USD)</label>
+                          </td>
+                        </tr>
+                      </table>
                     </td>
                   </tr>
-                  <!-- Body text -->
                   <tr>
                     <td>
-                      <!-- Basic info -->
-                      <p>
-                        Hey <%= @subscription[:first_name] %> <%= @subscription[:last_name] %>,
-                        unfortunately we had issues charging your credit card for the account
-                        <span class="green-highlight"><%= @owner[:login] %></span>.
-                      </p>
-
-                      <!-- Charge info -->
-                      <% if @charge %>
-                        <p>
-                          Here&rsquo;s the message we received from our payment provider: <%= @charge[:failure_message] %>
-                        </p>
-                      <% end %>
-                    
-                      <!-- Payment attempts -->
-                      <p>
-                        <% if @event[:next_payment_attempt].blank? %>
-                          <strong>This was our last attempt to charge your credit card.</strong>
-                          <span>
-                            If you wish to continue with our service, please make sure
-                            we have your updated credit card details.
-                          </span>
-                        <% else %>
-                          No worries if this is just a temporary failure.
-                          We'll try charging your card again in
-                          <%= distance_of_time_in_words(Time.at(@event[:next_payment_attempt]), Time.now.utc) %>.
-                        <% end %>
-                      </p>
-
-                      <!-- Update Details -->
-                      <a href="https://billing.travis-ci.com/subscriptions/<%= @owner[:login] %>" class="button button--green">Update My Details</a>
-                    </td>
-                  </tr>
-                  <!-- Closing Message Section -->
-                  <tr>
-                    <td id="closing-message-section" align="center" valign="top">
-                      <p>Regards,</p>
-                      <p><strong>The Travis CI Team</strong></p>
+                      <label class="label-black">Invoice #</label>
                     </td>
                   </tr>
                   <tr>
-                    <td id="travis-ci-twitter-section">
-                      <a href="http://www.twitter.com/travisci">
-                        <img
-                          id="travis-ci-twitter-logo"
-                          src="https://ci6.googleusercontent.com/proxy/u_GkY0vPn3zh6k_Iocra5_P1V00M-TFRNu-P7gPciI_J5CkDABrV1urf2QfoLPirfH6tojEO6P2xe9jKJeBggB6N-SRbbfN1ecrcfw=s0-d-e1-ft#https://s3.amazonaws.com/travis-ci-dzone/twitter2x.png"
-                          alt="Twitter Logo">
-                      </a>
+                    <td>
+                      <label class="label-blue">Subscription Period</label>
+                      <span>{SP}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label class="label-blue">Status</label>
+                      <span>{Status}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label class="label-blue">Plan</label>
+                      <span>{Plan}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label class="label-blue">Price</label>
+                      <span>{Price}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label class="label-blue">VAT ({Percent})</label>
+                      <span>{VAT}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label class="label-black">Total</label>
+                      <span>{Total}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><hr /></td>
+                  </tr>
+
+                  <!-- Download and update -->
+                  <tr>
+                    <td class="download-and-update">
+                      <div>Download a PDF Copy</div>
+                      <div>
+                        Need to change your billing address? Update it
+                        here.
+                      </div>
                     </td>
                   </tr>
                 </table>
