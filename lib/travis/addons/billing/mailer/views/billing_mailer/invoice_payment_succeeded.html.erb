@@ -133,7 +133,7 @@
                       <h2 id="invoice-header">Thank you.</h2>
                       <p>
                         We love our customers! Below is your Travis CI invoice for the account
-                        <span class="blue-highlight">{Account Name}</span>.
+                        <span class="blue-highlight"><%# @subscription.owner.login %></span>.
                       </p>
                       <% unless Travis.env == "production" %>
                         <p>Test Email! Not a valid invoice!</p>
@@ -150,9 +150,52 @@
                         <tr>
                           <td class="invoice-address-container">
                             <label class="label-grey">Billed To:</label>
+                            <address>
+                              <div>
+                                <% if @subscription[:company].present? %>
+                                  <%= @subscription[:company] %>
+                                <% end %>
+                              </div>
+                              
+                              <div>
+                                <% if @subscription[:first_name].present? %>
+                                    <%= @subscription[:first_name] %>
+                                <% end %>
+                                <% if @subscription[:last_name].present? %>
+                                    <%= @subscription[:last_name] %>
+                                <% end %>
+                              </div>
+
+                              <div>
+                                <% if @subscription[:address].present? %>
+                                    <%= @subscription[:address] %>
+                                <% end %>
+                              </div>
+
+                              <div>
+                              <% if @subscription[:city].present? %>
+                                  <%= @subscription[:city] %>
+                              <% end %>
+                                <% if @subscription[:zip_code].present? %>
+                                    <%= @subscription[:zip_code] %>
+                                <% end %>
+                              </div>
+
+                              <%# %w(state country vat_id).each do |attr| %>
+                                <div>
+                                  <%# if @subscription.send(attr.to_sym).present? %>
+                                    <%# @subscription[attr.to_sym] %><br>
+                                  <%# end %>
+                                </div>
+                              <%# end %>
+                            </address>
                           </td>
                           <td class="invoice-total-container">
                             <label class="label-grey">Total (In USD)</label>
+                            <div class="total-large">
+                              <%# number_to_currency(@invoice.object["amount_due"] / 100.0) %>
+                            </div>
+                            <p><time datetime="sdjdj"><%# l @invoice[:created_at], format: :long %></time></p>
                           </td>
                         </tr>
                       </table>
@@ -160,43 +203,86 @@
                   </tr>
                   <tr>
                     <td>
-                      <label class="label-black">Invoice #</label>
+                      <label class="label-black">Invoice #<%# @invoice.invoice_id %></label>
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <label class="label-blue">Subscription Period</label>
-                      <span>{SP}</span>
+                      <span>
+                        <%# l set_period(@invoice.object, "start", @subscription), format: :long -%>
+                        &ndash;
+                        <%# l set_period(@invoice.object, "end", @subscription), format: :long -%>
+                      </span>
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <label class="label-blue">Status</label>
-                      <span>{Status}</span>
+                      <span>Paid with credit card ending in <%# @charge_cc_last_digits %></span>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <label class="label-blue">Plan</label>
-                      <span>{Plan}</span>
-                    </td>
-                  </tr>
+                  <%# unless is_proration?(@invoice.object) %>
+                    <tr>
+                      <td>
+                        <label class="label-blue">Plan</label>
+                        <span><%# Travis::Billing.config.plans[parse_subscription(@invoice.object)["plan"]["id"].to_sym][:name] %></span>
+                      </td>
+                    </tr>
+                  <%# end %>
                   <tr>
                     <td>
                       <label class="label-blue">Price</label>
-                      <span>{Price}</span>
+                      <span><%# number_to_currency(get_plan_amount(@invoice.object) / 100.0) %></span>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <label class="label-blue">VAT ({Percent})</label>
-                      <span>{VAT}</span>
-                    </td>
-                  </tr>
+
+                  <%# (invoice_items(@invoice.object) || []).each do |invoice_item| %>
+                    <tr>
+                      <td>
+                        <label class="label-blue"><%# invoice_item["description"] %></label>
+                        <span><%# number_to_currency(invoice_item["amount"] / 100.0) %></span>
+                      </td>
+                    </tr>
+                  <%# end -%>
+
+                  <%# unless @subscription.vat_required? -%>
+                    <!--<tr>
+                      <td>
+                        <label class="label-blue">VAT ({Percent})</label>
+                        <span>{VAT}</span>
+                      </td>
+                    </tr>-->
+                  <%# end -%>
+
+                  <%# if @invoice.object["discount"].present? %>
+                    <tr>
+                      <td>
+                        <label class="label-blue">Discount</label>
+                        <span>
+                          <%# if @invoice.object["discount"]["coupon"]["percent_off"] -%>
+                            <%# @invoice.object["discount"]["coupon"]["percent_off"] %>%
+                          <%# else -%>
+                            <%# number_to_currency(@invoice.object["discount"]["coupon"]["amount_off"] / 100.0) %>
+                          <%# end -%>
+                        </span>
+                      </td>
+                    </tr>
+                  <%# end -%>
+
+                  <%# if (balance = @invoice.object["starting_balance"].to_i) != 0 -%>
+                    <tr>
+                      <td>
+                        <label class="label-blue"><%# balance > 0 ? "Debit" : "Credit" %></label>
+                        <span><%# applied_balance(balance, @invoice.object["ending_balance"]) %></span>
+                      </td>
+                    </tr>
+                  <%# end -%>
+
                   <tr>
                     <td>
                       <label class="label-black">Total</label>
-                      <span>{Total}</span>
+                      <span><%# number_to_currency(@invoice.object["amount_due"] / 100.0) %></span>
                     </td>
                   </tr>
                   <tr>
@@ -204,15 +290,22 @@
                   </tr>
 
                   <!-- Download and update -->
-                  <tr>
-                    <td class="download-and-update">
-                      <div>Download a PDF Copy</div>
-                      <div>
-                        Need to change your billing address? Update it
-                        here.
-                      </div>
-                    </td>
-                  </tr>
+                  <% if not @hide_pdf_notice -%>
+                    <tr>
+                      <td class="download-and-update">
+                        <p>
+                          <a href="<%# invoice_url(Digest::SHA1.hexdigest(@invoice.stripe_id + @invoice.invoice_id), format: 'pdf', protocol: 'https') %>">
+                            <!-- <img alt="PDF icon" /> -->
+                            Download a PDF copy
+                          </a>
+                        </p>
+                        <p>
+                          Need to change your billing address? Update it
+                          <a href="<%# edit_subscription_url(@subscription.owner.login, protocol: 'https') %>" >here</a>.
+                        </p>
+                      </td>
+                    </tr>
+                  <% end -%>
                 </table>
 
                 <!-- Email Footer Section -->
