@@ -14,12 +14,19 @@
 
       body, td {
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
       }
 
       hr {
         border-style: solid;
         color: #e5e7e9;
         margin: 1em 0;
+      }
+
+      label {
+        display: block;
+        font-weight: 700;
+        font-size: 14px;
       }
 
       #travis-ci-email-container {
@@ -45,7 +52,6 @@
       }
 
       #email-content-container p {
-        font-size: 16px;
         margin: 0 0 10px 0;
       }
 
@@ -133,7 +139,7 @@
                       <h2 id="invoice-header">Thank you.</h2>
                       <p>
                         We love our customers! Below is your Travis CI invoice for the account
-                        <span class="blue-highlight"><%# @subscription.owner.login %></span>.
+                        <span class="blue-highlight"><%= @owner[:name] %></span>.
                       </p>
                       <% unless Travis.env == "production" %>
                         <p>Test Email! Not a valid invoice!</p>
@@ -159,43 +165,52 @@
                               
                               <div>
                                 <% if @subscription[:first_name].present? %>
-                                    <%= @subscription[:first_name] %>
+                                  <%= @subscription[:first_name] %>
                                 <% end %>
                                 <% if @subscription[:last_name].present? %>
-                                    <%= @subscription[:last_name] %>
+                                  <%= @subscription[:last_name] %>
                                 <% end %>
                               </div>
 
                               <div>
                                 <% if @subscription[:address].present? %>
-                                    <%= @subscription[:address] %>
+                                  <%= @subscription[:address] %>
                                 <% end %>
                               </div>
 
                               <div>
-                              <% if @subscription[:city].present? %>
+                                <% if @subscription[:city].present? %>
                                   <%= @subscription[:city] %>
-                              <% end %>
-                                <% if @subscription[:zip_code].present? %>
-                                    <%= @subscription[:zip_code] %>
                                 <% end %>
                               </div>
 
-                              <%# %w(state country vat_id).each do |attr| %>
-                                <div>
-                                  <%# if @subscription.send(attr.to_sym).present? %>
-                                    <%# @subscription[attr.to_sym] %><br>
-                                  <%# end %>
-                                </div>
-                              <%# end %>
+                              <div>
+                                <% %w(state post_code).each do |attr| %>
+                                  <span>
+                                    <% if @subscription[attr.to_sym].present? %>
+                                      <%= @subscription[attr.to_sym] %>
+                                    <% end %>
+                                  </span>
+                                <% end %>
+                              </div>
+
+                              <% %w(country vat_id).each do |attr| %>
+                                <% if @subscription[attr.to_sym].present? %>
+                                  <div><%= @subscription[attr.to_sym] %></div>
+                                <% end %>
+                              <% end %>
                             </address>
                           </td>
                           <td class="invoice-total-container">
                             <label class="label-grey">Total (In USD)</label>
                             <div class="total-large">
-                              <%# number_to_currency(@invoice.object["amount_due"] / 100.0) %>
+                              <% if @invoice[:amount_due].present? %>
+                                <%= number_to_currency(@invoice[:amount_due] / 100.0) %>
+                              <% end %>
                             </div>
-                            <p><time datetime="sdjdj"><%# l @invoice[:created_at], format: :long %></time></p>
+                            <% if @invoice[:created_at].present? %>
+                              <p><time datetime="sdjdj"><%= l @invoice[:created_at], format: :long %></time></p>
+                            <% end %>
                           </td>
                         </tr>
                       </table>
@@ -203,7 +218,7 @@
                   </tr>
                   <tr>
                     <td>
-                      <label class="label-black">Invoice #<%# @invoice.invoice_id %></label>
+                      <label class="label-black">Invoice #<%= @invoice[:invoice_id] %></label>
                     </td>
                   </tr>
                   <tr>
@@ -219,7 +234,7 @@
                   <tr>
                     <td>
                       <label class="label-blue">Status</label>
-                      <span>Paid with credit card ending in <%# @charge_cc_last_digits %></span>
+                      <span>Paid with credit card ending in <%= @cc_last_digits -%></span>
                     </td>
                   </tr>
                   <%# unless is_proration?(@invoice.object) %>
