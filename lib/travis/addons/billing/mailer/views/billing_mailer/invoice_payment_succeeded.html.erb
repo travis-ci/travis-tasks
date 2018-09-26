@@ -320,14 +320,14 @@
                     <tr>
                       <td class="download-and-update">
                         <p>
-                          <a href="<%# invoice_url(Digest::SHA1.hexdigest(@invoice.stripe_id + @invoice.invoice_id), format: 'pdf', protocol: 'https') %>">
+                          <a href="<%= invoice_pdf_url(@invoice) %>">
                             <!-- <img alt="PDF icon" /> -->
                             Download a PDF copy
                           </a>
                         </p>
                         <p>
                           Need to change your billing address? Update it
-                          <a href="<%# edit_subscription_url(@subscription.owner.login, protocol: 'https') %>" >here</a>.
+                          <a href="https://billing.travis-ci.com/subscriptions/<%= @owner[:login] %>" >here</a>.
                         </p>
                       </td>
                     </tr>

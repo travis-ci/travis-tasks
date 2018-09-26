@@ -30,7 +30,12 @@ module Travis
 
           def applied_balance(start_balance, end_balance)
             number_to_currency((start_balance.to_i - end_balance.to_i) / 100.0)
-          end     
+          end
+
+          def invoice_pdf_url(invoice)
+            pdf_id = Digest::SHA1.hexdigest(invoice[:stripe_id] + invoice[:invoice_id])
+            "https://billing.travis-ci.com/invoices/#{pdf_id}.pdf"
+          end
         end
       end
     end
