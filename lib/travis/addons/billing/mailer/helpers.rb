@@ -16,10 +16,21 @@ module Travis
           def set_period(event, period_frame ,subscription)
             event_object = parse_subscription(event)
             period = event_object[:period] if event_object
-            puts Time.at(period[period_frame.to_sym])
             return Time.at(period[period_frame.to_sym]).utc.to_date unless period.nil?
             period_frame == 'start' ? subscription[:updated_at] : subscription[:valid_to]
-          end        
+          end  
+
+          def invoice_items(event)
+            if event[:lines][:invoiceitems]
+              event[:lines][:invoiceitems]
+            elsif event[:lines][:data]
+              event[:lines][:data].select {|item| item["type"] == "invoiceitem"}
+            end
+          end
+
+          def applied_balance(start_balance, end_balance)
+            number_to_currency((start_balance.to_i - end_balance.to_i) / 100.0)
+          end     
         end
       end
     end

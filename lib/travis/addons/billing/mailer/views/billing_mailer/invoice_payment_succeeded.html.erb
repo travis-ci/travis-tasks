@@ -155,6 +155,7 @@
                     <td>
                       <table class="invoice-address-and-total">
                         <tr>
+                          <!-- Address -->
                           <td class="invoice-address-container">
                             <label class="label-grey">Billed To:</label>
                             <address>
@@ -202,6 +203,7 @@
                               <% end %>
                             </address>
                           </td>
+                          <!-- Total / Created Date -->
                           <td class="invoice-total-container">
                             <label class="label-grey">Total (In USD)</label>
                             <div class="total-large">
@@ -217,11 +219,13 @@
                       </table>
                     </td>
                   </tr>
+                  <!-- Invoice ID -->
                   <tr>
                     <td>
                       <label class="label-black">Invoice #<%= @invoice[:invoice_id] %></label>
                     </td>
                   </tr>
+                  <!-- Subscription Period -->
                   <tr>
                     <td>
                       <label class="label-blue">Subscription Period</label>
@@ -232,75 +236,81 @@
                       </span>
                     </td>
                   </tr>
+                  <!-- Status -->
                   <tr>
                     <td>
                       <label class="label-blue">Status</label>
                       <span>Paid with credit card ending in <%= @cc_last_digits -%></span>
                     </td>
                   </tr>
-                  <%# unless is_proration?(@invoice[:object]) %>
-                    <tr>
-                      <td>
-                        <label class="label-blue">Plan</label>
-                        <span><%# Travis::Billing.config.plans[parse_subscription(@invoice[:object])["plan"]["id"].to_sym][:name] %></span>
-                      </td>
-                    </tr>
-                  <%# end %>
+                  <!-- Plan -->
+                  <tr>
+                    <td>
+                      <label class="label-blue">Plan</label>
+                      <span><%= @subscription[:selected_plan][:name] %></span>
+                    </td>
+                  </tr>
+                  <!-- Price -->
                   <tr>
                     <td>
                       <label class="label-blue">Price</label>
-                      <span><%# number_to_currency(get_plan_amount(@invoice[:object]) / 100.0) %></span>
+                      <span><%= number_to_currency(@subscription[:selected_plan][:price] / 100.0) %></span>
                     </td>
                   </tr>
 
-                  <%# (invoice_items(@invoice[:object]) || []).each do |invoice_item| %>
+                  <!-- Invoice items -->
+                  <% (invoice_items(@invoice[:object]) || []).each do |invoice_item| %>
                     <tr>
                       <td>
-                        <label class="label-blue"><%# invoice_item["description"] %></label>
-                        <span><%# number_to_currency(invoice_item["amount"] / 100.0) %></span>
+                        <label class="label-blue"><%= invoice_item[:description] %></label>
+                        <span><%= number_to_currency(invoice_item[:amount] / 100.0) %></span>
                       </td>
                     </tr>
-                  <%# end -%>
+                  <% end -%>
 
-                  <%# unless @subscription.vat_required? -%>
-                    <!--<tr>
-                      <td>
-                        <label class="label-blue">VAT ({Percent})</label>
-                        <span>{VAT}</span>
-                      </td>
-                    </tr>-->
-                  <%# end -%>
-
+                  <!-- Discount -->
                   <% if @invoice[:object][:discount].present? %>
                     <tr>
                       <td>
                         <label class="label-blue">Discount</label>
                         <span>
-                          <%# if @invoice[:object][:discount]["coupon"]["percent_off"] -%>
-                            <%# @invoice[:object][:discount]["coupon"]["percent_off"] %>%
-                          <%# else -%>
-                            <%# number_to_currency(@invoice[:object][:discount]["coupon"]["amount_off"] / 100.0) %>
-                          <%# end -%>
+                          <% if @invoice[:object][:discount][:coupon][:percent_off] -%>
+                            -<%= @invoice[:object][:discount][:coupon][:percent_off] %>%
+                          <% else -%>
+                            -<%= number_to_currency(@invoice[:object][:discount][:coupon][:amount_off] / 100.0) %>
+                          <% end -%>
                         </span>
                       </td>
                     </tr>
                   <% end -%>
 
-                  <%# if (balance = @invoice[:object]["starting_balance"].to_i) != 0 -%>
+                  <!-- Balance / Debit / Credit -->
+                  <% if (balance = @invoice[:object][:starting_balance].to_i) != 0 -%>
                     <tr>
                       <td>
-                        <label class="label-blue"><%# balance > 0 ? "Debit" : "Credit" %></label>
-                        <span><%# applied_balance(balance, @invoice[:object]["ending_balance"]) %></span>
+                        <label class="label-blue"><%= balance > 0 ? "Debit" : "Credit" %></label>
+                        <span><%= applied_balance(balance, @invoice[:object][:ending_balance]) %></span>
                       </td>
                     </tr>
-                  <%# end -%>
+                  <% end -%>
 
+                  <!-- Total -->
                   <tr>
                     <td>
                       <label class="label-black">Total</label>
                       <span><%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %></span>
                     </td>
                   </tr>
+
+                  <!-- VAT required -->
+                  <% if @subscription[:vat_required] == true -%>
+                    <tr>
+                      <td>
+                        <span>(VAT due to the recipient)</span>
+                      </td>
+                    </tr>
+                  <% end -%>
+
                   <tr>
                     <td><hr /></td>
                   </tr>
