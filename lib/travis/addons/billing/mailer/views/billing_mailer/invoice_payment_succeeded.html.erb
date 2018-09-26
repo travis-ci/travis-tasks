@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -204,8 +205,8 @@
                           <td class="invoice-total-container">
                             <label class="label-grey">Total (In USD)</label>
                             <div class="total-large">
-                              <% if @invoice[:amount_due].present? %>
-                                <%= number_to_currency(@invoice[:amount_due] / 100.0) %>
+                              <% if @invoice[:object][:amount_due].present? %>
+                                <%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %>
                               <% end %>
                             </div>
                             <% if @invoice[:created_at].present? %>
@@ -225,9 +226,9 @@
                     <td>
                       <label class="label-blue">Subscription Period</label>
                       <span>
-                        <%# l set_period(@invoice.object, "start", @subscription), format: :long -%>
+                        <%= l set_period(@invoice[:object], "start", @subscription), format: :long -%>
                         &ndash;
-                        <%# l set_period(@invoice.object, "end", @subscription), format: :long -%>
+                        <%= l set_period(@invoice[:object], "end", @subscription), format: :long -%>
                       </span>
                     </td>
                   </tr>
@@ -237,22 +238,22 @@
                       <span>Paid with credit card ending in <%= @cc_last_digits -%></span>
                     </td>
                   </tr>
-                  <%# unless is_proration?(@invoice.object) %>
+                  <%# unless is_proration?(@invoice[:object]) %>
                     <tr>
                       <td>
                         <label class="label-blue">Plan</label>
-                        <span><%# Travis::Billing.config.plans[parse_subscription(@invoice.object)["plan"]["id"].to_sym][:name] %></span>
+                        <span><%# Travis::Billing.config.plans[parse_subscription(@invoice[:object])["plan"]["id"].to_sym][:name] %></span>
                       </td>
                     </tr>
                   <%# end %>
                   <tr>
                     <td>
                       <label class="label-blue">Price</label>
-                      <span><%# number_to_currency(get_plan_amount(@invoice.object) / 100.0) %></span>
+                      <span><%# number_to_currency(get_plan_amount(@invoice[:object]) / 100.0) %></span>
                     </td>
                   </tr>
 
-                  <%# (invoice_items(@invoice.object) || []).each do |invoice_item| %>
+                  <%# (invoice_items(@invoice[:object]) || []).each do |invoice_item| %>
                     <tr>
                       <td>
                         <label class="label-blue"><%# invoice_item["description"] %></label>
@@ -270,26 +271,26 @@
                     </tr>-->
                   <%# end -%>
 
-                  <%# if @invoice.object["discount"].present? %>
+                  <% if @invoice[:object][:discount].present? %>
                     <tr>
                       <td>
                         <label class="label-blue">Discount</label>
                         <span>
-                          <%# if @invoice.object["discount"]["coupon"]["percent_off"] -%>
-                            <%# @invoice.object["discount"]["coupon"]["percent_off"] %>%
+                          <%# if @invoice[:object][:discount]["coupon"]["percent_off"] -%>
+                            <%# @invoice[:object][:discount]["coupon"]["percent_off"] %>%
                           <%# else -%>
-                            <%# number_to_currency(@invoice.object["discount"]["coupon"]["amount_off"] / 100.0) %>
+                            <%# number_to_currency(@invoice[:object][:discount]["coupon"]["amount_off"] / 100.0) %>
                           <%# end -%>
                         </span>
                       </td>
                     </tr>
-                  <%# end -%>
+                  <% end -%>
 
-                  <%# if (balance = @invoice.object["starting_balance"].to_i) != 0 -%>
+                  <%# if (balance = @invoice[:object]["starting_balance"].to_i) != 0 -%>
                     <tr>
                       <td>
                         <label class="label-blue"><%# balance > 0 ? "Debit" : "Credit" %></label>
-                        <span><%# applied_balance(balance, @invoice.object["ending_balance"]) %></span>
+                        <span><%# applied_balance(balance, @invoice[:object]["ending_balance"]) %></span>
                       </td>
                     </tr>
                   <%# end -%>
@@ -297,7 +298,7 @@
                   <tr>
                     <td>
                       <label class="label-black">Total</label>
-                      <span><%# number_to_currency(@invoice.object["amount_due"] / 100.0) %></span>
+                      <span><%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %></span>
                     </td>
                   </tr>
                   <tr>

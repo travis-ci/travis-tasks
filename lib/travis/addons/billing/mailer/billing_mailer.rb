@@ -7,6 +7,8 @@ module Travis
         class BillingMailer < ActionMailer::Base
           append_view_path File.expand_path('../views', __FILE__)
 
+          helper Mailer::Helpers
+
           def charge_failed(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription, @owner, @charge, @event = subscription, owner, charge, event
             # @next_payment_attempt = Time.at(@event[:next_payment_attempt]).strftime('%F')
