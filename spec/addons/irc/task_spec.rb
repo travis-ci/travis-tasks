@@ -279,12 +279,12 @@ describe Travis::Addons::Irc::Task do
         irc.freenode.net#%23doublehash
       )
       handler = subject.new(payload, channels: channels)
-      handler.send(:parsed_channels).should == {
+      expect(handler.send(:parsed_channels)).to eq({
         ['irc.freenode.net', 1234, nil]  => ['travis', 'travis-2', 'travis-5'],
         ['irc.freenode.net', nil,  nil]  => ['rails', '#doublehash'],
         ['irc.example.com',  nil,  nil]  => ['travis-3'],
         ['irc.example.com',  2345, :ssl] => ['travis-4']
-      }
+      })
     end
   end
 end

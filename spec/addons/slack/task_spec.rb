@@ -122,9 +122,9 @@ describe Travis::Addons::Slack::Task do
     path = "/services/hooks/travis?token=#{token}"
 
     http.post(path) do |env|
-      env[:url].host.should == host
-      env[:url].request_uri.should == path
-      MultiJson.decode(env[:body]).should == body
+      expect(env[:url].host).to eq(host)
+      expect(env[:url].request_uri).to eq(path)
+      expect(MultiJson.decode(env[:body])).to eq(body)
     end
   end
 

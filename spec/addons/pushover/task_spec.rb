@@ -52,10 +52,10 @@ describe Travis::Addons::Pushover::Task do
     expected_hash = {:message => message, :user => user, :token => token}
     
     http.post(path) do |env|
-      env[:url].host.should == host
-      env[:url].scheme.should == "https"
-      env[:url].path.should == path
-      Rack::Utils.parse_nested_query(env[:body]).should == expected_hash.stringify_keys
+      expect(env[:url].host).to eq(host)
+      expect(env[:url].scheme).to eq("https")
+      expect(env[:url].path).to eq(path)
+      expect(Rack::Utils.parse_nested_query(env[:body])).to eq(expected_hash.stringify_keys)
     end
   end
 end

@@ -73,8 +73,8 @@ describe Travis::Addons::GithubStatus::Task do
     expect {
       run
     }.not_to raise_error
-    io.string.should include('response_status=422')
-    io.string.should include('reason=maximum_number_of_statuses')
+    expect(io.string).to include('response_status=422')
+    expect(io.string).to include('reason=maximum_number_of_statuses')
   end
 
   it 'does not raise if a 403 error was returned by GH' do
@@ -83,8 +83,8 @@ describe Travis::Addons::GithubStatus::Task do
     expect {
       run
     }.not_to raise_error
-    io.string.should include('response_status=403')
-    io.string.should include('reason=incorrect_auth_or_suspended_acct')
+    expect(io.string).to include('response_status=403')
+    expect(io.string).to include('reason=incorrect_auth_or_suspended_acct')
   end
 
   it 'does not raise if a 404 error was returned by GH' do
@@ -93,8 +93,8 @@ describe Travis::Addons::GithubStatus::Task do
     expect {
       run
     }.not_to raise_error
-    io.string.should include('response_status=404')
-    io.string.should include('reason=repo_not_found_or_incorrect_auth')
+    expect(io.string).to include('response_status=404')
+    expect(io.string).to include('reason=repo_not_found_or_incorrect_auth')
   end
 
   describe 'logging' do
@@ -103,8 +103,8 @@ describe Travis::Addons::GithubStatus::Task do
       expect {
         run
       }.to raise_error
-      io.string.should include('error=not_updated')
-      io.string.should include('message=GH request failed')
+      expect(io.string).to include('error=not_updated')
+      expect(io.string).to include('message=GH request failed')
     end
 
     it "doesn't raise an error with bad credentials" do

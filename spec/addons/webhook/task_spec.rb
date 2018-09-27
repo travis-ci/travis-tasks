@@ -98,9 +98,9 @@ describe Travis::Addons::Webhook::Task do
     targets.each do |url|
       uri = URI.parse(url)
       http.post uri.path do |env|
-        env[:url].host.should == uri.host
-        env[:request_headers]['Authorization'].should == authorization_for(repo_slug, '123456')
-        payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
+        expect(env[:url].host).to eq(uri.host)
+        expect(env[:request_headers]['Authorization']).to eq(authorization_for(repo_slug, '123456'))
+        expect(payload_from(env).keys.sort).to eq(payload.keys.map(&:to_s).sort)
         200
       end
     end
@@ -113,9 +113,9 @@ describe Travis::Addons::Webhook::Task do
     url = 'https://one.webhook.com/path'
     uri = URI.parse(url)
     http.post uri.path do |env|
-      env[:url].host.should == uri.host
-      env[:request_headers]['Travis-Repo-Slug'].should == repo_slug
-      payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
+      expect(env[:url].host).to eq(uri.host)
+      expect(env[:request_headers]['Travis-Repo-Slug']).to eq(repo_slug)
+      expect(payload_from(env).keys.sort).to eq(payload.keys.map(&:to_s).sort)
       200
     end
 
@@ -129,9 +129,9 @@ describe Travis::Addons::Webhook::Task do
         url = "https://one.webhook.com/path"
         uri = URI.parse(url)
         http.post uri.path do |env|
-          env[:url].host.should == uri.host
-          env[:request_headers]["Signature"].should be_nil
-          payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
+          expect(env[:url].host).to eq(uri.host)
+          expect(env[:request_headers]["Signature"]).to be_nil
+          expect(payload_from(env).keys.sort).to eq(payload.keys.map(&:to_s).sort)
           200
         end
 
@@ -151,9 +151,9 @@ describe Travis::Addons::Webhook::Task do
         url = "https://one.webhook.com/path"
         uri = URI.parse(url)
         http.post uri.path do |env|
-          env[:url].host.should == uri.host
-          env[:request_headers]["Signature"].should_not be_empty
-          payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
+          expect(env[:url].host).to eq(uri.host)
+          expect(env[:request_headers]["Signature"]).not_to be_empty
+          expect(payload_from(env).keys.sort).to eq(payload.keys.map(&:to_s).sort)
           200
         end
 
@@ -165,9 +165,9 @@ describe Travis::Addons::Webhook::Task do
         url = "https://one.webhook.com/path"
         uri = URI.parse(url)
         http.post uri.path do |env|
-          env[:url].host.should == uri.host
-          signature_verified?(env.body, env.request_headers["Signature"]).should == true
-          payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
+          expect(env[:url].host).to eq(uri.host)
+          expect(signature_verified?(env.body, env.request_headers["Signature"])).to eq(true)
+          expect(payload_from(env).keys.sort).to eq(payload.keys.map(&:to_s).sort)
           200
         end
 

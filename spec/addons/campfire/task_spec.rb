@@ -50,9 +50,9 @@ describe Travis::Addons::Campfire::Task do
 
     Array(body).each do |line|
       http.post(path) do |env|
-        env[:request_headers]['authorization'].should == "Basic #{auth}"
-        env[:url].host.should == host
-        env[:body].should == MultiJson.encode({ message: { body: line } })
+        expect(env[:request_headers]['authorization']).to eq("Basic #{auth}")
+        expect(env[:url].host).to eq(host)
+        expect(env[:body]).to eq(MultiJson.encode({ message: { body: line } }))
       end
     end
   end

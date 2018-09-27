@@ -59,16 +59,16 @@ describe Travis::Addons::Email::Task do
 
   it 'includes valid email addresses' do
     @recipients = ['me@email.org']
-    handler.recipients.should contain_recipients('me@email.org')
+    expect(handler.recipients).to contain_recipients('me@email.org')
   end
 
   it 'ignores email addresses (me@email)' do
     @recipients = ['me@email']
-    handler.recipients.should_not contain_recipients('me@email')
+    expect(handler.recipients).not_to contain_recipients('me@email')
   end
 
   it 'ignores email address ending in .local' do
     @recipients = ['me@email.local']
-    handler.recipients.should_not contain_recipients('me@email.local')
+    expect(handler.recipients).not_to contain_recipients('me@email.local')
   end
 end

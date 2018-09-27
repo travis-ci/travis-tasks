@@ -63,7 +63,7 @@ RSpec::Matchers.define :contain_recipients do |expected|
   match do |actual|
     actual = Array(actual).join(',').split(',')
     expected = Array(expected).join(',').split(',')
-    (actual & expected).size.should == expected.size
+    expect((actual & expected).size).to eq(expected.size)
   end
 
   failure_message_for_should do |actual|
