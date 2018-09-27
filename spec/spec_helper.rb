@@ -39,8 +39,8 @@ RSpec::Matchers.define :deliver_to do |expected|
     actual = (email.to || []).map(&:to_s)
 
     description { "be delivered to #{expected.inspect}" }
-    failure_message_for_should { "expected #{email.inspect} to deliver to #{expected.inspect}, but it delivered to #{actual.inspect}" }
-    failure_message_for_should_not { "expected #{email.inspect} not to deliver to #{expected.inspect}, but it did" }
+    failure_message { "expected #{email.inspect} to deliver to #{expected.inspect}, but it delivered to #{actual.inspect}" }
+    failure_message_when_negated { "expected #{email.inspect} not to deliver to #{expected.inspect}, but it did" }
 
     actual.sort == Array(expected).sort
   end
@@ -51,7 +51,7 @@ RSpec::Matchers.define :include_lines do |lines|
     lines   = lines.split("\n").map { |line| line.strip }
     missing = lines.reject { |line| text.include?(line) }
 
-    failure_message_for_should do
+    failure_message do
       "expected\n\n#{text}\n\nto include the lines\n\n#{lines.join("\n")}\n\nbut could not find the lines\n\n#{missing.join("\n")}"
     end
 
@@ -78,8 +78,8 @@ end
 RSpec::Matchers.define :have_message do |event, object|
   match do |pusher|
     description { "have a message #{event.inspect}" }
-    failure_message_for_should { "expected pusher to receive #{event.inspect} but it did not. Instead it has the following messages: #{pusher.messages.map(&:inspect).join(', ')}" }
-    failure_message_for_should_not { "expected pusher not to receive #{event.inspect} but it did" }
+    failure_message { "expected pusher to receive #{event.inspect} but it did not. Instead it has the following messages: #{pusher.messages.map(&:inspect).join(', ')}" }
+    failure_message_when_negated { "expected pusher not to receive #{event.inspect} but it did" }
 
     # TODO need to test for the object/json, too!
     message = pusher.messages.detect { |message| message.first == event }
