@@ -102,7 +102,7 @@ describe Travis::Addons::GithubStatus::Task do
       GH.stubs(:post).raises(GH::Error.new(nil))
       expect {
         run
-      }.to raise_error
+      }.to raise_error RuntimeError
       expect(io.string).to include('error=not_updated')
       expect(io.string).to include('message=GH request failed')
     end

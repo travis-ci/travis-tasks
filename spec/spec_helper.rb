@@ -66,11 +66,11 @@ RSpec::Matchers.define :contain_recipients do |expected|
     expect((actual & expected).size).to eq(expected.size)
   end
 
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     "expected #{actual} to contain #{expected}"
   end
 
-  failure_message_for_should_not do |actual|
+  failure_message_when_negated do |actual|
     "expected #{actual} to not contain #{expected}"
   end
 end
