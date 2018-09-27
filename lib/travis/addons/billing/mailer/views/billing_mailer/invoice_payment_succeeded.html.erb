@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style type="text/css" media="screen">
+      /* Base */
       body {
         min-width: 100%;
         height: 100%;
@@ -21,15 +22,21 @@
       hr {
         border-style: solid;
         color: #e5e7e9;
-        margin: 1em 0;
+        margin: 10px 0;
       }
 
       label {
         display: block;
         font-weight: 700;
         font-size: 14px;
+        text-transform: uppercase;
       }
 
+      address {
+        font-style: normal;
+      }
+
+      /* Outer layout */
       #travis-ci-email-container {
         height: 100%;
         width: 100%;
@@ -46,6 +53,7 @@
         width: 500px;
       }
 
+      /* Content */
       #email-content-container {
         padding: 6% 7% 5% 7%;
         background-color: #FFFFFF;
@@ -56,25 +64,98 @@
         margin: 0 0 10px 0;
       }
 
+      /* Header area */
       .invoice-header-container {
         text-align: center;
       }
 
+      /* #email-content-container .invoice-header-container p {
+        margin: 10px 0 0 0;
+      } */
+
       #invoice-header {
         font-size: 42px;
         font-weight: 600;
-        margin: 1.136% 0 6.818% 0;
+        margin: 1.136% 0 3.409% 0;
         color: #0068ff;
       }
 
-      .blue-highlight {
+      /* Main Area */
+
+      .blue-text {
         color: #0068ff;
       }
 
+      .dark-grey-text {
+        color: #676767;
+      }
+
+      .invoice-address-and-total {
+        width: 100%;
+        margin:10px 0 20px 0;
+      }
+
+      .invoice-address-and-total td {
+        vertical-align: top;
+      }
+
+      .invoice-address-container {
+        width: 60%;
+      }
+
+      .total-large {
+        font-size: 29px;
+        font-weight: 300;
+        background-color: #f7f9fb;
+        padding: 10px;
+        margin: 3px 0;
+      }
+
+      .invoice-id-container {
+        padding-bottom: 5px;
+      }
+
+      .invoice-line td {
+        padding-bottom: 10px;
+      }
+
+      /* Download / Update area */
       .download-and-update {
         text-align: center;
+        padding-top: 5px;
       }
 
+      #email-content-container p.update-link-container {
+        margin: 0;
+      }
+
+      .download-icon-link {
+        display: inline-block;
+        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+        width: 25px;
+        height: 25px;
+      }
+
+      .download-icon-link img {
+        width: 100%;
+      }
+
+      .download-and-update a.download-link {
+        vertical-align: middle;
+        color: #9da3a7;
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .download-and-update a.update-link {
+        color: #333333;
+      }
+
+      /* Footer area */
       #travis-ci-email-footer-container {
         padding: 10% 7% 0% 7%;
       }
@@ -140,7 +221,7 @@
                       <h2 id="invoice-header">Thank you.</h2>
                       <p>
                         We love our customers! Below is your Travis CI invoice for the account
-                        <span class="blue-highlight"><%= @owner[:name] %></span>.
+                        <span class="blue-text"><%= @owner[:name] %></span>.
                       </p>
                       <% unless Travis.env == "production" %>
                         <p>Test Email! Not a valid invoice!</p>
@@ -157,7 +238,7 @@
                         <tr>
                           <!-- Address -->
                           <td class="invoice-address-container">
-                            <label class="label-grey">Billed To:</label>
+                            <label class="dark-grey-text">Billed To:</label>
                             <address>
                               <div>
                                 <% if @subscription[:company].present? %>
@@ -180,14 +261,14 @@
                                 <% end %>
                               </div>
 
-                              <div>
-                                <% if @subscription[:city].present? %>
-                                  <%= @subscription[:city] %>
-                                <% end %>
-                              </div>
+                              <%# <div> %>
+                                <%# if @subscription[:city].present? %>
+                                  <%#= @subscription[:city] %>
+                                <%# end %>
+                              <%# </div> %>
 
                               <div>
-                                <% %w(state post_code).each do |attr| %>
+                                <% %w(city state post_code).each do |attr| %>
                                   <span>
                                     <% if @subscription[attr.to_sym].present? %>
                                       <%= @subscription[attr.to_sym] %>
@@ -205,14 +286,18 @@
                           </td>
                           <!-- Total / Created Date -->
                           <td class="invoice-total-container">
-                            <label class="label-grey">Total (In USD)</label>
-                            <div class="total-large">
+                            <label class="dark-grey-text">Total (In USD)</label>
+                            <div class="total-large dark-grey-text">
                               <% if @invoice[:object][:amount_due].present? %>
                                 <%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %>
                               <% end %>
                             </div>
                             <% if @invoice[:created_at].present? %>
-                              <p><time datetime="sdjdj"><%= l @invoice[:created_at], format: :long %></time></p>
+                              <p>
+                                <time datetime="<%= l @invoice[:created_at], format: '%B %e, %Y' %>">
+                                  <%= l @invoice[:created_at], format: '%B %e, %Y' %>
+                                </time>
+                              </p>
                             <% end %>
                           </td>
                         </tr>
@@ -221,14 +306,14 @@
                   </tr>
                   <!-- Invoice ID -->
                   <tr>
-                    <td>
+                    <td class="invoice-id-container">
                       <label class="label-black">Invoice #<%= @invoice[:invoice_id] %></label>
                     </td>
                   </tr>
                   <!-- Subscription Period -->
-                  <tr>
+                  <tr class="invoice-line">
                     <td>
-                      <label class="label-blue">Subscription Period</label>
+                      <label class="blue-text">Subscription Period</label>
                       <span>
                         <%= l set_period(@invoice[:object], "start", @subscription), format: :long -%>
                         &ndash;
@@ -237,32 +322,32 @@
                     </td>
                   </tr>
                   <!-- Status -->
-                  <tr>
+                  <tr class="invoice-line">
                     <td>
-                      <label class="label-blue">Status</label>
+                      <label class="blue-text">Status</label>
                       <span>Paid with credit card ending in <%= @cc_last_digits -%></span>
                     </td>
                   </tr>
                   <!-- Plan -->
-                  <tr>
+                  <tr class="invoice-line">
                     <td>
-                      <label class="label-blue">Plan</label>
+                      <label class="blue-text">Plan</label>
                       <span><%= @subscription[:selected_plan][:name] %></span>
                     </td>
                   </tr>
                   <!-- Price -->
-                  <tr>
+                  <tr class="invoice-line">
                     <td>
-                      <label class="label-blue">Price</label>
+                      <label class="blue-text">Price</label>
                       <span><%= number_to_currency(@subscription[:selected_plan][:price] / 100.0) %></span>
                     </td>
                   </tr>
 
                   <!-- Invoice items -->
                   <% (invoice_items(@invoice[:object]) || []).each do |invoice_item| %>
-                    <tr>
+                    <tr class="invoice-line">
                       <td>
-                        <label class="label-blue"><%= invoice_item[:description] %></label>
+                        <label class="blue-text"><%= invoice_item[:description] %></label>
                         <span><%= number_to_currency(invoice_item[:amount] / 100.0) %></span>
                       </td>
                     </tr>
@@ -270,9 +355,9 @@
 
                   <!-- Discount -->
                   <% if @invoice[:object][:discount].present? %>
-                    <tr>
+                    <tr class="invoice-line">
                       <td>
-                        <label class="label-blue">Discount</label>
+                        <label class="blue-text">Discount</label>
                         <span>
                           <% if @invoice[:object][:discount][:coupon][:percent_off] -%>
                             -<%= @invoice[:object][:discount][:coupon][:percent_off] %>%
@@ -286,18 +371,18 @@
 
                   <!-- Balance / Debit / Credit -->
                   <% if (balance = @invoice[:object][:starting_balance].to_i) != 0 -%>
-                    <tr>
+                    <tr class="invoice-line">
                       <td>
-                        <label class="label-blue"><%= balance > 0 ? "Debit" : "Credit" %></label>
+                        <label class="blue-text"><%= balance > 0 ? "Debit" : "Credit" %></label>
                         <span><%= applied_balance(balance, @invoice[:object][:ending_balance]) %></span>
                       </td>
                     </tr>
                   <% end -%>
 
                   <!-- Total -->
-                  <tr>
+                  <tr class="invoice-line">
                     <td>
-                      <label class="label-black">Total</label>
+                      <label>Total</label>
                       <span><%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %></span>
                     </td>
                   </tr>
@@ -319,15 +404,17 @@
                   <% if not @hide_pdf_notice -%>
                     <tr>
                       <td class="download-and-update">
-                        <p>
-                          <a href="<%= invoice_pdf_url(@invoice) %>">
-                            <!-- <img alt="PDF icon" /> -->
-                            Download a PDF copy
+                        <p class="download-link-container">
+                          <a href="<%= invoice_pdf_url(@invoice) %>" class="download-icon-link">
+                            <%= image_tag("#{Travis.config.s3.url}/download-icon-cropped.png", alt: 'download arrow') %>
+                          </a>
+                          <a href="<%= invoice_pdf_url(@invoice) %>" class="download-link">
+                            <span>Download a PDF copy</span>
                           </a>
                         </p>
-                        <p>
+                        <p class="update-link-container">
                           Need to change your billing address? Update it
-                          <a href="https://billing.travis-ci.com/subscriptions/<%= @owner[:login] %>" >here</a>.
+                          <a href="https://billing.travis-ci.com/subscriptions/<%= @owner[:login] %>" class="update-link">here</a>.
                         </p>
                       </td>
                     </tr>
