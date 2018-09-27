@@ -29,7 +29,7 @@ gem 'faraday'
 gem 'faraday_middleware'
 
 group :test do
-  gem 'rspec',         '2.99'
+  gem 'rspec',         '~> 3.8'
   gem 'mocha',         '~> 0.10.0'
   gem 'webmock',       '~> 1.8.0'
   gem 'guard'
