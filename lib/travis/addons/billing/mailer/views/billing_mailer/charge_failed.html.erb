@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -28,7 +29,7 @@
         text-align: center;
         color: #333333;
         line-height: 1.4;
-        background-color: #F4F5F9;
+        background-color: #f6f7fa;
         background-image: url('https://s3.amazonaws.com/travis-email-assets/billing-background.png');
         background-size: 600px 600px;
       }
@@ -120,6 +121,11 @@
         padding-bottom: 10.227%;
       }
 
+      #questions-section span {
+        background-color: #f6f7fa;
+        background-color: rgba(246, 247, 250, 0.8);
+      }
+
       #questions-section a {
         color: #0068FF;
       }
@@ -152,56 +158,49 @@
     </style>
   </head>
 
-  <body>
+  <body style="min-width: 100%;height: 100%;margin: 0;padding: 0;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
 
-    <table
-      id="travis-ci-email-container"
-      align="center"
-      border="0"
-      cellpadding="0"
-      cellspacing="0"
-      height="100%"
-      width="100%">
+    <table id="travis-ci-email-container" align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="height: 100%;width: 100%;padding: 30px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;text-align: center;color: #333333;line-height: 1.4;background-color: #f6f7fa;background-image: url(https://s3.amazonaws.com/travis-email-assets/billing-background.png);background-size: 600px 600px;">
       <!-- Main Content Section -->
       <tr>
-        <td align="center" valign="top">
-          <table id="email-central-container" border="0" cellpadding="0" cellspacing="0">
+        <td align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+          <table id="email-central-container" border="0" cellpadding="0" cellspacing="0" style="font-family: inherit;width: 500px;">
             <tr>
-              <td>
-                <table id="email-content-container" border="0" cellpadding="0" cellspacing="0">
+              <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="padding: 6% 7% 5% 7%;background-color: #FFFFFF;text-align: center;width: 100%;">
                   <!-- Logo -->
                   <tr>
-                    <td id="travis-logo-img-container">
-                      <img src="https://s3.amazonaws.com/travis-email-assets/travis_ci_logo.png" alt="Travis CI Logo" id="travis-logo-img" />
+                    <td id="travis-logo-img-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;border-bottom: 2px solid #e5e7e9;padding-bottom: 4.545%;">
+                      <img src="https://s3.amazonaws.com/travis-email-assets/travis_ci_logo.png" alt="Travis CI Logo" id="travis-logo-img" style="width: 42%;">
                     </td>
                   </tr>
                   <!-- Header - Payment failed -->
                   <tr>
-                    <td>
-                      <h2 id="charge-fail-header">Oops! Payment failed,</h2>
+                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                      <h2 id="charge-fail-header" style="font-size: 24px;font-weight: 600;margin: 10.227% 0 6.818% 0;">Oops! Payment failed,</h2>
                     </td>
                   </tr>
                   <!-- Body text -->
                   <tr>
-                    <td>
+                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                       <!-- Basic info -->
-                      <p>
+                      <p style="font-size: 16px;margin: 0 0 10px 0;">
                         Hey <%= @subscription[:first_name] %> <%= @subscription[:last_name] %>,
                         unfortunately we had issues charging your credit card for the account
-                        <span class="green-highlight"><%= @owner[:login] %></span>.
+                        <span class="green-highlight" style="color: #32d282;"><%= @owner[:name] %></span>.
                       </p>
 
                       <!-- Charge info -->
                       <% if @charge %>
-                        <p>
+                        <p style="font-size: 16px;margin: 0 0 10px 0;">
                           Here&rsquo;s the message we received from our payment provider: <%= @charge[:failure_message] %>
                         </p>
                       <% end %>
                     
                       <!-- Payment attempts -->
-                      <p>
+                      <p style="font-size: 16px;margin: 0 0 10px 0;">
                         <% if @event[:next_payment_attempt].blank? %>
-                          <strong>This was our last attempt to charge your credit card.</strong>
+                          <strong style="display: block;">This was our last attempt to charge your credit card.</strong>
                           <span>
                             If you wish to continue with our service, please make sure
                             we have your updated credit card details.
@@ -214,49 +213,46 @@
                       </p>
 
                       <!-- Update Details -->
-                      <a href="https://billing.travis-ci.com/subscriptions/<%= @owner[:login] %>" class="button button--green">Update My Details</a>
+                      <a href="https://billing.travis-ci.com/subscriptions/<%= @owner[:login] %>" class="button button--green" style="display: inline-block;padding: 10px 15px;color: #ffffff;background-color: #32d282;font-size: 14px;margin: 10px 0 10px 0;border-radius: 5px;text-decoration: none;text-transform: uppercase;font-weight: 600;">Update My Details</a>
                     </td>
                   </tr>
                   <!-- Closing Message Section -->
                   <tr>
-                    <td id="closing-message-section" align="center" valign="top">
-                      <p>Regards,</p>
-                      <p><strong>The Travis CI Team</strong></p>
+                    <td id="closing-message-section" align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;padding: 10.227% 0 1.136% 0;">
+                      <p style="font-size: 16px;margin: 0;">Regards,</p>
+                      <p style="font-size: 16px;margin: 0;"><strong style="display: block;">The Travis CI Team</strong></p>
                     </td>
                   </tr>
                   <tr>
-                    <td id="travis-ci-twitter-section">
-                      <a href="http://www.twitter.com/travisci">
-                        <img
-                          id="travis-ci-twitter-logo"
-                          src="https://ci6.googleusercontent.com/proxy/u_GkY0vPn3zh6k_Iocra5_P1V00M-TFRNu-P7gPciI_J5CkDABrV1urf2QfoLPirfH6tojEO6P2xe9jKJeBggB6N-SRbbfN1ecrcfw=s0-d-e1-ft#https://s3.amazonaws.com/travis-ci-dzone/twitter2x.png"
-                          alt="Twitter Logo">
+                    <td id="travis-ci-twitter-section" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;text-align: center;">
+                      <a href="http://www.twitter.com/travisci" style="display: inline-block;height: 32px;vertical-align: bottom;">
+                        <img id="travis-ci-twitter-logo" src="https://ci6.googleusercontent.com/proxy/u_GkY0vPn3zh6k_Iocra5_P1V00M-TFRNu-P7gPciI_J5CkDABrV1urf2QfoLPirfH6tojEO6P2xe9jKJeBggB6N-SRbbfN1ecrcfw=s0-d-e1-ft#https://s3.amazonaws.com/travis-ci-dzone/twitter2x.png" alt="Twitter Logo" style="width: 32px;height: 32px;">
                       </a>
                     </td>
                   </tr>
                 </table>
 
                 <!-- Email Footer Section -->
-                <table id="travis-ci-email-footer-container" border="0" cellpadding="0" cellspacing="0">
+                <table id="travis-ci-email-footer-container" border="0" cellpadding="0" cellspacing="0" style="padding: 10% 7% 0% 7%;">
                   <tr>
-                    <td id="questions-section" align="center" valign="top">
-                      <span>Have any questions?</span>
-                      <span>
-                        <a href="mailto:support@travis-ci.com">We&rsquo;re here to help.</a>
+                    <td id="questions-section" align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 18px;color: #0068FF;padding-bottom: 10.227%;">
+                      <span style="background-color: rgba(246, 247, 250, 0.8);">
+                        Have any questions?
+                        <a href="mailto:support@travis-ci.com" style="color: #0068FF;">We&rsquo;re here to help.</a>
                       </span>
                     </td>
                   </tr>
                   <tr>
-                    <td id="travis-ci-footer-logo-section">
+                    <td id="travis-ci-footer-logo-section" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;padding-bottom: 6.818%;text-align: center;">
                       <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), 'https://travis-ci.com')%>
                     </td>
                   </tr>
                   <tr>
-                    <td id="email-footer-section">
-                      <p id="payment-processor-message">
-                        We use <a href="https://stripe.com">Stripe Inc.</a>, 3180 18th Street, Suite 100, San Francisco, CA 94110, USA, as our payment partner
+                    <td id="email-footer-section" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 11px;color: #9EA3A8;text-align: center;padding-top: 0px;margin: 0px;">
+                      <p id="payment-processor-message" style="margin: 0px;margin-bottom: 3.409%;padding: 0 1%;">
+                        We use <a href="https://stripe.com" style="color: #9ea3a8;">Stripe Inc.</a>, 3180 18th Street, Suite 100, San Francisco, CA 94110, USA, as our payment partner
                       </p>
-                      <p>
+                      <p style="margin: 0px;">
                         Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF/CEO: Konstantin Haase, Fritz Thielemann |
                         <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
                       </p>
