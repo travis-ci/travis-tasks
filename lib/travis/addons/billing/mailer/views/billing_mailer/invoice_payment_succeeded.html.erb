@@ -134,8 +134,9 @@
         vertical-align: middle;
         width: 40px;
         height: 40px;
-        width: 25px;
-        height: 25px;
+        width: 17px;
+        height: 17px;
+        line-height: 17px;
       }
 
       .download-icon-link img {
@@ -398,7 +399,7 @@
                     <tr>
                       <td class="download-and-update" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;text-align: center;padding-top: 5px;">
                         <p class="download-link-container" style="margin: 0 0 10px 0;">
-                          <a href="<%= invoice_pdf_url(@invoice) %>" class="download-icon-link" style="display: inline-block;vertical-align: middle;width: 25px;height: 25px;">
+                          <a href="<%= invoice_pdf_url(@invoice) %>" class="download-icon-link" style="display: inline-block;vertical-align: middle;width: 17px;height: 17px;">
                             <%= image_tag("#{Travis.config.s3.url}/download-icon-cropped.png", alt: 'download arrow') %>
                           </a>
                           <a href="<%= invoice_pdf_url(@invoice) %>" class="download-link" style="vertical-align: middle;color: #9da3a7;font-size: 12px;font-weight: 700;text-decoration: none;text-transform: uppercase;">
