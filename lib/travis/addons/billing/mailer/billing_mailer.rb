@@ -11,7 +11,6 @@ module Travis
 
           def charge_failed(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription, @owner, @charge, @event = subscription, owner, charge, event
-            # @next_payment_attempt = Time.at(@event[:next_payment_attempt]).strftime('%F')
             subject = "Travis CI: Charging Your Credit Card Failed"
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
