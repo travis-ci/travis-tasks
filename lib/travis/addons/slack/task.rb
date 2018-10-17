@@ -53,6 +53,7 @@ module Travis
               fallback: text,
               text: text,
               color: color
+              mrkdwn_in: ["text"]
             }],
             icon_url: "https://travis-ci.org/images/travis-mascot-150.png"
           }
