@@ -62,8 +62,12 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def job_name(job)
-      return job[:name] unless job[:name].nil?
-      job[:number]
+      line = job[:number]
+      if stage
+        line = stage[:name] + ", " + job[:number]
+      end
+      return line
+      
     end
     
     def table_data
