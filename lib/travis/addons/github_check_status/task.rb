@@ -19,7 +19,7 @@ module Travis
             if check_run
               response = github_apps.patch_with_app(check_run_patch_url(check_run["id"]), check_status_payload.to_json)
             else
-              error("type=github_check_status repo=#{repository[:slug]} sha=#{sha} reason=check_runs_empty ")
+              error("type=github_check_status repo=#{repository[:slug]} sha=#{sha} reason=check_runs_empty check_status_payload=#{check_status_payload.to_json}")
               return
             end
           end
