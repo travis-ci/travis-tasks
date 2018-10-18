@@ -70,15 +70,6 @@ module Travis::Addons::GithubCheckStatus::Output
       finished_at if completed?
     end
 
-    def build_script_info
-      script = Array(build[:config][:script])
-      if script.any?
-        "Tests are run via the following build script:\n\n#{code(:bash, script.join("\n"))}"
-      else
-        "It's using the default test runner for #{language}."
-      end
-    end
-
     def language_info
       content = ""
       LANGUAGES.each do |key, description|
