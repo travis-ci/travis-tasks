@@ -42,9 +42,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       Operating System | Linux
       Sudo Access      | not required
       Ruby Versions    | 1.8.7, 1.9.2
-
-      It's using the default test runner for Ruby.
-
+      
       <details>
       <summary>Build Configuration</summary>
       <pre lang='yaml'>
@@ -97,8 +95,6 @@ describe Travis::Addons::GithubCheckStatus::Output do
       Operating System | Linux
       Sudo Access      | not required
       Ruby Version     | 1.8.7
-
-      It's using the default test runner for Ruby.
 
       <details>
       <summary>Build Configuration</summary>
@@ -185,8 +181,6 @@ describe Travis::Addons::GithubCheckStatus::Output do
       Operating System | Linux
       Sudo Access      | not required
       Ruby Versions    | 1.8.7, 1.9.2
-
-      It's using the default test runner for Ruby.
 
       <details>
       <summary>Build Configuration</summary>

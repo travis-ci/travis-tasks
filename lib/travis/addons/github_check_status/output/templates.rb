@@ -39,7 +39,7 @@ module Travis::Addons::GithubCheckStatus::Output
 
       <details>
       <summary>Build Configuration</summary>
-      {{config_display_text}}
+      {{code :yaml, config_display_text}}
       </details>
     MARKDOWN
 
