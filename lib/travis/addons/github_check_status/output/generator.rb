@@ -88,6 +88,14 @@ module Travis::Addons::GithubCheckStatus::Output
       content.strip
     end
 
+    def config_display_text
+      if payload[:config_display_text]
+        payload[:config_display_text]
+      else
+        yaml(build[:config])
+      end
+    end
+
     def yaml(config)
       # config.deep_stringify_keys.to_yaml.sub(/^---\n/, '')
       JSON.pretty_generate(config)

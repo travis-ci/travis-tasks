@@ -4,6 +4,8 @@ module Travis
   module Addons
     module GithubCheckStatus
       class Task < Travis::Task
+        GITHUB_CHECK_API_PAYLOAD_LIMIT = 65535
+
         private
 
         def process(timeout)
@@ -90,7 +92,12 @@ module Travis
         end
 
         def check_status_payload
-          @check_status_payload ||= Output::Generator.new(payload).to_h
+          return @check_status_payload if @check_status_payload
+          return_data = Output::Generator.new(payload).to_h
+          if return_data.to_json.size > GITHUB_CHECK_API_PAYLOAD_LIMIT
+            return_data = Output::Generator.new(payload.merge(config_display_text: "Build configuration is too large to display")).to_h
+          end
+          @check_status_payload = return_data
         end
       end
     end
