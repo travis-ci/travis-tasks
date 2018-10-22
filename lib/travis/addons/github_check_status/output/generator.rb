@@ -80,11 +80,7 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def config_display_text
-      if payload[:config_display_text]
-        payload[:config_display_text]
-      else
-        yaml(build[:config])
-      end
+      payload[:config_display_text] || yaml(build[:config])
     end
 
     def yaml(config)
