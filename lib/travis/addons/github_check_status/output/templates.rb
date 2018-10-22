@@ -37,11 +37,9 @@ module Travis::Addons::GithubCheckStatus::Output
       Sudo Access      | {{build[:config][:sudo] ? 'required' : 'not required'}}
       {{language_info}}
 
-      {{build_script_info}}
-
       <details>
       <summary>Build Configuration</summary>
-      {{code :yaml, yaml(build[:config])}}
+      {{code :yaml, config_display_text}}
       </details>
     MARKDOWN
 
