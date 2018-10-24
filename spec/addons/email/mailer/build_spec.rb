@@ -26,7 +26,7 @@ describe Travis::Addons::Email::Mailer::Build do
       end
 
       it 'has "notifications@[hostname]" as a from address' do
-        email.from.join.should == 'notifications@travis-ci.org'
+        expect(email.from.join).to eq('notifications@travis-ci.org')
       end
     end
 
@@ -36,20 +36,20 @@ describe Travis::Addons::Email::Mailer::Build do
       end
 
       it 'has that address as a from address' do
-        email.from.join.should == 'builds@travis-ci.org'
+        expect(email.from.join).to eq('builds@travis-ci.org')
       end
     end
 
     it 'delivers to the repository owner, committer and commit author' do
-      email.should deliver_to(recipients)
+      expect(email).to deliver_to(recipients)
     end
 
     it 'is a multipart email' do
-      email.should be_multipart
+      expect(email).to be_multipart
     end
 
     it 'contains the expected html part' do
-      email.html_part.body.should include_lines(%(
+      expect(email.html_part.body).to include_lines(%(
         master
         Build #2 passed
         1 min and 0 sec
@@ -63,7 +63,7 @@ describe Travis::Addons::Email::Mailer::Build do
     end
 
     it 'contains the expected text part' do
-      email.text_part.body.should include_lines(%(
+      expect(email.text_part.body).to include_lines(%(
         Build: #2
         Status: Passed
         Duration: 1 min and 0 sec
@@ -79,7 +79,7 @@ describe Travis::Addons::Email::Mailer::Build do
       it 'escapes newlines in the commit message' do
         data["commit"]["message"] = "bar\nbaz"
         email.deliver # inline css interceptor is called before delivery.
-        email.html_part.decoded.should =~ %r(bar<br( ?/)?>baz) # nokogiri seems to convert <br> to <br /> on mri, but not jruby?
+        expect(email.html_part.decoded).to match(%r(bar<br( ?/)?>baz)) # nokogiri seems to convert <br> to <br /> on mri, but not jruby?
       end
 
       it 'correctly encodes UTF-8 characters' do
@@ -87,7 +87,7 @@ describe Travis::Addons::Email::Mailer::Build do
         h = Mail.new(email.encoded).html_part
         html = h.body.to_s
         html.force_encoding(h.charset) if html.respond_to?(:force_encoding)
-        html.should include("まつもとゆきひろ a.k.a. Matz")
+        expect(html).to include("まつもとゆきひろ a.k.a. Matz")
       end
 
       describe 'with the footer disabled' do
@@ -101,7 +101,7 @@ describe Travis::Addons::Email::Mailer::Build do
 
         it "doesn't include the build footer" do
           email.deliver # inline css interceptor is called before delivery.
-          email.html_part.decoded.should_not =~ %r(<div class="tiny-footer">)
+          expect(email.html_part.decoded).not_to match(%r(<div class="tiny-footer">))
         end
       end
     end
@@ -111,7 +111,7 @@ describe Travis::Addons::Email::Mailer::Build do
 
       it 'includes a the first broadcast' do
         email.deliver
-        email.html_part.decoded.should =~ /message 1/
+        expect(email.html_part.decoded).to match(/message 1/)
       end
     end
 
@@ -121,7 +121,7 @@ describe Travis::Addons::Email::Mailer::Build do
       end
 
       it 'subject' do
-        email.subject.should == 'Passed: svenfuchs/minimal#2 (master - 62aae5f)'
+        expect(email.subject).to eq('Passed: svenfuchs/minimal#2 (master - 62aae5f)')
       end
     end
 
@@ -131,18 +131,18 @@ describe Travis::Addons::Email::Mailer::Build do
       end
 
       it 'subject' do
-        email.subject.should == 'Broken: svenfuchs/minimal#2 (master - 62aae5f)'
+        expect(email.subject).to eq('Broken: svenfuchs/minimal#2 (master - 62aae5f)')
       end
     end
 
     describe 'to distinguish gmail threads' do
       it 'includes an in-reply-to header' do
-        email.header['In-Reply-To'].value.should == '<svenfuchs/minimal+1+passed@travis-ci.org>'
+        expect(email.header['In-Reply-To'].value).to eq('<svenfuchs/minimal+1+passed@travis-ci.org>')
       end
 
       it 'allows mixing in the build state into a custom email address' do
         Travis.config.email.from = 'notifications+%s@travis-ci.org'
-        email.from.should include('notifications+passed@travis-ci.org')
+        expect(email.from).to include('notifications+passed@travis-ci.org')
       end
     end
 
@@ -152,7 +152,7 @@ describe Travis::Addons::Email::Mailer::Build do
       end
 
       it 'subject' do
-        email.subject.should == '[CRON] Passed: svenfuchs/minimal#2 (master - 62aae5f)'
+        expect(email.subject).to eq('[CRON] Passed: svenfuchs/minimal#2 (master - 62aae5f)')
       end
     end
   end

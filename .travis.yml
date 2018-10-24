@@ -9,4 +9,4 @@ services:
 
 cache: bundler
 
-script: bundle exec rspec -fs --color --order rand spec
+script: bundle exec rspec -f documentation --color --order rand spec

@@ -56,7 +56,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </details>
     MARKDOWN
 
-    example { should eq({
+    example { is_expected.to eq({
       name:         'Travis CI - Branch',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
       external_id:  '1',
@@ -72,7 +72,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       }
     })}
 
-    example { subject[:output][:text].should eq(text) }
+    example { expect(subject[:output][:text]).to eq(text) }
   end
 
   describe 'pull request build with single job' do
@@ -106,7 +106,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </details>
     MARKDOWN
 
-    example { should eq({
+    example { is_expected.to eq({
       name:         'Travis CI - Pull Request',
       details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
       external_id:  '1',
@@ -122,7 +122,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       }
     })}
 
-    example { subject[:output][:text].should eq(text) }
+    example { expect(subject[:output][:text]).to eq(text) }
   end
 
   describe 'build with stages' do
@@ -195,26 +195,26 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </details>
     MARKDOWN
 
-    example { subject[:output][:text].should eq(text) }
+    example { expect(subject[:output][:text]).to eq(text) }
   end
 
   describe 'queued build' do
     let(:payload) { base_payload.merge(build: base_payload[:build].merge(state: 'queued')) }
     let(:base_payload) { TASK_PAYLOAD.deep_symbolize_keys }
 
-    example { subject[:status].should be == 'queued' }
-    example { subject.should_not include(:conclusion) }
-    example { subject.should_not include(:completed_at) }
-    example { subject[:output][:summary].should be == "<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently waiting in the build queue for a VM to be ready." }
+    example { expect(subject[:status]).to eq('queued') }
+    example { expect(subject).not_to include(:conclusion) }
+    example { expect(subject).not_to include(:completed_at) }
+    example { expect(subject[:output][:summary]).to eq("<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently waiting in the build queue for a VM to be ready.") }
   end
 
   describe 'started build' do
     let(:payload) { base_payload.merge(build: base_payload[:build].merge(state: 'started')) }
     let(:base_payload) { TASK_PAYLOAD.deep_symbolize_keys }
 
-    example { subject[:status].should be == 'in_progress' }
-    example { subject.should_not include(:conclusion) }
-    example { subject.should_not include(:completed_at) }
-    example { subject[:output][:summary].should be == "<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently running." }
+    example { expect(subject[:status]).to eq('in_progress') }
+    example { expect(subject).not_to include(:conclusion) }
+    example { expect(subject).not_to include(:completed_at) }
+    example { expect(subject[:output][:summary]).to eq("<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently running.") }
   end
 end

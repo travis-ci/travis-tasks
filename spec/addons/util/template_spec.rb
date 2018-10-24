@@ -29,51 +29,51 @@ describe Travis::Addons::Util::Template do
     let(:result) { template.interpolate }
 
     it 'replaces the repository' do
-      result.should =~ %r(repository=svenfuchs/minimal)
+      expect(result).to match(%r(repository=svenfuchs/minimal))
     end
 
     it 'replaces the repository slug' do
-      result.should =~ %r(repository_slug=svenfuchs/minimal)
+      expect(result).to match(%r(repository_slug=svenfuchs/minimal))
     end
 
     it 'replaces the repository name' do
-      result.should =~ %r(repository_name=minimal)
+      expect(result).to match(%r(repository_name=minimal))
     end
 
     it 'replaces the build_number' do
-      result.should =~ /build_number=#{build.number}/
+      expect(result).to match(/build_number=#{build.number}/)
     end
 
     it "replaces the build_id" do
-      result.should =~ /build_id=1/
+      expect(result).to match(/build_id=1/)
     end
 
     it 'replaces the branch' do
-      result.should =~ /branch=master/
+      expect(result).to match(/branch=master/)
     end
 
     it 'replaces the author' do
-      result.should =~ /author=Sven Fuchs/
+      expect(result).to match(/author=Sven Fuchs/)
     end
 
     it 'replaces the duration' do
-      result.should =~ /duration=1 min 0 sec/
+      expect(result).to match(/duration=1 min 0 sec/)
     end
 
     it 'replaces the message' do
-      result.should =~ /message=The build passed./
+      expect(result).to match(/message=The build passed./)
     end
 
     it 'replaces the pull request' do
-      result.should =~ /pull_request=false/
+      expect(result).to match(/pull_request=false/)
     end
 
     it 'replaces the pull request number' do
-      result.should =~ /pull_request_number=/
+      expect(result).to match(/pull_request_number=/)
     end
 
     it "doesn't generate a pull request url" do
-      template.pull_request_url.should be_nil
+      expect(template.pull_request_url).to be_nil
     end
   end
 
@@ -90,16 +90,16 @@ describe Travis::Addons::Util::Template do
     let(:result) { template.interpolate }
 
     it 'replaces the pull request' do
-      result.should =~ /pull_request=true/
+      expect(result).to match(/pull_request=true/)
     end
 
     it 'replaces the pull request number' do
-      result.should =~ /pull_request_number=1/
+      expect(result).to match(/pull_request_number=1/)
     end
 
     it 'generates the pull request url based on the comparison url' do
       expectation = "https://github.com/svenfuchs/minimal/pull/1"
-      template.pull_request_url.should == expectation
+      expect(template.pull_request_url).to eq(expectation)
     end
   end
 end

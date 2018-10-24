@@ -21,7 +21,7 @@ describe Travis::Addons::Campfire::Task do
     message = [
       '[travis-ci] svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
       '[travis-ci] Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
-      '[travis-ci] Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=campfire&utm_medium=notification'
+      '[travis-ci] Build details: https://travis-ci.org/svenfuchs/minimal/builds/1'
     ]
 
     expect_campfire('account-1', '1234', 'token-1', message)
@@ -50,11 +50,10 @@ describe Travis::Addons::Campfire::Task do
 
     Array(body).each do |line|
       http.post(path) do |env|
-        env[:request_headers]['authorization'].should == "Basic #{auth}"
-        env[:url].host.should == host
-        env[:body].should == MultiJson.encode({ message: { body: line } })
+        expect(env[:request_headers]['authorization']).to eq("Basic #{auth}")
+        expect(env[:url].host).to eq(host)
+        expect(env[:body]).to eq(MultiJson.encode({ message: { body: line } }))
       end
     end
   end
 end
-

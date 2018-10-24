@@ -17,13 +17,13 @@ describe Travis::Addons::Pushover::Task do
   end
 
   it "sends pushover notifications to the given targets" do
-    message = '[travis-ci] svenfuchs/minimal#2 (master): the build has passed. Details: http://travis-ci.org/svenfuchs/minimal/builds/1'
+    message = '[travis-ci] svenfuchs/minimal#2 (master): the build has passed. Details: https://travis-ci.org/svenfuchs/minimal/builds/1'
     api_key = 'foobarbaz'
     users = ['userkeyone', 'userkeytwo']
-    
+
     expect_pushover('foobarbaz', 'userkeyone', message)
     expect_pushover('foobarbaz', 'userkeytwo', message)
-    
+
     run(users, api_key)
     http.verify_stubbed_calls
   end
@@ -34,7 +34,7 @@ describe Travis::Addons::Pushover::Task do
     payload['build']['config']['notifications'] = { pushover: { template: template} }
     api_key = 'foobarbaz'
     users = ['userkeythree', 'userkeyfour']
-    
+
     expect_pushover('foobarbaz', 'userkeythree', message)
     expect_pushover('foobarbaz', 'userkeyfour', message)
 
@@ -45,18 +45,17 @@ describe Travis::Addons::Pushover::Task do
   def hash_to_query(hash)
     return URI.encode(hash.map{|k,v| "#{k}=#{v}"}.join("&"))
   end
-  
+
   def expect_pushover(token, user, message)
     host = "api.pushover.net"
     path = "/1/messages.json"
     expected_hash = {:message => message, :user => user, :token => token}
-    
+
     http.post(path) do |env|
-      env[:url].host.should == host
-      env[:url].scheme.should == "https"
-      env[:url].path.should == path
-      Rack::Utils.parse_nested_query(env[:body]).should == expected_hash.stringify_keys
+      expect(env[:url].host).to eq(host)
+      expect(env[:url].scheme).to eq("https")
+      expect(env[:url].path).to eq(path)
+      expect(Rack::Utils.parse_nested_query(env[:body])).to eq(expected_hash.stringify_keys)
     end
   end
 end
-

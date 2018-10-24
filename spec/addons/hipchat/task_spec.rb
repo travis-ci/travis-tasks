@@ -136,8 +136,8 @@ describe Travis::Addons::Hipchat::Task do
     Array(lines).each do |line|
       body = { 'room_id' => room_id, 'from' => 'Travis CI', 'message' => line, 'color' => 'green', 'message_format' => 'text' }.merge(extra_body)
       http.post("v1/rooms/message?format=json&auth_token=#{token}") do |env|
-        env[:url].host.should == server
-        Rack::Utils.parse_query(env[:body]).should == body
+        expect(env[:url].host).to eq(server)
+        expect(Rack::Utils.parse_query(env[:body])).to eq(body)
         [200, {"Content-Type" => "application/json"}, "{}"]
       end
     end
@@ -147,8 +147,8 @@ describe Travis::Addons::Hipchat::Task do
     Array(lines).each do |line|
       body = { 'message' => line, 'color' => 'green', 'message_format' => 'text', 'notify' => false }.merge(extra_body).to_json
       http.post("https://#{server}/v2/room/#{URI::encode(room_id, Travis::Addons::Hipchat::HttpHelper::UNSAFE_URL_CHARS)}/notification?auth_token=#{token}") do |env|
-        env[:request_headers]['Content-Type'].should == 'application/json'
-        env[:body].should == body
+        expect(env[:request_headers]['Content-Type']).to eq('application/json')
+        expect(env[:body]).to eq(body)
         [200, {"Content-Type" => "application/json"}, "{}"]
       end
     end
