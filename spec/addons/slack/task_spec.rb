@@ -24,7 +24,8 @@ describe Travis::Addons::Slack::Task do
       attachments: [{
         fallback: 'Build <https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=slack&utm_medium=notification|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
         text: 'Build <https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=slack&utm_medium=notification|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
-        color: 'good'
+        color: 'good',
+        mrkdwn_in: ["text"]
       }.stringify_keys]
     }.stringify_keys
 
@@ -42,7 +43,8 @@ describe Travis::Addons::Slack::Task do
       attachments: [{
         fallback: 'Build <https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=slack&utm_medium=notification|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
         text: 'Build <https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=slack&utm_medium=notification|#2> (<https://github.com/svenfuchs/minimal/compare/master...develop|62aae5f>) of svenfuchs/minimal@master by Sven Fuchs passed in 1 min 0 sec',
-        color: 'good'
+        color: 'good',
+        mrkdwn_in: ["text"]
       }.stringify_keys]
     }.stringify_keys
 
@@ -60,7 +62,8 @@ describe Travis::Addons::Slack::Task do
       attachments: [{
         fallback: "Custom: Sven Fuchs",
         text: "Custom: Sven Fuchs",
-        color: 'good'
+        color: 'good',
+        mrkdwn_in: ["text"]
       }.stringify_keys]
     }.stringify_keys
     expect_slack('team-1', 'token-1', message)
@@ -84,7 +87,8 @@ describe Travis::Addons::Slack::Task do
       attachments: [{
         fallback: "Custom: Sven Fuchs\nMore: master",
         text: "Custom: Sven Fuchs\nMore: master",
-        color: 'good'
+        color: 'good',
+        mrkdwn_in: ["text"]
       }.stringify_keys]
     }.stringify_keys
     expect_slack('team-1', 'token-1', message)
@@ -106,7 +110,8 @@ describe Travis::Addons::Slack::Task do
       attachments: [{
         fallback: expected_text,
         text: expected_text,
-        color: 'good'
+        color: 'good',
+        mrkdwn_in: ["text"]
       }.stringify_keys]
     }.stringify_keys
 
