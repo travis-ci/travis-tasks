@@ -62,7 +62,7 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def job_display_text(job)
-      stage ? "#{stage[:name]}, #{job[:number]}" : job[:number]
+      job[:config].key?(:name) ? "#{job[:number]} #{job[:config][:name]}" : job[:number].to_s
     end
     
     def table_data
