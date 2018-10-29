@@ -61,10 +61,14 @@ module Travis::Addons::GithubCheckStatus::Output
       template(:allow_failure) if job[:allow_failure]
     end
 
+    def job_display_text(job)
+      job[:config].key?(:name) ? "#{job[:number]} #{job[:config][:name]}" : job[:number].to_s
+    end
+    
     def table_data
       @table_data ||= jobs.map do |job|
         [
-          build_link(job[:state], job_url(job), job[:number]),
+          build_link(job[:state], job_url(job), job_display_text(job)),
           *matrix_attributes(job),
           state(job[:state]),
           notes(job)
