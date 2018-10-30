@@ -2,11 +2,11 @@ language: ruby
 
 rvm: 2.4.2
 
-sudo: false
+sudo: required
 
 services:
   - redis-server
 
 cache: bundler
 
-script: bundle exec rspec -f documentation --color --order rand spec
+script: bundle exec rspec -f documentation --color --order rand spec && ./script/docker-build-and-push
