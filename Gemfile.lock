@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/metriks
-  revision: a72bec9a66c4aa990ac71a307898554194d36d61
+  revision: 0e69a0c2a058d2d70bed5fc1210f9590569a990e
   branch: igor-hdrhistogram-upgrade
   specs:
     metriks (0.9.9.8)
