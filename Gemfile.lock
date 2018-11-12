@@ -6,8 +6,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/metriks
-  revision: 9f9d3b9bfeddfcc2ceeaea43548f59416a7736d1
-  branch: igor-hdr-dup
+  revision: 5c9eec24144492071dad6e20f24c03f8424d041d
   specs:
     metriks (0.9.9.8)
       HDRHistogram (= 0.1.9)
@@ -825,7 +824,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  HDRHistogram
   actionmailer
   aws-sdk
   faraday
