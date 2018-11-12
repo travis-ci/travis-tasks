@@ -5,7 +5,7 @@ ruby '2.4.2'
 gem 'travis-logger',     git: 'https://github.com/travis-ci/travis-logger'
 gem 'travis-exceptions', git: 'https://github.com/travis-ci/travis-exceptions'
 gem 'travis-metrics',    git: 'https://github.com/travis-ci/travis-metrics'
-gem 'travis-config',   '~> 1.1.0'
+gem 'travis-config',     '~> 1.1.0'
 gem 'travis-github_apps', git: 'https://github.com/travis-ci/travis-github_apps'
 
 gem 'metriks',                 git: 'https://github.com/travis-ci/metriks'
