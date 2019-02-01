@@ -40,7 +40,6 @@ describe Travis::Addons::GithubCheckStatus::Output do
       -----------------|--------------
       Language         | Ruby
       Operating System | Linux
-      Sudo Access      | not required
       Ruby Versions    | 1.8.7, 1.9.2
       
       <details>
@@ -93,7 +92,6 @@ describe Travis::Addons::GithubCheckStatus::Output do
       -----------------|--------------
       Language         | Ruby
       Operating System | Linux
-      Sudo Access      | not required
       Ruby Version     | 1.8.7
 
       <details>
@@ -179,7 +177,6 @@ describe Travis::Addons::GithubCheckStatus::Output do
       -----------------|--------------
       Language         | Ruby
       Operating System | Linux
-      Sudo Access      | not required
       Ruby Versions    | 1.8.7, 1.9.2
 
       <details>
