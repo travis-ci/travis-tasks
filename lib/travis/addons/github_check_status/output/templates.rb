@@ -34,7 +34,6 @@ module Travis::Addons::GithubCheckStatus::Output
       -----------------|--------------
       Language         | {{language}}
       Operating System | {{os_description}}
-      Sudo Access      | {{build[:config][:sudo] ? 'required' : 'not required'}}
       {{language_info}}
 
       <details>
