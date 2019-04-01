@@ -5,6 +5,8 @@ module Travis
     class Keenio < Struct.new(:type, :status, :payload)
       def publish(keen = Keen)
         Keen.publish(:notifications, data)
+      rescue Keen::HttpError
+        Travis.logger.warn("Error connecting with Keen")
       end
 
       def data
