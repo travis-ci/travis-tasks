@@ -86,7 +86,7 @@ module Travis
           elsif pull_request?
             Array(template_from_config(:pr_template) || PULL_REQUEST_MESSAGE_TEMPLATE)
           else
-            Array(template_from_config(:branch_template) || BRANCH_BUILD_MESSAGE_TEMPLATE)
+            Array(template_from_config(:branch_build_template) || BRANCH_BUILD_MESSAGE_TEMPLATE)
           end
         end
 
