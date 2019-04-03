@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.4.2'
+ruby '2.5.3'
 
 gem 'travis-logger',     git: 'https://github.com/travis-ci/travis-logger'
 gem 'travis-exceptions', git: 'https://github.com/travis-ci/travis-exceptions'
@@ -20,9 +20,9 @@ gem 'jemalloc', git: 'https://github.com/joshk/jemalloc-rb'
 
 gem 'gh'
 gem 'aws-sdk'
-gem 'actionmailer'
+gem 'actionmailer',    '>= 5.2.2.1'
 gem 'roadie'
-gem 'roadie-rails',    '~> 1.0'
+gem 'roadie-rails',    '~> 2.0'
 gem 'multi_json'
 
 gem 'faraday'
