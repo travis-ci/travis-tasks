@@ -1,7 +1,5 @@
 language: ruby
 
-rvm: 2.4.2
-
 sudo: false
 
 services:
