@@ -15,5 +15,6 @@ module Travis
     require 'travis/addons/webhook'
     require 'travis/addons/slack'
     require 'travis/addons/pushover'
+    require 'travis/addons/migration'
   end
 end
