@@ -1,12 +1,248 @@
-<p>Welcome to the beta!</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<p>We’re excited to welcome you into the beta to start migrating <%= @user_name %>’s public repositories to travis-ci.com</p>
+    <style type="text/css" media="screen">
+      body {
+        min-width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
 
+      body, td {
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      }
 
-<p>Ready to get started? <a href="https://travis-ci.com/account/migrate">Jump into the migrate tab of your account</a></p>
+      strong {
+        display: block;
+      }
 
+      #travis-ci-email-container {
+        height: 100%;
+        width: 100%;
+        padding: 30px;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        text-align: center;
+        color: #333333;
+        line-height: 1.4;
+        background-color: #f6f7fa;
+        background-image: url('https://s3.amazonaws.com/travis-email-assets/billing-background.png');
+        background-size: 600px 600px;
+      }
 
-<p>If you have any questions, please <a href="https://docs.travis-ci.com/user/migrate/open-source-repository-migration/">check the documentation</a> or reply to this email.</p>
+      #email-central-container {
+        font-family: inherit;
+        width: 500px;
+      }
 
-<p>The Travis CI Team</p>
+      #email-content-container {
+        padding: 6% 7% 5% 7%;
+        background-color: #FFFFFF;
+        text-align: center;
+        width: 100%;
+      }
 
+      #email-content-container p {
+        font-size: 16px;
+        margin: 0 0 10px 0;
+      }
+
+      #travis-logo-img-container {
+        border-bottom: 2px solid #e5e7e9;
+        padding-bottom: 4.545%;
+      }
+
+      #travis-logo-img {
+        width: 42%;
+      }
+
+      #email-header {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 10.227% 0 6.818% 0;
+      }
+
+      .green-highlight {
+        color: #32d282;
+      }
+
+      #email-content-container .button {
+        display: inline-block;
+        padding: 12px 15px;
+        color: #333333;
+        background-color: #f4f5f9;
+        font-size: 14px;
+        line-height: 14px;
+        margin: 10px 0 10px 0;
+        border-radius: 5px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      #email-content-container .button--green {
+        color: #ffffff;
+        background-color: #32d282;
+      }
+
+      #closing-message-section {
+        padding: 10.227% 0 1.136% 0;
+      }
+
+      #closing-message-section > p {
+        margin: 0;
+      }
+
+      #travis-ci-twitter-section {
+        text-align: center;
+      }
+
+      #travis-ci-twitter-section a {
+        display: inline-block;
+        height: 32px;
+        vertical-align: bottom;
+      }
+
+      #travis-ci-twitter-section img {
+        width: 32px;
+        height: 32px;
+      }
+
+      #travis-ci-email-footer-container {
+        padding: 10% 7% 0% 7%;
+      }
+
+      #questions-section {
+        font-size: 18px;
+        color: #0068FF;
+        padding-bottom: 10.227%;
+      }
+
+      #questions-section span {
+        background-color: #f6f7fa;
+        background-color: rgba(246, 247, 250, 0.8);
+      }
+
+      #questions-section a {
+        color: #0068FF;
+      }
+
+      #travis-ci-footer-logo-section {
+        padding-bottom: 6.818%;
+        text-align: center;
+      }
+
+      #email-footer-section {
+        font-size: 11px;
+        color: #9EA3A8;
+        text-align: center;
+        padding-top: 0px;
+        margin: 0px;
+      }
+
+      #email-footer-section a {
+        color: #9ea3a8;
+      }
+
+      #email-footer-section p {
+        margin: 0px;
+      }
+
+      #email-footer-section {
+        margin-bottom: 3.409%;
+        padding: 0 1%;
+      }
+    </style>
+  </head>
+
+  <body style="min-width: 100%;height: 100%;margin: 0;padding: 0;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+
+    <table id="travis-ci-email-container" align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="height: 100%;width: 100%;padding: 30px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;text-align: center;color: #333333;line-height: 1.4;background-color: #f6f7fa;background-image: url(https://s3.amazonaws.com/travis-email-assets/billing-background.png);background-size: 600px 600px;">
+      <!-- Main Content Section -->
+      <tr>
+        <td align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+          <table id="email-central-container" border="0" cellpadding="0" cellspacing="0" style="font-family: inherit;width: 500px;">
+            <tr>
+              <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="padding: 6% 7% 5% 7%;background-color: #FFFFFF;text-align: center;width: 100%;">
+                  <!-- Logo -->
+                  <tr>
+                    <td id="travis-logo-img-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;border-bottom: 2px solid #e5e7e9;padding-bottom: 4.545%;">
+                      <img src="https://s3.amazonaws.com/travis-email-assets/travis_ci_logo.png" alt="Travis CI Logo" id="travis-logo-img" style="width: 42%;">
+                    </td>
+                  </tr>
+                  <!-- Header -->
+                  <tr>
+                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                      <h2 id="email-header" style="font-size: 24px;font-weight: 600;margin: 10.227% 0 6.818% 0;">Welcome to the beta!</h2>
+                    </td>
+                  </tr>
+                  <!-- Body text -->
+                  <tr>
+                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                      <!-- Basic info -->
+                      <p style="font-size: 16px;margin: 0 0 10px 0;">
+                        We’re excited to welcome you into the beta to start migrating @<%= @user_name %>’s public repositories to travis-ci.com
+                      </p>
+
+                      <p style="font-size: 16px;margin: 0 0 10px 0;">
+                        Ready to get started? <a href="https://travis-ci.com/account/migrate">Jump into the migrate tab of your account</a>
+                      </p>
+
+                      <p style="font-size: 16px;margin: 0 0 10px 0;">
+                        If you have any questions, please <a href="https://docs.travis-ci.com/user/migrate/open-source-repository-migration/">check the documentation</a>  or reply to this email.
+                      </p>
+                    </td>
+                  </tr>
+                  <!-- Closing Message Section -->
+                  <tr>
+                    <td id="closing-message-section" align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;padding: 10.227% 0 1.136% 0;">
+                      <p style="font-size: 16px;margin: 0;">Regards,</p>
+                      <p style="font-size: 16px;margin: 0;"><strong style="display: block;">The Travis CI Team</strong></p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="travis-ci-twitter-section" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;text-align: center;">
+                      <a href="http://www.twitter.com/travisci" style="display: inline-block;height: 32px;vertical-align: bottom;">
+                        <img id="travis-ci-twitter-logo" src="https://ci6.googleusercontent.com/proxy/u_GkY0vPn3zh6k_Iocra5_P1V00M-TFRNu-P7gPciI_J5CkDABrV1urf2QfoLPirfH6tojEO6P2xe9jKJeBggB6N-SRbbfN1ecrcfw=s0-d-e1-ft#https://s3.amazonaws.com/travis-ci-dzone/twitter2x.png" alt="Twitter Logo" style="width: 32px;height: 32px;">
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Email Footer Section -->
+                <table id="travis-ci-email-footer-container" border="0" cellpadding="0" cellspacing="0" style="padding: 10% 7% 0% 7%;">
+                  <tr>
+                    <td id="questions-section" align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 18px;color: #0068FF;padding-bottom: 10.227%;">
+                      <span style="background-color: rgba(246, 247, 250, 0.8);">
+                        Have any questions?
+                        <a href="mailto:support@travis-ci.com" style="color: #0068FF;">We&rsquo;re here to help.</a>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="travis-ci-footer-logo-section" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;padding-bottom: 6.818%;text-align: center;">
+                      <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), 'https://travis-ci.com')%>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="email-footer-section" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 11px;color: #9EA3A8;text-align: center;padding-top: 0px;margin: 0px;">
+                      <p style="margin: 0px;">
+                        Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF/CEO: Konstantin Haase, Fritz Thielemann |
+                        <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
