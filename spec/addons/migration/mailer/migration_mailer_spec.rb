@@ -11,7 +11,7 @@ describe Travis::Addons::Migration::Mailer::MigrationMailer do
     it 'contains the right data' do
       expect(mail.to).to eq(recipients)
       expect(mail.from).to eq(['success@travis-ci.com'])
-      expect(mail.subject).to eq("@#{user_name} is ready to start migrating!")
+      expect(mail.subject).to eq("Your account, @#{user_name}, is ready to start migrating!")
       expect(mail.body).to match("Welcome to the beta!")
     end
   end
