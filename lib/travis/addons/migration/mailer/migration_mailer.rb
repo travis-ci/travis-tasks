@@ -14,7 +14,7 @@ module Travis
             mail(
               from: travis_email,
               to: recepients,
-              subject: "@#{user_name} is ready to start migrating!",
+              subject: "Your account, @#{user_name} is ready to start migrating!",
               template_path: 'migration_mailer'
             )
           end
