@@ -289,7 +289,7 @@
                             <% if @invoice[:created_at].present? %>
                               <p style="margin: 0 0 10px 0;">
                                 <time datetime="<%= l Time.parse(@invoice[:created_at]), format: '%B %e, %Y' %>">
-                                  <%= l @invoice[:created_at], format: '%B %e, %Y' %>
+                                  <%= l Time.parse(@invoice[:created_at]), format: '%B %e, %Y' %>
                                 </time>
                               </p>
                             <% end %>
