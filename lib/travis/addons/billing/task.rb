@@ -44,7 +44,7 @@ module Travis
           def send_email
             Mailer::BillingMailer.public_send(params[:email_type], recipients, subscription, owner, charge, event, invoice, cc_last_digits).deliver
             emails = recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')
-            info "type=#{type} status=sent msg='email sent #{emails}"
+            info "type=#{type} status=sent msg='email sent #{emails} for #{params[:email_type]}"
           end
       end
     end
