@@ -309,9 +309,9 @@
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                       <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Subscription Period</label>
                       <span>
-                        <%= l set_period(@invoice[:object], "start", @subscription), format: :long -%>
+                        <%= l Time.at(@invoice[:current_period_start]), format: :long -%>
                         &ndash;
-                        <%= l set_period(@invoice[:object], "end", @subscription), format: :long -%>
+                        <%= l Time.at(@invoice[:current_period_end]), format: :long -%>
                       </span>
                     </td>
                   </tr>
@@ -326,26 +326,28 @@
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                       <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Plan</label>
-                      <span><%= @subscription[:selected_plan][:name] %></span>
+                      <span><%= @invoice[:plan] %></span>
                     </td>
                   </tr>
                   <!-- Price -->
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                       <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Price</label>
-                      <span><%= number_to_currency(@subscription[:selected_plan][:price] / 100.0) %></span>
+                      <span><%= number_to_currency(@invoice[:amount] / 100.0) %></span>
                     </td>
                   </tr>
 
                   <!-- Invoice items -->
-                  <% (invoice_items(@invoice[:object]) || []).each do |invoice_item| %>
+                  <!-- comment this out for now
+                  <%# (invoice_items(@invoice[:object]) || []).each do |invoice_item| %>
                     <tr class="invoice-line">
                       <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                         <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;"><%= invoice_item[:description] %></label>
-                        <span><%= number_to_currency(invoice_item[:amount] / 100.0) %></span>
+                        <span>$ <%= invoice_item[:amount] / 100.0 %></span>
                       </td>
                     </tr>
-                  <% end -%>
+                  <%# end -%>
+                  ..>
 
                   <!-- Discount -->
                   <% if @invoice[:object][:discount].present? %>
@@ -377,7 +379,7 @@
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                       <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;">Total</label>
-                      <span><%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %></span>
+                      <span><%= number_to_currency(@invoice[:amount] / 100.0) %></span>
                     </td>
                   </tr>
 
