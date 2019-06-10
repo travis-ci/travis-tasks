@@ -10,7 +10,7 @@ docker build -t "${quay_image}:${tag_name}" .
 source ~/virtualenv/python2.7/bin/activate
 pip install docker-squash
 
-docker-squash -f ruby:2.4.2 -t "${quay_image}:${tag_name}" "${quay_image}:${tag_name}"
+docker-squash -f ruby:2.5.3 -t "${quay_image}:${tag_name}" "${quay_image}:${tag_name}"
 
 
 docker login -u=$QUAY_ROBOT_HANDLE -p=$QUAY_ROBOT_TOKEN quay.io;
