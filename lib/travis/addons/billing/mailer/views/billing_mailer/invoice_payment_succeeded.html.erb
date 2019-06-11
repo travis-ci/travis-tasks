@@ -337,6 +337,18 @@
                     </td>
                   </tr>
 
+                   <!-- Invoice items ( VAT etc )-->
+                  <% if (invoice_items(@invoice[:object]).present? %>
+                    <% (invoice_items(@invoice[:object]).each do |invoice_item| %>
+                      <tr class="invoice-line">
+                        <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
+                          <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;"><%= invoice_item[:description] %></label>
+                          <span><%= number_to_currency(invoice_item[:amount] / 100.0) %></span>
+                        </td>
+                      </tr>
+                    <% end -%>
+                  <% end -%>
+
                   <!-- Discount -->
                   <% if @invoice[:object][:discount].present? %>
                     <tr class="invoice-line">
