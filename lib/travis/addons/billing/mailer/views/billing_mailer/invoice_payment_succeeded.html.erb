@@ -338,7 +338,7 @@
                   </tr>
 
                    <!-- Invoice items ( VAT etc )-->
-                  <% if (invoice_items(@invoice[:object]).present? %>
+                  <% if invoice_items(@invoice[:object]).present? %>
                     <% (invoice_items(@invoice[:object]).each do |invoice_item| %>
                       <tr class="invoice-line">
                         <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
