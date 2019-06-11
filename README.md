@@ -27,6 +27,19 @@ Travis.config.smtp.password = 'your smtp password for your enviorment'
 Travis.config.smtp.port = 587
 Travis.config.smtp.user_name = 'your smtp username'
 ```
+
+or
+```
+ActionMailer::Base.smtp_settings = {
+  address: "smtp.mandrillapp.com",
+  user_name: "mathias@travis-ci.com",
+  password: <have a look in keychain>,
+  domain: "travis-ci.com",
+  enable_starttls_auto: true,
+  port: 587
+}
+```
+
 ## Send Build Emails
 To send diffent types of build emails the `state`, `previous_state` attributes in the build hash and `state` attribute job hash will need to be modified
 
@@ -65,7 +78,12 @@ To check it and receive an email:
 Travis::Addons::Billing::Mailer::BillingMailer.charge_failed( ["your_email@address.com"], { first_name: "Firstname", last_name: "Lastname", company: "Org", selected_plan: "travis-ci-two-builds"}, { name: 'Name', login: 'login' }, {"object": "charge"}, { "object": "invoice", "paid": false, "next_payment_attempt": Time.now + 86400.to_i  }, {"object": "invoice"}, {cc_last_digest: 1234}).deliver
 ```
 
-We have the similar methods for: `invoice_payment_succeeded` and `subscription_cancelled`.
+invoice_payment_succeeded:
+```
+Travis::Addons::Billing::Mailer::BillingMailer.invoice_payment_succeeded( [<your email address>], { first_name: "Firstname", last_name: "Lastname"}, { name: 'Name', login: 'login' }, {"charge": nil}, {"event": nil}, {"object": {<stripe invoie object>},"created_at": "2019-06-07 10:50:45", current_period_start: 1.day.ago.utc.to_i, current_period_end: 1.day.ago.utc.to_i, plan: "Bootstrap", amount: 6900, invoice_id: "TP1234", stripe_id: "in_1234" },1234).deliver
+```
+
+We have the similar methods for: `subscription_cancelled`.
 
 ## Send Feedback Emails
 
