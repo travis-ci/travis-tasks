@@ -12,19 +12,19 @@ module Travis
               event[:lines][:data].find {|subscription| subscription[:id] == event[:subscription]}
             end
           end
-        
+
           def set_period(event, period_frame ,subscription)
             event_object = parse_subscription(event)
             period = event_object[:period] if event_object
             return Time.at(period[period_frame.to_sym]).utc.to_date unless period.nil?
             period_frame == 'start' ? subscription[:updated_at] : subscription[:valid_to]
-          end  
+          end
 
           def invoice_items(event)
-            if event[:lines][:invoiceitems]
-              event[:lines][:invoiceitems]
-            elsif event[:lines][:data]
-              event[:lines][:data].select {|item| item["type"] == "invoiceitem"}
+            if event["lines"]["invoiceitems"]
+              event["lines"]["invoiceitems"]
+            elsif event["lines"]["data"]
+              event["lines"]["data"].select {|item| item["type"] == "invoiceitem"}
             end
           end
 
