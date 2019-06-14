@@ -21,10 +21,10 @@ module Travis
           end
 
           def invoice_items(event)
-            if event["lines"]["invoiceitems"]
-              event["lines"]["invoiceitems"]
-            elsif event["lines"]["data"]
-              event["lines"]["data"].select {|item| item["type"] == "invoiceitem"}
+            if event[:lines][:invoiceitems]
+              event[:lines][:invoiceitems]
+            elsif event[:lines][:data]
+              event[:lines][:data].select {|item| item[:type] == "invoiceitem"}
             end
           end
 

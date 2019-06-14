@@ -282,8 +282,8 @@
                           <td class="invoice-total-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;vertical-align: top;">
                             <label class="dark-grey-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #676767;">Total (In USD)</label>
                             <div class="total-large dark-grey-text" style="color: #676767;font-size: 29px;font-weight: 300;background-color: #f7f9fb;padding: 10px;margin: 3px 0;">
-                              <% if @invoice[:object]["amount_due"].present? %>
-                                <%= number_to_currency(@invoice[:object]["amount_due"] / 100.0) %>
+                              <% if @invoice[:object][:amount_due].present? %>
+                                <%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %>
                               <% end %>
                             </div>
                             <% if @invoice[:created_at].present? %>
@@ -343,22 +343,22 @@
                       <tr class="invoice-line">
                         <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                           <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;"><%= invoice_item["description"] %></label>
-                          <span><%= number_to_currency(invoice_item["amount"] / 100.0) %></span>
+                          <span><%= number_to_currency(invoice_item[:amount] / 100.0) %></span>
                         </td>
                       </tr>
                     <% end -%>
                   <% end -%>
 
                   <!-- Discount -->
-                  <% if @invoice[:object]["discount"].present? %>
+                  <% if @invoice[:object][:discount].present? %>
                     <tr class="invoice-line">
                       <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                         <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Discount</label>
                         <span>
-                          <% if @invoice[:object]["discount"]["coupon"]["percent_off"] -%>
-                            -<%= @invoice[:object]["discount"]["coupon"]["percent_off"] %>%
+                          <% if @invoice[:object][:discount][:coupon][:percent_off] -%>
+                            -<%= @invoice[:object][:discount][:coupon][:percent_off] %>%
                           <% else -%>
-                            -<%= number_to_currency(@invoice[:object]["discount"]["coupon"]["amount_off"] / 100.0) %>
+                            -<%= number_to_currency(@invoice[:object][:discount][:coupon][:amount_off] / 100.0) %>
                           <% end -%>
                         </span>
                       </td>
@@ -366,11 +366,11 @@
                   <% end -%>
 
                   <!-- Balance / Debit / Credit -->
-                  <% if (balance = @invoice[:object]["starting_balance"].to_i) != 0 -%>
+                  <% if (balance = @invoice[:object][:starting_balance].to_i) != 0 -%>
                     <tr class="invoice-line">
                       <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                         <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;"><%= balance > 0 ? "Debit" : "Credit" %></label>
-                        <span><%= applied_balance(balance, @invoice[:object]["ending_balance"]) %></span>
+                        <span><%= applied_balance(balance, @invoice[:object][:ending_balance]) %></span>
                       </td>
                     </tr>
                   <% end -%>
@@ -379,7 +379,7 @@
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                       <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;">Total</label>
-                      <span><%= number_to_currency(@invoice[:object]["amount_due"] / 100.0) %></span>
+                      <span><%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %></span>
                     </td>
                   </tr>
 
