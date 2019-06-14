@@ -282,7 +282,7 @@
                           <td class="invoice-total-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;vertical-align: top;">
                             <label class="dark-grey-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #676767;">Total (In USD)</label>
                             <div class="total-large dark-grey-text" style="color: #676767;font-size: 29px;font-weight: 300;background-color: #f7f9fb;padding: 10px;margin: 3px 0;">
-                              <% if @invoice[:object]["amount_due"].present? %>
+                              <% if @invoice[:object][:amount_due].present? %>
                                 <%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %>
                               <% end %>
                             </div>
