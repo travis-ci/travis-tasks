@@ -80,7 +80,7 @@ Travis::Addons::Billing::Mailer::BillingMailer.charge_failed( ["your_email@addre
 
 invoice_payment_succeeded:
 ```
-Travis::Addons::Billing::Mailer::BillingMailer.invoice_payment_succeeded( [<your email address>], { first_name: "Firstname", last_name: "Lastname"}, { name: 'Name', login: 'login' }, {"charge": nil}, {"event": nil}, {"object": {<stripe invoie object>},"created_at": "2019-06-07 10:50:45", current_period_start: 1.day.ago.utc.to_i, current_period_end: 1.day.ago.utc.to_i, plan: "Bootstrap", amount: 6900, invoice_id: "TP1234", stripe_id: "in_1234" },1234).deliver
+Travis::Addons::Billing::Task.new({}, email_type: 'invoice_payment_succeeded', recipients: ["name@travis-ci.org"], subscription: { first_name: "Marie", last_name: "Lastname"}, owner: { name: 'Marie', login: 'login' }, charge: {"charge": nil}, event: {"event": nil}, invoice: {"object": {<stripe_invoice_event>},"created_at": "2019-06-07 10:50:45", current_period_start: 1.day.ago.utc.to_i, current_period_end: 30.day.from_now.utc.to_i, plan: "Bootstrap", amount: 6900, invoice_id: "TP1234", stripe_id: "in_1234" }, cc_last_digits: 1234).run
 ```
 
 We have the similar methods for: `subscription_cancelled`.
