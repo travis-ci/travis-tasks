@@ -17,7 +17,7 @@ module Travis
         end
 
         def base_dir
-          File.expand_path('../billing/mailer', __FILE__)
+          File.expand_path('../billing_feedback/mailer', __FILE__)
         end
       end
     end

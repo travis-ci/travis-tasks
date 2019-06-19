@@ -10,7 +10,7 @@ module Travis
           def user_feedback(recipients, subscription, owner, user, feedback)
             @subscription, @owner, @user, @feedback = subscription, owner, user, feedback
             subject = "Subscription cancelled for #{owner[:login]}"
-            mail(from: travis_email, to: travis_email, reply_to: @user[:email], subject: subject, template_path: 'feedback_mailer')
+            mail(from: travis_email, to: from_email, reply_to: @user[:email], subject: subject, template_path: 'feedback_mailer')
           end
 
           private
