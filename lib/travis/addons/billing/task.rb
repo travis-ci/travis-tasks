@@ -8,7 +8,6 @@ module Travis
 
       # Sends out billing emails using ActionMailer.
       class Task < Travis::Addons::Email::Task
-        # checks whether to send invoice_payment_succeeded emails or charge_failed email
         def type
           :"#{params[:email_type]}"
         end

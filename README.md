@@ -70,20 +70,23 @@ Travis::Addons::Trial::Mailer::TrialMailer.trial_started(%w{your_email@address.c
 ```
 
 ## Send Billing Emails
-When a charge failed we call this method: `charge_failed(receivers, subscription, owner, charge, event, invoice, cc_last_digits)`
-
 To check it and receive an email:
 
+**charge_failed:**
 ```
 Travis::Addons::Billing::Mailer::BillingMailer.charge_failed( ["your_email@address.com"], { first_name: "Firstname", last_name: "Lastname", company: "Org", selected_plan: "travis-ci-two-builds"}, { name: 'Name', login: 'login' }, {"object": "charge"}, { "object": "invoice", "paid": false, "next_payment_attempt": Time.now + 86400.to_i  }, {"object": "invoice"}, {cc_last_digest: 1234}).deliver
 ```
 
-invoice_payment_succeeded:
+**invoice_payment_succeeded:**
 ```
 Travis::Addons::Billing::Task.new({}, email_type: 'invoice_payment_succeeded', recipients: ["name@travis-ci.org"], subscription: { first_name: "Marie", last_name: "Lastname"}, owner: { name: 'Marie', login: 'login' }, charge: {"charge": nil}, event: {"event": nil}, invoice: {"object": {<stripe_invoice_event>},"created_at": "2019-06-07 10:50:45", current_period_start: 1.day.ago.utc.to_i, current_period_end: 30.day.from_now.utc.to_i, plan: "Bootstrap", amount: 6900, invoice_id: "TP1234", stripe_id: "in_1234" }, cc_last_digits: 1234).run
 ```
 
-We have the similar methods for: `subscription_cancelled`.
+**subscription_cancelled :**
+```
+Travis::Addons::Billing::Task.new({}, email_type: 'subscription_cancelled', recipients: ["name@travis-ci.org"], subscription: { first_name: "Anja", last_name: "Reichmann", valid_to: "2019-07-02 00:00:00"}, owner: { name: 'Anja', login: 'login' }, charge: {"charge": nil}, event: {"event": nil}, invoice: {"object": nil}, cc_last_digits: nil).run
+```
+
 
 ## Send Feedback Emails
 
