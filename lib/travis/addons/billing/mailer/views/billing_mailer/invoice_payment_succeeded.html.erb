@@ -255,11 +255,11 @@
                                 <% end %>
                               </div>
 
-                              <%# <div> %>
-                                <%# if @subscription[:city].present? %>
-                                  <%#= @subscription[:city] %>
-                                <%# end %>
-                              <%# </div> %>
+                              <% <div> %>
+                                <% if @subscription[:city].present? %>
+                                  <%= @subscription[:city] %>
+                                <% end %>
+                              <% </div> %>
 
                               <div>
                                 <% %w(city state post_code).each do |attr| %>
