@@ -18,6 +18,7 @@ module Travis
           def invoice_payment_succeeded(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription, @owner, @invoice, @cc_last_digits = subscription, owner, invoice, cc_last_digits
             subject = "Travis CI: Your Invoice"
+            download_attachment invoice.fetch(:pdf_url)
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
@@ -35,6 +36,17 @@ module Travis
 
             def from_email
               "success@travis-ci.com"
+            end
+
+            class AttachmentNotFound < StandardError; end
+
+            def download_attachment(url)
+              response = Faraday.get(url)
+              if response.status == 200 && match = response.headers['Content-Disposition'].match(%r{attachment;\s*filename=\"?([\w\.]+)\"?})
+                attachments[match[1]] = response.body
+              else
+                raise AttachmentNotFound, "Couldn't get attachment from #{url}: Status #{response.status} Headers: #{response.headers.inspect}"
+              end
             end
         end
       end
