@@ -32,9 +32,9 @@ module Travis
             log_data = "response_body=#{response.body}"
           end
 
-          info "type=github_check_status repo=#{repository[:slug]} sha=#{sha} response_status=#{response.status} #{log_data}"
+          info "type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} response_status=#{response.status} #{log_data}"
         rescue => e
-          error("type=github_check_status repo=#{repository[:slug]} error='#{e}' url=#{check_run_post_url} payload=#{check_status_payload}")
+          error("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} error='#{e}' url=#{check_run_post_url} payload=#{check_status_payload}")
           raise e
         end
 
