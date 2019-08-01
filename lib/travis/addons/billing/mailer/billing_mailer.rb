@@ -41,7 +41,11 @@ module Travis
             class AttachmentNotFound < StandardError; end
 
             def download_attachment(url)
-              response = Faraday.get(url)
+              conn = Faraday.new do |c|
+                c.use FaradayMiddleware::FollowRedirects
+                c.adapter Faraday.default_adapter
+              end
+              response = conn.get(url)
               if response.status == 200 && match = response.headers['Content-Disposition'].match(%r{attachment;\s*filename=\"?([\w\.]+)\"?})
                 attachments[match[1]] = response.body
               else
