@@ -15,6 +15,7 @@ ActionMailer::Base.delivery_method = :test
 
 require 'mocha'
 require 'gh'
+require 'capybara'
 
 include Mocha::API
 
@@ -88,6 +89,17 @@ RSpec::Matchers.define :have_message do |event, object|
   end
 
   def find_message
+  end
+end
+
+RSpec::Matchers.define :have_text_lines do |expected|
+  match do |actual|
+    regex = Regexp.new(expected.strip.gsub(/\s+/, '\s+'))
+    actual.has_text?(regex)
+  end
+
+  failure_message do |actual|
+    "Expected HTML to contain the text #{expected}"
   end
 end
 

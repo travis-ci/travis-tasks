@@ -215,7 +215,7 @@
                       <h2 id="invoice-header" style="font-size: 42px;font-weight: 600;margin: 1.136% 0 3.409% 0;color: #0068ff;">Thank you.</h2>
                       <p style="margin: 0 0 10px 0;">
                         We love our customers! Attached is your Travis CI invoice for the account
-                        <span class="blue-text" style="color: #0068ff;"><%= @owner[:name] %></span>.
+                        <span class="blue-text" style="color: #0068ff;"><%= @invoice.account_name %></span>.
                       </p>
                       <% unless Travis.env == "production" %>
                         <p style="margin: 0 0 10px 0;">Test Email! Not a valid invoice!</p>
@@ -234,31 +234,31 @@
                           <td class="invoice-address-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;width: 60%;vertical-align: top;">
                             <label class="dark-grey-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #676767;">Billed To:</label>
                             <address style="font-style: normal;">
-                              <div><%= @subscription[:company] %></div>
+                              <div><%= @invoice.company %></div>
 
-                              <div><%= @subscription[:first_name] %> <%= @subscription[:last_name] %></div>
+                              <div><%= @invoice.full_name %></div>
 
-                              <div><%= @subscription[:address] %></div>
+                              <div><%= @invoice.address %></div>
 
                               <div>
-                                <span><%= @subscription[:city] %></span>
-                                <span><%= @subscription[:state] %></span>
-                                <span><%= @subscription[:post_code] %></span>
+                                <span><%= @invoice.city %></span>
+                                <span><%= @invoice.state %></span>
+                                <span><%= @invoice.post_code %></span>
                               </div>
 
-                              <div><%= @subscription[:country] %></div>
-                              <div><%= @subscription[:vat_id] %></div>
+                              <div><%= @invoice.country %></div>
+                              <div><%= @invoice.vat_id %></div>
                             </address>
                           </td>
                           <!-- Total / Created Date -->
                           <td class="invoice-total-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;vertical-align: top;">
                             <label class="dark-grey-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #676767;">Total (In USD)</label>
                             <div class="total-large dark-grey-text" style="color: #676767;font-size: 29px;font-weight: 300;background-color: #f7f9fb;padding: 10px;margin: 3px 0;">
-                              <%= number_to_currency(@invoice[:object][:amount_due] / 100.0) %>
+                              <%= number_to_currency(@invoice.amount_due) %>
                             </div>
                             <p style="margin: 0 0 10px 0;">
-                              <time datetime="<%= l Time.parse(@invoice[:created_at]), format: '%B %e, %Y' %>">
-                                <%= l Time.parse(@invoice[:created_at]), format: '%B %e, %Y' %>
+                              <time datetime="<%= l @invoice.created_at, format: '%B %e, %Y' %>">
+                                <%= l @invoice.created_at, format: '%B %e, %Y' %>
                               </time>
                             </p>
                           </td>
@@ -269,7 +269,7 @@
                   <!-- Invoice ID -->
                   <tr>
                     <td class="invoice-id-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 5px;">
-                      <label class="label-black" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;">Invoice #<%= @invoice[:invoice_id] %></label>
+                      <label class="label-black" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;">Invoice #<%= @invoice.invoice_id %></label>
                     </td>
                   </tr>
                   <!-- Subscription Period -->
@@ -277,9 +277,9 @@
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                       <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Subscription Period</label>
                       <span>
-                        <%= l Time.at(@invoice[:current_period_start]), format: :long -%>
+                        <%= l @invoice.current_period_start, format: :long -%>
                         &ndash;
-                        <%= l Time.at(@invoice[:current_period_end]), format: :long -%>
+                        <%= l @invoice.current_period_end, format: :long -%>
                       </span>
                     </td>
                   </tr>
@@ -287,14 +287,14 @@
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                       <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Status</label>
-                      <span>Paid with credit card ending in <%= @cc_last_digits -%></span>
+                      <span>Paid with credit card ending in <%= @invoice.cc_last_digits %></span>
                     </td>
                   </tr>
                   <!-- Plan -->
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                       <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Plan</label>
-                      <span><%= @invoice[:plan] %></span>
+                      <span><%= @invoice.plan %></span>
                     </td>
                   </tr>
 
@@ -306,16 +306,16 @@
                   <tr>
                     <td class="download-and-update" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;text-align: center;padding-top: 5px;">
                       <p class="download-link-container" style="margin: 0 0 10px 0;">
-                        <a href="<%= @invoice[:pdf_url] %>" class="download-icon-link" style="display: inline-block;vertical-align: middle;width: 17px;height: 17px;">
+                        <a href="<%= @invoice.pdf_url %>" class="download-icon-link" style="display: inline-block;vertical-align: middle;width: 17px;height: 17px;">
                           <%= image_tag("#{Travis.config.s3.url}/download-icon-cropped.png", alt: 'download arrow') %>
                         </a>
-                        <a href="<%= @invoice[:pdf_url] %>" class="download-link" style="vertical-align: middle;color: #9da3a7;font-size: 12px;font-weight: 700;text-decoration: none;text-transform: uppercase;">
+                        <a href="<%= @invoice.pdf_url %>" class="download-link" style="vertical-align: middle;color: #9da3a7;font-size: 12px;font-weight: 700;text-decoration: none;text-transform: uppercase;">
                           <span>Download a PDF copy</span>
                         </a>
                       </p>
                       <p class="update-link-container" style="margin: 0;">
                         Need to change your billing address? Update it
-                        <a href="https://billing.travis-ci.com/subscriptions/<%= @owner[:login] %>" class="update-link" style="color: #333333;">here</a>.
+                        <a href="https://billing.travis-ci.com/subscriptions/<%= @invoice.account_login %>" class="update-link" style="color: #333333;">here</a>.
                       </p>
                     </td>
                   </tr>

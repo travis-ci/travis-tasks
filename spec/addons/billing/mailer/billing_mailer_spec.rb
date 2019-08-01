@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Travis::Addons::Billing::Mailer::BillingMailer do
   describe '#invoice_payment_succeeded' do
-    subject(:mail) { described_class.invoice_payment_succeeded(recipients, subscription, owner, charge, event, invoice, cc_last_digits) }
+    subject(:mail) { described_class.invoice_payment_succeeded([recipient], subscription, owner, charge, event, invoice, cc_last_digits) }
 
-    let(:recipients) { ['sergio@travis-ci.com'] }
-    let(:subscription) {{}}
-    let(:owner) {{}}
-    let(:invoice) {{ pdf_url: pdf_url, object: {amount_due: 999}, current_period_start: Time.now.to_i, current_period_end: Time.now.to_i, amount: 999, created_at: Time.now.to_s}}
+    let(:recipient) { 'sergio@travis-ci.com' }
+    let(:subscription) {{company: 'Ruby Monsters', first_name: 'Tessa', last_name: 'Schmidt', address: 'Rigaer Str.', city: 'Berlin', state: 'Berlin', post_code: '10000', country: 'Germany', vat_id: 'DE123456789'}}
+    let(:owner) {{name: 'Ruby Monsters', login: 'rubymonsters'}}
+    let(:invoice) {{ pdf_url: pdf_url, amount_due: 999, current_period_start: Time.now.to_i, current_period_end: Time.now.to_i, amount: 999, created_at: Time.now.to_s, invoice_id: 'TP123', plan: 'Startup'}}
     let(:real_pdf_url) {  'http://invoices.travis-ci.dev/invoices/123'}
     let(:pdf_url) { real_pdf_url }
     let(:filename) { 'TP123.pdf' }
@@ -15,15 +15,53 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
     let(:charge) { nil}
     let(:event) { nil}
 
+    let(:html) { Capybara.string(mail.html_part.body.to_s) }
+
     before do
       stub_request(:get, real_pdf_url).to_return(status: 200, body: "% PDF", headers: {'Content-Disposition' => "attachment; filename=\"#{filename}\""})
     end
 
-    it 'contains the right data' do
-      expect(mail.to).to eq(recipients)
-      expect(mail.from).to eq(['success@travis-ci.com'])
-      expect(mail.subject).to eq('Travis CI: Your Invoice')
+    it 'is addressed to the user' do
+      expect(mail.to).to eq([recipient])
+    end
 
+    it 'comes from Travis' do
+      expect(mail.from).to eq(['success@travis-ci.com'])
+    end
+
+    it 'has the right subject' do
+      expect(mail.subject).to eq('Travis CI: Your Invoice')
+    end
+
+    it 'shows the account name' do
+      expect(html).to have_text_lines('Travis CI invoice for the account Ruby Monsters')
+    end
+
+    it 'shows who was billed' do
+      expect(html).to have_text_lines(%q{
+        Billed To:
+
+        Ruby Monsters
+        Tessa Schmidt
+        Rigaer Str.
+        Berlin Berlin 10000
+        Germany
+        DE123456789
+      })
+    end
+
+    it 'shows the total' do
+      expect(html).to have_text_lines(%q{
+        Total \(In USD\)
+        \$9.99
+      })
+    end
+
+    it 'shows the credit card' do
+      expect(html).to have_text_lines('Paid with credit card ending in 1234')
+    end
+
+    it 'contains the PDF attached' do
       expect(mail.attachments.size).to eq(1)
 
       attachment = mail.attachments.first
@@ -40,7 +78,7 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
         stub_request(:get, pdf_url).to_return(status: 301, headers: { 'Location' => real_pdf_url})
       end
 
-      it 'still works' do
+      it 'still attaches the pdf' do
         expect(mail.attachments.size).to eq(1)
 
         attachment = mail.attachments.first
