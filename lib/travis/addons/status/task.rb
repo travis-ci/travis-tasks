@@ -28,10 +28,6 @@ module Travis
           422 => :maximum_number_of_statuses,
         }
 
-        def url
-          "/repos/#{repository[:slug]}/statuses/#{sha}"
-        end
-
         # Adds a comment with a build notification to the Pull Request the request belongs to.
         def process(timeout)
           info("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} installation_id=#{installation_id}")
