@@ -1,4 +1,4 @@
-module Travis::Addons::GithubCheckStatus::Output
+module Travis::Addons::CheckStatus::Output
   class Stage
     include Helpers
     attr_reader :stage, :jobs, :headers
@@ -64,7 +64,7 @@ module Travis::Addons::GithubCheckStatus::Output
     def job_display_text(job)
       job[:config].key?(:name) ? "#{job[:number]} #{job[:config][:name]}" : job[:number].to_s
     end
-    
+
     def table_data
       @table_data ||= jobs.map do |job|
         [

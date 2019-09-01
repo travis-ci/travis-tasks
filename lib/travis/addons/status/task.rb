@@ -36,15 +36,7 @@ module Travis
         private
 
           def process(timeout)
-            message = %W[
-              type=github_status
-              build=#{build[:id]}
-              repo=#{repository[:slug]}
-              state=#{state}
-              commit=#{sha}
-              tokens_count=#{tokens.size}
-              installation_id=#{installation_id}
-            ].join(' ')
+            message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} tokens_count=#{tokens.size} installation_id=#{installation_id}"
 
             if !installation_id.nil? && process_via_github_app
               info("#{message} processed_with=github_apps")
@@ -56,22 +48,27 @@ module Travis
                 info("#{message} processed_with=user_token")
                 return
               else
-                error(%W[
-                  type=github_status
-                  build=#{build[:id]}
-                  repo=#{repository[:slug]}
-                  error=not_updated
-                  commit=#{sha}
-                  username=#{username}
-                  url=#{GH.api_host + url}
-                  processed_with=user_token
-                ].join(' '))
+                error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} username=#{username} url=#{GH.api_host + url} processed_with=user_token")
               end
             end
           end
 
           def tokens
             params.fetch(:tokens) { { '<legacy format>' => params[:token] } }
+          end
+
+          def process_with_token(username, token)
+            resp = Travis::RemoteVCS::Repository.create_comment(repository[:github_id], token, status_payload)
+            return true if resp.success?
+
+            if [401, 403, 404, 422].include?(resp.status)
+              error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=#{e.info[:response_status]} reason=#{ERROR_REASONS.fetch(Integer(e.info[:response_status]))} processed_with=user_token body=#{e.info[:response_body]}")
+              false
+            else
+              message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} response_status=#{e.info[:response_status]} message=#{e.message} processed_with=user_token body=#{e.info[:response_body]}"
+              error(message)
+              raise message
+            end
           end
 
           def process_with_token(username, token)
@@ -82,77 +79,30 @@ module Travis
                  GH::Error(:response_status => 403),
                  GH::Error(:response_status => 404),
                  GH::Error(:response_status => 422) => e
-            error(%W[
-              type=github_status
-              build=#{build[:id]}
-              repo=#{repository[:slug]}
-              state=#{state}
-              commit=#{sha}
-              username=#{username}
-              response_status=#{e.info[:response_status]}
-              reason=#{ERROR_REASONS.fetch(Integer(e.info[:response_status]))}
-              processed_with=user_token
-              body=#{e.info[:response_body]}
-            ].join(' '))
+            error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} username=#{username} response_status=#{e.info[:response_status]} reason=#{ERROR_REASONS.fetch(Integer(e.info[:response_status]))} processed_with=user_token body=#{e.info[:response_body]}")
             nil
           rescue GH::Error => e
-            message = %W[
-              type=github_status
-              build=#{build[:id]}
-              repo=#{repository[:slug]}
-              error=not_updated
-              commit=#{sha}
-              url=#{GH.api_host + url}
-              response_status=#{e.info[:response_status]}
-              message=#{e.message}
-              processed_with=user_token
-              body=#{e.info[:response_body]}
-            ].join(' ')
+            message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} response_status=#{e.info[:response_status]} message=#{e.message} processed_with=user_token body=#{e.info[:response_body]}"
             error(message)
             raise message
           end
 
           def process_via_github_app
+            Travis::RemoteVCS::Repository.create_comment(token, status_payload.to_json)
             response = github_apps.post_with_app(url, status_payload.to_json)
 
             if response.success?
-              info(%W[
-                type=github_status
-                repo=#{repository[:slug]}
-                response_status=#{response.status}
-                processed_with=github_apps
-              ].join(' '))
+              info("type=github_status repo=#{repository[:slug]} response_status=#{response.status} processed_with=github_apps")
               return true
             end
 
             status_int = Integer(response.status)
             case status_int
             when 401, 403, 404, 422
-              error(%W[
-                type=github_status
-                build=#{build[:id]}
-                repo=#{repository[:slug]}
-                state=#{state}
-                commit=#{sha}
-                installation_id=#{installation_id}
-                response_status=#{status_int}
-                reason=#{ERROR_REASONS.fetch(status_int)}
-                processed_with=github_apps
-                body=#{response.body}
-              ].join(' '))
+              error("type=github_status build=#{build[:id]} repo=#{repository[:slug]} state=#{state} commit=#{sha} installation_id=#{installation_id} response_status=#{status_int} reason=#{ERROR_REASONS.fetch(status_int)} processed_with=github_apps body=#{response.body}")
               return nil
             else
-              message = %W[
-                type=github_status
-                build=#{build[:id]}
-                repo=#{repository[:slug]}
-                error=not_updated
-                commit=#{sha}
-                url=#{GH.api_host + url}
-                response_status=#{status_int}
-                processed_with=github_apps
-                body=#{response.body}
-              ].join(' ')
+              message = "type=github_status build=#{build[:id]} repo=#{repository[:slug]} error=not_updated commit=#{sha} url=#{GH.api_host + url} response_status=#{status_int} processed_with=github_apps body=#{response.body}"
               error(message)
               raise message
             end

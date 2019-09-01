@@ -1,4 +1,4 @@
-module Travis::Addons::GithubCheckStatus::Output
+module Travis::Addons::CheckStatus::Output
   class Matrix
     include Helpers
 

@@ -1,60 +1,54 @@
 require 'spec_helper'
 
-describe Travis::Addons::GithubCheckStatus::Task do
-  include Travis::Testing::Stubs
+describe Travis::Addons::CheckStatus::Task do
+  # include Travis::Testing::Stubs
 
-  before { ENV['GITHUB_PRIVATE_PEM'] = File.read('spec/fixtures/github_pem.txt') }
-  after  { ENV.delete('GITHUB_PRIVATE_PEM') }
-
-  let(:subject)    { Travis::Addons::GithubCheckStatus::Task.new(payload, installation: installation_id) }
-  let(:payload)    { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
-  let(:io)         { StringIO.new }
-  let(:gh_apps)    { Travis::GithubApps.new installation_id }
+  let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
+  let(:subject) { described_class.new(payload, installation: installation_id) }
   let(:installation_id) { '12345' }
-
   let(:slug) { 'svenfuchs/minimal' }
   let(:sha) { '62aae5f70ceee39123ef' }
-  let(:response_data) { {check_run_id: 1, sha: sha, slug: slug} }
-
-  let(:conn) {
-    Faraday.new do |builder|
-      builder.adapter :test do |stub|
-        stub.post("app/installations/12345/access_tokens") { |env| [201, {}, "{\"token\":\"github_apps_access_token\",\"expires_at\":\"2018-04-03T20:52:14Z\"}"] }
-        stub.post("/repositories/549743/check-runs") { |env| [201, {}, check_run_response(response_data)] }
-        stub.get("/repositories/549743/commits/#{sha}/check-runs?check_name=Travis+CI+-+Branch&filter=latest") { |env| [200, {}, check_run_list_response(response_data)] }
-        stub.patch("/repositories/549743/check-runs/1") { |env| [200, {}, check_run_response(response_data)] }
-      end
-    end
-  }
+  let(:response_data) { { check_run_id: 1, sha: sha, slug: slug } }
 
   before do
-    Travis.logger = Logger.new(io)
+    ENV['GITHUB_PRIVATE_PEM'] = File.read('spec/fixtures/github_pem.txt')
+    Travis.logger = Logger.new(StringIO.new)
   end
 
-  it 'makes expected API calls' do
-    subject.expects(:github_apps).times(1).returns(gh_apps)
-    gh_apps.expects(:github_api_conn).times(2).returns(conn)
+  after { ENV.delete('GITHUB_PRIVATE_PEM') }
+
+  it 'creates a new check run if the build state is "created"' do
+    payload['build']['state'] = 'created'
+
+    resp = stub(success?: true, body: check_run_response(response_data), status: 200)
+    Travis::RemoteVCS::Repository.any_instance.expects(:create_check_run).times(1).returns(resp)
+    subject.expects(:info).times(2)
+
     subject.run
   end
 
-  context "when API call to fetch Check Runs fails" do
+  it 'updates a check run' do
+    payload['build']['state'] = 'passed'
+    subject.expects(:find_check_run).returns(check_run_response(response_data))
+    resp = stub(success?: true, body: check_run_response(response_data), status: 200)
+    Travis::RemoteVCS::Repository.any_instance.expects(:check_runs).never
+    Travis::RemoteVCS::Repository.any_instance.expects(:create_check_run).never
+    Travis::RemoteVCS::Repository.any_instance.expects(:update_check_run).times(1).returns(resp)
+    subject.expects(:info).times(2)
 
-    let(:conn) {
-      Faraday.new do |builder|
-        builder.adapter :test do |stub|
-          stub.post("app/installations/12345/access_tokens") { |env| [201, {}, "{\"token\":\"github_apps_access_token\",\"expires_at\":\"2018-04-03T20:52:14Z\"}"] }
-          stub.post("/repositories/549743/check-runs") { |env| [201, {}, check_run_response(response_data)] }
-          stub.get("/repositories/549743/commits/#{sha}/check-runs?check_name=Travis+CI+-+Branch&filter=latest") { |env| [403, {}, check_run_list_response(response_data)] }
-          stub.patch("/repositories/549743/check-runs/1") { |env| [200, {}, check_run_response(response_data)] }
-        end
-      end
-    }
+    subject.run
+  end
 
-    it 'makes expected API calls' do
-      subject.expects(:github_apps).times(1).returns(gh_apps)
-      gh_apps.expects(:github_api_conn).times(2).returns(conn)
-      subject.run
-    end
+  it 'informs when no check run is found' do
+    payload['build']['state'] = 'passed'
+
+    Travis::RemoteVCS::Repository.any_instance.expects(:create_check_run).never
+    Travis::RemoteVCS::Repository.any_instance.expects(:update_check_run).never
+    Travis::RemoteVCS::Repository.any_instance.expects(:check_runs).times(1).returns(stub(success?: false, status: 403))
+    subject.expects(:info).times(1)
+    subject.expects(:error).times(1)
+
+    subject.run
   end
 end
 

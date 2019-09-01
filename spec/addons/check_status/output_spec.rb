@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Travis::Addons::GithubCheckStatus::Output do
+describe Travis::Addons::CheckStatus::Output do
   include Travis::Testing::Stubs
-  let(:subject) { Travis::Addons::GithubCheckStatus::Output::Generator.new(payload).to_h }
+  let(:subject) { Travis::Addons::CheckStatus::Output::Generator.new(payload).to_h }
 
   describe 'push build with matrix' do
     let(:payload) { TASK_PAYLOAD.deep_symbolize_keys }
@@ -41,7 +41,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       Language         | Ruby
       Operating System | Linux
       Ruby Versions    | 1.8.7, 1.9.2
-      
+
       <details>
       <summary>Build Configuration</summary>
       <pre lang='yaml'>
