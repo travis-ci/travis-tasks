@@ -14,7 +14,6 @@ require 'payloads'
 ActionMailer::Base.delivery_method = :test
 
 require 'mocha'
-require 'gh'
 require 'capybara'
 
 include Mocha::API
@@ -31,7 +30,6 @@ RSpec.configure do |c|
   c.before :each do
     Travis.config.oauth2 ||= {}
     Travis.config.oauth2.scope = 'public_repo,user'
-    GH.reset
   end
 end
 
