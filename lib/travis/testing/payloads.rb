@@ -245,4 +245,3 @@ PAYLOADS[:queue] = {
     :queue      => 'builds'
   }
 }
-

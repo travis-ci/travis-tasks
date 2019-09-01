@@ -1,21 +1,10 @@
 require 'spec_helper'
 
 describe Travis::Addons::CheckStatus::Task do
-  # include Travis::Testing::Stubs
-
   let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
-  let(:subject) { described_class.new(payload, installation: installation_id) }
-  let(:installation_id) { '12345' }
-  let(:slug) { 'svenfuchs/minimal' }
-  let(:sha) { '62aae5f70ceee39123ef' }
-  let(:response_data) { { check_run_id: 1, sha: sha, slug: slug } }
+  let(:response_data) { { check_run_id: 1, sha: '62aae5f70ceee39123ef', slug: 'svenfuchs/minimal' } }
 
-  before do
-    ENV['GITHUB_PRIVATE_PEM'] = File.read('spec/fixtures/github_pem.txt')
-    Travis.logger = Logger.new(StringIO.new)
-  end
-
-  after { ENV.delete('GITHUB_PRIVATE_PEM') }
+  subject { described_class.new(payload, installation: '12345') }
 
   it 'creates a new check run if the build state is "created"' do
     payload['build']['state'] = 'created'

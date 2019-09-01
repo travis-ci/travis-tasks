@@ -26,6 +26,14 @@ module Travis
           req.params['payload'] = payload
         end
       end
+
+      def create_status(vcs_id, commit, payload)
+        connection.post do |req|
+          req.url "/repos/#{vcs_id}/status"
+          req.params['commit'] = commit
+          req.params['payload'] = payload
+        end
+      end
     end
   end
 end
