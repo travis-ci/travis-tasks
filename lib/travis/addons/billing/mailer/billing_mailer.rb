@@ -1,4 +1,5 @@
 require 'action_mailer'
+require 'faraday_middleware'
 
 module Travis
   module Addons
