@@ -34,6 +34,23 @@ module Travis
           req.params['payload'] = payload
         end
       end
+
+      def branch_url(vcs_id, branch)
+        resp = connection.post do |req|
+          req.url "/repos/#{vcs_id}/urls/branch"
+          req.params['branch'] = branch
+        end
+        JSON.parse(resp.body)[:url] if resp.success?
+      end
+
+      def file_url(vcs_id, branch, file)
+        resp = connection.post do |req|
+          req.url "/repos/#{vcs_id}/urls/file"
+          req.params['branch'] = branch
+          req.params['file'] = file
+        end
+        JSON.parse(resp.body)[:url] if resp.success?
+      end
     end
   end
 end

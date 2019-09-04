@@ -12,14 +12,14 @@ module Travis
 
           def asset_url(build_state)
             if(build_state == 'canceled')
-              "#{Travis.config.s3.url}/status-errored.png" 
+              "#{Travis.config.s3.url}/status-errored.png"
             else
             "#{Travis.config.s3.url}/status-#{build_state}.png"
             end
           end
 
           def branch_url(repo, branch)
-            "#{Travis.config.github.url}/#{repo.slug}/tree/#{branch}"
+            Travis::RemoteVCS::Repository.new.branch_url(repo.github_id, branch)
           end
 
           def broadcast_category(category)

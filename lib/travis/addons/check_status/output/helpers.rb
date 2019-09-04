@@ -89,7 +89,7 @@ module Travis::Addons::CheckStatus::Output
     end
 
     hash_accessors :payload, :build, :jobs, :owner, :repository, :request, :pull_request, :tag, :commit
-    hash_accessors :repository, :slug
+    hash_accessors :repository, :slug, :github_id
     hash_accessors :commit, :branch, :author_name, :committer_name
     hash_accessors :build, :state, :previous_state, :finished_at, pull_request?: :pull_request, external_id: :id
 
@@ -179,7 +179,7 @@ module Travis::Addons::CheckStatus::Output
 
     def file_link(path)
       path = path.split('/').map { |p| URI.escape(p) }.join('/')
-      "#{Travis.config.github.url}/#{slug}/blob/#{commit[:sha]}/#{path}"
+      Travis::RemoteVCS::Repository.new.file_url(github_id, commit[:sha], path)
     end
 
     def number(input)

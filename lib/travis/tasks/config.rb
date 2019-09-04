@@ -27,7 +27,6 @@ module Travis
       end
 
       define host:    "travis-ci.org",
-             github:  { url: 'https://github.com' },
              redis:   { url: "redis://localhost:6379" },
              sentry:  { },
              metrics: { reporter: 'librato' },
