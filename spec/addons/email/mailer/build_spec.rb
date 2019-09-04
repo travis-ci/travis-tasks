@@ -17,6 +17,7 @@ describe Travis::Addons::Email::Mailer::Build do
     Travis.config.build_email_footer = true
     Travis.config.email = {}
     Travis.config.assets = {}
+    Travis::RemoteVCS::Repository.any_instance.expects(:branch_url).returns('')
   end
 
   describe 'finished build email notification' do
