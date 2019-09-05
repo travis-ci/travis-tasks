@@ -53,6 +53,7 @@ module Travis::Addons::CheckStatus::Output
       case key
       when :os      then os_description(job, value)
       when :gemfile then "<a href='#{file_link(value)}'>#{escape(value)}</a>"
+      when :env     then Rack::Utils.escape_html(value.first) # env is passed on here as a single-element array
       else escape(value)
       end
     end

@@ -195,6 +195,63 @@ describe Travis::Addons::CheckStatus::Output do
     example { expect(subject[:output][:text]).to eq(text) }
   end
 
+  describe 'build with env data' do
+    let(:payload) { TASK_PAYLOAD_WITH_ENVS.deep_symbolize_keys }
+    let(:text)    { <<-MARKDOWN.gsub(/^      /, '').strip }
+      This is a normal build for the master branch. You should be able to reproduce it by checking out the branch locally.
+
+      ## Jobs and Stages
+      This build has **two jobs**, running in parallel.
+
+      <table>
+      <thead>
+        <tr>
+          <th>Job</th>
+          <th>Ruby</th>
+          <th>ENV</th>
+          <th>State</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.1</a></td>
+          <td>1.8.7</td>
+          <td>[secure]</td>
+          <td>passed</td>
+        </tr>
+        <tr>
+          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.2</a></td>
+          <td>1.9.2</td>
+          <td>x=y</td>
+          <td>passed</td>
+        </tr>
+      </tbody>
+      </table>
+
+      ## Build Configuration
+
+      Build Option     | Setting
+      -----------------|--------------
+      Language         | Ruby
+      Operating System | Linux
+      Ruby Versions    | 1.8.7, 1.9.2
+
+      <details>
+      <summary>Build Configuration</summary>
+      <pre lang='yaml'>
+      {
+        "rvm": [
+          "1.8.7",
+          "1.9.2"
+        ]
+      }
+      </pre>
+      </details>
+    MARKDOWN
+
+    example { expect(subject[:output][:text]).to eq(text) }
+  end
+
   describe 'queued build' do
     let(:payload) { base_payload.merge(build: base_payload[:build].merge(state: 'queued')) }
     let(:base_payload) { TASK_PAYLOAD.deep_symbolize_keys }
