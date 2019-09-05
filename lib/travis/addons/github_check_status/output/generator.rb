@@ -9,6 +9,7 @@ module Travis::Addons::GithubCheckStatus::Output
       @payload    = payload
       @build_info = pull_request? ? PullRequest.new(self) : Push.new(self)
       @job_info   = matrix?       ? Matrix.new(self)      : SingleJob.new(self)
+      Travis.logger.debug "payload=#{payload}"
     end
 
     def generator
