@@ -170,3 +170,25 @@ TASK_PAYLOAD_WITH_STAGES = TASK_PAYLOAD.merge({
     "allow_failure"=>false
   }]
 })
+
+TASK_PAYLOAD_WITH_ENVS = TASK_PAYLOAD.merge({
+  "jobs"=>[{
+    "id"=>1,
+    "number"=>"2.1",
+    "state"=>"passed",
+    "config" => {
+      "rvm"=>"1.8.7",
+      "env" => ["[secure]"]
+    },
+    "allow_failure"=>false
+  }, {
+    "id"=> 2,
+    "number"=>"2.2",
+    "state"=>"passed",
+    "config" => {
+      "rvm"=>"1.9.2",
+      "env" => ["x=y"]
+    },
+    "allow_failure"=>false
+  }]
+})
