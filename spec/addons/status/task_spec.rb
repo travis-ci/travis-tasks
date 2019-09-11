@@ -14,7 +14,7 @@ describe Travis::Addons::GithubStatus::Task do
 
     resp = stub(success?: true, body: '{}', status: 200)
     payload = { state: 'pending', description: 'The Travis CI build is in progress', target_url: target_url, context: 'continuous-integration/travis-ci/push' }.to_json
-    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:github_id], subject.send(:sha), payload).times(1).returns(resp)
+    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:vcs_id], subject.send(:sha), payload).times(1).returns(resp)
     subject.expects(:info).times(2)
 
     subject.run
@@ -25,7 +25,7 @@ describe Travis::Addons::GithubStatus::Task do
 
     resp = stub(success?: true, body: '{}', status: 200)
     payload = { state: 'success', description: 'The Travis CI build passed', target_url: target_url, context: 'continuous-integration/travis-ci/push' }.to_json
-    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:github_id], subject.send(:sha), payload).times(1).returns(resp)
+    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:vcs_id], subject.send(:sha), payload).times(1).returns(resp)
     subject.expects(:info).times(2)
 
     subject.run
@@ -36,7 +36,7 @@ describe Travis::Addons::GithubStatus::Task do
 
     resp = stub(success?: true, body: '{}', status: 200)
     payload = { state: 'failure', description: 'The Travis CI build failed', target_url: target_url, context: 'continuous-integration/travis-ci/push' }.to_json
-    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:github_id], subject.send(:sha), payload).times(1).returns(resp)
+    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:vcs_id], subject.send(:sha), payload).times(1).returns(resp)
     subject.expects(:info).times(2)
 
     subject.run
@@ -47,7 +47,7 @@ describe Travis::Addons::GithubStatus::Task do
 
     resp = stub(success?: true, body: '{}', status: 200)
     payload = { state: 'error', description: 'The Travis CI build could not complete due to an error', target_url: target_url, context: 'continuous-integration/travis-ci/push' }.to_json
-    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:github_id], subject.send(:sha), payload).times(1).returns(resp)
+    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:vcs_id], subject.send(:sha), payload).times(1).returns(resp)
     subject.expects(:info).times(2)
 
     subject.run
@@ -58,7 +58,7 @@ describe Travis::Addons::GithubStatus::Task do
 
     resp = stub(success?: true, body: '{}', status: 200)
     payload = { state: 'error', description: 'The Travis CI build could not complete due to an error', target_url: target_url, context: 'continuous-integration/travis-ci/push' }.to_json
-    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:github_id], subject.send(:sha), payload).times(1).returns(resp)
+    Travis::RemoteVCS::Repository.any_instance.expects(:create_status).with(repo[:vcs_id], subject.send(:sha), payload).times(1).returns(resp)
     subject.expects(:info).times(2)
 
     subject.run

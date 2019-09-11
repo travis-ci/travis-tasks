@@ -44,7 +44,7 @@ module Travis
         end
 
         def create_status
-          Travis::RemoteVCS::Repository.new.create_status(repository[:github_id], sha, status_payload.to_json)
+          Travis::RemoteVCS::Repository.new.create_status(repository[:vcs_id], sha, status_payload.to_json)
         end
 
         def target_url

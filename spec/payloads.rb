@@ -7,6 +7,7 @@ TASK_PAYLOAD = {
   "repository" => {
     "id"=>1,
     "github_id"=>549743,
+    "vcs_id"=>549743,
     "key"=>"-----BEGIN PUBLIC KEY-----",
     "slug"=>"svenfuchs/minimal",
     "name"=>"minimal",

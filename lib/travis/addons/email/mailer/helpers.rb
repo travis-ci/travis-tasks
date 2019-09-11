@@ -19,7 +19,7 @@ module Travis
           end
 
           def branch_url(repo, branch)
-            Travis::RemoteVCS::Repository.new.branch_url(repo.github_id, branch)
+            Travis::RemoteVCS::Repository.new.branch_url(repo.vcs_id, branch)
           end
 
           def broadcast_category(category)

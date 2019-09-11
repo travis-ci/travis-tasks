@@ -18,11 +18,11 @@ module Travis
         end
 
         def create_check_run
-          Travis::RemoteVCS::Repository.new.create_check_run(repository[:github_id], check_status_payload.to_json)
+          Travis::RemoteVCS::Repository.new.create_check_run(repository[:vcs_id], check_status_payload.to_json)
         end
 
         def update_check_run(check_run)
-          Travis::RemoteVCS::Repository.new.update_check_run(repository[:github_id], check_run["id"], check_status_payload.to_json)
+          Travis::RemoteVCS::Repository.new.update_check_run(repository[:vcs_id], check_run["id"], check_status_payload.to_json)
         end
 
         def log_response(resp)
@@ -38,7 +38,7 @@ module Travis
 
         def find_check_run(check_run_id)
           check_run_name = check_status_payload[:name]
-          resp = Travis::RemoteVCS::Repository.new.check_runs(repository[:github_id], sha, check_run_name)
+          resp = Travis::RemoteVCS::Repository.new.check_runs(repository[:vcs_id], sha, check_run_name)
 
           if resp.success?
             check_runs = JSON.parse(resp.body)["check_runs"]
