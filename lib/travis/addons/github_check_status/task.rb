@@ -94,8 +94,13 @@ module Travis
         def check_status_payload
           return @check_status_payload if @check_status_payload
           return_data = Output::Generator.new(payload).to_h
+          info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} check_api_payload_size=#{return_data.to_json.size}")
           if return_data.to_json.size > GITHUB_CHECK_API_PAYLOAD_LIMIT
             return_data = Output::Generator.new(payload.merge(config_display_text: "Build configuration is too large to display")).to_h
+            if return_data.to_json.size > GITHUB_CHECK_API_PAYLOAD_LIMIT
+              info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} check_api_payload_size=#{return_data.to_json.size} - Content still over the limit")
+              info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} full payload: #{resturn_data.to_json}")
+            end
           end
           @check_status_payload = return_data
         end
