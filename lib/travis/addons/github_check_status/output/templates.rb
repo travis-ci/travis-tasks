@@ -26,7 +26,7 @@ module Travis::Addons::GithubCheckStatus::Output
       {{build_info.description}}
 
       ## Jobs and Stages
-      {{job_info.description}}
+      {{job_info_text}}
 
       ## Build Configuration
 
