@@ -86,7 +86,7 @@ module Travis
           end
 
           def template
-            Array(try_config(:template) || DEFAULT_TEMPLATE)
+            Array(params[:template] || try_config(:template) || DEFAULT_TEMPLATE)
           end
 
           def client_options(host, port, ssl)

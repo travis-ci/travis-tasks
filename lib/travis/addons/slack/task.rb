@@ -16,10 +16,6 @@ module Travis
           end
         end
 
-        def targets
-          params[:targets]
-        end
-
         def illegal_format?(target)
           !target.match(/^[a-zA-Z0-9-]+:[a-zA-Z0-9_-]+(#.+)?$/)
         end
@@ -66,7 +62,7 @@ module Travis
         end
 
         def message_text
-          lines = Array(template_from_config || default_template)
+          lines = Array(template || template_from_config || default_template)
           lines.map {|line| Util::Template.new(line, payload, source: :slack).interpolate}.join("\n")
         end
 
@@ -79,6 +75,14 @@ module Travis
           else
             "warning"
           end
+        end
+
+        def targets
+          params[:targets]
+        end
+
+        def template
+          params[:template]
         end
 
         def template_from_config
