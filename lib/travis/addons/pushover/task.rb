@@ -45,7 +45,7 @@ module Travis
           end
 
           def template
-            template = config[:template] rescue nil
+            template = params[:template] || config[:template] rescue nil
             template || DEFAULT_TEMPLATE
           end
 
