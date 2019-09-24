@@ -96,6 +96,9 @@ module Travis
           return_data = Output::Generator.new(payload).to_h
           if return_data.to_json.size > GITHUB_CHECK_API_PAYLOAD_LIMIT
             return_data = Output::Generator.new(payload.merge(config_display_text: "Build configuration is too large to display")).to_h
+            if return_data.to_json.size > GITHUB_CHECK_API_PAYLOAD_LIMIT
+              return_data = Output::Generator.new(payload.merge(config_display_text: "Build configuration is too large to display", job_info_text: "Jobs information is too large to display")).to_h
+            end
           end
           @check_status_payload = return_data
         end

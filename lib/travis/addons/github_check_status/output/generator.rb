@@ -3,7 +3,7 @@ module Travis::Addons::GithubCheckStatus::Output
     FIELDS             = %i[ name head_sha details_url external_id status conclusion started_at completed_at ]
     OUTPUT_FIELDS      = %i[ title summary text annotations images ]
     include Helpers
-    attr_reader :payload, :build_info, :job_info
+    attr_reader :payload, :build_info
 
     def initialize(payload)
       @payload    = payload
@@ -81,6 +81,10 @@ module Travis::Addons::GithubCheckStatus::Output
 
     def config_display_text
       payload[:config_display_text] || yaml(build[:config])
+    end
+
+    def job_info_text
+      payload[:job_info_text] || @job_info.description
     end
 
     def yaml(config)
