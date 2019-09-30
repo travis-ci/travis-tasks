@@ -2,3 +2,5 @@
 /.env
 /.git
 .travis.yml
+#IDEs folders
+.idea

@@ -5,18 +5,11 @@ services:
 
 cache: bundler
 
-script: bundle exec rspec -f documentation --color --order rand spec
-
-
 jobs:
   include:
     - stage: "testing time"
-    - stage: ":ship: it to Quay.io"
-      sudo: required
-      dist: trusty
+      script: bundle exec rspec -f documentation --color --order rand spec
+    - stage: ":ship: it to quay.io"
       ruby:
       services:
-      addons:
-      before_install: echo "skipping"
-      install: echo "skipping"
-      script: ./script/docker-build-and-push
+      script: make ship

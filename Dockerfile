@@ -1,28 +1,18 @@
 FROM ruby:2.5.3
 
-LABEL maintainer Travis CI GmbH <support+travis-app-docker-images@travis-ci.com>
-
-# required for envsubst tool
-RUN ( \
-   apt-get update ; \
-   apt-get install -y --no-install-recommends  gettext-base ; \
-   rm -rf /var/lib/apt/lists/* ; \
-   groupadd -r travis && useradd -m -r -g travis travis ; \
-   mkdir -p /usr/src/app ; \
-   chown -R travis:travis /usr/src/app \
-)
+LABEL maintainer Travis CI GmbH <support+travis-tasks-docker-images@travis-ci.com>
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
 
-USER travis
-WORKDIR /usr/src/app
+RUN mkdir -p /app
+WORKDIR /app
 
-COPY Gemfile      /usr/src/app
-COPY Gemfile.lock /usr/src/app
+COPY Gemfile      /app
+COPY Gemfile.lock /app
 
-RUN bundle install
+RUN bundle install --deployment
 
-COPY . /usr/src/app
+COPY . /app
 
 CMD /bin/bash
