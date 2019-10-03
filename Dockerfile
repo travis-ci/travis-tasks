@@ -14,5 +14,3 @@ COPY Gemfile.lock /app
 RUN bundle install --deployment
 
 COPY . /app
-
-CMD /bin/bash
