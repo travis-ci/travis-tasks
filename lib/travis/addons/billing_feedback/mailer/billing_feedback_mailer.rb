@@ -20,7 +20,7 @@ module Travis
             end
 
             def from_email
-              "success@travis-ci.com"
+              "cancellations@travis-ci.com"
             end
         end
       end
