@@ -5,4 +5,11 @@ services:
 
 cache: bundler
 
-script: bundle exec rspec -f documentation --color --order rand spec
+jobs:
+  include:
+    - stage: "testing time"
+      script: bundle exec rspec -f documentation --color --order rand spec
+    - stage: ":ship: it to quay.io"
+      ruby:
+      services:
+      script: make ship

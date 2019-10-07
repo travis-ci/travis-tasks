@@ -2,3 +2,5 @@ config/travis.yml
 play
 .bundle
 vendor/bundle
+#IDEs folders
+.idea
