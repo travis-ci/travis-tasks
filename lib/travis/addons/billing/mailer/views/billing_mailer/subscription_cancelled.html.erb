@@ -150,7 +150,7 @@
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                       <p style="font-size: 16px;margin: 0 0 10px 0;">
                         This email is to confirm your subscription with Travis CI has been cancelled and is set to expire on
-                        <span id="subscription-expiration" style="color: #e23a3c;"><%= @subscription[:valid_to].strftime("%B %d, %Y") %></span>.
+                        <span id="subscription-expiration" style="color: #e23a3c;"><%= Time.parse(@subscription[:valid_to]).strftime("%B %d, %Y") %></span>.
                       </p>
                       <p style="font-size: 16px;margin: 0 0 10px 0;">
                         If you cancelled by mistake, please respond to this email, and we&rsquo;ll help you get back in and running.
