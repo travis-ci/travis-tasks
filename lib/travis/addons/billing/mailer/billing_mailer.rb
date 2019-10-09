@@ -25,13 +25,17 @@ module Travis
           def subscription_cancelled(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription = subscription
             subject = "Travis CI: Cancellation confirmed"
-            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
+            mail(from: cancellation_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
           private
 
             def travis_email
               "Travis CI <#{from_email}>"
+            end
+
+            def cancellation_email
+              "Travis CI <cancellations@travis-ci.com>"
             end
 
             def from_email
