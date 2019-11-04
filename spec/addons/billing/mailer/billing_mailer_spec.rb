@@ -121,12 +121,12 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
     end
 
     it 'shows the account name' do
-      expect(html).to have_text_lines('Travis CI refund for the account Ruby Monsters')
+      expect(html).to have_text_lines('Your plan has been cancelled. We reimbursed your paid amount according to Travis CI refund policy.')
     end
 
     it 'shows who was refunded' do
       expect(html).to have_text_lines(%q{
-        Billed To:
+        Issued To:
 
         Ruby Monsters
         Tessa Schmidt
@@ -139,7 +139,7 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
 
     it 'shows the total' do
       expect(html).to have_text_lines(%q{
-        Total \(In USD\)
+        Amount reimbursed \(In USD\)
         \$9.99
       })
     end
