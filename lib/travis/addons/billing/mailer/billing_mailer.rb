@@ -118,6 +118,10 @@ module Travis
               @invoice.fetch(:amount_due) / 100.0
             end
 
+            def amount_paid
+              @invoice.fetch(:amount_paid) / 100.0
+            end
+
             def amount_refunded
               @invoice.fetch(:amount_refunded) / 100.0
             end

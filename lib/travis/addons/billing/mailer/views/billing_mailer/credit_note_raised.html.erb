@@ -214,7 +214,7 @@
                     <td class="invoice-header-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;text-align: center;">
                       <h2 id="invoice-header" style="font-size: 30px;font-weight: 600;margin: 1.136% 0 3.409% 0;color: #0068ff;">We are sorry to see you go :(</h2>
                       <p style="margin: 0 0 10px 0;">
-                        Your plan has been cancelled. We reimbursed your paid amount according to Travis CI refund policy. Attached is your refund invoice for account
+                        Your plan has been cancelled. We reimbursed your paid amount according to the Travis CI refund policy. Attached is your refund invoice for account
                         <span class="blue-text" style="color: #0068ff;"><%= @invoice.account_name %></span>.
                       </p>
                       <% unless Travis.env == "production" %>
@@ -284,22 +284,22 @@
                   <!-- Amount paid -->
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
-                      <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Status</label>
-                      <span>Amount paid <%= @invoice.amount_refunded %></span>
+                      <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Amount paid</label>
+                      <span><%= number_to_currency(@invoice.amount_paid) %></span>
                     </td>
                   </tr>
                   <!-- Amount paid -->
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
-                      <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Status</label>
-                      <span>Amount reimbursed <%= @invoice.amount_refunded %></span>
+                      <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Amount reimbursed</label>
+                      <span> <%= number_to_currency(@invoice.amount_refunded) %></span>
                     </td>
                   </tr>
                   <!-- Total -->
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
-                      <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Status</label>
-                      <span>Total <%= @invoice.amount_refunded %></span>
+                      <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Total</label>
+                      <span>Total <%= number_to_currency(@invoice.amount_refunded) %></span>
                     </td>
                   </tr>
                   <tr>

@@ -94,7 +94,7 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
     let(:recipient) { 'shairyar@travis-ci.com' }
     let(:subscription) {{company: 'Ruby Monsters', first_name: 'Tessa', last_name: 'Schmidt', address: 'Rigaer Str.', city: 'Berlin', state: 'Berlin', post_code: '10000', country: 'Germany', vat_id: 'DE123456789'}}
     let(:owner) {{name: 'Ruby Monsters', login: 'rubymonsters'}}
-    let(:invoice) {{ pdf_url: pdf_url, amount_refunded: 999, amount: 999, created_at: Time.now.to_s, invoice_id: 'TP123', plan: 'Startup'}}
+    let(:invoice) {{ pdf_url: pdf_url, amount_refunded: 999, amount_paid: 999, amount: 999, created_at: Time.now.to_s, invoice_id: 'TP123', plan: 'Startup'}}
     let(:real_pdf_url) {  'http://invoices.travis-ci.dev/invoices/123'}
     let(:pdf_url) { real_pdf_url }
     let(:filename) { 'TP123.pdf' }
@@ -121,7 +121,7 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
     end
 
     it 'shows the account name' do
-      expect(html).to have_text_lines('Your plan has been cancelled. We reimbursed your paid amount according to Travis CI refund policy.')
+      expect(html).to have_text_lines('Your plan has been cancelled. We reimbursed your paid amount according to the Travis CI refund policy.')
     end
 
     it 'shows who was refunded' do
