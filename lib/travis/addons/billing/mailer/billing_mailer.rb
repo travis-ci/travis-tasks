@@ -126,6 +126,10 @@ module Travis
               @invoice.fetch(:amount_refunded) / 100.0
             end
 
+            def refund_reason
+              @invoice.fetch(:refund_reason)
+            end
+
             def created_at
               Time.parse(@invoice.fetch(:created_at))
             end
