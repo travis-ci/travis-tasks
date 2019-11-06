@@ -28,6 +28,13 @@ module Travis
             mail(from: cancellation_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
+          def credit_note_raised(receivers, subscription, owner, _charge, _event, invoice, cc_last_digits)
+            @invoice = InvoicePresenter.new(subscription, owner, invoice, cc_last_digits)
+            subject = 'Travis CI: Your Payment has been refunded'
+            download_attachment invoice.fetch(:pdf_url)
+            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
+          end
+
           private
 
             def travis_email
@@ -109,6 +116,14 @@ module Travis
 
             def amount_due
               @invoice.fetch(:amount_due) / 100.0
+            end
+
+            def amount_paid
+              @invoice.fetch(:amount_paid) / 100.0
+            end
+
+            def amount_refunded
+              @invoice.fetch(:amount_refunded) / 100.0
             end
 
             def created_at
