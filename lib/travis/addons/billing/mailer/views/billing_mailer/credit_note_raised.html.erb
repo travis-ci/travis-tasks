@@ -212,9 +212,11 @@
                   <!-- Header - Thanks -->
                   <tr>
                     <td class="invoice-header-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;text-align: center;">
-                      <h2 id="invoice-header" style="font-size: 30px;font-weight: 600;margin: 1.136% 0 3.409% 0;color: #0068ff;">We are sorry to see you go :(</h2>
+                      <% if @invoice.refund_reason != 'duplicate' %>
+                        <h2 id="invoice-header" style="font-size: 30px;font-weight: 600;margin: 1.136% 0 3.409% 0;color: #0068ff;">We are sorry to see you go :(</h2>
+                      <% end %>
                       <p style="margin: 0 0 10px 0;">
-                        Your plan has been cancelled. We reimbursed your paid amount according to the Travis CI refund policy. Attached is your refund invoice for account
+                        <% if @invoice.refund_reason != 'duplicate' %> Your plan has been cancelled. <% end %>We reimbursed your paid amount according to the Travis CI refund policy. Attached is your refund invoice for account
                         <span class="blue-text" style="color: #0068ff;"><%= @invoice.account_name %></span>.
                       </p>
                       <% unless Travis.env == "production" %>
