@@ -46,8 +46,7 @@ module Travis
           def finished?(data)
             finish_states = [:passed, :failed, :errored]
             jobs = data[:jobs].map { |job| Hashr.new(job) }
-            jobs.each { |job| return false if !finish_states.includes?(job.state) }
-            true
+            jobs.all? { |job| finish_states.includes?(job.state) }
           rescue
             true
           end
