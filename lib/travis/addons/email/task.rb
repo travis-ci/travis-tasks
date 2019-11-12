@@ -21,7 +21,7 @@ module Travis
         private
 
           def process(timeout)
-            send_email if recipients.any?
+            send_email if recipients.any? && finished?(build)
           rescue Net::SMTPServerBusy => e
             error("Could not send email to: #{recipients} (error: #{e.message})")
             raise unless e.message =~ /Bad recipient address syntax/ || e.message =~ /Recipient address rejected/
@@ -41,6 +41,15 @@ module Travis
             build.id
           rescue
             "nil"
+          end
+
+          def finished?(data)
+            finish_states = [:passed, :failed, :errored]
+            jobs = data[:jobs].map { |job| Hashr.new(job) }
+            jobs.each { |job| return false if !finish_states.includes?(job.state) }
+            true
+          rescue
+            true
           end
 
           def repository_slug(data)
