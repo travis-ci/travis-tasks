@@ -823,6 +823,7 @@ GEM
     thread_safe (0.3.6)
     travis-config (1.1.3)
       hashr (~> 2.0)
+    travis-rollout (0.0.2)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     webmock (1.8.11)
@@ -861,6 +862,7 @@ DEPENDENCIES
   travis-github_apps!
   travis-logger!
   travis-metrics!
+  travis-rollout (~> 0.0.2)
   webmock (~> 1.8.0)
 
 RUBY VERSION

@@ -50,8 +50,8 @@ module Travis
           apps_id:        Travis.config.github_apps.id,
           private_pem:    Travis.config.github_apps.private_pem,
           redis:          Travis.config.redis.to_h,
-          debug:          Travis.config.github_apps.debug
-          accept_header:  'application/vnd.github.antiope-preview+json',
+          debug:          Travis.config.github_apps.debug,
+          accept_header:  'application/vnd.github.antiope-preview+json'
         )
       end
     end
