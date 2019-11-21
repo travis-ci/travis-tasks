@@ -6,7 +6,7 @@ describe Travis::Addons::GithubStatus::Task do
   let(:subject)    { Travis::Addons::GithubStatus::Task }
   let(:params)     { { tokens: { 'svenfuchs' => '12345', 'jdoe' => '67890' } } }
   let(:instance)   { subject.new(payload, params) }
-  let(:url)        { '/repos/svenfuchs/minimal/statuses/62aae5f70ceee39123ef' }
+  let(:url)        { '/repositories/549743/statuses/62aae5f70ceee39123ef' }
   let(:target_url) { 'https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=github_status&utm_medium=notification' }
   let(:payload)    { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:io)         { StringIO.new }
@@ -123,7 +123,7 @@ describe Travis::Addons::GithubStatus::Task do
     end
 
     it 'processes via github apps' do
-      instance.stubs(:github_apps).returns(gh_apps)
+      Travis::Backends::Github.any_instance.stubs(:github_apps).returns(gh_apps)
       gh_apps.expects(:post_with_app)
         .with(url, instance.send(:status_payload).to_json)
         .returns(response)

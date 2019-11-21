@@ -60,6 +60,7 @@ FactoryGirl.define do
     last_build_started_at { Time.now.utc }
     last_build_finished_at { Time.now.utc }
     sequence(:github_id) {|n| n }
+    vcs_id github_id
   end
 
   factory :minimal, :parent => :repository do
@@ -131,4 +132,3 @@ FactoryGirl.define do
     api_key "0123456789abcdef"
   end
 end
-

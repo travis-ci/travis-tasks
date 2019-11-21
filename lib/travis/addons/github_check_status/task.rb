@@ -37,13 +37,13 @@ module Travis
         end
 
         def check_runs(ref)
-          response = client.check_runs(id: repository[:vcs_id], type: repository[:vcs_type], ref: ref, check_run_name: check_run_name)
+          res = client.check_runs(id: repository[:vcs_id], type: repository[:vcs_type], ref: ref, check_run_name: check_run_name)
 
-          if response.success?
-            response_data = JSON.parse(response.body)
+          if res.success?
+            response_data = JSON.parse(res.body)
             check_runs = response_data["check_runs"]
           else
-            error("type=github_check_status repo=#{repository[:slug]} path=#{path} response_status=#{response.status}")
+            error("type=github_check_status repo=#{repository[:slug]} path=#{res.env.url} response_status=#{res.status}")
             []
           end
         end

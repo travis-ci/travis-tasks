@@ -73,7 +73,7 @@ module Travis
           def process_with_token(username, token)
             authenticated(token) do
               client.create_status(
-                process_via: :gh,
+                process_via_gh_apps: false,
                 id: repository[:vcs_id],
                 type: repository[:vcs_type],
                 ref: sha,
@@ -116,7 +116,7 @@ module Travis
 
           def process_via_github_app
             response = client.create_status(
-              process_via: :github_apps,
+              process_via_gh_apps: true,
               id: repository[:vcs_id],
               type: repository[:vcs_type],
               ref: sha,

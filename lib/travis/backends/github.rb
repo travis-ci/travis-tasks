@@ -24,13 +24,13 @@ module Travis
         github_apps.get_with_app(path)
       end
 
-      def create_status(process_via:, id:, type:, ref:, payload:)
-        url = "/repositories/#{repository[:vcs_id]}/statuses/#{ref}"
+      def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
+        url = "/repositories/#{id}/statuses/#{ref}"
 
-        if process_via == 'gh'
-          GH.post(url, payload)
+        if process_via_gh_apps
+          github_apps.post_with_app(url, payload)
         else
-          client.post_with_app(url, payload)
+          GH.post(url, payload)
         end
       end
 

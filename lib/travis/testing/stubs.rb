@@ -58,6 +58,8 @@ module Travis
           last_build_duration: 60,
           github_language: 'ruby',
           github_id: 549743,
+          vcs_id: "549743",
+          vcs_type: "GithubRepository",
           builds_only_with_travis_yml?: false
         )
       end
@@ -329,4 +331,3 @@ module Travis
     end
   end
 end
-
