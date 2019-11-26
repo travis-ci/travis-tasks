@@ -26,13 +26,13 @@ module Travis
       end
 
       def file_url(id:, type:, slug:, branch:, file:)
-        res = client.get("/repos/#{id}/urls/file", vcs_type: type, branch: branch, file: file)
-        JSON.parse(res.body)[:url] if res.success?
+        response = client.get("/repos/#{id}/urls/file", vcs_type: type, branch: branch, file: file)
+        JSON.parse(response.body)[:url] if response.success?
       end
 
       def branch_url(id:, type:, slug:, branch:)
-        res = client.get("/repos/#{id}/urls/branch", vcs_type: type, branch: branch)
-        JSON.parse(res.body)[:url] if res.success?
+        response = client.get("/repos/#{id}/urls/branch", vcs_type: type, branch: branch)
+        JSON.parse(response.body)[:url] if response.success?
       end
 
     private
