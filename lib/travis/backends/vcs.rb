@@ -35,6 +35,14 @@ module Travis
         JSON.parse(response.body)[:url] if response.success?
       end
 
+      def create_check_run_url(id)
+        "#{Travis.config.vcs.url}/repos/#{id}/checks"
+      end
+
+      def create_status_url(id, _ref)
+        "#{Travis.config.vcs.url}/repos/#{id}/status"
+      end
+
     private
 
       def client

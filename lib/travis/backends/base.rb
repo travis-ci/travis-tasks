@@ -28,6 +28,14 @@ module Travis
       def branch_url(id:, type:, slug:, branch:)
         raise NotImplementedError
       end
+
+      def create_check_run_url(id)
+        raise NotImplementedError
+      end
+
+      def create_status_url(id, ref)
+        raise NotImplementedError
+      end
     end
   end
 end

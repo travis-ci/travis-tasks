@@ -42,6 +42,14 @@ module Travis
         "#{Travis.config.github.url}/#{slug}/tree/#{branch}"
       end
 
+      def create_check_run_url(id)
+        "#{GH.api_host}/repositories/#{id}/check-runs"
+      end
+
+      def create_status_url(id, ref)
+        "#{GH.api_host}/repositories/#{id}/statuses/#{ref}"
+      end
+
     private
 
       def github_apps

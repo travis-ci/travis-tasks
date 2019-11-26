@@ -31,6 +31,10 @@ module Travis
 
         private
 
+          def url
+            client.create_status_url(repository[:id], sha)
+          end
+
           def process(timeout)
             message = %W[
               type=github_status
@@ -59,7 +63,7 @@ module Travis
                   error=not_updated
                   commit=#{sha}
                   username=#{username}
-                  client=#{client.name}
+                  url=#{url}
                   processed_with=user_token
                 ].join(' '))
               end
@@ -104,7 +108,7 @@ module Travis
               repo=#{repository[:slug]}
               error=not_updated
               commit=#{sha}
-              client=#{client.name}
+              url=#{url}
               response_status=#{e.info[:response_status]}
               message=#{e.message}
               processed_with=user_token
@@ -156,7 +160,7 @@ module Travis
                 repo=#{repository[:slug]}
                 error=not_updated
                 commit=#{sha}
-                client=#{client.name}
+                url=#{url}
                 response_status=#{status_int}
                 processed_with=#{client.name}
                 body=#{response.body}
