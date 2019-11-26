@@ -32,7 +32,7 @@ module Travis
 
           info "type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} response_status=#{response.status} #{log_data}"
         rescue => e
-          error("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} error='#{e}' client=#{client.create_check_run_url(repository[:vcs_id])} payload=#{check_status_payload}")
+          error("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} error='#{e}' url=#{client.create_check_run_url(repository[:vcs_id])} payload=#{check_status_payload}")
           raise e
         end
 
