@@ -32,7 +32,7 @@ describe Travis::Addons::GithubCheckStatus::Task do
   end
 
   it 'makes expected API calls' do
-    subject.expects(:github_apps).times(1).returns(gh_apps)
+    Travis::Backends::Github.any_instance.expects(:github_apps).times(1).returns(gh_apps)
     gh_apps.expects(:github_api_conn).times(2).returns(conn)
     subject.run
   end
@@ -51,7 +51,7 @@ describe Travis::Addons::GithubCheckStatus::Task do
     }
 
     it 'makes expected API calls' do
-      subject.expects(:github_apps).times(1).returns(gh_apps)
+      Travis::Backends::Github.any_instance.expects(:github_apps).times(1).returns(gh_apps)
       gh_apps.expects(:github_api_conn).times(2).returns(conn)
       subject.run
     end

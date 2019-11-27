@@ -29,11 +29,11 @@ module Travis
           422 => :maximum_number_of_statuses,
         }
 
-        def url
-          "/repos/#{repository[:slug]}/statuses/#{sha}"
-        end
-
         private
+
+          def url
+            client.create_status_url(repository[:vcs_id], sha)
+          end
 
           def process(timeout)
             message = %W[
@@ -47,7 +47,7 @@ module Travis
             ].join(' ')
 
             if !installation_id.nil? && process_via_github_app
-              info("#{message} processed_with=github_apps")
+              info("#{message} processed_with=#{client.name}")
               return
             end
 
@@ -63,7 +63,7 @@ module Travis
                   error=not_updated
                   commit=#{sha}
                   username=#{username}
-                  url=#{GH.api_host + url}
+                  url=#{url}
                   processed_with=user_token
                 ].join(' '))
               end
@@ -76,7 +76,13 @@ module Travis
 
           def process_with_token(username, token)
             authenticated(token) do
-              GH.post(url, status_payload)
+              client.create_status(
+                process_via_gh_apps: false,
+                id: repository[:vcs_id],
+                type: repository[:vcs_type],
+                ref: sha,
+                payload: status_payload
+              )
             end
           rescue GH::Error(:response_status => 401),
                  GH::Error(:response_status => 403),
@@ -102,7 +108,7 @@ module Travis
               repo=#{repository[:slug]}
               error=not_updated
               commit=#{sha}
-              url=#{GH.api_host + url}
+              url=#{url}
               response_status=#{e.info[:response_status]}
               message=#{e.message}
               processed_with=user_token
@@ -113,14 +119,20 @@ module Travis
           end
 
           def process_via_github_app
-            response = github_apps.post_with_app(url, status_payload.to_json)
+            response = client.create_status(
+              process_via_gh_apps: true,
+              id: repository[:vcs_id],
+              type: repository[:vcs_type],
+              ref: sha,
+              payload: status_payload.to_json
+            )
 
             if response.success?
               info(%W[
                 type=github_status
                 repo=#{repository[:slug]}
                 response_status=#{response.status}
-                processed_with=github_apps
+                processed_with=#{client.name}
               ].join(' '))
               return true
             end
@@ -137,7 +149,7 @@ module Travis
                 installation_id=#{installation_id}
                 response_status=#{status_int}
                 reason=#{ERROR_REASONS.fetch(status_int)}
-                processed_with=github_apps
+                processed_with=#{client.name}
                 body=#{response.body}
               ].join(' '))
               return nil
@@ -148,9 +160,9 @@ module Travis
                 repo=#{repository[:slug]}
                 error=not_updated
                 commit=#{sha}
-                url=#{GH.api_host + url}
+                url=#{url}
                 response_status=#{status_int}
-                processed_with=github_apps
+                processed_with=#{client.name}
                 body=#{response.body}
               ].join(' ')
               error(message)
@@ -171,27 +183,12 @@ module Travis
             }
           end
 
-          def check_api_media_type
-            'application/vnd.github.antiope-preview+json'
-          end
-
-          def github_apps
-            @github_apps ||= Travis::GithubApps.new(
-              installation_id,
-              apps_id: Travis.config.github_apps.id,
-              private_pem: Travis.config.github_apps.private_pem,
-              redis: Travis.config.redis.to_h,
-              accept_header: check_api_media_type,
-              debug: debug?
-            )
+          def client
+            @client ||= Travis::Api.backend(repository[:vcs_id], installation_id: installation_id)
           end
 
           def installation_id
             params.fetch(:installation, nil)
-          end
-
-          def debug?
-            Travis.config.github_apps.debug
           end
 
           def sha
