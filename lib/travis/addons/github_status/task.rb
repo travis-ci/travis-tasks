@@ -32,7 +32,7 @@ module Travis
         private
 
           def url
-            client.create_status_url(repository[:id], sha)
+            client.create_status_url(repository[:vcs_id], sha)
           end
 
           def process(timeout)
