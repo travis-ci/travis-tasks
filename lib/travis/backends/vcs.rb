@@ -21,7 +21,7 @@ module Travis
         client.get("/repos/#{id}/checks", vcs_type: type, commit: ref, check_run_name: check_run_name)
       end
 
-      def create_status(id:, type:, ref:, payload:)
+      def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
         client.post("/repos/#{id}/status", vcs_type: type, commit: ref, payload: payload)
       end
 
