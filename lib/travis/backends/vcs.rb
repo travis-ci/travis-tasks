@@ -1,3 +1,4 @@
+require 'travis/backends/vcs_client'
 
 module Travis
   module Backends
