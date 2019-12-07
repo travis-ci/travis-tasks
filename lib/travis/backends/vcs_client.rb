@@ -21,6 +21,7 @@ module Travis
         @client ||= Faraday.new(ssl: Travis.config.ssl.to_h, url: Travis.config.vcs.url) do |c|
           c.request :authorization, :token, Travis.config.vcs.token
           c.request :retry, max: 5, interval: 0.1, backoff_factor: 2
+          c.request :json
           c.use FaradayMiddleware::Instrumentation
           c.request :retry
           c.response :raise_error
