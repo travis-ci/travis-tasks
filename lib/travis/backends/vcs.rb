@@ -1,5 +1,4 @@
-require 'faraday'
-require 'faraday_middleware'
+require 'travis/backends/vcs_client'
 
 module Travis
   module Backends
@@ -21,7 +20,7 @@ module Travis
         client.get("/repos/#{id}/checks", vcs_type: type, commit: ref, check_run_name: check_run_name)
       end
 
-      def create_status(id:, type:, ref:, payload:)
+      def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
         client.post("/repos/#{id}/status", vcs_type: type, commit: ref, payload: payload)
       end
 
@@ -46,14 +45,7 @@ module Travis
     private
 
       def client
-        @client ||= Faraday.new(ssl: Travis.config.ssl.to_h, url: Travis.config.vcs.url) do |c|
-          c.request :authorization, :token, Travis.config.vcs.token
-          c.request :retry, max: 5, interval: 0.1, backoff_factor: 2
-          c.use FaradayMiddleware::Instrumentation
-          c.request :retry
-          c.response :raise_error
-          c.adapter :net_http
-        end
+        @client ||= Travis::Backends::VcsClient.new
       end
     end
   end
