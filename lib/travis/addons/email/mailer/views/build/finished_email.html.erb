@@ -319,8 +319,8 @@
             <thead>
               <tr>
                 <td><div class="status-image"><img src="asset_url(@build.state)" width="25" height="25"></div></td>
-                <td class="build-message"><span><%= link_to @result_message.email, repository_build_url(slug: @repository.slug, id: @build.id) %></span><img src="<%= #{Travis.config.s3.url}/#{build_email_css_class(@build)}-arrow.png %>" style="float: right;" height="45"></td>
-                <td align="right" class="time"><div class="stop-watch"><img src="<%= #{Travis.config.s3.url}/time.png %>" width="20" height="20"></div> <span><%= duration_in_words(@build.started_at, @build.finished_at) %></span></td>
+                <td class="build-message"><span><%= link_to @result_message.email, repository_build_url(slug: @repository.slug, id: @build.id) %></span><img src="<%= Travis.config.s3.url %>/<%= build_email_css_class(@build) %>-arrow.png" style="float: right;" height="45"></td>
+                <td align="right" class="time"><div class="stop-watch"><img src="<%= Travis.config.s3.url %>/time.png" width="20" height="20"></div> <span><%= duration_in_words(@build.started_at, @build.finished_at) %></span></td>
               </tr>
             </thead>
             <tbody>
@@ -366,7 +366,7 @@
       <table border="0" class="footer">
         <tr>
           <td>
-            <img src="<%= #{Travis.config.s3.url}/TravisCI-Logo-BW.png %>" style="width: 50px; height: 50px;" />
+            <img src="<%= Travis.config.s3.url %>/TravisCI-Logo-BW.png" style="width: 50px; height: 50px;" />
           </td>
           <td style="" class="grey">
             <a href="https://docs.travis-ci.com">Documentation</a> about Travis CI<br/>
