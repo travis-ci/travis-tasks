@@ -32,6 +32,7 @@ module Travis
              webhook: { },
              utm:     Travis.env == 'test',
              assets:  { host: HOSTS[Travis.env.to_sym] },
+             s3:      { url: 'https://s3.amazonaws.com/travis-email-assets'},
              irc:     { freenode_password: nil, nick: nil },
              librato: { email: nil, token: nil }
 

@@ -7,6 +7,15 @@ module Travis
     module Email
       module Mailer
         module Helpers
+
+          def asset_url(build_state)
+            if(build_state == 'canceled')
+              "#{Travis.config.s3.url}/status-errored.png"
+            else
+            "#{Travis.config.s3.url}/status-#{build_state}.png"
+            end
+          end
+
           def encode_image(path)
             path = File.expand_path("../../views/#{path}", __FILE__)
             type = Rack::Mime.mime_type(File.extname(path))
