@@ -28,7 +28,7 @@ module Travis
           end
 
           def broadcast_category(category)
-            email_asset_base_url = 'https://s3.amazonaws.com/travis-email-assets'
+            email_asset_base_url = "#{Travis.config.s3.url}"
             category == 'announcement' ? "#{email_asset_base_url}/announcement_dot.png" : "#{email_asset_base_url}/warning_dot.png"
           end
 
