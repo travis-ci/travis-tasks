@@ -18,7 +18,7 @@
         text-align: center;
         color: #333333;
         background-color: #F4F5F9;
-        background-image: url("<%= #{Travis.config.s3.url} %>/build_background.png");
+        background-image: url("#{Travis.config.s3.url}/build_background.png");
       }
 
       #email-content-container {
@@ -432,7 +432,7 @@
       cellspacing="0"
       height="100%"
       width="100%"
-      style="height: 100%;width: 100%;padding: 10px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;line-height: 150%;text-align: center;color: #333333;background-color: #F4F5F9;background-image: url(<%= #{Travis.config.s3.url} %>/build_background.png);">
+      style="height: 100%;width: 100%;padding: 10px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;line-height: 150%;text-align: center;color: #333333;background-color: #F4F5F9;background-image: url(#{Travis.config.s3.url}/build_background.png);">
       <tr>
         <td align="center" valign="top" style="padding-bottom: 20px;">
           <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 32px; background-color: #FFFFFF;">
