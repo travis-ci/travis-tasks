@@ -91,6 +91,15 @@ RSpec::Matchers.define :have_message do |event, object|
   end
 end
 
+RSpec::Matchers.define :match_url do |expected|
+  match do |actual|
+    e = Addressable::URI.parse(expected)
+    a = Addressable::URI.parse(actual)
+    [e.authority, e.scheme, e.host, e.path, e.query_values, e.fragment] ==
+      [a.authority, a.scheme, a.host, a.path, a.query_values, a.fragment]
+  end
+end
+
 module Kernel
   def capture_stdout
     out = StringIO.new
