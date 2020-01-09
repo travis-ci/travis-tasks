@@ -7,38 +7,50 @@ module Travis
     module Email
       module Mailer
         module Helpers
-          def encode_image(path)
-            path = File.expand_path("../../views/#{path}", __FILE__)
-            type = Rack::Mime.mime_type(File.extname(path))
-            data = Base64.encode64(File.read(path)) if File.exists?(path)
-            "data:#{type};base64,#{data}"
-          end
+          ONE_HOUR = 3600
+          ONE_MINUTE = 60
 
-          def repo_url(repo)
-            url = "https://#{Travis.config.host}/#{repo.slug}"
-            Travis.config.utm ? with_utm(url) :url
+          def asset_url(build_state)
+            if(build_state == 'canceled')
+              "#{Travis.config.s3.url}/status-errored.png"
+            else
+            "#{Travis.config.s3.url}/status-#{build_state}.png"
+            end
           end
 
           def branch_url(repo, branch)
             "#{Travis.config.github.url}/#{repo.slug}/tree/#{branch}"
           end
 
-          def repository_build_url(options)
-            config = Travis.config
-            url = [config.http_host, options[:slug], 'builds', options[:id]].join('/')
-            config.utm ? with_utm(url) :url
+          def broadcast_category(category)
+            email_asset_base_url = "#{Travis.config.s3.url}"
+            category == 'announcement' ? "#{email_asset_base_url}/announcement_dot.png" : "#{email_asset_base_url}/warning_dot.png"
           end
 
-          def with_utm(url)
-            with_query_params(url, utm_source: :email, utm_medium: :notification)
+          def build_email_css_class(build)
+            case build.state
+            when 'failed', 'broken', 'failing'
+              'failure'
+            when 'fixed', 'passed'
+              'success'
+            else
+              'error'
+            end
           end
 
-          def with_query_params(url, params)
-            "#{url}?#{params.map { |pair| pair.join('=') }.join('&')}"
+          def build_image_extension(build)
+            case build.state
+            when 'failed', 'broken', 'failing'
+              'failed'
+            when 'fixed', 'passed'
+              'success'
+            else
+              'error'
+            end
           end
 
-          def title(repository)
-            "Build Update for #{repository.slug}"
+          def build_status(status_result)
+            status_result.gsub('.', '')
           end
 
           # 1 hour, 10 minutes, and 15 seconds
@@ -54,9 +66,9 @@ module Travis
             # difference in seconds
             diff = (finished_at - started_at).to_i
 
-            hours   = hours_part(diff)
-            minutes = minutes_part(diff)
-            seconds = seconds_part(diff)
+            hours   = diff / ONE_HOUR
+            minutes = (diff % ONE_HOUR) / ONE_MINUTE
+            seconds = diff % ONE_MINUTE
 
             time_pieces = []
 
@@ -67,58 +79,48 @@ module Travis
             time_pieces.to_sentence
           end
 
-          ONE_HOUR = 3600
-          ONE_MINUTE = 60
-
-          def hours_part(diff)
-            diff / ONE_HOUR
+          def gravatar_url(author_email)
+            "https://secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(author_email)}"
           end
 
-          def minutes_part(diff)
-            (diff % ONE_HOUR) / ONE_MINUTE
+          def organization_name(repository_slug)
+            repository_slug.split('/').first
           end
 
-          def seconds_part(diff)
-            diff % ONE_MINUTE
+          def repository_name(repository_slug)
+            repository_slug.split('/').last
           end
 
-          def tags_for(jobs)
-            jobs.map(&:tags).join(',').split(',').uniq
+          def title(repository)
+            "Build Update for #{repository.slug}"
           end
 
-          def numbers_for(jobs, tag)
-            jobs.map { |job| job.number if job.tags.to_s.include?(tag) }.compact
+          def repository_url(repository)
+            travis_url repository.slug
           end
 
-          def build_email_css_class(build)
-            case build.state
-            when 'failed', 'broken', 'failing'
-              'failure'
-            when 'fixed', 'passed'
-              'success'
-            else
-              'error'
-            end
+          def repository_build_url(options)
+            travis_url options.fetch(:slug), :builds, options.fetch(:id)
           end
 
-
-          def build_image_extension(build)
-            case build.state
-            when 'failed', 'broken', 'failing'
-              'failed'
-            when 'fixed', 'passed'
-              'success'
-            else
-              'error'
-            end
+          def unsubscribe_url
+            travis_url :account, :preferences, :unsubscribe
           end
 
-          # def formated_note(format, message, numbers)
-          #   case format
-          #     when "text" then "* #{message} (#{numbers}) <br />"
-          #     when "html" then "<li>#{message} (#{numbers})</li>"
-          #   end
-          # end
+          def repository_unsubscribe_url(repository)
+            travis_url :account, :preferences, :unsubscribe, repository: repository.id
+          end
+
+          def travis_url(*path_fragments)
+            query_params = path_fragments.last.is_a?(Hash) ? path_fragments.pop : {}
+            query_params.merge!(utm_source: :email, utm_medium: :notification) if Travis.config.utm
+            path = path_fragments.join('/')
+
+            Addressable::URI.parse(Travis.config.http_host).tap do |uri|
+              uri.path = path
+              uri.query_values = query_params unless query_params.empty?
+            end.to_s
+          end
         end
       end
     end
