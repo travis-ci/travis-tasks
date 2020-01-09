@@ -18,7 +18,7 @@ describe Travis::Addons::Email::Mailer::Helpers do
   it 'returns a s3 asset url' do
     build_state = 'passed'
 
-    expect(asset_url(build_state)).to eq 'https://s3.amazonaws.com/travis-email-assets/status-passed.png'
+    expect(asset_url(build_state)).to eq "#{Travis.config.s3.url}/status-passed.png"
   end
 
   it 'returns gravatar url' do
@@ -36,13 +36,13 @@ describe Travis::Addons::Email::Mailer::Helpers do
   it 'returns an announcement broadcast status icon' do
     category = 'announcement'
 
-    expect(broadcast_category(category)).to eq 'https://s3.amazonaws.com/travis-email-assets/announcement_dot.png'
+    expect(broadcast_category(category)).to eq "#{Travis.config.s3.url}/announcement_dot.png"
   end
 
   it 'returns an warning broadcast status icon' do
     category = 'warning'
 
-    expect(broadcast_category(category)).to eq 'https://s3.amazonaws.com/travis-email-assets/warning_dot.png'
+    expect(broadcast_category(category)).to eq "#{Travis.config.s3.url}/warning_dot.png"
   end
 
   it '#title returns title for the build' do
