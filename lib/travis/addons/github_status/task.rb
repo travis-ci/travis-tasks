@@ -36,8 +36,8 @@ module Travis
           end
 
           def process(timeout)
-            info("repository: #{repository.to_s}")
-            info("repository[vcs_type]: #{repository[:vcs_type]}")
+            return if repository[:vcs_type] != 'GithubRepository'.freeze
+
             message = %W[
               type=github_status
               build=#{build[:id]}
