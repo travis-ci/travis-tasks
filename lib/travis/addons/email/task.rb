@@ -21,6 +21,7 @@ module Travis
         private
 
           def process(timeout)
+            info "should be email to: #{recipients.to_s}"
             send_email if recipients.any?
           rescue Net::SMTPServerBusy => e
             error("Could not send email to: #{recipients} (error: #{e.message})")

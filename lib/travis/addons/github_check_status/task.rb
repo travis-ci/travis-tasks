@@ -7,6 +7,8 @@ module Travis
         private
 
         def process(timeout)
+          return if repository[:vcs_type] != 'GithubRepository'.freeze
+          
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id} sha=#{sha}")
 
           if build[:state] == 'created'
