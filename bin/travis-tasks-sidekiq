@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 require 'optparse'
 
-#   github_check_status
-#   github_commit_status
-#   github_status
-
 DEFAULT_QUEUES = %w[
   campfire
   email
   flowdock
+  github_check_status
+  github_commit_status
+  github_status
   hipchat
   irc
   keenio

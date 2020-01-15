@@ -8,7 +8,7 @@ module Travis
     require 'travis/addons/flowdock'
     require 'travis/addons/gdpr'
     require 'travis/addons/github_check_status'
-    # require 'travis/addons/github_status'
+    require 'travis/addons/github_status'
     require 'travis/addons/hipchat'
     require 'travis/addons/irc'
     require 'travis/addons/util'
