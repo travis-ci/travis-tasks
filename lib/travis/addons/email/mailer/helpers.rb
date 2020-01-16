@@ -24,7 +24,7 @@ module Travis
               type: repo.vcs_type,
               slug: repo.slug,
               branch: branch
-            ) + ' branchurlhere?' + repo.vcs_type
+            )
           end
 
           def broadcast_category(category)

@@ -31,7 +31,7 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def job_url(job)
-      "#{Travis.config.http_host}/#{slug}/jobs/#{job[:id]}"
+      "#{Travis.config.http_host}/#{vcs_prefix(repository[:vcs_type])}/#{slug}/jobs/#{job[:id]}"
     end
 
     def table_body
