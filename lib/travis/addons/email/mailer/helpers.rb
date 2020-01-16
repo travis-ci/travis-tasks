@@ -101,7 +101,7 @@ module Travis
           end
 
           def repository_url(repository)
-            travis_url "#{Travis::Api.vcs_prefix(repository[:vcs_type])}/#{repository.slug}"
+            travis_url "#{Travis::Api.vcs_prefix(repository.vcs_type)}/#{repository.slug}"
           end
 
           def repository_build_url(options)

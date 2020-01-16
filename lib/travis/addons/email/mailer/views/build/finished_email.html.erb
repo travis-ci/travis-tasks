@@ -461,7 +461,7 @@
                   <tr class="build-status-background-<%= build_email_css_class(@build) %>">
                     <td id="status-icon-section" align="center" valign="top" class="build-status-border-bottom-<%= build_email_css_class(@build) %>" style="padding: 15px 15px;">
                     <div style="float: left;">
-                      <div style="display: inline;"><%= image_tag(asset_url(@build.state), alt: "build has #{@build.state}", style: 'display: inline; vertical-align: sub; width: 17px; height: 17px; padding-right: 8px;')%></div><div style="display: inline;"><%= link_to build_status(@result_message.email), repository_build_url(slug: @repository.slug, id: @build.id), {id: 'status-section-message', class: build_email_css_class(@build), style: 'font-size: 16px; font-weight: 600;'}%></div>
+                      <div style="display: inline;"><%= image_tag(asset_url(@build.state), alt: "build has #{@build.state}", style: 'display: inline; vertical-align: sub; width: 17px; height: 17px; padding-right: 8px;')%></div><div style="display: inline;"><%= link_to build_status(@result_message.email), repository_build_url(slug: @repository.slug, id: @build.id, vcs_type: @repository.vcs_type), {id: 'status-section-message', class: build_email_css_class(@build), style: 'font-size: 16px; font-weight: 600;'}%></div>
                     </div>
                       <div style="display: inline; float: left;"><%= image_tag("#{Travis.config.s3.url}/#{build_email_css_class(@build)}-arrow.png", id: 'arrow', alt: 'arrow to build time', style: 'width: 7px; height: auto; vertical-align: text-bottom; padding: 0px 8px;') %></div>
                     <div style="float: right;">
@@ -602,7 +602,7 @@
       "@type": "EmailMessage",
       "action": {
         "@type": "ViewAction",
-        "url": "<%= repository_build_url(slug: @repository.slug, id: @build.id) %>",
+        "url": "<%= repository_build_url(slug: @repository.slug, id: @build.id, vcs_type: @repository.vcs_type) %>",
         "name": "View Build"
       },
       "description": "View Build #<%= @build.number %> on Travis CI"

@@ -11,7 +11,7 @@ Message: <%= @commit.message %>
 
 View the changeset: <%= @commit.compare_url %>
 
-View the full build log and details: <%= repository_build_url(slug: @repository.slug, id: @build.id) %>
+View the full build log and details: <%= repository_build_url(slug: @repository.slug, id: @build.id, vcs_type: @repository.vcs_type) %>
 
 --
 
