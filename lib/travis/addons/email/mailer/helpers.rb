@@ -101,11 +101,11 @@ module Travis
           end
 
           def repository_url(repository)
-            travis_url "#{vcs_prefix(repository[:vcs_type])}/#{repository.slug}"
+            travis_url "#{Travis::Task.vcs_prefix(repository[:vcs_type])}/#{repository.slug}"
           end
 
           def repository_build_url(options)
-            travis_url "#{vcs_prefix(repository[:vcs_type])}/#{options.fetch(:slug)}", :builds, options.fetch(:id)
+            travis_url "#{Travis::Task.vcs_prefix(repository[:vcs_type])}/#{options.fetch(:slug)}", :builds, options.fetch(:id)
           end
 
           def unsubscribe_url
