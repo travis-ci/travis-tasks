@@ -13,5 +13,9 @@ module Travis
         Travis::Backends::Github.new(installation_id)
       end
     end
+
+    def vcs_prefix(vcs_type)
+      vcs_type.sub('Repository', '').downcase
+    end
   end
 end

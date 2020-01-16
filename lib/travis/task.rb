@@ -91,10 +91,6 @@ module Travis
         "#{url}?#{params.map { |pair| pair.join('=') }.join('&')}"
       end
 
-      def vcs_prefix(vcs_type)
-        vcs_type.sub('Repository', '').downcase
-      end
-
       def http
         @http ||= Faraday.new(http_options) do |f|
           f.request :url_encoded

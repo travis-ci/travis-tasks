@@ -173,7 +173,7 @@ module Travis
           end
 
           def target_url
-            with_utm("#{Travis.config.http_host}/#{vcs_prefix(repository[:vcs_type])}/#{repository[:slug]}/builds/#{build[:id]}", :github_status)
+            with_utm("#{Travis.config.http_host}/#{Travis::Api.vcs_prefix(repository[:vcs_type])}/#{repository[:slug]}/builds/#{build[:id]}", :github_status)
           end
 
           def status_payload
