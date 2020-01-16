@@ -26,7 +26,7 @@ module Travis
         end
       end
 
-      define host:    "travis-ci.org",
+      define host:    Travis.config.enterprise? ? ENV['TRAVIS_HOSTNAME'] : "travis-ci.org",
              github:  { url: 'https://github.com' },
              redis:   { url: "redis://localhost:6379" },
              sentry:  { },

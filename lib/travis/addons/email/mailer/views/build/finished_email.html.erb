@@ -584,7 +584,7 @@
             <% end -%>
             <tr>
               <td id="travis-ci-footer-logo-section" style="text-align: center;">
-                <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), Travis.config.enterprise? ? '' : 'https://travis-ci.com')%>
+                <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), Travis.config.enterprise? ? "https://#{Travis.config.host}" : 'https://travis-ci.com')%>
               </td>
             </tr>
             <tr>
