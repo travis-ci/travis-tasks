@@ -105,7 +105,7 @@ module Travis
           end
 
           def repository_build_url(options)
-            travis_url "#{Travis::Api.vcs_prefix(repository[:vcs_type])}/#{options.fetch(:slug)}", :builds, options.fetch(:id)
+            travis_url "#{Travis::Api.vcs_prefix(options.fetch(:vcs_type))}/#{options.fetch(:slug)}", :builds, options.fetch(:id)
           end
 
           def unsubscribe_url
