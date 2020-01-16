@@ -26,7 +26,7 @@ module Travis
         end
       end
 
-      define host:    Travis.config.enterprise? ? ENV['TRAVIS_HOSTNAME'] : "travis-ci.org",
+      define host:    "travis-ci.org",
              github:  { url: 'https://github.com' },
              redis:   { url: "redis://localhost:6379" },
              sentry:  { },
@@ -44,7 +44,8 @@ module Travis
              librato: { email: nil, token: nil },
              auth:    { jwt_public_key: ENV['JWT_RSA_PUBLIC_KEY'], http_basic_auth: http_basic_auth },
              github_apps: { debug: ENV['GITHUB_APPS_DEBUG'] },
-             vcs:     { url: 'https://travis-vcs-staging.herokuapp.com/', token: '' }
+             vcs:     { url: 'https://travis-vcs-staging.herokuapp.com/', token: '' },
+             enterprise_platform: { host: ENV['TRAVIS_HOSTNAME']}
 
 
       default _access: [:key]
