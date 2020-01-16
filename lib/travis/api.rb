@@ -15,7 +15,7 @@ module Travis
     end
 
     def vcs_prefix(vcs_type)
-      vcs_type.sub('Repository', '').downcase
+      vcs_type.sub('Repository', '').downcase if vcs_type
     end
   end
 end
