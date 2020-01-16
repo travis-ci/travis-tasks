@@ -7,6 +7,7 @@ module Travis
       # Sends out build notification emails using ActionMailer.
       class Task < Travis::Task
         def recipients
+          info "recipients=#{p params[:recipients]}"
           @recipients ||= params[:recipients].select { |email| valid?(email) }
         end
 
