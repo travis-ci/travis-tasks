@@ -31,7 +31,7 @@ module Travis
 
       def branch_url(id:, type:, slug:, branch:)
         response = client.get("/repos/#{CGI::escape(id)}/urls/branch", vcs_type: type, branch: branch)
-        Travis.logger.info("!!!!!response.body: " + response.body.to_s)
+        Travis.logger.info("!!!!! id: #{id}, vcs_type: #{type}, branch: #{branch}, response.body: " + response.body.to_s)
         JSON.parse(response.body)[:url] if response.success?
       end
 
