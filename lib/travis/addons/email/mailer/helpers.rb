@@ -19,7 +19,6 @@ module Travis
           end
 
           def branch_url(repo, branch)
-            Travis.logger.info("Travis::Addons::Email::Mailer::Helpers.branch_url: #{repo.to_s} #{branch}")
             result = Travis::Api.backend(repo.vcs_id, repo.vcs_type).branch_url(
               id: repo.vcs_id,
               type: repo.vcs_type,
