@@ -51,7 +51,7 @@ module Travis
         end
 
         def client
-          @client ||= Travis::Api.backend(repository[:vcs_id], installation_id: installation_id)
+          @client ||= Travis::Api.backend(repository[:vcs_id], repository[:vcs_type], installation_id: installation_id)
         end
 
         def installation_id

@@ -173,7 +173,7 @@ module Travis
           end
 
           def target_url
-            with_utm("#{Travis.config.http_host}/#{Travis::Api.vcs_prefix(repository[:vcs_type])}/#{repository[:slug]}/builds/#{build[:id]}", :github_status)
+            with_utm("#{Travis.config.http_host}/#{Util::Helpers.vcs_prefix(repository[:vcs_type])}/#{repository[:slug]}/builds/#{build[:id]}", :github_status)
           end
 
           def status_payload
@@ -186,7 +186,7 @@ module Travis
           end
 
           def client
-            @client ||= Travis::Api.backend(repository[:vcs_id], installation_id: installation_id)
+            @client ||= Travis::Api.backend(repository[:vcs_id], repository[:vcs_type], installation_id: installation_id)
           end
 
           def installation_id
