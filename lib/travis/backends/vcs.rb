@@ -26,7 +26,7 @@ module Travis
 
       def file_url(id:, type:, slug:, branch:, file:)
         response = client.get("/repos/#{CGI::escape(id)}/urls/file", vcs_type: type, branch: branch, file: file)
-        JSON.parse(response.body)[:url] if response.success?
+        JSON.parse(response.body)['url'] if response.success?
       end
 
       def branch_url(id:, type:, slug:, branch:)

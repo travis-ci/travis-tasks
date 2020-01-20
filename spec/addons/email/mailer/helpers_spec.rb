@@ -50,7 +50,7 @@ describe Travis::Addons::Email::Mailer::Helpers do
   end
 
   it '#repository_url returns correct URL' do
-    expect(repository_url(repository)).to match_url 'https://travis-ci.org/svenfuchs/minimal?utm_source=email&utm_medium=notification'
+    expect(repository_url(repository)).to match_url 'https://travis-ci.org/github/svenfuchs/minimal?utm_source=email&utm_medium=notification'
   end
 
   it '#repository_build_url returns correct URL' do

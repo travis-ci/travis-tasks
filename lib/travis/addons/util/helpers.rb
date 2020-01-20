@@ -8,6 +8,7 @@ module Travis
 
         def vcs_prefix(vcs_type)
           vcs_type.sub('Repository', '').downcase if vcs_type
+          'github'
         end
 
       end

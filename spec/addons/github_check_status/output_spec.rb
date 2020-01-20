@@ -22,12 +22,12 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </thead>
       <tbody>
         <tr>
-          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.1</a></td>
+          <td><a href='https://travis-ci.org/github/svenfuchs/minimal/jobs/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.1</a></td>
           <td>1.8.7</td>
           <td>passed</td>
         </tr>
         <tr>
-          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.2</a></td>
+          <td><a href='https://travis-ci.org/github/svenfuchs/minimal/jobs/2'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.2</a></td>
           <td>1.9.2</td>
           <td>passed</td>
         </tr>
@@ -57,7 +57,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
 
     example { is_expected.to eq({
       name:         'Travis CI - Branch',
-      details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
+      details_url:  'https://travis-ci.org/github/svenfuchs/minimal/builds/1',
       external_id:  '1',
       head_sha:     '62aae5f70ceee39123ef',
       started_at:   '2014-04-03T10:21:05Z',
@@ -66,7 +66,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       status:       'completed',
       output: {
         title:      'Build Passed',
-        summary:    "<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> The build</a> **passed**, just like the previous build.",
+        summary:    "<a href='https://travis-ci.org/github/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> The build</a> **passed**, just like the previous build.",
         text:       text
       }
     })}
@@ -106,7 +106,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
 
     example { is_expected.to eq({
       name:         'Travis CI - Pull Request',
-      details_url:  'https://travis-ci.org/svenfuchs/minimal/builds/1',
+      details_url:  'https://travis-ci.org/github/svenfuchs/minimal/builds/1',
       external_id:  '1',
       head_sha:     'head-commit',
       started_at:   '2014-04-03T10:21:05Z',
@@ -115,7 +115,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       status:       'completed',
       output: {
         title:      'Build Passed',
-        summary:    "<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> The build</a> **passed**. This is a change from the previous build, which **failed**.",
+        summary:    "<a href='https://travis-ci.org/github/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> The build</a> **passed**. This is a change from the previous build, which **failed**.",
         text:       text
       }
     })}
@@ -144,7 +144,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </thead>
       <tbody>
         <tr>
-          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.1</a></td>
+          <td><a href='https://travis-ci.org/github/svenfuchs/minimal/jobs/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.1</a></td>
           <td>1.8.7</td>
           <td>passed</td>
         </tr>
@@ -164,7 +164,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </thead>
       <tbody>
         <tr>
-          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.2</a></td>
+          <td><a href='https://travis-ci.org/github/svenfuchs/minimal/jobs/2'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.2</a></td>
           <td>1.9.2</td>
           <td>passed</td>
         </tr>
@@ -214,13 +214,13 @@ describe Travis::Addons::GithubCheckStatus::Output do
       </thead>
       <tbody>
         <tr>
-          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.1</a></td>
+          <td><a href='https://travis-ci.org/github/svenfuchs/minimal/jobs/1'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.1</a></td>
           <td>1.8.7</td>
           <td>[secure]</td>
           <td>passed</td>
         </tr>
         <tr>
-          <td><a href='https://travis-ci.org/svenfuchs/minimal/jobs/2'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.2</a></td>
+          <td><a href='https://travis-ci.org/github/svenfuchs/minimal/jobs/2'><img src='https://travis-ci.org/images/stroke-icons/icon-passed.png' height='11'> 2.2</a></td>
           <td>1.9.2</td>
           <td>x=y</td>
           <td>passed</td>
@@ -259,7 +259,7 @@ describe Travis::Addons::GithubCheckStatus::Output do
     example { expect(subject[:status]).to eq('queued') }
     example { expect(subject).not_to include(:conclusion) }
     example { expect(subject).not_to include(:completed_at) }
-    example { expect(subject[:output][:summary]).to eq("<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently waiting in the build queue for a VM to be ready.") }
+    example { expect(subject[:output][:summary]).to eq("<a href='https://travis-ci.org/github/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently waiting in the build queue for a VM to be ready.") }
   end
 
   describe 'started build' do
@@ -269,6 +269,6 @@ describe Travis::Addons::GithubCheckStatus::Output do
     example { expect(subject[:status]).to eq('in_progress') }
     example { expect(subject).not_to include(:conclusion) }
     example { expect(subject).not_to include(:completed_at) }
-    example { expect(subject[:output][:summary]).to eq("<a href='https://travis-ci.org/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently running.") }
+    example { expect(subject[:output][:summary]).to eq("<a href='https://travis-ci.org/github/svenfuchs/minimal/builds/1'><img src='https://travis-ci.org/images/stroke-icons/icon-running.png' height='11'> The build</a> is currently running.") }
   end
 end
