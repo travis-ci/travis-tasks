@@ -1,3 +1,5 @@
+require 'travis/remote_vcs/status'
+
 module Travis
   module Addons
     module GithubStatus
@@ -36,6 +38,7 @@ module Travis
         private
 
           def process(timeout)
+            puts "XXXXXX #{repository}"
             return true # TODO ADD VCS _ SKIP FOR TESTS NOW
             message = %W[
               type=github_status
