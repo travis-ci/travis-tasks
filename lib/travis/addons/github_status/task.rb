@@ -76,7 +76,7 @@ module Travis
 
           def vcs_process
             Travis::RemoteVCS::Status.new.post(
-              repository[:id], {
+              CGI.escape(repository[:id]), {
                 state: state,
                 description: description,
                 target_url: target_url
