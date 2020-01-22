@@ -25,7 +25,7 @@ module Travis
       def request(method, name)
         resp = connection.send(method) { |req| yield(req) }
         Travis.logger.info "#{self.class.name} #{name} response status: #{resp.status}"
-        resp.success?
+        if resp.success?
           resp.body.present? ? JSON.parse(resp.body) : true
         else
           raise StandardError
