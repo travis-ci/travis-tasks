@@ -36,7 +36,7 @@ module Travis
           end
 
           def process(timeout)
-            return if repository[:vcs_type] != 'GithubRepository'.freeze
+            return process_vcs if repository[:vcs_type] != 'GithubRepository'.freeze
 
             message = %W[
               type=github_status
@@ -70,6 +70,16 @@ module Travis
                 ].join(' '))
               end
             end
+          end
+
+          def process_vcs
+            client.create_status(
+              process_via_gh_apps: false,
+              id: repository[:vcs_id],
+              type: repository[:vcs_type],
+              ref: sha,
+              payload: status_payload
+            )
           end
 
           def tokens
