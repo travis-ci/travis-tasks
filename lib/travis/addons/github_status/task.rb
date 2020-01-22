@@ -38,6 +38,7 @@ module Travis
         private
 
           def process(timeout)
+            puts "PROCESS #{repository[:vcs_type] != 'GithubRepository'}  #{repository.inspect}"
             return vcs_process if repository[:vcs_type] != 'GithubRepository'
 
             message = %W[
