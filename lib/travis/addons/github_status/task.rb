@@ -38,8 +38,8 @@ module Travis
         private
 
           def process(timeout)
-            puts "XXXXXX #{repository}"
-            return true # TODO ADD VCS _ SKIP FOR TESTS NOW
+            return vcs_process if repository[:vcs_type] != 'GithubRepository'
+
             message = %W[
               type=github_status
               build=#{build[:id]}
@@ -72,6 +72,16 @@ module Travis
                 ].join(' '))
               end
             end
+          end
+
+          def vcs_process
+            Travis::RemoteVCS::Status.new.post(
+              repository[:id], {
+                state: state,
+                description: description,
+                target_url: target_url
+              }
+            )
           end
 
           def tokens
