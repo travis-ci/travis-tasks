@@ -7,9 +7,7 @@ module Travis
         extend self
 
         def vcs_prefix(vcs_type)
-          puts "vcs_type: #{vcs_type}"
-          Travis.logger.info("vcs_type: #{vcs_type}")
-          vcs_type.sub('Repository', '').downcase if vcs_type
+          return vcs_type.sub('Repository', '').downcase if vcs_type
           'github'
         end
 
