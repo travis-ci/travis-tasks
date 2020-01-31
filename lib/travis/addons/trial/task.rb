@@ -22,6 +22,7 @@ module Travis
         private
 
           def send_email
+            puts("send_email params: #{params.to_s}")
             Mailer::TrialMailer.public_send(params[:stage], recipients, owner, builds_remaining).deliver
             info "type=#{type} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end
