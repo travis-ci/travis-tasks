@@ -12,12 +12,14 @@ module Travis
 
           def charge_failed(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription, @owner, @charge, @event = subscription, owner, charge, event
+            @signin_url = signin_url(owner)
             subject = "Travis CI: Charging Your Credit Card Failed"
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
           def invoice_payment_succeeded(receivers, subscription, owner, _charge, _event, invoice, cc_last_digits)
             @invoice = InvoicePresenter.new(subscription, owner, invoice, cc_last_digits)
+            @signin_url = signin_url(owner)
             subject = 'Travis CI: Your Invoice'
             download_attachment invoice.fetch(:pdf_url)
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
@@ -31,6 +33,7 @@ module Travis
 
           def credit_note_raised(receivers, subscription, owner, _charge, _event, invoice, cc_last_digits)
             @invoice = InvoicePresenter.new(subscription, owner, invoice, cc_last_digits)
+            @signin_url = signin_url(owner)
             subject = 'Travis CI: Your Payment has been refunded'
             download_attachment invoice.fetch(:pdf_url)
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
@@ -48,6 +51,10 @@ module Travis
 
             def from_email
               "success@travis-ci.com"
+            end
+
+            def signin_url(owner)
+              return 'https://travis-ci.com/account/subscription'
             end
 
             class AttachmentNotFound < StandardError; end
