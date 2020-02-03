@@ -82,7 +82,7 @@ TASK_PAYLOAD_PULL_REQUEST = {
   "owner" => {
     "id"=>1,
     "type"=>"User",
-    "login"=>"login"
+    "login"=>"login",
     "vcs_type"=>"GithubUser"
   },
   "repository" => {
