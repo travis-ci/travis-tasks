@@ -11,25 +11,28 @@ module Travis
 
           def trial_started(receivers, owner, builds_remaining)
             @owner, @builds_remaining = owner, builds_remaining
-            puts("Owner: #{owner.to_s}")
+            @vcs_name = humanize_vcs_type(owner)
             subject = "Welcome to your Travis CI trial!"
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
 
           def trial_halfway(receivers, owner, builds_remaining)
             @owner, @builds_remaining = owner, builds_remaining
+            @vcs_name = humanize_vcs_type(owner)
             subject = "Travis CI: Halfway through your trial"
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
 
           def trial_about_to_end(receivers, owner, builds_remaining)
             @owner, @builds_remaining = owner, builds_remaining
+            @vcs_name = humanize_vcs_type(owner)
             subject = "Travis CI: #{builds_remaining} builds left in your trial"
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
 
           def trial_ended(receivers, owner, builds_remaining)
             @owner = owner
+            @vcs_name = humanize_vcs_type(owner)
             subject = "Your Travis CI trial just ended!"
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
@@ -58,6 +61,10 @@ module Travis
 
             def config
               Travis.config
+            end
+
+            def humanize_vcs_type(owner)
+              owner.vcs_type.gsub('User', '').gsub('Organization', '')
             end
 
             def filter_receivers(receivers)

@@ -6,7 +6,7 @@ describe Travis::Addons::Trial::Task do
   let(:mailer) { Travis::Addons::Trial::Mailer::TrialMailer }
   let(:email) { stub('email', deliver: true) }
   let(:handler) { described_class.new({}, stage: stage, recipients: recipients, owner: owner, builds_remaining: builds_remaining) }
-  let(:owner) { { name: 'Joe', login: 'joe', billing_slug: 'user' } }
+  let(:owner) { { name: 'Joe', login: 'joe', billing_slug: 'user', vcs_type: 'GithubUser' } }
   let(:recipients) { %w{joe@travis-ci.com joe@[bademail].home} }
   let(:io) { StringIO.new }
 

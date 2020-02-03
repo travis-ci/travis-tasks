@@ -2,7 +2,8 @@ TASK_PAYLOAD = {
   "owner" => {
     "id"=>1,
     "type"=>"User",
-    "login"=>"login"
+    "login"=>"login",
+    "vcs_type"=>"GithubUser"
   },
   "repository" => {
     "id"=>1,
@@ -82,6 +83,7 @@ TASK_PAYLOAD_PULL_REQUEST = {
     "id"=>1,
     "type"=>"User",
     "login"=>"login"
+    "vcs_type"=>"GithubUser"
   },
   "repository" => {
     "id"=>1,

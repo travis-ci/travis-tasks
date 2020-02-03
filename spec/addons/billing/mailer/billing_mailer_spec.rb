@@ -6,7 +6,7 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
 
     let(:recipient) { 'sergio@travis-ci.com' }
     let(:subscription) {{company: 'Ruby Monsters', first_name: 'Tessa', last_name: 'Schmidt', address: 'Rigaer Str.', city: 'Berlin', state: 'Berlin', post_code: '10000', country: 'Germany', vat_id: 'DE123456789'}}
-    let(:owner) {{name: 'Ruby Monsters', login: 'rubymonsters'}}
+    let(:owner) {{name: 'Ruby Monsters', login: 'rubymonsters', vcs_type: 'GithubUser'}}
     let(:invoice) {{ pdf_url: pdf_url, amount_due: 999, current_period_start: Time.now.to_i, current_period_end: Time.now.to_i, amount: 999, created_at: Time.now.to_s, invoice_id: 'TP123', plan: 'Startup'}}
     let(:real_pdf_url) {  'http://invoices.travis-ci.dev/invoices/123'}
     let(:pdf_url) { real_pdf_url }
@@ -93,7 +93,7 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
 
     let(:recipient) { 'shairyar@travis-ci.com' }
     let(:subscription) {{company: 'Ruby Monsters', first_name: 'Tessa', last_name: 'Schmidt', address: 'Rigaer Str.', city: 'Berlin', state: 'Berlin', post_code: '10000', country: 'Germany', vat_id: 'DE123456789'}}
-    let(:owner) {{name: 'Ruby Monsters', login: 'rubymonsters'}}
+    let(:owner) {{name: 'Ruby Monsters', login: 'rubymonsters', vcs_type: 'GithubUser'}}
     let(:refund_reason) { 'requested_by_customer' }
     let(:invoice) {{ pdf_url: pdf_url, amount_refunded: 999, amount_paid: 999, amount: 999, created_at: Time.now.to_s, invoice_id: 'TP123', plan: 'Startup', refund_reason: refund_reason}}
     let(:real_pdf_url) {  'http://invoices.travis-ci.dev/invoices/123'}

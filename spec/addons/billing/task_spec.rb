@@ -8,7 +8,7 @@ describe Travis::Addons::Billing::Task do
   let(:handler) { described_class.new({}, email_type: email_type, recipients: recipients, subscription: subscription, owner: owner, charge: charge, event: event, invoice: invoice, cc_last_digits: cc_last_digits) }
   let(:recipients) { ['anja@travis-ci.com'] }
   let(:subscription) { { first_name: 'Anja', last_name: 'Miller', valid_to: Time.now + 86400.to_i } }
-  let(:owner) { { name: 'Anja', login: 'ami' } }
+  let(:owner) { { name: 'Anja', login: 'ami', vcs_type: 'GithubUser' } }
   let(:charge) { { "object": "charge", "status": "succeeded" } }
   let(:event) { { "object": "event", "type": "invoice.payment_succeeded" } }
   let(:invoice) { { "object": "invoice" } }
