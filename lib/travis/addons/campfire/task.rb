@@ -1,4 +1,5 @@
 require 'multi_json'
+require 'faraday'
 
 module Travis
   module Addons
@@ -31,14 +32,22 @@ module Travis
 
           def send_message(target, lines, timeout)
             url, token = parse(target)
-            http.basic_auth(token, 'X')
-            lines.each { |line| send_line(url, line, timeout) }
+
+            @connection ||= Faraday.new(http_options.merge(url: url)) do |conn|
+              conn.basic_auth(token, 'X')
+              conn.request :url_encoded
+              conn.adapter :net_http
+              conn.use FaradayMiddleware::FollowRedirects, limit: 5
+              conn.headers["User-Agent"] = user_agent_string
+            end
+            
+            lines.each { |line| send_line(@connection, line, timeout) }
           rescue => e
             Travis.logger.info("Error connecting to Campfire service for #{target}: #{e.message}")
           end
 
-          def send_line(url, line, timeout)
-            http.post(url) do |r|
+          def send_line(conn, line, timeout)
+            conn.post do |r|
               r.options.timeout = timeout
               r.body = MultiJson.encode({ message: { body: line } })
               r.headers['Content-Type'] = 'application/json'
