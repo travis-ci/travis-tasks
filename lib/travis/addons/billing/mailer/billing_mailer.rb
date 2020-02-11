@@ -31,7 +31,7 @@ module Travis
 
           def credit_note_raised(receivers, subscription, owner, _charge, _event, invoice, cc_last_digits)
             @invoice = InvoicePresenter.new(subscription, owner, invoice, cc_last_digits)
-            subject = 'Travis CI: Your Payment has been refunded'
+            subject = fully_refund(invoice) ? 'Travis CI: Your Payment has been refunded' : 'Travis CI: Your Payment has been partially refunded'
             download_attachment invoice.fetch(:pdf_url)
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
@@ -63,6 +63,10 @@ module Travis
               else
                 raise AttachmentNotFound, "Couldn't get attachment from #{url}: Status #{response.status} Headers: #{response.headers.inspect}"
               end
+						end
+
+            def fully_refund(invoice)
+              invoice[:amount_refunded] == invoice[:amount_paid]
             end
 
           class InvoicePresenter
