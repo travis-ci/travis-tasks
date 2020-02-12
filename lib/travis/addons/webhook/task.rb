@@ -40,7 +40,7 @@ module Travis
           end
 
           def send_webhook(target, timeout)
-            response = http(target).post do |req|
+            response = http(base_url(target)).post(target) do |req|
               req.options.timeout = timeout
               req.body = { payload: payload.to_json }
               add_headers(req, target, req.body[:payload])

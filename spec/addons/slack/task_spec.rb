@@ -9,7 +9,6 @@ describe Travis::Addons::Slack::Task do
   let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
 
   before do
-    WebMock.stub_request(:post, 'https://team-1.slack.com/services/hooks/travis?token=token-1').to_return(status: 200, body: '', headers: {})
     subject.any_instance.stubs(:http).returns(client)
   end
 
@@ -34,6 +33,7 @@ describe Travis::Addons::Slack::Task do
     expect_slack('team-2', 'token-2', message)
 
     run(targets)
+    http.verify_stubbed_calls
   end
 
   it "doesn't include a channel in the body when none is specified" do
@@ -51,6 +51,7 @@ describe Travis::Addons::Slack::Task do
     expect_slack('team-1', 'token-1', message)
 
     run(targets)
+    http.verify_stubbed_calls
   end
 
   it "allows specifying a custom template" do
@@ -68,6 +69,7 @@ describe Travis::Addons::Slack::Task do
     expect_slack('team-1', 'token-1', message)
 
     run(targets)
+    http.verify_stubbed_calls
   end
 
   it "ignores garbage configurations" do
@@ -92,6 +94,7 @@ describe Travis::Addons::Slack::Task do
     expect_slack('team-1', 'token-1', message)
 
     run(targets)
+    http.verify_stubbed_calls
   end
 
   it "sends information about pull requests" do
@@ -113,7 +116,9 @@ describe Travis::Addons::Slack::Task do
     }.stringify_keys
 
     expect_slack('team-1', 'token-1', message)
+
     run(targets)
+    http.verify_stubbed_calls
   end
 
 

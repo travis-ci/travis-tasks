@@ -106,6 +106,7 @@ describe Travis::Addons::Webhook::Task do
       end
 
       run(targets)
+      http.verify_stubbed_calls
     end
   end
 
@@ -123,6 +124,7 @@ describe Travis::Addons::Webhook::Task do
       end
 
       run(targets)
+      http.verify_stubbed_calls
     end
   end
 
@@ -136,6 +138,7 @@ describe Travis::Addons::Webhook::Task do
     end
 
     described_class.new(payload, targets: [url]).run
+    http.verify_stubbed_calls
   end
 
   context "Signature header" do
@@ -153,6 +156,7 @@ describe Travis::Addons::Webhook::Task do
         end
 
         described_class.new(payload, targets: [url], token: "abc123").run
+        http.verify_stubbed_calls
       end
     end
 
@@ -177,6 +181,7 @@ describe Travis::Addons::Webhook::Task do
         end
 
         described_class.new(payload, targets: [url], token: "abc123").run
+        http.verify_stubbed_calls
       end
 
       it "the Signature header is verifiable" do
@@ -189,6 +194,7 @@ describe Travis::Addons::Webhook::Task do
         end
 
         described_class.new(payload, targets: [url], token: "abc123").run
+        http.verify_stubbed_calls
       end
     end
   end

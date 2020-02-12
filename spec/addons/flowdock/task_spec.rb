@@ -38,10 +38,12 @@ describe Travis::Addons::Flowdock::Task do
       tags:         ['ci', 'ok'],
       link:         "https://travis-ci.org/svenfuchs/minimal/builds/#{build.id}"
     }
-    WebMock.stub_request(:post, 'https://api.flowdock.com/v1/messages/team_inbox/12345').to_return(status: 200, body: '', headers: {})
+
     expect_flowdock('12345', payload)
     expect_flowdock('23456', payload)
+
     run(targets)
+    http.verify_stubbed_calls
   end
 
   describe "handling errors" do
@@ -59,4 +61,3 @@ describe Travis::Addons::Flowdock::Task do
     end
   end
 end
-

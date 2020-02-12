@@ -107,6 +107,11 @@ module Travis
         }.compact
       end
 
+      def base_url(endpoint)
+        url = URI.parse(endpoint)
+        base_url = "#{url.scheme}://#{url.host}"
+      end
+
       def with_keenio
         yield
       rescue => e

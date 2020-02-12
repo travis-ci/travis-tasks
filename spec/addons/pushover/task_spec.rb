@@ -20,10 +20,12 @@ describe Travis::Addons::Pushover::Task do
     message = '[travis-ci] svenfuchs/minimal#2 (master): the build has passed. Details: https://travis-ci.org/svenfuchs/minimal/builds/1'
     api_key = 'foobarbaz'
     users = ['userkeyone', 'userkeytwo']
-    http.verify_stubbed_calls
+
     expect_pushover('foobarbaz', 'userkeyone', message)
     expect_pushover('foobarbaz', 'userkeytwo', message)
+
     run(users, api_key)
+    http.verify_stubbed_calls
   end
 
   it 'using a custom template' do
@@ -32,10 +34,12 @@ describe Travis::Addons::Pushover::Task do
     payload['build']['config']['notifications'] = { pushover: { template: template} }
     api_key = 'foobarbaz'
     users = ['userkeythree', 'userkeyfour']
-    http.verify_stubbed_calls
+
     expect_pushover('foobarbaz', 'userkeythree', message)
     expect_pushover('foobarbaz', 'userkeyfour', message)
+
     run(users, api_key)
+    http.verify_stubbed_calls
   end
 
   def hash_to_query(hash)

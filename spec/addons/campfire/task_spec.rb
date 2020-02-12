@@ -10,7 +10,6 @@ describe Travis::Addons::Campfire::Task do
 
   before do
     subject.any_instance.stubs(:http).returns(client)
-    http.verify_stubbed_calls
   end
 
   def run(targets)
@@ -29,6 +28,7 @@ describe Travis::Addons::Campfire::Task do
     expect_campfire('account-2', '2345', 'token-2', message)
 
     run(targets)
+    http.verify_stubbed_calls
   end
 
   it 'using a custom template' do
@@ -40,6 +40,7 @@ describe Travis::Addons::Campfire::Task do
     expect_campfire('account-1', '1234', 'token-1', messages)
 
     run(targets)
+    http.verify_stubbed_calls
   end
 
   def expect_campfire(account, room, token, body)
