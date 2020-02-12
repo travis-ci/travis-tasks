@@ -24,8 +24,7 @@ module Travis
 
         def send_message(target, timeout)
           url, channel = parse(target)
-          http(url)
-          response = @http.post do |request|
+          response = http(url).post do |request|
             request.options.timeout = timeout
             request.body = MultiJson.encode(message(channel))
           end

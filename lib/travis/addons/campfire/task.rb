@@ -32,15 +32,15 @@ module Travis
 
           def send_message(target, lines, timeout)
             url, token = parse(target)
-            http(url)
-            @http.basic_auth(token, 'X')
-            lines.each { |line| send_line(line, timeout) }
+            connection = http(url)
+            connection.basic_auth(token, 'X')
+            lines.each { |line| send_line(connection, line, timeout) }
           rescue => e
             Travis.logger.info("Error connecting to Campfire service for #{target}: #{e.message}")
           end
 
-          def send_line(line, timeout)
-            @http.post do |r|
+          def send_line(connection, line, timeout)
+            connection.post do |r|
               r.options.timeout = timeout
               r.body = MultiJson.encode({ message: { body: line } })
               r.headers['Content-Type'] = 'application/json'
