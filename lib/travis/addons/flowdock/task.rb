@@ -48,14 +48,8 @@ module Travis
           end
 
           def send_message(target)
-            @connection ||= Faraday.new(http_options.merge(url: team_inbox_url_for(target))) do |conn|
-              conn.request :url_encoded
-              conn.adapter :net_http
-              conn.use FaradayMiddleware::FollowRedirects, limit: 5
-              conn.headers["User-Agent"] = user_agent_string
-            end
-            
-            @connection.post do |r|
+            http(team_inbox_url_for(target))
+            @http.post do |r|
               r.body = MultiJson.encode(flowdock_payload)
               r.headers['Content-Type'] = 'application/json'
             end

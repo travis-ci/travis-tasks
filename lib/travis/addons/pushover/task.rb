@@ -37,15 +37,8 @@ module Travis
             if is_failure
               msg_h[:sound] = 'falling'
             end
-
-            @connection ||= Faraday.new(http_options.merge(url: "https://api.pushover.net/1/messages.json")) do |conn|
-              conn.request :url_encoded
-              conn.adapter :net_http
-              conn.use FaradayMiddleware::FollowRedirects, limit: 5
-              conn.headers["User-Agent"] = user_agent_string
-            end
-            
-            @connection.post do |r|
+            http("https://api.pushover.net/1/messages.json")
+            @http.post do |r|
               r.options.timeout = timeout
               r.body = msg_h
             end

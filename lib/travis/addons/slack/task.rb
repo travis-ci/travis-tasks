@@ -24,14 +24,8 @@ module Travis
 
         def send_message(target, timeout)
           url, channel = parse(target)
-          @connection ||= Faraday.new(http_options.merge(url: url)) do |conn|
-            conn.request :url_encoded
-            conn.adapter :net_http
-            conn.use FaradayMiddleware::FollowRedirects, limit: 5
-            conn.headers["User-Agent"] = user_agent_string
-          end
-
-          response = @connection.post do |request|
+          http(url)
+          response = @http.post do |request|
             request.options.timeout = timeout
             request.body = MultiJson.encode(message(channel))
           end
