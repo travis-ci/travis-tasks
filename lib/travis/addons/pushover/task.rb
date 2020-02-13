@@ -36,8 +36,7 @@ module Travis
             if is_failure
               msg_h[:sound] = 'falling'
             end
-            endpoint = "https://api.pushover.net/1/messages.json"
-            http(base_url(endpoint)).post(endpoint) do |r|
+            http("https://api.pushover.net").post("https://api.pushover.net/1/messages.json") do |r|
               r.options.timeout = timeout
               r.body = msg_h
             end
