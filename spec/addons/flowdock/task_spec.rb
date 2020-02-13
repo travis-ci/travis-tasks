@@ -61,3 +61,4 @@ describe Travis::Addons::Flowdock::Task do
     end
   end
 end
+
