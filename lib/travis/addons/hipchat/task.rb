@@ -58,6 +58,8 @@ module Travis
                 error "task=hipchat build=#{build[:id]} room=#{helper.room_id} message=#{response.body["error"].try(:[], "message")}"
               end
             end
+          rescue Faraday::Error => e
+            error "task=hipchat build=#{build[:id]} repo=#{repository[:slug]} hostname=#{helper.hostname}"
           end
 
           def template
