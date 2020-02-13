@@ -1,5 +1,4 @@
 require 'multi_json'
-require 'faraday'
 
 module Travis
   module Addons

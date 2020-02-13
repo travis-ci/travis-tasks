@@ -1,5 +1,4 @@
 # encoding: UTF-8
-require 'faraday'
 
 module Travis
   module Addons

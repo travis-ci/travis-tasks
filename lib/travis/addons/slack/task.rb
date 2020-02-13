@@ -1,4 +1,3 @@
-require 'faraday'
 
 module Travis
   module Addons
