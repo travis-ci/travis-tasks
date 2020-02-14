@@ -11,7 +11,7 @@ module Travis
 
           def trial_started(receivers, owner, builds_remaining)
             @owner, @builds_remaining = owner, builds_remaining
-            subject = "Welcome to your Travis CI trial!"
+            subject = "Welcome to Travis CI!"
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
 
