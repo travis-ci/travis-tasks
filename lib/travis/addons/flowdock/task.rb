@@ -47,7 +47,7 @@ module Travis
           end
 
           def send_message(target)
-            http.post(team_inbox_url_for(target)) do |r|
+            http("https://api.flowdock.com").post(team_inbox_url_for(target)) do |r|
               r.body = MultiJson.encode(flowdock_payload)
               r.headers['Content-Type'] = 'application/json'
             end
