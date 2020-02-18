@@ -1,12 +1,19 @@
             <!-- Trial Message Section -->
             <tr>
               <td id="trial-message-section" align="center" valign="top" style="padding-bottom: 40px;">
-                <h1 id="trial-message-header">Your Travis CI Trial</h1>
-                <p id="trial-message" style="margin: 0px; font-size: 18px;">Welcome to Travis CI!
-                  <span id="trial-message-github-name" style="font-size: 18px; color:#15B75E;">
-                    <%= @owner[:name].blank? ? @owner[:login] : "#{@owner[:name]} (#{@vcs_name} name: #{@owner[:login]})" %>
-                  </span>
-                  is now successfully set up for your trial.
+                <h1 id="trial-message-header">
+                  Welcome to Travis CI, <%= @owner[:name].blank? ? @owner[:login] : @owner[:name] %>!
+                </h1>
+                <p id="trial-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  You have 100 builds left for building private repositories - these will 
+                  begin counting down automatically as soon as you run your first build.
+                </p>
+                <p id="trial-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                    Use the 'Sign up now' button below to sign up for a plan to ensure the builds for 
+                    your private repositories continue uninterrupted.
+                </p>
+                <p id="trial-message" style="margin: 0px; font-size: 18px;">
+                  If you're building open-source public repositories, these will be free forever!
                 </p>
               </td>
             </tr>
@@ -15,6 +22,6 @@
               <td id="builds-left-section" align="center" valign="top" style="padding-bottom: 20px;">
                 <img id="build-crane-logo" src="https://gallery.mailchimp.com/2c4f451f4059350287b951060/images/7120d93f-1748-4517-874e-67a3c36f5ebf.png" alt="Build Crane">
                 <p id="trial-builds-remaining" style="margin: 0px; padding: 10px 0px 20px 0px; font-size: 26px; font-weight: 300; line-height: 125%;
-                          letter-spacing: normal; color: #0068FF;">You have 100 trial builds left!</p>
+                          letter-spacing: normal; color: #0068FF;">You have 100 trials left for building private repos!</p>
               </td>
             </tr>

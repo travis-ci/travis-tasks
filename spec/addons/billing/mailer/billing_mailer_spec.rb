@@ -95,13 +95,14 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
     let(:subscription) {{company: 'Ruby Monsters', first_name: 'Tessa', last_name: 'Schmidt', address: 'Rigaer Str.', city: 'Berlin', state: 'Berlin', post_code: '10000', country: 'Germany', vat_id: 'DE123456789'}}
     let(:owner) {{name: 'Ruby Monsters', login: 'rubymonsters', vcs_type: 'GithubUser'}}
     let(:refund_reason) { 'requested_by_customer' }
-    let(:invoice) {{ pdf_url: pdf_url, amount_refunded: 999, amount_paid: 999, amount: 999, created_at: Time.now.to_s, invoice_id: 'TP123', plan: 'Startup', refund_reason: refund_reason}}
+    let(:invoice) {{ pdf_url: pdf_url, amount_refunded: amount_refunded, amount_paid: 999, amount: 999, created_at: Time.now.to_s, invoice_id: 'TP123', plan: 'Startup', refund_reason: refund_reason}}
     let(:real_pdf_url) {  'http://invoices.travis-ci.dev/invoices/123'}
     let(:pdf_url) { real_pdf_url }
     let(:filename) { 'TP123.pdf' }
     let(:cc_last_digits) { '1234' }
     let(:charge) { nil}
     let(:event) { nil}
+    let(:amount_refunded) { 999}
 
     let(:html) { Capybara.string(mail.html_part.body.to_s) }
 
@@ -173,6 +174,15 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
 
         expect(attachment.filename).to eq(filename)
       end
-    end
+		end
+
+		context 'when invoice is partially refunded' do
+			let(:amount_refunded) { 50}
+
+			it 'has the right subject' do
+				expect(mail.subject).to eq('Travis CI: Your Payment has been partially refunded')
+			end
+
+		end
   end
 end

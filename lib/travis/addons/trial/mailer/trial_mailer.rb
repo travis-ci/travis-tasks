@@ -13,7 +13,7 @@ module Travis
             @owner, @builds_remaining = owner, builds_remaining
             @vcs_name = humanize_vcs_type(owner)
             @signin_url = signin_url(owner)
-            subject = "Welcome to your Travis CI trial!"
+            subject = "Welcome to Travis CI!"
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'trial_mailer')
           end
 

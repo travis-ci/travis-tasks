@@ -28,6 +28,14 @@ module Travis
           def process(timeout)
             targets.each do |target|
               helper = HttpHelper.new(target)
+
+              if helper.hostname == HttpHelper::HIPCHAT_DEFAULT_HOST
+                info "Skipping HipChat notification to #{HttpHelper::HIPCHAT_DEFAULT_HOST}"
+                return
+              else
+                info "task=hipchat build=#{build[:id]} repo=#{repository[:slug]} hostname=#{helper.hostname}"
+              end
+
               if helper.url.nil?
                 error "Empty HipChat URL for #{repository[:slug]}##{build[:id]}, decryption probably failed."
                 next
@@ -50,6 +58,8 @@ module Travis
                 error "task=hipchat build=#{build[:id]} room=#{helper.room_id} message=#{response.body["error"].try(:[], "message")}"
               end
             end
+          rescue Faraday::Error => e
+            error "task=hipchat build=#{build[:id]} repo=#{repository[:slug]} hostname=#{helper.hostname}"
           end
 
           def template
@@ -81,4 +91,3 @@ module Travis
     end
   end
 end
-
