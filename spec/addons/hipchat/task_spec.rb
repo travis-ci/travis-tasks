@@ -13,8 +13,10 @@ describe Travis::Addons::Hipchat::Task do
   let(:room_1_token) { SecureRandom.hex 15}
   let(:room_2_token) { SecureRandom.hex 15}
   let(:room_3_token_v2) { SecureRandom.hex 20}
+  let(:io) { StringIO.new }
 
   before do
+    Travis.logger = Logger.new(io)
     subject.any_instance.stubs(:http).returns(client)
   end
 
@@ -22,113 +24,113 @@ describe Travis::Addons::Hipchat::Task do
     subject.new(payload, targets: targets).run
   end
 
-  it "sends hipchat notifications to the given targets" do
-    targets = ["#{room_1_token}@room_1", "#{room_2_token}@room_2", "#{room_3_token_v2}@[foo]"]
-    message = [
-      'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
-      'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
-      'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification'
-    ]
-
-    expect_hipchat('room_1', room_1_token, message)
-    expect_hipchat('room_2', room_2_token, message)
-    expect_hipchat_v2('[foo]', room_3_token_v2, message)
-
-    run(targets)
-    http.verify_stubbed_calls
+  context "with default hipchat server" do
+    it "skips sending notifications to #{Travis::Addons::Hipchat::HttpHelper::HIPCHAT_DEFAULT_HOST}" do
+      Travis.logger.expects(:info).with {|str| str =~ /skipping hipchat notification/i}
+      client.expects(:post).never
+      run(['targets'])
+      http.verify_stubbed_calls
+    end
   end
 
-  it 'using a custom template' do
-    targets  = ["#{room_1_token}@room_1"]
-    template = ['%{repository}', '%{commit}']
-    messages = ['svenfuchs/minimal', '62aae5f']
+  context "with private server" do
+    let(:room1) { 'room_1' }
+    let(:room2) { 'room_2' }
+    let(:private_server) { 'hipchat.example.com' }
 
-    payload['build']['config']['notifications'] = { hipchat: { template: template } }
-    expect_hipchat('room_1', room_1_token, messages)
+    it "sends hipchat notifications to the given targets" do
+      targets = ["#{room_1_token}@#{private_server}/room_1", "#{room_2_token}@#{private_server}/room_2", "#{room_3_token_v2}@#{private_server}/[foo]"]
+      message = [
+        'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
+        'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
+        'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification'
+      ]
 
-    run(targets)
-    http.verify_stubbed_calls
-  end
+      expect_hipchat('room_1', room_1_token, message, {}, private_server)
+      expect_hipchat('room_2', room_2_token, message, {}, private_server)
+      expect_hipchat_v2('[foo]', room_3_token_v2, message, {}, private_server)
 
-  it 'sends the notify option for v2 if included' do
-    targets = ["#{room_1_token}@room_1", "#{room_3_token_v2}@[foo]"]
-    message = [
-      'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
-      'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
-      'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification'
-    ]
+      run(targets)
+      http.verify_stubbed_calls
+    end
 
-    payload['build']['config']['notifications'] = { hipchat: { notify: true } }
-    expect_hipchat('room_1', room_1_token, message)
-    expect_hipchat_v2('[foo]', room_3_token_v2, message, { 'notify' => true })
+    it 'using a custom template' do
+      targets  = ["#{room_1_token}@#{private_server}/room_1"]
+      template = ['%{repository}', '%{commit}']
+      messages = ['svenfuchs/minimal', '62aae5f']
 
-    run(targets)
-    http.verify_stubbed_calls
-  end
+      payload['build']['config']['notifications'] = { hipchat: { template: template } }
+      expect_hipchat('room_1', room_1_token, messages, {}, private_server)
 
-  it "sends HTML notifications if requested" do
-    targets = ["#{room_1_token}@room_1"]
-    template = ['<a href="%{build_url}">Details</a>']
-    messages = ['<a href="https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification">Details</a>']
+      run(targets)
+      http.verify_stubbed_calls
+    end
 
-    payload['build']['config']['notifications'] = { hipchat: { template: template, format: 'html' } }
-    expect_hipchat('room_1', room_1_token, messages, 'message_format' => 'html')
+    it 'sends the notify option for v2 if included' do
+      targets = ["#{room_1_token}@#{private_server}/room_1", "#{room_3_token_v2}@#{private_server}/[foo]"]
+      message = [
+        'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
+        'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
+        'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification'
+      ]
 
-    run(targets)
-    http.verify_stubbed_calls
-  end
+      payload['build']['config']['notifications'] = { hipchat: { notify: true } }
+      expect_hipchat('room_1', room_1_token, message, {}, private_server)
+      expect_hipchat_v2('[foo]', room_3_token_v2, message, { 'notify' => true }, private_server)
 
-  it 'works with a list as HipChat configuration' do
-    targets  = ["#{room_1_token}@room_1"]
-    template = ['%{repository}', '%{commit}']
-    messages = [
-      'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
-      'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
-      'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification'
-    ]
+      run(targets)
+      http.verify_stubbed_calls
+    end
 
-    payload['build']['config']['notifications'] = { hipchat: [] }
-    expect_hipchat('room_1', room_1_token, messages)
+    it "sends HTML notifications if requested" do
+      targets = ["#{room_1_token}@#{private_server}/room_1"]
+      template = ['<a href="%{build_url}">Details</a>']
+      messages = ['<a href="https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification">Details</a>']
 
-    run(targets)
-    http.verify_stubbed_calls
-  end
+      payload['build']['config']['notifications'] = { hipchat: { template: template, format: 'html' } }
+      expect_hipchat('room_1', room_1_token, messages, {'message_format' => 'html'}, private_server)
 
-  it 'works with a private hipchat server' do
-    targets = ["#{room_1_token}@hipchat.example.com/room_1", "#{room_3_token_v2}@hipchat.example.com/foo"]
-    message = [
-      'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
-      'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
-      'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification'
-    ]
+      run(targets)
+      http.verify_stubbed_calls
+    end
 
-    expect_hipchat('room_1', room_1_token, message, {}, 'hipchat.example.com')
-    expect_hipchat_v2('foo', room_3_token_v2, message, {}, 'hipchat.example.com')
+    it 'works with a list as HipChat configuration' do
+      targets  = ["#{room_1_token}@#{private_server}/room_1"]
+      template = ['%{repository}', '%{commit}']
+      messages = [
+        'svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has passed',
+        'Change view: https://github.com/svenfuchs/minimal/compare/master...develop',
+        'Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification'
+      ]
 
-    run(targets)
-    http.verify_stubbed_calls
-  end
+      payload['build']['config']['notifications'] = { hipchat: [] }
+      expect_hipchat('room_1', room_1_token, messages, {}, private_server)
 
-  it "sends red messages for errored builds" do
-    targets = ["#{room_1_token}@room_1"]
-    messages = [
-      "svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has errored",
-      "Change view: https://github.com/svenfuchs/minimal/compare/master...develop",
-      "Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification"
-    ]
+      run(targets)
+      http.verify_stubbed_calls
+    end
 
-    payload["build"]["state"] = "errored"
-    expect_hipchat("room_1", room_1_token, messages, "color" => "red")
+    it "sends red messages for errored builds" do
+      targets = ["#{room_1_token}@#{private_server}/room_1"]
+      messages = [
+        "svenfuchs/minimal#2 (master - 62aae5f : Sven Fuchs): the build has errored",
+        "Change view: https://github.com/svenfuchs/minimal/compare/master...develop",
+        "Build details: https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=hipchat&utm_medium=notification"
+      ]
 
-    run(targets)
-    http.verify_stubbed_calls
-  end
+      payload["build"]["state"] = "errored"
+      expect_hipchat("room_1", room_1_token, messages, {"color" => "red"}, private_server)
 
-  describe "handling errors" do
-    it "ignores an empty targets list" do
-      expect {
-        run(["#{SecureRandom.hex 50}@room_1"])
-      }.to_not raise_error
+      run(targets)
+      http.verify_stubbed_calls
+    end
+
+    describe "handling errors" do
+      it "ignores an empty targets list" do
+        expect {
+          run(["#{SecureRandom.hex 50}@room_1"])
+        }.to_not raise_error
+      end
     end
   end
 
@@ -155,4 +157,3 @@ describe Travis::Addons::Hipchat::Task do
   end
 
 end
-

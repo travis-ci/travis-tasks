@@ -8,8 +8,9 @@ module Travis
         API_V1_TOKEN_LENGTH = 30
         API_V2_TOKEN_LENGTH = 40
         UNSAFE_URL_CHARS = Regexp.union([URI::Parser.new.regexp[:UNSAFE], /[\$&\+,\/:;=\?@~\[\]]/])
+        HIPCHAT_DEFAULT_HOST = 'api.hipchat.com'
 
-        attr_reader :api_version, :headers, :url, :token, :room_id
+        attr_reader :api_version, :headers, :url, :token, :room_id, :hostname
 
         # specification can be either of:
         #
@@ -21,7 +22,7 @@ module Travis
 
           if @room_id.nil?
             @room_id = @hostname
-            @hostname = 'api.hipchat.com'
+            @hostname = HIPCHAT_DEFAULT_HOST
           end
 
           case token.length
