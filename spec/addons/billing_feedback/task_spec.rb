@@ -8,7 +8,7 @@ describe Travis::Addons::BillingFeedback::Task do
   let(:handler) { described_class.new({}, email_type: email_type, recipients: recipients, subscription: subscription, owner: owner, user: user, feedback: feedback) }
   let(:recipients) { ['anja@travis-ci.com'] }
   let(:subscription) { { first_name: 'Anja', last_name: 'Miller', valid_to: Time.now + 86400.to_i } }
-  let(:owner) { { name: 'Anja_Org', login: 'anja_org', vcs_type: 'GithubUser' } }
+  let(:owner) { { name: 'Anja_Org', login: 'anja_org', vcs_type: 'GithubUser', owner_type: 'User' } }
   let(:user) { { name: 'Anja_User', login: 'anja_user', email: 'anja@travis-ci.org' } }
   let(:feedback) { { test: "test" } }
   let(:io) { StringIO.new }

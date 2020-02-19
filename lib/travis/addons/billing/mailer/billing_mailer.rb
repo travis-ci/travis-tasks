@@ -55,7 +55,7 @@ module Travis
 
             def signin_url(owner)
               puts "Owner from billing: #{owner.fetch(:name)} #{owner.fetch(:login)} #{owner.fetch(:owner_type)}"
-              return 'https://travis-ci.com/account/subscription' if owner.fetch(:owner_type) == 'user'
+              return 'https://travis-ci.com/account/subscription' if owner.fetch(:owner_type) == 'User'
               "https://travis-ci.com/organizations/#{owner.fetch(:login)}/subscription"
             end
 
