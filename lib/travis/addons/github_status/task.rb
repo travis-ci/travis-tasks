@@ -36,6 +36,9 @@ module Travis
           end
 
           def process(timeout)
+            tokens_tried = []
+            status_posted = false
+
             message = %W[
               type=github_status
               build=#{build[:id]}
@@ -51,11 +54,14 @@ module Travis
               return
             end
 
-            tokens.each do |username, token|
-              if process_with_token(username, token)
+            while !tokens.empty? and !status_posted do
+              username, token = tokens.shift
+
+              if status_posted = process_with_token(username, token)
                 info("#{message} processed_with=user_token")
                 return
               else
+                tokens_tried << username
                 error(%W[
                   type=github_status
                   build=#{build[:id]}
@@ -65,6 +71,7 @@ module Travis
                   username=#{username}
                   url=#{url}
                   processed_with=user_token
+                  tokens_tried=#{tokens_tried}
                 ].join(' '))
               end
             end
