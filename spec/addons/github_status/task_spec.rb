@@ -25,6 +25,8 @@ describe Travis::Addons::GithubStatus::Task do
     payload["build"]["state"] = 'created'
     GH.expects(:post).with(url, state: 'pending', description: 'The Travis CI build is in progress', target_url: target_url, context: 'continuous-integration/travis-ci/push').returns({})
     run
+
+    expect(io.string).to include('processed_with=')
   end
 
   it 'posts status info for a passed build' do
@@ -95,6 +97,7 @@ describe Travis::Addons::GithubStatus::Task do
     }.not_to raise_error
     expect(io.string).to include('response_status=404')
     expect(io.string).to include('reason=repo_not_found_or_incorrect_auth')
+    expect(io.string).to include('tokens_tried=')
   end
 
   describe 'logging' do
