@@ -58,7 +58,7 @@ module Travis
               username, token = tokens.shift
 
               if status_posted = process_with_token(username, token)
-                info("#{message} processed_with=user_token")
+                info("#{message} processed_with=#{username}")
                 return
               else
                 tokens_tried << username
