@@ -62,7 +62,7 @@ module Travis
                 info("#{message} username=:#{username} processed_with=user_token")
                 return
               else
-                if details[:status] == "422"
+                if details[:status].to_i == 422
                   # we can't post any more status to this commit, so there's
                   # no point in trying further
                   error(%W[
