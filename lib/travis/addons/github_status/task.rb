@@ -62,25 +62,6 @@ module Travis
                 info("#{message} username=:#{username} processed_with=user_token")
                 return
               else
-                if details[:status].to_i == 422
-                  # we can't post any more status to this commit, so there's
-                  # no point in trying further
-                  error(%W[
-                    type=github_status
-                    build=#{build[:id]}
-                    repo=#{repository[:slug]}
-                    error=not_updated
-                    commit=#{sha}
-                    username=#{username}
-                    url=#{url}
-                    github_response=#{details[:status]}
-                    processed_with=user_token
-                    tokens_tried=#{tokens_tried}
-                  ].join(' '))
-                  return
-                end
-
-                tokens_tried << username
                 error(%W[
                   type=github_status
                   build=#{build[:id]}
@@ -93,6 +74,12 @@ module Travis
                   processed_with=user_token
                   tokens_tried=#{tokens_tried}
                 ].join(' '))
+
+                # we can't post any more status to this commit, so there's
+                # no point in trying further
+                return if details[:status].to_i == 422
+
+                tokens_tried << username
               end
             end
           end
