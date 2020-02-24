@@ -37,7 +37,7 @@ module Travis
 
           def process(timeout)
             tokens_tried = []
-            status_posted = false
+            status       = :not_ok
 
             message = %W[
               type=github_status
@@ -54,26 +54,33 @@ module Travis
               return
             end
 
-            while !tokens.empty? and !status_posted do
+            while !tokens.empty? and status != :ok do
               username, token = tokens.shift
 
-              if status_posted = process_with_token(username, token)
+              status, details = process_with_token(username, token)
+              if status == :ok
                 info("#{message} username=:#{username} processed_with=user_token")
                 return
-              else
-                tokens_tried << username
-                error(%W[
-                  type=github_status
-                  build=#{build[:id]}
-                  repo=#{repository[:slug]}
-                  error=not_updated
-                  commit=#{sha}
-                  username=#{username}
-                  url=#{url}
-                  processed_with=user_token
-                  tokens_tried=#{tokens_tried}
-                ].join(' '))
               end
+
+              # we can't post any more status to this commit, so there's
+              # no point in trying further
+              return if details[:status].to_i == 422
+
+              error(%W[
+                type=github_status
+                build=#{build[:id]}
+                repo=#{repository[:slug]}
+                error=not_updated
+                commit=#{sha}
+                username=#{username}
+                url=#{url}
+                github_response=#{details[:status]}
+                processed_with=user_token
+                tokens_tried=#{tokens_tried}
+              ].join(' '))
+
+              tokens_tried << username
             end
           end
 
@@ -82,7 +89,7 @@ module Travis
           end
 
           def process_with_token(username, token)
-            authenticated(token) do
+            value = authenticated(token) do
               client.create_status(
                 process_via_gh_apps: false,
                 id: repository[:vcs_id],
@@ -91,6 +98,7 @@ module Travis
                 payload: status_payload
               )
             end
+            [:ok, value]
           rescue GH::Error(:response_status => 401),
                  GH::Error(:response_status => 403),
                  GH::Error(:response_status => 404),
@@ -107,7 +115,7 @@ module Travis
               processed_with=user_token
               body=#{e.info[:response_body]}
             ].join(' '))
-            nil
+            [:error, {status: e.info[:response_status], reason: e.info[:response_body]}]
           rescue GH::Error => e
             message = %W[
               type=github_status
