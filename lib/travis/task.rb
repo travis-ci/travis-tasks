@@ -89,11 +89,16 @@ module Travis
         "#{url}?#{params.map { |pair| pair.join('=') }.join('&')}"
       end
 
-      def http
-        @http ||= Faraday.new(http_options) do |f|
+      def http(url)
+        @http ||= Faraday.new(http_options.merge(url: url)) do |f|
           f.request :url_encoded
           f.adapter :net_http
         end
+      end
+
+      def base_url(endpoint)
+        url = URI.parse(endpoint)
+        base_url = "#{url.scheme}://#{url.host}"
       end
 
       def http_options
