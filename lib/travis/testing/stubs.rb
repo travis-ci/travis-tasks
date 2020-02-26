@@ -41,6 +41,7 @@ module Travis
           owner_email: 'svenfuchs@artweb-design.de',
           name: 'minimal',
           slug: 'svenfuchs/minimal',
+          vcs_slug: 'svenfuchs/minimal',
           description: 'the repo description',
           url: 'http://github.com/svenfuchs/minimal',
           source_url: 'git://github.com/svenfuchs/minimal.git',
