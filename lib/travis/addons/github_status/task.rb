@@ -78,6 +78,7 @@ module Travis
               id: repository[:vcs_id],
               type: repository[:vcs_type],
               ref: sha,
+              pr_number: payload[:pull_request] && payload[:pull_request][:number],
               payload: status_payload
             )
           end
