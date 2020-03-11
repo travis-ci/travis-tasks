@@ -32,7 +32,7 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def details_url
-      "#{Travis.config.http_host}/#{slug}/builds/#{external_id}"
+      "#{Travis.config.http_host}/#{Travis::Addons::Util::Helpers.vcs_prefix(repository[:vcs_type])}/#{slug}/builds/#{external_id}"
     end
 
     def title

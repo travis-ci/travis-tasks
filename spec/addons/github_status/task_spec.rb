@@ -7,7 +7,7 @@ describe Travis::Addons::GithubStatus::Task do
   let(:params)     { { tokens: { 'svenfuchs' => '12345', 'jdoe' => '67890' } } }
   let(:instance)   { subject.new(payload, params) }
   let(:url)        { '/repositories/549743/statuses/62aae5f70ceee39123ef' }
-  let(:target_url) { 'https://travis-ci.org/svenfuchs/minimal/builds/1?utm_source=github_status&utm_medium=notification' }
+  let(:target_url) { 'https://travis-ci.org/github/svenfuchs/minimal/builds/1?utm_source=github_status&utm_medium=notification' }
   let(:payload)    { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:io)         { StringIO.new }
   let(:gh_apps)    { stub('github_apps') }

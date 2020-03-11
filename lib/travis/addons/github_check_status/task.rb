@@ -7,6 +7,8 @@ module Travis
         private
 
         def process(timeout)
+          return if repository[:vcs_type] != 'GithubRepository'.freeze
+          
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id} sha=#{sha}")
 
           if build[:state] == 'created'
@@ -49,7 +51,7 @@ module Travis
         end
 
         def client
-          @client ||= Travis::Api.backend(repository[:vcs_id], installation_id: installation_id)
+          @client ||= Travis::Api.backend(repository[:vcs_id], repository[:vcs_type], installation_id: installation_id)
         end
 
         def installation_id

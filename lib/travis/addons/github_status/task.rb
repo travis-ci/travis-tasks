@@ -36,6 +36,7 @@ module Travis
           end
 
           def process(timeout)
+            return process_vcs if repository[:vcs_type] != 'GithubRepository'.freeze
             tokens_tried = []
             status       = :not_ok
 
@@ -82,6 +83,17 @@ module Travis
 
               tokens_tried << username
             end
+          end
+
+          def process_vcs
+            client.create_status(
+              process_via_gh_apps: false,
+              id: repository[:vcs_id],
+              type: repository[:vcs_type],
+              ref: sha,
+              pr_number: payload[:pull_request] && payload[:pull_request][:number],
+              payload: status_payload
+            )
           end
 
           def tokens
@@ -186,7 +198,7 @@ module Travis
           end
 
           def target_url
-            with_utm("#{Travis.config.http_host}/#{repository[:slug]}/builds/#{build[:id]}", :github_status)
+            with_utm("#{Travis.config.http_host}/#{Travis::Addons::Util::Helpers.vcs_prefix(repository[:vcs_type])}/#{repository[:vcs_slug] || repository[:slug]}/builds/#{build[:id]}", :github_status)
           end
 
           def status_payload
@@ -199,7 +211,7 @@ module Travis
           end
 
           def client
-            @client ||= Travis::Api.backend(repository[:vcs_id], installation_id: installation_id)
+            @client ||= Travis::Api.backend(repository[:vcs_id], repository[:vcs_type], installation_id: installation_id)
           end
 
           def installation_id

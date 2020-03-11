@@ -179,7 +179,7 @@ module Travis::Addons::GithubCheckStatus::Output
 
     def file_link(path)
       path = path.split('/').map { |p| URI.escape(p) }.join('/')
-      Travis::Api.backend(vcs_id).file_url(
+      Travis::Api.backend(vcs_id, vcs_type).file_url(
         id: vcs_id,
         type: vcs_type,
         slug: slug,

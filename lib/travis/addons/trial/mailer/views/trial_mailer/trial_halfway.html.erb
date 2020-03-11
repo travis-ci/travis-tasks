@@ -4,7 +4,7 @@
                 <h1 id="trial-message-header">Your Travis CI Trial</h1>
                 <p id="trial-message" style="margin: 0px; font-size: 18px;">The trial for your Travis CI account
                   <span id="trial-message-github-name" style="font-size: 18px; color:#15b75e;">
-                    <%= @owner[:name].blank? ? @owner[:login] : "#{@owner[:name]} (GitHub name: #{@owner[:login]})" %>
+                    <%= @owner[:name].blank? ? @owner[:login] : "#{@owner[:name]} (#{@vcs_name} name: #{@owner[:login]})" %>
                   </span>
                   is about halfway now.
                 </p>

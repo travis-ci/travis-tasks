@@ -19,10 +19,10 @@ module Travis
           end
 
           def branch_url(repo, branch)
-            Travis::Api.backend(repo.vcs_id).branch_url(
+            Travis::Api.backend(repo.vcs_id, repo.vcs_type).branch_url(
               id: repo.vcs_id,
               type: repo.vcs_type,
-              slug: repo.slug,
+              slug: repo.vcs_slug,
               branch: branch
             )
           end
@@ -101,11 +101,11 @@ module Travis
           end
 
           def repository_url(repository)
-            travis_url repository.slug
+            travis_url "#{Travis::Addons::Util::Helpers.vcs_prefix(repository.vcs_type)}/#{repository.vcs_slug}"
           end
 
           def repository_build_url(options)
-            travis_url options.fetch(:slug), :builds, options.fetch(:id)
+            travis_url "#{Travis::Addons::Util::Helpers.vcs_prefix(options.fetch(:vcs_type))}/#{options.fetch(:slug)}", :builds, options.fetch(:id)
           end
 
           def unsubscribe_url
