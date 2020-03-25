@@ -59,9 +59,10 @@ module Travis
               username, token = tokens.shift
               unless token
                 error("#{message} username=#{username} token=#{token.to_s}")
-                return
+                next
               end
 
+              # byebug
               status, details = process_with_token(username, token)
               if status == :ok
                 info("#{message} username=#{username} processed_with=user_token token=#{token[0,3]}...")
