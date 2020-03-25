@@ -57,10 +57,14 @@ module Travis
 
             while !tokens.empty? and status != :ok do
               username, token = tokens.shift
+              unless token
+                error("#{message} username=#{username} token=#{token.to_s}")
+                return
+              end
 
               status, details = process_with_token(username, token)
               if status == :ok
-                info("#{message} username=:#{username} processed_with=user_token token=#{token[0,3]}...")
+                info("#{message} username=#{username} processed_with=user_token token=#{token[0,3]}...")
                 return
               end
 
@@ -79,7 +83,7 @@ module Travis
                 github_response=#{details[:status]}
                 processed_with=user_token
                 tokens_tried=#{tokens_tried}
-                last_token_tried="#{token[0,3]}..."
+                last_token_tried="#{token.to_s[0,3]}..."
                 rate_limit=#{rate_limit_info details[:response_headers]}
               ].join(' '))
 
@@ -128,7 +132,7 @@ module Travis
               reason=#{ERROR_REASONS.fetch(Integer(e.info[:response_status]))}
               processed_with=user_token
               body=#{e.info[:response_body]}
-              last_token_tried="#{token[0,3]}..."
+              last_token_tried="#{token.to_s[0,3]}..."
               rate_limit=#{rate_limit_info e.info[:response_headers]}
             ].join(' '))
 
@@ -152,7 +156,7 @@ module Travis
               message=#{e.message}
               processed_with=user_token
               body=#{e.info[:response_body]}
-              last_token_tried="#{token[0,3]}..."
+              last_token_tried="#{token.to_s[0,3]}..."
               rate_limit=#{rate_limit_info e.info[:response_headers]}
             ].join(' ')
             error(message)
