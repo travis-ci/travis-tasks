@@ -12,6 +12,7 @@ describe Travis::Addons::GithubStatus::Task do
   let(:io)         { StringIO.new }
   let(:gh_apps)    { stub('github_apps') }
   let(:installation_id) { '12345' }
+  let(:rate_limit_data) { {"x-ratelimit-limit" => "60", "x-ratelimit-remaining" => "59", "x-ratelimit-reset" => (Time.now.to_i + 2000).to_s} }
 
   before do
     Travis.logger = Logger.new(io)
@@ -59,7 +60,7 @@ describe Travis::Addons::GithubStatus::Task do
   end
 
   it 'authenticates using the next token if the first token failed' do
-    GH.expects(:with).with { |options| options[:token] == '12345' }.raises(GH::Error.new(nil, nil, response_status: 401))
+    GH.expects(:with).with { |options| options[:token] == '12345' }.raises(GH::Error.new(nil, nil, { response_status: 401, response_headers: rate_limit_data }))
     GH.expects(:with).with { |options| options[:token] == '67890' }.returns({})
     run
   end
@@ -70,7 +71,7 @@ describe Travis::Addons::GithubStatus::Task do
   end
 
   it 'does not raise if a 422 error was returned by GH' do
-    error = { response_status: 422 }
+    error = { response_status: 422, response_headers: rate_limit_data }
     GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
     expect {
       run
@@ -80,7 +81,7 @@ describe Travis::Addons::GithubStatus::Task do
   end
 
   it 'does not raise if a 403 error was returned by GH' do
-    error = { response_status: 403 }
+    error = { response_status: 403, response_headers: rate_limit_data }
     GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
     expect {
       run
@@ -90,7 +91,7 @@ describe Travis::Addons::GithubStatus::Task do
   end
 
   it 'does not raise if a 404 error was returned by GH' do
-    error = { response_status: 404 }
+    error = { response_status: 404, response_headers: rate_limit_data }
     GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
     expect {
       run
@@ -102,16 +103,17 @@ describe Travis::Addons::GithubStatus::Task do
 
   describe 'logging' do
     it 'warns about a failed request' do
-      GH.stubs(:post).raises(GH::Error.new(nil))
+      GH.stubs(:post).raises(GH::Error.new(nil, nil, {response_headers: rate_limit_data}))
       expect {
         run
       }.to raise_error RuntimeError
       expect(io.string).to include('error=not_updated')
       expect(io.string).to include('message=GH request failed')
+      expect(io.string).to include('rate_limit=')
     end
 
     it "doesn't raise an error with bad credentials" do
-      error = { response_status: 401 }
+      error = { response_status: 401, response_headers: rate_limit_data }
       GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
       expect {
         run

@@ -79,6 +79,7 @@ module Travis
                 github_response=#{details[:status]}
                 processed_with=user_token
                 tokens_tried=#{tokens_tried}
+                rate_limit=#{rate_limit_info details[:response_headers]}
               ].join(' '))
 
               tokens_tried << username
@@ -126,8 +127,17 @@ module Travis
               reason=#{ERROR_REASONS.fetch(Integer(e.info[:response_status]))}
               processed_with=user_token
               body=#{e.info[:response_body]}
+              rate_limit=#{rate_limit_info e.info[:response_headers]}
             ].join(' '))
-            [:error, {status: e.info[:response_status], reason: e.info[:response_body]}]
+
+            return [
+              :error,
+              {
+                status: e.info[:response_status],
+                reason: e.info[:response_body],
+                response_headers: e.info[:response_headers]
+                }
+              ]
           rescue GH::Error => e
             message = %W[
               type=github_status
@@ -140,6 +150,7 @@ module Travis
               message=#{e.message}
               processed_with=user_token
               body=#{e.info[:response_body]}
+              rate_limit=#{rate_limit_info e.info[:response_headers]}
             ].join(' ')
             error(message)
             raise message
@@ -246,6 +257,14 @@ module Travis
           def headers
             {
               "Accept" => "application/vnd.github.v3+json"
+            }
+          end
+
+          def rate_limit_info(headers = {})
+            {
+              limit: headers["x-ratelimit-limit"].to_i,
+              remaining: headers["x-ratelimit-remaining"].to_i,
+              next_limit_reset_in: headers["x-ratelimit-reset"].to_i - Time.now.to_i
             }
           end
       end
