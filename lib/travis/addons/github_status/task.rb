@@ -37,8 +37,8 @@ module Travis
 
           def process(timeout)
             return process_vcs if repository[:vcs_type] != 'GithubRepository'.freeze
-            tokens_tried = []
-            status       = :not_ok
+            users_tried = []
+            status      = :not_ok
 
             message = %W[
               type=github_status
@@ -73,6 +73,7 @@ module Travis
               # no point in trying further
               return if details[:status].to_i == 422
 
+              users_tried << username
               error(%W[
                 type=github_status
                 build=#{build[:id]}
@@ -83,12 +84,10 @@ module Travis
                 url=#{url}
                 github_response=#{details[:status]}
                 processed_with=user_token
-                tokens_tried=#{tokens_tried}
+                users_tried=#{users_tried}
                 last_token_tried="#{token.to_s[0,3]}..."
                 rate_limit=#{rate_limit_info details[:response_headers]}
               ].join(' '))
-
-              tokens_tried << username
             end
           end
 

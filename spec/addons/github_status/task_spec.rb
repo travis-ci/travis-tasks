@@ -98,7 +98,7 @@ describe Travis::Addons::GithubStatus::Task do
     }.not_to raise_error
     expect(io.string).to include('response_status=404')
     expect(io.string).to include('reason=repo_not_found_or_incorrect_auth')
-    expect(io.string).to include('tokens_tried=')
+    expect(io.string).to include('users_tried=')
   end
 
   describe 'logging' do
