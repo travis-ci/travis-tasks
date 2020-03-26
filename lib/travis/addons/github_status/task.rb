@@ -29,8 +29,9 @@ module Travis
           422 => :maximum_number_of_statuses,
         }
 
-        private
+        REDIS_PREFIX = 'travis-tasks:github-status:'.freeze
 
+        private
           def url
             client.create_status_url(repository[:vcs_id], sha)
           end
@@ -62,10 +63,12 @@ module Travis
                 next
               end
 
-              # byebug
               status, details = process_with_token(username, token)
               if status == :ok
                 info("#{message} username=#{username} processed_with=user_token token=#{token[0,3]}...")
+                return
+              elsif status == :skipped
+                info "Token for #{username} failed within the last hour. Skipping"
                 return
               end
 
@@ -107,6 +110,10 @@ module Travis
           end
 
           def process_with_token(username, token)
+            if redis.exists(errored_user_key(username))
+              return [:skipped, {}]
+            end
+
             value = authenticated(token) do
               client.create_status(
                 process_via_gh_apps: false,
@@ -121,6 +128,7 @@ module Travis
                  GH::Error(:response_status => 403),
                  GH::Error(:response_status => 404),
                  GH::Error(:response_status => 422) => e
+            mark_user username
             error(%W[
               type=github_status
               build=#{build[:id]}
@@ -145,6 +153,7 @@ module Travis
                 }
               ]
           rescue GH::Error => e
+            mark_user username
             message = %W[
               type=github_status
               build=#{build[:id]}
@@ -273,6 +282,19 @@ module Travis
               remaining: headers["x-ratelimit-remaining"].to_i,
               next_limit_reset_in: headers["x-ratelimit-reset"].to_i - Time.now.to_i
             }
+          end
+
+          def redis
+            @redis ||= Redis.new(url: Travis.config.redis.url)
+          end
+
+          def errored_user_key(u)
+            REDIS_PREFIX + "errored_users:#{u}"
+          end
+
+          def mark_user(u)
+            info "message='A request with token belonging to #{u} failed. Will skip using this token for 1 hour.'"
+            redis.set errored_user_key(u), "", ex: 60*60 # an hour
           end
       end
     end
