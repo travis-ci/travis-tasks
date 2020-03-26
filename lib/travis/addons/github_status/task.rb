@@ -68,7 +68,7 @@ module Travis
                 info("#{message} username=#{username} processed_with=user_token token=#{token[0,3]}...")
                 return
               elsif status == :skipped
-                info "Token for #{username} failed within the last hour. Skipping"
+                info "message=\"Token for #{username} failed within the last hour. Skipping\""
                 return
               end
 
@@ -92,6 +92,8 @@ module Travis
                 rate_limit=#{rate_limit_info details[:response_headers]}
               ].join(' '))
             end
+
+            error("#{message} message=\"All known tokens failed to update status\"")
           end
 
           def process_vcs
@@ -293,7 +295,7 @@ module Travis
           end
 
           def mark_user(u)
-            info "message='A request with token belonging to #{u} failed. Will skip using this token for 1 hour.'"
+            info "message=\"A request with token belonging to #{u} failed. Will skip using this token for 1 hour.\""
             redis.set errored_user_key(u), "", ex: 60*60 # an hour
           end
       end
