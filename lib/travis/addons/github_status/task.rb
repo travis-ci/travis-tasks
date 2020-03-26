@@ -68,7 +68,7 @@ module Travis
                 info("#{message} username=#{username} processed_with=user_token token=#{token[0,3]}...")
                 return
               elsif status == :skipped
-                info "message=\"Token for #{username} failed within the last hour. Skipping\""
+                info "#{message} message=\"Token for #{username} failed within the last hour. Skipping\""
                 return
               end
 
