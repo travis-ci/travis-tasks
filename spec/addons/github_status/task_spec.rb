@@ -13,13 +13,15 @@ describe Travis::Addons::GithubStatus::Task do
   let(:gh_apps)    { stub('github_apps') }
   let(:installation_id) { '12345' }
   let(:rate_limit_data) { {"x-ratelimit-limit" => "60", "x-ratelimit-remaining" => "59", "x-ratelimit-reset" => (Time.now.to_i + 2000).to_s} }
-  let(:redis)      { Redis.new(url: Travis.config.redis.url) }
-  let(:redis_prefix) { subject.const_get("REDIS_PREFIX")}
+
+  def redis
+    @redis ||= Redis.new(url: Travis.config.redis.url)
+  end
 
   before do
     Travis.logger = Logger.new(io)
     params.fetch(:tokens, {}).keys.each do |u|
-      redis.del(redis_prefix + "errored_users:" + u)
+      Redis.new(url: Travis.config.redis.url).del(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + "errored_users:" + u)
     end
   end
 
@@ -94,7 +96,7 @@ describe Travis::Addons::GithubStatus::Task do
     expect(io.string).to match /A request with token belonging to svenfuchs failed\./
     expect(io.string).to include('response_status=403')
     expect(io.string).to include('reason=incorrect_auth_or_suspended_acct')
-    expect(redis.exists(redis_prefix + 'errored_users:' + 'svenfuchs')).to be true
+    expect(redis.exists(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_users:' + 'svenfuchs')).to be true
   end
 
   it 'does not raise if a 404 error was returned by GH' do
@@ -109,12 +111,12 @@ describe Travis::Addons::GithubStatus::Task do
   end
 
   context "a user token has been invalidated" do
-    before :all do
-      redis.set(redis_prefix + 'errored_users:' + 'svenfuchs', "")
+    before do
+      redis.set(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_users:' + 'svenfuchs', "")
     end
 
-    after :all do
-      redis.del(redis_prefix + 'errored_users:' + 'svenfuchs')
+    after do
+      redis.del(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_users:' + 'svenfuchs')
     end
 
     it "skips using the token" do
