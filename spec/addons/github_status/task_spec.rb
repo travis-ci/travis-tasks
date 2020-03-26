@@ -14,8 +14,15 @@ describe Travis::Addons::GithubStatus::Task do
   let(:installation_id) { '12345' }
   let(:rate_limit_data) { {"x-ratelimit-limit" => "60", "x-ratelimit-remaining" => "59", "x-ratelimit-reset" => (Time.now.to_i + 2000).to_s} }
 
+  def redis
+    @redis ||= Redis.new(url: Travis.config.redis.url)
+  end
+
   before do
     Travis.logger = Logger.new(io)
+    params.fetch(:tokens, {}).keys.each do |u|
+      Redis.new(url: Travis.config.redis.url).del(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + "errored_users:" + u)
+    end
   end
 
   def run
@@ -80,14 +87,16 @@ describe Travis::Addons::GithubStatus::Task do
     expect(io.string).to include('reason=maximum_number_of_statuses')
   end
 
-  it 'does not raise if a 403 error was returned by GH' do
+  it 'does not raise if a 403 error was returned by GH and marks the token invalid' do
     error = { response_status: 403, response_headers: rate_limit_data }
     GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
     expect {
       run
     }.not_to raise_error
+    expect(io.string).to match /A request with token belonging to svenfuchs failed\./
     expect(io.string).to include('response_status=403')
     expect(io.string).to include('reason=incorrect_auth_or_suspended_acct')
+    expect(redis.exists(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_users:' + 'svenfuchs')).to be true
   end
 
   it 'does not raise if a 404 error was returned by GH' do
@@ -98,7 +107,22 @@ describe Travis::Addons::GithubStatus::Task do
     }.not_to raise_error
     expect(io.string).to include('response_status=404')
     expect(io.string).to include('reason=repo_not_found_or_incorrect_auth')
-    expect(io.string).to include('tokens_tried=')
+    expect(io.string).to include('users_tried=')
+  end
+
+  context "a user token has been invalidated" do
+    before do
+      redis.set(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_users:' + 'svenfuchs', "")
+    end
+
+    after do
+      redis.del(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_users:' + 'svenfuchs')
+    end
+
+    it "skips using the token" do
+      expect { run }.not_to raise_error
+      expect(io.string).to match /Token for svenfuchs failed/
+    end
   end
 
   describe 'logging' do

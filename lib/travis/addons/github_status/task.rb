@@ -29,16 +29,17 @@ module Travis
           422 => :maximum_number_of_statuses,
         }
 
-        private
+        REDIS_PREFIX = 'travis-tasks:github-status:'.freeze
 
+        private
           def url
             client.create_status_url(repository[:vcs_id], sha)
           end
 
           def process(timeout)
             return process_vcs if repository[:vcs_type] != 'GithubRepository'.freeze
-            tokens_tried = []
-            status       = :not_ok
+            users_tried = []
+            status      = :not_ok
 
             message = %W[
               type=github_status
@@ -57,10 +58,17 @@ module Travis
 
             while !tokens.empty? and status != :ok do
               username, token = tokens.shift
+              unless token
+                error("#{message} username=#{username} token=#{token.to_s}")
+                next
+              end
 
               status, details = process_with_token(username, token)
               if status == :ok
-                info("#{message} username=:#{username} processed_with=user_token")
+                info("#{message} username=#{username} processed_with=user_token token=#{token[0,3]}...")
+                return
+              elsif status == :skipped
+                info "#{message} message=\"Token for #{username} failed within the last hour. Skipping\""
                 return
               end
 
@@ -68,6 +76,7 @@ module Travis
               # no point in trying further
               return if details[:status].to_i == 422
 
+              users_tried << username
               error(%W[
                 type=github_status
                 build=#{build[:id]}
@@ -78,12 +87,13 @@ module Travis
                 url=#{url}
                 github_response=#{details[:status]}
                 processed_with=user_token
-                tokens_tried=#{tokens_tried}
+                users_tried=#{users_tried}
+                last_token_tried="#{token.to_s[0,3]}..."
                 rate_limit=#{rate_limit_info details[:response_headers]}
               ].join(' '))
-
-              tokens_tried << username
             end
+
+            error("#{message} message=\"All known tokens failed to update status\"")
           end
 
           def process_vcs
@@ -102,6 +112,10 @@ module Travis
           end
 
           def process_with_token(username, token)
+            if redis.exists(errored_user_key(username))
+              return [:skipped, {}]
+            end
+
             value = authenticated(token) do
               client.create_status(
                 process_via_gh_apps: false,
@@ -116,6 +130,7 @@ module Travis
                  GH::Error(:response_status => 403),
                  GH::Error(:response_status => 404),
                  GH::Error(:response_status => 422) => e
+            mark_user username
             error(%W[
               type=github_status
               build=#{build[:id]}
@@ -127,6 +142,7 @@ module Travis
               reason=#{ERROR_REASONS.fetch(Integer(e.info[:response_status]))}
               processed_with=user_token
               body=#{e.info[:response_body]}
+              last_token_tried="#{token.to_s[0,3]}..."
               rate_limit=#{rate_limit_info e.info[:response_headers]}
             ].join(' '))
 
@@ -139,6 +155,7 @@ module Travis
                 }
               ]
           rescue GH::Error => e
+            mark_user username
             message = %W[
               type=github_status
               build=#{build[:id]}
@@ -150,6 +167,7 @@ module Travis
               message=#{e.message}
               processed_with=user_token
               body=#{e.info[:response_body]}
+              last_token_tried="#{token.to_s[0,3]}..."
               rate_limit=#{rate_limit_info e.info[:response_headers]}
             ].join(' ')
             error(message)
@@ -266,6 +284,19 @@ module Travis
               remaining: headers["x-ratelimit-remaining"].to_i,
               next_limit_reset_in: headers["x-ratelimit-reset"].to_i - Time.now.to_i
             }
+          end
+
+          def redis
+            @redis ||= Redis.new(url: Travis.config.redis.url)
+          end
+
+          def errored_user_key(u)
+            REDIS_PREFIX + "errored_users:#{u}"
+          end
+
+          def mark_user(u)
+            info "message=\"A request with token belonging to #{u} failed. Will skip using this token for 1 hour.\""
+            redis.set errored_user_key(u), "", ex: 60*60 # an hour
           end
       end
     end
