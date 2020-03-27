@@ -4,7 +4,7 @@ describe Travis::Addons::Irc::Task do
   include Travis::Testing::Stubs
 
   let(:subject)  { Travis::Addons::Irc::Task }
-  let(:tcp)      { stub('tcp', eof?: true, close: true) }
+  let(:tcp)      { stub('tcp', eof?: true, close: true, gets: true) }
   let(:seq)      { sequence('tcp') }
   let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:channels) { ['irc.freenode.net:1234#travis'] }

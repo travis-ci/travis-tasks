@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Travis::Addons::Irc::Client do
   let(:subject)  { Travis::Addons::Irc::Client }
-  let(:socket)   { stub(puts: true, get: true, eof?: true) }
+  let(:socket)   { stub(puts: true, gets: true, eof?: true) }
   let(:server)   { 'irc.freenode.net' }
   let(:nick)     { 'travis_bot' }
   let(:channel)  { 'travis' }
@@ -11,6 +11,7 @@ describe Travis::Addons::Irc::Client do
 
   before do
     subject.stubs(:wait_for_numeric).returns(nil)
+    Travis.logger = Logger.new(File::NULL)
   end
 
   describe 'on initialization' do
@@ -31,6 +32,7 @@ describe Travis::Addons::Irc::Client do
     describe 'should connect to the server' do
       before do
         @socket = mock
+        @socket.stubs(:gets).returns ""
         TCPSocket.stubs(:open).returns @socket
       end
 
@@ -98,6 +100,7 @@ describe Travis::Addons::Irc::Client do
     describe 'should define @numeric_received' do
       before do
         @socket = mock
+        @socket.stubs(:gets).returns ""
         TCPSocket.stubs(:open).returns(@socket)
       end
 
@@ -131,7 +134,7 @@ describe Travis::Addons::Irc::Client do
   end
 
   describe 'with connection established' do
-    let(:socket) { stub(puts: true) }
+    let(:socket) { stub(puts: true, gets: true) }
     let(:channel_key) { 'mykey' }
 
     before(:each) do
