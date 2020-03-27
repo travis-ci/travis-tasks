@@ -155,7 +155,6 @@ module Travis
                 }
               ]
           rescue GH::Error => e
-            mark_user username
             message = %W[
               type=github_status
               build=#{build[:id]}
