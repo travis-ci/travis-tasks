@@ -278,11 +278,21 @@ module Travis
           end
 
           def rate_limit_info(headers = {})
+            unless rate_limit_headers_complete?
+              return {error: "response headers did not contain rate limit information"}
+            end
+
             {
               limit: headers["x-ratelimit-limit"].to_i,
               remaining: headers["x-ratelimit-remaining"].to_i,
               next_limit_reset_in: headers["x-ratelimit-reset"].to_i - Time.now.to_i
             }
+          end
+
+          def rate_limit_headers_complete?(headers = {})
+            !headers["x-ratelimit-limit"    ].to_s.empty? &&
+            !headers["x-ratelimit-remaining"].to_s.empty? &&
+            !headers["x-ratelimit-reset"    ].to_s.empty?
           end
 
           def redis
