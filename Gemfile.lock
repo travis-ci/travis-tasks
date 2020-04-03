@@ -839,6 +839,7 @@ DEPENDENCIES
   actionmailer (>= 5.2.2.1)
   aws-sdk
   capybara
+  connection_pool (~> 2.2)
   faraday
   faraday_middleware
   foreman
