@@ -280,8 +280,8 @@ module Travis
             }
           end
 
-          def rate_limit_info(headers = {})
-            unless rate_limit_headers_complete?
+          def rate_limit_info(headers)
+            unless rate_limit_headers_complete? headers
               return {error: "response headers did not contain rate limit information"}
             end
 
@@ -292,7 +292,8 @@ module Travis
             }
           end
 
-          def rate_limit_headers_complete?(headers = {})
+          def rate_limit_headers_complete?(headers)
+            !headers.nil? &&
             !headers["x-ratelimit-limit"    ].to_s.empty? &&
             !headers["x-ratelimit-remaining"].to_s.empty? &&
             !headers["x-ratelimit-reset"    ].to_s.empty?
