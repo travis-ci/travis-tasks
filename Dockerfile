@@ -5,8 +5,14 @@ LABEL maintainer Travis CI GmbH <support+travis-tasks-docker-images@travis-ci.co
 # packages required for bundle install
 RUN ( \
    apt-get update ; \
-   apt-get install -y --no-install-recommends git make gcc \
+   apt-get install -y --no-install-recommends git make gcc curl \
    && rm -rf /var/lib/apt/lists/* \
+)
+
+RUN ( \
+   curl -sLO http://ppa.launchpad.net/rmescandon/yq/ubuntu/pool/main/y/yq/yq_3.1-2_amd64.deb && \
+   dpkg -i yq_3.1-2_amd64.deb && \
+   rm -f yq_3.1-2_amd64.deb; \
 )
 
 # throw errors if Gemfile has been modified since Gemfile.lock
