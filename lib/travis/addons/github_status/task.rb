@@ -299,8 +299,10 @@ module Travis
             !headers["x-ratelimit-reset"    ].to_s.empty?
           end
 
-          def github_request_id(headers = {})
-            headers["x-github-request-id"]
+          def github_request_id(headers)
+            if headers.respond_to? :[]
+              headers["x-github-request-id"]
+            end
           end
 
           def redis
