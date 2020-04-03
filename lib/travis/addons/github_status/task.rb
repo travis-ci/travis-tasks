@@ -90,6 +90,7 @@ module Travis
                 users_tried=#{users_tried}
                 last_token_tried="#{token.to_s[0,3]}..."
                 rate_limit=#{rate_limit_info details[:response_headers]}
+                github_request_id=#{github_request_id details[:response_headers]}
               ].join(' '))
             end
 
@@ -144,6 +145,7 @@ module Travis
               body=#{e.info[:response_body]}
               last_token_tried="#{token.to_s[0,3]}..."
               rate_limit=#{rate_limit_info e.info[:response_headers]}
+              github_request_id=#{github_request_id e.info[:response_headers]}
             ].join(' '))
 
             return [
@@ -168,6 +170,7 @@ module Travis
               body=#{e.info[:response_body]}
               last_token_tried="#{token.to_s[0,3]}..."
               rate_limit=#{rate_limit_info e.info[:response_headers]}
+              github_request_id=#{github_request_id e.info[:response_headers]}
             ].join(' ')
             error(message)
             raise message
@@ -277,12 +280,29 @@ module Travis
             }
           end
 
-          def rate_limit_info(headers = {})
+          def rate_limit_info(headers)
+            unless rate_limit_headers_complete? headers
+              return {error: "response headers did not contain rate limit information"}
+            end
+
             {
               limit: headers["x-ratelimit-limit"].to_i,
               remaining: headers["x-ratelimit-remaining"].to_i,
               next_limit_reset_in: headers["x-ratelimit-reset"].to_i - Time.now.to_i
             }
+          end
+
+          def rate_limit_headers_complete?(headers)
+            !headers.nil? &&
+            !headers["x-ratelimit-limit"    ].to_s.empty? &&
+            !headers["x-ratelimit-remaining"].to_s.empty? &&
+            !headers["x-ratelimit-reset"    ].to_s.empty?
+          end
+
+          def github_request_id(headers)
+            if headers.respond_to? :[]
+              headers["x-github-request-id"]
+            end
           end
 
           def redis
