@@ -1,3 +1,4 @@
+require 'metriks'
 require 'travis/github_apps'
 
 module Travis
