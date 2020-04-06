@@ -12,21 +12,25 @@ module Travis
       end
 
       def create_check_run(id:, type:, payload:)
+        count_request
         github_apps.post_with_app("/repositories/#{id}/check-runs", payload)
       end
 
       def update_check_run(id:, type:, check_run_id:, payload:)
+        count_request
         github_apps.patch_with_app("/repositories/#{id}/check-runs/#{check_run_id}", payload)
       end
 
       def check_runs(id:, type:, ref:, check_run_name:)
         path = "/repositories/#{id}/commits/#{ref}/check-runs?check_name=#{URI.encode(check_run_name)}&filter=all"
+        count_request
         github_apps.get_with_app(path)
       end
 
       def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
         url = "/repositories/#{id}/statuses/#{ref}"
 
+        count_request
         if process_via_gh_apps
           github_apps.post_with_app(url, payload)
         else
@@ -51,6 +55,10 @@ module Travis
       end
 
     private
+
+      def count_request
+        ::Metriks.meter("travis.github_api.requests").mark
+      end
 
       def github_apps
         @github_apps ||= Travis::GithubApps.new(
