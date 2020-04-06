@@ -41,3 +41,5 @@ end
 group :production do
   gem 'foreman'
 end
+
+gem "connection_pool", "~> 2.2"

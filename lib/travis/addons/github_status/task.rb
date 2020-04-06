@@ -113,8 +113,10 @@ module Travis
           end
 
           def process_with_token(username, token)
-            if redis.exists(errored_user_key(username))
-              return [:skipped, {}]
+            Travis.redis_pool.with do |redis|
+              if redis.exists(errored_user_key(username))
+                return [:skipped, {}]
+              end
             end
 
             value = authenticated(token) do
@@ -281,6 +283,8 @@ module Travis
           end
 
           def rate_limit_info(headers)
+            return {error: "headers were nil"} unless headers
+
             unless rate_limit_headers_complete? headers
               return {error: "response headers did not contain rate limit information"}
             end
@@ -305,17 +309,15 @@ module Travis
             end
           end
 
-          def redis
-            @redis ||= Redis.new(url: Travis.config.redis.url)
-          end
-
           def errored_user_key(u)
             REDIS_PREFIX + "errored_users:#{u}"
           end
 
           def mark_user(u)
             info "message=\"A request with token belonging to #{u} failed. Will skip using this token for 1 hour.\""
-            redis.set errored_user_key(u), "", ex: 60*60 # an hour
+            Travis.redis_pool.with do |redis|
+              redis.set errored_user_key(u), "", ex: 60*60 # an hour
+            end
           end
       end
     end
