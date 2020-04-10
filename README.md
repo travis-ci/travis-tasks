@@ -105,3 +105,4 @@ Please file any issues on the [central Travis CI issue tracker](https://github.c
 See LICENSE file.
 
 Copyright (c) 2011 [Travis CI development team](https://github.com/travis-ci).
+
