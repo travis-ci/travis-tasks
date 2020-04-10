@@ -133,7 +133,7 @@ module Travis
                  GH::Error(:response_status => 403),
                  GH::Error(:response_status => 404),
                  GH::Error(:response_status => 422) => e
-            mark_token(username, token)
+            mark_token(username, token) if e.info[:response_status] == 403
             error(%W[
               type=github_status
               build=#{build[:id]}
