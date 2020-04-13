@@ -69,7 +69,7 @@ module Travis
                 return
               elsif status == :skipped
                 info "#{message} message=\"Token for #{username} failed within the last hour. Skipping\""
-                return
+                next
               end
 
               # we can't post any more status to this commit, so there's
@@ -114,7 +114,7 @@ module Travis
 
           def process_with_token(username, token)
             Travis.redis_pool.with do |redis|
-              if redis.exists(errored_user_key(username))
+              if redis.exists(errored_token_key(token))
                 return [:skipped, {}]
               end
             end
@@ -133,7 +133,7 @@ module Travis
                  GH::Error(:response_status => 403),
                  GH::Error(:response_status => 404),
                  GH::Error(:response_status => 422) => e
-            mark_user username
+            mark_token(username, token) if e.info[:response_status] == 403
             error(%W[
               type=github_status
               build=#{build[:id]}
@@ -309,14 +309,15 @@ module Travis
             end
           end
 
-          def errored_user_key(u)
-            REDIS_PREFIX + "errored_users:#{u}"
+          def errored_token_key(token)
+            token_hash = Digest::SHA256.hexdigest(token)
+            REDIS_PREFIX + "errored_tokens:#{token_hash}"
           end
 
-          def mark_user(u)
-            info "message=\"A request with token belonging to #{u} failed. Will skip using this token for 1 hour.\""
+          def mark_token(login, token)
+            info "message=\"A request with token belonging to #{login} failed. Will skip using this token for 1 hour.\""
             Travis.redis_pool.with do |redis|
-              redis.set errored_user_key(u), "", ex: 60*60 # an hour
+              redis.set errored_token_key(token), "", ex: 60*60 # an hour
             end
           end
       end
