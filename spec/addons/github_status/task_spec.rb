@@ -5,6 +5,7 @@ describe Travis::Addons::GithubStatus::Task do
 
   let(:subject)    { Travis::Addons::GithubStatus::Task }
   let(:params)     { { tokens: { 'svenfuchs' => '12345', 'jdoe' => '67890' } } }
+  let(:tokens)     { params.fetch(:tokens, {}).values }
   let(:instance)   { subject.new(payload, params) }
   let(:url)        { '/repositories/549743/statuses/62aae5f70ceee39123ef' }
   let(:target_url) { 'https://travis-ci.org/github/svenfuchs/minimal/builds/1?utm_source=github_status&utm_medium=notification' }
@@ -20,13 +21,17 @@ describe Travis::Addons::GithubStatus::Task do
 
   before do
     Travis.logger = Logger.new(io)
-    params.fetch(:tokens, {}).keys.each do |u|
-      Redis.new(url: Travis.config.redis.url).del(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + "errored_users:" + u)
+    tokens.each do |t|
+      Redis.new(url: Travis.config.redis.url).del(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + "errored_tokens:" + token_hash(t))
     end
   end
 
   def run
     instance.run
+  end
+
+  def token_hash(token)
+    Digest::SHA256.hexdigest(token)
   end
 
   it 'posts status info for a created build' do
@@ -96,7 +101,7 @@ describe Travis::Addons::GithubStatus::Task do
     expect(io.string).to match /A request with token belonging to svenfuchs failed\./
     expect(io.string).to include('response_status=403')
     expect(io.string).to include('reason=incorrect_auth_or_suspended_acct')
-    expect(redis.exists(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_users:' + 'svenfuchs')).to be true
+    expect(redis.exists(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_tokens:' + token_hash('12345'))).to be true
   end
 
   it 'does not raise if a 404 error was returned by GH' do
@@ -112,11 +117,15 @@ describe Travis::Addons::GithubStatus::Task do
 
   context "a user token has been invalidated" do
     before do
-      redis.set(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_users:' + 'svenfuchs', "")
+      tokens.each do |token|
+        redis.set(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_tokens:' + token_hash(token), "")
+      end
     end
 
     after do
-      redis.del(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_users:' + 'svenfuchs')
+      tokens.each do |token|
+        redis.del(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_tokens:' + token_hash(token))
+      end
     end
 
     it "skips using the token" do
