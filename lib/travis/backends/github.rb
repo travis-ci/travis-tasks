@@ -67,14 +67,14 @@ module Travis
       end
 
       def get_current_calls_counter
-        ravis.redis_pool.with do |redis|
+        Travis.redis_pool.with do |redis|
           return redis.get("gh_api_calls_#{Time.now.hour}")
         end
         0
       end
 
       def update_current_calls_counter
-        radis.redis_pool.with do |redis|
+        Travis.redis_pool.with do |redis|
           redis.multi do |multi|
             multi.incr("gh_api_calls_#{Time.now.hour}")
             multi.expire("gh_api_calls_#{Time.now.hour}", 60*60)
