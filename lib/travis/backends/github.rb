@@ -13,29 +13,25 @@ module Travis
       end
 
       def create_check_run(id:, type:, payload:)
-        count_request
-        github_apps.post_with_app("/repositories/#{id}/check-runs", payload)
+        github_apps.post_with_app("/repositories/#{id}/check-runs", payload) if in_limit?
       end
 
       def update_check_run(id:, type:, check_run_id:, payload:)
-        count_request
-        github_apps.patch_with_app("/repositories/#{id}/check-runs/#{check_run_id}", payload)
+        github_apps.patch_with_app("/repositories/#{id}/check-runs/#{check_run_id}", payload) if in_limit?
       end
 
       def check_runs(id:, type:, ref:, check_run_name:)
         path = "/repositories/#{id}/commits/#{ref}/check-runs?check_name=#{URI.encode(check_run_name)}&filter=all"
-        count_request
-        github_apps.get_with_app(path)
+        github_apps.get_with_app(path) if in_limit?
       end
 
       def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
         url = "/repositories/#{id}/statuses/#{ref}"
 
-        count_request
         if process_via_gh_apps
-          github_apps.post_with_app(url, payload)
+          github_apps.post_with_app(url, payload) if in_limit?
         else
-          GH.post(url, payload)
+          GH.post(url, payload) if in_limit?
         end
       end
 
@@ -56,6 +52,35 @@ module Travis
       end
 
     private
+
+      def in_limit?
+        if get_current_calls_counter <= max_calls_per_hour
+          update_current_calls_counter
+          count_request
+          return true
+        end
+        false
+      end
+
+      def max_calls_per_hour
+        Travis.config.github.max_calls_per_hour || 62500
+      end
+
+      def get_current_calls_counter
+        ravis.redis_pool.with do |redis|
+          return redis.get("gh_api_calls_#{Time.now.hour}")
+        end
+        0
+      end
+
+      def update_current_calls_counter
+        radis.redis_pool.with do |redis|
+          redis.multi do |multi|
+            multi.incr("gh_api_calls_#{Time.now.hour}")
+            multi.expire("gh_api_calls_#{Time.now.hour}", 60*60)
+          end
+        end
+      end
 
       def count_request
         ::Metriks.meter("travis.github_api.requests").mark

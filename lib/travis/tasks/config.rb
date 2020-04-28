@@ -27,7 +27,7 @@ module Travis
       end
 
       define host:    "travis-ci.org",
-             github:  { url: 'https://github.com' },
+             github:  { url: 'https://github.com', max_calls_per_hour: 62500 },
              redis:   { url: "redis://localhost:6379" },
              sentry:  { },
              metrics: { reporter: 'librato' },
