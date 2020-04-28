@@ -123,6 +123,14 @@ describe Travis::Addons::GithubStatus::Task do
     expect(redis.get("gh_api_calls_#{Time.now.hour}").to_i).to eq(current_calls_counter + 1)
   end
 
+  it 'does skip GH Api call if over limit' do
+    payload["build"]["state"] = 'passed'
+    GH.expects(:post).with(url, state: 'success', description: 'The Travis CI build passed', target_url: target_url, context: 'continuous-integration/travis-ci/push').returns({})
+    redis.set("gh_api_calls_#{Time.now.hour}", (Travis.config.github.max_calls_per_hour || 62500 ) + 1)
+    run
+    expect(io.string).to match /Too much GH Api calls. Skipping/
+  end
+
   context "a user token has been invalidated" do
     before do
       tokens.each do |token|
