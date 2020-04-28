@@ -118,9 +118,9 @@ describe Travis::Addons::GithubStatus::Task do
   it 'does count GH Api calls' do
     payload["build"]["state"] = 'passed'
     GH.expects(:post).with(url, state: 'success', description: 'The Travis CI build passed', target_url: target_url, context: 'continuous-integration/travis-ci/push').returns({})
-    current_calls_counter = redis.get("gh_api_calls_#{Time.now.hour}")
+    current_calls_counter = redis.get("gh_api_calls_#{Time.now.hour}").to_i
     run
-    expect(redis.get("gh_api_calls_#{Time.now.hour}")).to eq(current_calls_counter+1)
+    expect(redis.get("gh_api_calls_#{Time.now.hour}").to_i).to eq(current_calls_counter + 1)
   end
 
   context "a user token has been invalidated" do
