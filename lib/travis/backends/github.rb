@@ -13,25 +13,25 @@ module Travis
       end
 
       def create_check_run(id:, type:, payload:)
-        github_apps.post_with_app("/repositories/#{id}/check-runs", payload) if in_limit?
+        github_apps.post_with_app("/repositories/#{id}/check-runs", payload) if rate_limit?
       end
 
       def update_check_run(id:, type:, check_run_id:, payload:)
-        github_apps.patch_with_app("/repositories/#{id}/check-runs/#{check_run_id}", payload) if in_limit?
+        github_apps.patch_with_app("/repositories/#{id}/check-runs/#{check_run_id}", payload) if rate_limit?
       end
 
       def check_runs(id:, type:, ref:, check_run_name:)
         path = "/repositories/#{id}/commits/#{ref}/check-runs?check_name=#{URI.encode(check_run_name)}&filter=all"
-        github_apps.get_with_app(path) if in_limit?
+        github_apps.get_with_app(path) if rate_limit?
       end
 
       def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
         url = "/repositories/#{id}/statuses/#{ref}"
 
         if process_via_gh_apps
-          github_apps.post_with_app(url, payload) if in_limit?
+          github_apps.post_with_app(url, payload) if rate_limit?
         else
-          GH.post(url, payload) if in_limit?
+          GH.post(url, payload) if rate_limit?
         end
       end
 
@@ -53,6 +53,17 @@ module Travis
 
     private
 
+      def rate_limit?
+        err_count = 0
+        while err_count < 60*60
+          return true if in_limit?
+          err_count += 1
+          sleep(rand(5))
+        end
+      
+      false
+      end
+
       def in_limit?
         if get_current_calls_counter <= max_calls_per_hour
           update_current_calls_counter
@@ -69,7 +80,7 @@ module Travis
 
       def get_current_calls_counter
         Travis.redis_pool.with do |redis|
-          return redis.get("gh_api_calls_#{Time.now.hour}").to_i
+          return redis.get(counter_key).to_i
         end
         0
       end
@@ -77,10 +88,14 @@ module Travis
       def update_current_calls_counter
         Travis.redis_pool.with do |redis|
           redis.multi do |multi|
-            multi.incr("gh_api_calls_#{Time.now.hour}")
-            multi.expire("gh_api_calls_#{Time.now.hour}", 60*60)
+            multi.incr(counter_key)
+            multi.expire(counter_key, 60*60)
           end
         end
+      end
+
+      def counter_key
+        "gh_api_calls_#{Time.now.hour}"
       end
 
       def count_request
