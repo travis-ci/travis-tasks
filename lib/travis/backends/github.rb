@@ -59,7 +59,7 @@ module Travis
           count_request
           return true
         end
-        info "Too much GH Api calls. Skipping"
+        Travis.logger.info "Too much GH Api calls. Skipping"
         false
       end
 
