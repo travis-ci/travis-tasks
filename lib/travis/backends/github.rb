@@ -68,7 +68,7 @@ module Travis
 
       def get_current_calls_counter
         Travis.redis_pool.with do |redis|
-          return redis.get("gh_api_calls_#{Time.now.hour}")
+          return redis.get("gh_api_calls_#{Time.now.hour}") || 0
         end
         0
       end
