@@ -115,6 +115,12 @@ describe Travis::Addons::GithubStatus::Task do
     expect(io.string).to include('users_tried=')
   end
 
+  it 'does count GH Api calls' do
+    current_calls_counter = redis.get("gh_api_calls_#{Time.now.hour}")
+    run
+    expect(redis.get("gh_api_calls_#{Time.now.hour}")).to eq(current_calls_counter+1)
+  end
+
   context "a user token has been invalidated" do
     before do
       tokens.each do |token|
