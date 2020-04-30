@@ -29,7 +29,7 @@ module Travis
               begin
                 send_webhook(target, timeout)
               rescue => e
-                error "task=webhook status=failed url=#{target}"
+                error "task=webhook status=failed url=#{loggable_url(target)}"
                 errors[target] = e.message
               end
             end
@@ -52,7 +52,7 @@ module Travis
               log_error(response)
             end
           rescue URI::InvalidURIError => e
-            error "task=webhook status=invalid_uri build=#{payload[:id]} slug=#{repo_slug} url=#{target}"
+            error "task=webhook status=invalid_uri build=#{payload[:id]} slug=#{repo_slug} url=#{loggable_url(target)}"
           end
 
           def add_headers(request, target, payload)
@@ -83,15 +83,21 @@ module Travis
           end
 
           def log_success(response)
-            info "task=webhook status=successful build=#{payload[:id]} url=#{response.env[:url].to_s}"
+            info "task=webhook status=successful build=#{payload[:id]} url=#{loggable_url(response.env[:url].to_s)}"
           end
 
           def log_error(response)
-            error "task=webhook status=error build=#{payload[:id]} url=#{response.env[:url].to_s} error_code=#{response.status} message=#{response.body.inspect}"
+            error "task=webhook status=error build=#{payload[:id]} url=#{loggable_url(response.env[:url].to_s)} error_code=#{response.status} message=#{response.body.inspect}"
           end
 
           def repo_slug
             repository.values_at(:owner_name, :name).join('/')
+          end
+
+          def loggable_url(url)
+            u = URI.parse(url)
+            u.user = u.password = nil
+            u.to_s
           end
       end
     end
