@@ -26,13 +26,13 @@ gem 'roadie'
 gem 'roadie-rails',    '~> 2.0'
 gem 'multi_json'
 
-gem 'faraday'
+gem 'faraday', '~> 1.0'
 gem 'faraday_middleware'
 
 group :test do
-  gem 'rspec',         '~> 3.8'
-  gem 'mocha',         '~> 0.10.0'
-  gem 'webmock',       '~> 1.8.0'
+  gem 'rspec'
+  gem 'mocha', '~> 1.10.0'
+  gem 'webmock'
   gem 'guard'
   gem 'guard-rspec'
   gem 'capybara'

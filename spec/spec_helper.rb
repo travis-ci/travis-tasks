@@ -13,7 +13,7 @@ require 'payloads'
 
 ActionMailer::Base.delivery_method = :test
 
-require 'mocha'
+require 'mocha/api'
 require 'gh'
 require 'capybara'
 
