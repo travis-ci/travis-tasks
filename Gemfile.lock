@@ -1145,7 +1145,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  actionmailer (>= 5.2.2.1)
+  actionmailer
   aws-sdk
   capybara
   connection_pool (~> 2.2)

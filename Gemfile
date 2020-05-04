@@ -21,7 +21,7 @@ gem 'jemalloc', git: 'https://github.com/joshk/jemalloc-rb'
 
 gem 'gh'
 gem 'aws-sdk'
-gem 'actionmailer',    '>= 5.2.2.1'
+gem 'actionmailer'
 gem 'roadie'
 gem 'roadie-rails',    '~> 2.0'
 gem 'multi_json'
