@@ -94,9 +94,9 @@ module Travis
       def http(url)
         @http ||= Faraday.new(http_options.merge(url: url)) do |f|
           f.request :url_encoded
-          f.adapter :net_http
           f.use FaradayMiddleware::FollowRedirects, limit: 5
           f.headers["User-Agent"] = user_agent_string
+          f.adapter :net_http
         end
       end
 
