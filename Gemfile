@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.3'
+ruby '2.6.6'
 
 gem 'travis-logger',     git: 'https://github.com/travis-ci/travis-logger'
 gem 'travis-exceptions', git: 'https://github.com/travis-ci/travis-exceptions'
