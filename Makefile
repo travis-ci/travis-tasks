@@ -25,8 +25,13 @@ endif
 
 DOCKER ?= docker
 
+TRAVIS_RUBY_VERSION = $(shell cat .ruby-version)
+
+Dockerfile:
+	sed -e "s/__TRAVIS_RUBY_VERISON__/$(TRAVIS_RUBY_VERSION)/" Dockerfile.txt > Dockerfile
+
 .PHONY: docker-build
-docker-build:
+docker-build: Dockerfile
 	$(DOCKER) build -t $(DOCKER_DEST) .
 
 .PHONY: docker-login
