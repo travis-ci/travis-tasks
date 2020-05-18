@@ -25,5 +25,6 @@ COPY Gemfile      /app
 COPY Gemfile.lock /app
 
 RUN bundle install --deployment
+RUN gem install --user-install executable-hooks
 
 COPY . /app
