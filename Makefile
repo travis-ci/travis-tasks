@@ -27,7 +27,7 @@ DOCKER ?= docker
 
 .PHONY: docker-build
 docker-build:
-	$(DOCKER) build -t $(DOCKER_DEST) .
+	$(DOCKER) build --no-cache -t $(DOCKER_DEST) .
 
 .PHONY: docker-login
 docker-login:
@@ -37,8 +37,8 @@ docker-login:
 docker-push-latest-master:
 	$(DOCKER) tag $(DOCKER_DEST) $(QUAY_IMAGE):$(VERSION_VALUE)
 	$(DOCKER) push $(QUAY_IMAGE):$(VERSION_VALUE)
-	$(DOCKER) tag $(DOCKER_DEST) $(QUAY_IMAGE):latest
-	$(DOCKER) push $(QUAY_IMAGE):latest
+#	$(DOCKER) tag $(DOCKER_DEST) $(QUAY_IMAGE):latest
+#	$(DOCKER) push $(QUAY_IMAGE):latest
 
 .PHONY: docker-push-branch
 docker-push-branch:

@@ -13,4 +13,5 @@ jobs:
       ruby:
       services:
       script: make ship
+      cache: none
       if: commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
