@@ -3,6 +3,8 @@ language: ruby
 services:
   - redis-server
 
+cache: bundler
+
 jobs:
   include:
     - stage: "testing time"
@@ -10,5 +12,7 @@ jobs:
     - stage: ":ship: it to quay.io"
       ruby:
       services:
+      cache:
+        bundler: false
       script: make ship
       if: commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
