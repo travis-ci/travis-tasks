@@ -14,5 +14,8 @@ jobs:
       services:
       cache:
         bundler: false
+      before_script:
+      before_install:
+      install:
       script: make ship
       if: commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
