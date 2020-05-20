@@ -5,6 +5,15 @@ services:
 
 cache: bundler
 
+addons:
+  snaps:
+  - name: docker
+    channel: latest/beta
+
+env:
+  global:
+    - PATH=/snap/bin:$PATH
+
 jobs:
   include:
     - stage: "testing time"
