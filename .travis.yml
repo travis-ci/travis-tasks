@@ -11,6 +11,9 @@ jobs:
       script: bundle exec rspec -f documentation --color --order rand spec
     - stage: ":ship: it to quay.io"
       ruby:
+      before_install:
+      before_script:
+      install:
       services:
       script: make ship
       if: commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
