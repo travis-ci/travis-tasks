@@ -9,10 +9,14 @@ module Travis
           @user = find_user(user_id)
         end
 
-        def report_first_build(time)
+        def report_first_build(time = DateTime.now)
+          @user.custom_attributes["first_build_at"] = time
+          save
         end
 
-        def report_last_build(time)
+        def report_last_build(time = DateTime.now)
+          @user.custom_attributes["last_build_at"] = time
+          save
         end
 
         private
@@ -21,6 +25,10 @@ module Travis
           begin
             @handle.users.find(user_id: id)
           rescue Intercom::ResourceNotFound {}
+        end
+
+        def save
+          @handle.users.save(@user)
         end
 
       end
