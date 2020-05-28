@@ -6,12 +6,17 @@ module Travis
         require 'travis/addons/intercom/client'
 
         def process
+          return unless user_id && build
           intercom = Client.new(user.id)
-          intercom.report_last_build payload.build
+          intercom.report_last_build build.finished_at
         end
 
-        def user
-          params[:user]
+        def user_id
+          payload[:owner].id
+        end
+
+        def build
+          payload[:build]
         end
 
       end
