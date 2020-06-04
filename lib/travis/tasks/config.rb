@@ -42,7 +42,7 @@ module Travis
              s3:      { url: 'https://s3.amazonaws.com/travis-email-assets'},
              irc:     { freenode_password: nil, nick: nil },
              librato: { email: nil, token: nil },
-             intercom { token: 'abc' }
+             intercom: { token: 'abc' }
              auth:    { jwt_public_key: ENV['JWT_RSA_PUBLIC_KEY'], http_basic_auth: http_basic_auth },
              github_apps: { debug: ENV['GITHUB_APPS_DEBUG'] },
              vcs:     { url: 'https://travis-vcs-staging.herokuapp.com/', token: '' },
