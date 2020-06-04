@@ -22,9 +22,7 @@ module Travis
         private
 
         def find_user(id)
-          begin
-            @handle.users.find(user_id: id)
-          rescue Intercom::ResourceNotFound {}
+          @handle.users.find(user_id: id) rescue Intercom::ResourceNotFound nil
         end
 
         def save
