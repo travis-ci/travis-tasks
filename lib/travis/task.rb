@@ -20,6 +20,10 @@ module Travis
       extend ExceptionHandling
 
       def perform(*args)
+        puts "-----------------------------------"
+        puts "Executes task"
+        p *args
+        puts "-----------------------------------"
         new(*args).run
       end
     end
