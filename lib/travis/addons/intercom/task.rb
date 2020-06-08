@@ -6,7 +6,10 @@ module Travis
         require 'travis/addons/intercom/client'
 
         def process
+          puts "-----------------------------------"
+          puts "Executes Intercom task"
           p payload
+          puts "-----------------------------------"
           return unless user_id && build
           intercom = Client.new(user.id)
           intercom.report_last_build build.finished_at
