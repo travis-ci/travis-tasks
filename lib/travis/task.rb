@@ -33,6 +33,9 @@ module Travis
     end
 
     def run
+      puts "------------------"
+      puts "Task run: #{type}"
+      puts "------------------"
       with_keenio do
         process(params[:timeout] || DEFAULT_TIMEOUT)
       end
