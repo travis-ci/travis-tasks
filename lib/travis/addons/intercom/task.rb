@@ -12,7 +12,7 @@ module Travis
         end
 
         def user_id
-          payload[:owner]['id']
+          payload[:owner][:id]
         end
 
         def build
