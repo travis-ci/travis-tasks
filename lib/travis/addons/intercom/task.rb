@@ -5,24 +5,24 @@ module Travis
       class Task < Travis::Task
         require 'travis/addons/intercom/client'
 
-        def process
+        def process(timeout)
           puts "-----------------------------------"
-          puts "Executes Intercom task"
+          puts "Executes intercom task"
           p payload
           puts "-----------------------------------"
-          # return unless user_id && build
-          # intercom = Client.new(user.id)
-          # intercom.report_last_build build.finished_at
+          return unless user_id && build
+          intercom = Client.new(user.id)
+          intercom.report_last_build build.finished_at
         end
 
         def user_id
-          1111111111111
-          # payload[:owner].id
+          puts ""
+          payload[:owner].id
         end
 
-        # def build
-        #   payload[:build]
-        # end
+        def build
+          payload[:build]
+        end
 
       end
 
