@@ -40,6 +40,7 @@ module Travis
         puts "------------------"
         puts "With keenio: #{type}"
         puts "------------------"
+        puts user_id || "No user id: intercom"
         process(params[:timeout] || DEFAULT_TIMEOUT)
       end
     end
