@@ -199,8 +199,8 @@ module Travis
 
             status_int = Integer(response.status)
             case status_int
-            when 401, 403, 404, 422
-              error(%W[
+            when 401, 404, 422
+              message = %W[
                 type=github_status
                 build=#{build[:id]}
                 repo=#{repository[:slug]}
@@ -211,7 +211,9 @@ module Travis
                 reason=#{ERROR_REASONS.fetch(status_int)}
                 processed_with=#{client.name}
                 body=#{response.body}
-              ].join(' '))
+              ].join(' ')
+              error(message)
+              raise message if status_int == 403
               return nil
             else
               message = %W[
