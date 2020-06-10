@@ -33,14 +33,7 @@ module Travis
     end
 
     def run
-      puts "------------------"
-      puts "Task run: #{type}"
-      puts "------------------"
       with_keenio do
-        puts "------------------"
-        puts "With keenio: #{type}"
-        puts "------------------"
-        puts user_id || "No user id: intercom"
         process(params[:timeout] || DEFAULT_TIMEOUT)
       end
     end
