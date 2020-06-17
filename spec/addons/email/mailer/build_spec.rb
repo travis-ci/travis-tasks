@@ -75,6 +75,25 @@ describe Travis::Addons::Email::Mailer::Build do
       ))
     end
 
+    describe 'Build email with canceled' do
+      before do
+        data['build']['state'] = 'canceled'
+      end
+
+      it 'contains the expected text part' do
+        expect(email.text_part.body).to include_lines(%(
+          Build: #2
+          Status: Canceled
+          Duration: 1 min and 0 sec
+          Commit: 62aae5f (master)
+          Author: まつもとゆきひろ a.k.a. Matz
+          Message: the commit message
+          View the changeset: https://github.com/svenfuchs/minimal/compare/master...develop
+          View the full build log and details: https://travis-ci.org/github/svenfuchs/minimal/builds/#{build.id}
+        ))
+      end
+    end
+
     context 'in HTML' do
       it 'escapes newlines in the commit message' do
         data["commit"]["message"] = "bar\nbaz"
