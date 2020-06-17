@@ -231,6 +231,14 @@
         background: rgba(102, 103, 102, 0.1);
       }
 
+      .build-note-success, .build-note-failure, .build-note-error {
+        display: none;
+      }
+
+      .build-note-status-canceled {
+        display: block;
+      }
+
       #system-message-section {
         padding-bottom: 20px;
       }
@@ -489,6 +497,16 @@
                     </td>
                   </tr>
                 </table>
+                <!-- Build Cancel Note Section -->
+                <tr>
+                  <td class="build-note-<%= build_email_css_class(@build) %> build-note-status-<%= @build.state %>" align="center" valign="top" style="padding: 5px 15px 0px 15px;">
+                    <div>
+                      <p style="font-size: 18px; text-align: center; color: #0068FF">
+                        <%= link_to "Click here to restart the build", repository_build_url(slug: @repository.vcs_slug, id: @build.id, vcs_type: @repository.vcs_type), target: '_blank' %>
+                      </p>
+                    </div>
+                  </td>
+                </tr>
               </td>
             </tr>
           </table>
