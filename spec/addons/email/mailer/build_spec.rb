@@ -90,6 +90,7 @@ describe Travis::Addons::Email::Mailer::Build do
           Message: the commit message
           View the changeset: https://github.com/svenfuchs/minimal/compare/master...develop
           View the full build log and details: https://travis-ci.org/github/svenfuchs/minimal/builds/#{build.id}
+          Click here to restart the build: https://travis-ci.org/github/svenfuchs/minimal/builds/#{build.id}
         ))
       end
     end
