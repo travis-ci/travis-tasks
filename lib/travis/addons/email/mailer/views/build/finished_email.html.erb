@@ -501,9 +501,7 @@
                 <tr>
                   <td class="build-note-<%= build_email_css_class(@build) %> build-note-status-<%= @build.state %>" align="center" valign="top" style="padding: 5px 15px 0px 15px;">
                     <div>
-                      <p style="font-size: 18px; text-align: center; color: #0068FF">
-                        <%= link_to "Click here to restart the build", repository_build_url(slug: @repository.vcs_slug, id: @build.id, vcs_type: @repository.vcs_type), target: '_blank' %>
-                      </p>
+                      <p style="font-size: 18px; text-align: center;">Click <%= link_to "here", repository_build_url(slug: @repository.vcs_slug, id: @build.id, vcs_type: @repository.vcs_type), target: "_blank", style: "color: #0068FF"; %>  to restart the build</p>
                     </div>
                   </td>
                 </tr>
