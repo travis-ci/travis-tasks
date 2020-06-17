@@ -14,7 +14,7 @@ View the changeset: <%= @commit.compare_url %>
 View the full build log and details: <%= repository_build_url(slug: @repository.vcs_slug, id: @build.id, vcs_type: @repository.vcs_type) %>
 
 <% if @build.state == 'canceled' %>
-Click here to restart the build: <%= repository_build_url(slug: @repository.vcs_slug, id: @build.id, vcs_type: @repository.vcs_type) %>
+  Click here to restart the build: <%= repository_build_url(slug: @repository.vcs_slug, id: @build.id, vcs_type: @repository.vcs_type) %>
 <% end %>
 
 --
