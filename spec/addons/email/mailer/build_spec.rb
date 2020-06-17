@@ -93,6 +93,40 @@ describe Travis::Addons::Email::Mailer::Build do
           Restart your build: https://travis-ci.org/github/svenfuchs/minimal/builds/#{build.id}
         ))
       end
+
+      it 'contains the expected html part' do
+        expect(email.html_part.decoded).to match(%r(<td class="canceled-build-note-section" align="center" valign="top" style="padding: 5px 15px 0px 15px;">))
+      end
+    end
+
+    describe 'Build email with failed' do
+
+      before { data['build']['state'] = 'failed' }
+
+      it 'Does not contains cancel note text part' do
+        expect(email.text_part.body).not_to include_lines(%(
+          Restart your build: https://travis-ci.org/github/svenfuchs/minimal/builds/#{build.id}
+        ))
+      end
+
+      it 'Does not contains cancel note html part' do
+        expect(email.html_part.decoded).not_to match(%r(<td class="canceled-build-note-section" align="center" valign="top" style="padding: 5px 15px 0px 15px;">))
+      end
+    end
+
+    describe 'Build email with passed' do
+
+      before { data['build']['state'] = 'passed' }
+
+      it 'Does not contains cancel note text part' do
+        expect(email.text_part.body).not_to include_lines(%(
+          Restart your build: https://travis-ci.org/github/svenfuchs/minimal/builds/#{build.id}
+        ))
+      end
+
+      it 'Does not contains cancel not html part' do
+        expect(email.html_part.decoded).not_to match(%r(<td class="canceled-build-note-section" align="center" valign="top" style="padding: 5px 15px 0px 15px;">))
+      end
     end
 
     context 'in HTML' do
