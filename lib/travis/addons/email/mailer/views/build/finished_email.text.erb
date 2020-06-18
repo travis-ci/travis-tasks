@@ -13,6 +13,10 @@ View the changeset: <%= @commit.compare_url %>
 
 View the full build log and details: <%= repository_build_url(slug: @repository.vcs_slug, id: @build.id, vcs_type: @repository.vcs_type) %>
 
+<% if @build.state == 'canceled' %>
+  Restart your build: <%= repository_build_url(slug: @repository.vcs_slug, id: @build.id, vcs_type: @repository.vcs_type) %>
+<% end %>
+
 --
 
 You can unsubscribe from build emails from the <%= @repository.slug %> repository going to <%= repository_unsubscribe_url(@repository) %>.

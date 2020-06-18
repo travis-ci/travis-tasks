@@ -489,6 +489,16 @@
                     </td>
                   </tr>
                 </table>
+                <!-- Build Cancel Note Section -->
+                <% if @build.state == 'canceled' %>
+                  <tr>
+                    <td class="canceled-build-note-section" align="center" valign="top" style="padding: 5px 15px 0px 15px;">
+                      <div>
+                        <p style="font-size: 16px; line-height: 26px; font-weight: 300; text-align: center; color: #333333">Click <%= link_to "here", repository_build_url(slug: @repository.vcs_slug, id: @build.id, vcs_type: @repository.vcs_type), target: "_blank", style: "color: #0068FF"; %>  to restart the build</p>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
               </td>
             </tr>
           </table>
