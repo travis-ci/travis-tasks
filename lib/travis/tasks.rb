@@ -67,6 +67,7 @@ GH.set(
   origin:         Travis.config.host,
   api_url:        Travis.config.github.api_url,
   ssl:            Travis.config.ssl.to_h.merge(Travis.config.github.ssl || {}).to_h.compact,
+  formatter:      'response_x_header_formatter',
   user_agent:     "Travis-CI GH/#{GH::VERSION}"
 )
 
