@@ -19,7 +19,7 @@ gem 'keen'
 
 gem 'jemalloc', git: 'https://github.com/joshk/jemalloc-rb'
 
-gem 'gh', git: 'https://github.com/travis-ci/gh', branch: 'ha-extra-logging'
+gem 'gh'
 gem 'aws-sdk'
 gem 'actionmailer'
 gem 'roadie'
