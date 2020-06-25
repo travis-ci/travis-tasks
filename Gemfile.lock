@@ -1020,7 +1020,7 @@ GEM
     ffi (1.13.0)
     foreman (0.87.1)
     formatador (0.2.5)
-    gh (0.17.0)
+    gh (0.18.0)
       activesupport (~> 5.0)
       addressable (~> 2.4)
       faraday (~> 1.0)
