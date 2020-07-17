@@ -41,6 +41,8 @@ module Travis
             users_tried = []
             status      = :not_ok
 
+            GH::DefaultStack.replace GH::TokenCheck, nil
+
             message = %W[
               type=github_status
               build=#{build[:id]}
@@ -95,6 +97,8 @@ module Travis
             end
 
             error("#{message} message=\"All known tokens failed to update status\"")
+          ensure
+            GH::DefaultStack.replace nil, GH::TokenCheck
           end
 
           def process_vcs
