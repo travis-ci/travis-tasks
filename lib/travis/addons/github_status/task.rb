@@ -1,3 +1,4 @@
+require 'gh'
 module Travis
   module Addons
     module GithubStatus
@@ -31,6 +32,18 @@ module Travis
 
         REDIS_PREFIX = 'travis-tasks:github-status:'.freeze
 
+        NO_TOKEN_CHECK_STACK = ::GH::Stack.new do
+          use ::GH::Instrumentation
+          use ::GH::Parallel
+          use ::GH::Pagination
+          use ::GH::LinkFollower
+          use ::GH::MergeCommit
+          use ::GH::LazyLoader
+          use ::GH::Normalizer
+          use ::GH::CustomLimit
+          use ::GH::Remote
+        end
+
         private
           def url
             client.create_status_url(repository[:vcs_id], sha)
@@ -40,8 +53,6 @@ module Travis
             return process_vcs if repository[:vcs_type] != 'GithubRepository'.freeze
             users_tried = []
             status      = :not_ok
-
-            GH::DefaultStack.replace GH::TokenCheck, nil
 
             message = %W[
               type=github_status
@@ -97,8 +108,6 @@ module Travis
             end
 
             error("#{message} message=\"All known tokens failed to update status\"")
-          ensure
-            GH::DefaultStack.replace nil, GH::TokenCheck
           end
 
           def process_vcs
@@ -123,14 +132,16 @@ module Travis
               end
             end
 
-            value = authenticated(token) do
-              client.create_status(
-                process_via_gh_apps: false,
-                id: repository[:vcs_id],
-                type: repository[:vcs_type],
-                ref: sha,
-                payload: status_payload
-              )
+            value = GH.with(NO_TOKEN_CHECK_STACK) do
+              authenticated(token) do
+                client.create_status(
+                  process_via_gh_apps: false,
+                  id: repository[:vcs_id],
+                  type: repository[:vcs_type],
+                  ref: sha,
+                  payload: status_payload
+                )
+              end
             end
             [:ok, value]
           rescue GH::Error(:response_status => 401),
