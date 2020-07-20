@@ -132,16 +132,16 @@ module Travis
               end
             end
 
-            value = GH.with(NO_TOKEN_CHECK_STACK) do
-              authenticated(token) do
-                client.create_status(
-                  process_via_gh_apps: false,
-                  id: repository[:vcs_id],
-                  type: repository[:vcs_type],
-                  ref: sha,
-                  payload: status_payload
-                )
-              end
+            value = authenticated(token) do
+              GH.current = NO_TOKEN_CHECK_STACK
+              client.create_status(
+                process_via_gh_apps: false,
+                id: repository[:vcs_id],
+                type: repository[:vcs_type],
+                ref: sha,
+                payload: status_payload
+              )
+              GH.current = GH::DefaultStack
             end
             [:ok, value]
           rescue GH::Error(:response_status => 401),
