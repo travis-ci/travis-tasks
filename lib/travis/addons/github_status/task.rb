@@ -43,6 +43,7 @@ module Travis
           use ::GH::CustomLimit
           use ::GH::Remote
         end
+        NO_TOKEN_CHECK_STACK.options.merge! ::GH::DefaultStack.options
 
         private
           def url
