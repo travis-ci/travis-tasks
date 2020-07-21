@@ -1,3 +1,4 @@
+require 'gh'
 module Travis
   module Addons
     module GithubStatus
@@ -269,7 +270,25 @@ module Travis
           end
 
           def authenticated(token, &block)
-            GH.with(http_options(token), &block)
+            GH.with(gh_no_tokencheck_stack.build(http_options(token)), &block)
+          end
+
+          def gh_no_tokencheck_stack
+            return @gh_no_tokencheck_stack if @gh_no_tokencheck_stack
+            @gh_no_tokencheck_stack = ::GH::Stack.new do
+              use ::GH::Instrumentation
+              use ::GH::Parallel
+              use ::GH::Pagination
+              use ::GH::LinkFollower
+              use ::GH::MergeCommit
+              use ::GH::LazyLoader
+              use ::GH::Normalizer
+              use ::GH::CustomLimit
+              use ::GH::Remote
+            end
+
+            @gh_no_tokencheck_stack.options.merge! ::GH::DefaultStack.options
+            @gh_no_tokencheck_stack
           end
 
           def http_options(token)
