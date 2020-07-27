@@ -4,6 +4,7 @@ module Travis
     require 'travis/addons/email'
     require 'travis/addons/trial'
     require 'travis/addons/flowdock'
+    require 'travis/addons/gdpr'
     require 'travis/addons/github_status'
     require 'travis/addons/hipchat'
     require 'travis/addons/irc'
