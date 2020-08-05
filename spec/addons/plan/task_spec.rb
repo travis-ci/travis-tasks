@@ -5,7 +5,6 @@ describe Travis::Addons::Plan::Task do
 
   let(:mailer) { Travis::Addons::Plan::Mailer::PlanMailer }
   let(:email) { stub('email', deliver: true) }
-  let(:plan) { 'Free Tier Plan' }
   let(:handler) { described_class.new({}, stage: stage, recipients: recipients, owner: owner, plan: plan) }
   let(:owner) { { name: 'Joe', login: 'joe', billing_slug: 'user', vcs_type: 'GithubUser', owner_type: 'User' } }
   let(:recipients) { %w{joe@travis-ci.com joe@[bademail].home} }
@@ -19,7 +18,7 @@ describe Travis::Addons::Plan::Task do
     let(:stage) { stage }
 
     specify 'sends to filtered recipients' do
-      mailer.expects(stage).with([recipients.first], owner, builds_remaining).returns(email)
+      mailer.expects(stage).with([recipients.first], owner, plan).returns(email)
       handler.run
     end
   end
@@ -34,10 +33,10 @@ describe Travis::Addons::Plan::Task do
   end
 
   describe 'sends welcome email' do
-    let(:builds_remaining) { 100 }
+    let(:plan) { 'Free Tier Plan' }
 
     context 'with recipients' do
-      include_examples 'sends welcome email', 'welcome'
+      include_examples 'sends email', 'welcome'
     end
 
     context 'with no recipients' do

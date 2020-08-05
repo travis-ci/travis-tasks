@@ -2,7 +2,7 @@ require 'action_mailer'
 
 module Travis
   module Addons
-    module Trial
+    module Plan
       module Mailer
         class PlanMailer < ActionMailer::Base
           append_view_path File.expand_path('../views', __FILE__)

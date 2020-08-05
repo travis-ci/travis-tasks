@@ -1,5 +1,5 @@
 require 'travis/addons/email/task'
-require 'travis/addons/trial/mailer/trial_mailer'
+require 'travis/addons/plan/mailer/plan_mailer'
 
 module Travis
   module Addons
