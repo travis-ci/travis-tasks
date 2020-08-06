@@ -49,8 +49,8 @@ module Travis
             end
 
             def signup_url(owner)
-              return 'https://travis-ci.com/account/plan' if owner[:billing_slug] == 'user'
-              "https://travis-ci.com/organizations/#{owner[:login]}/plan"
+              return "https://#{config.host}/account/plan" if owner[:billing_slug] == 'user'
+              "https://#{config.host}/organizations/#{owner[:login]}/plan"
             end
 
             def filter_receivers(receivers)
