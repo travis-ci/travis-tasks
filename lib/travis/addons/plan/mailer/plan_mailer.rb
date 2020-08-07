@@ -14,7 +14,37 @@ module Travis
             @vcs_name = humanize_vcs_type(owner)
             @signup_url = signup_url(owner)
             @plan = plan
-            subject = "Welcome to Travis CI!"
+            subject = 'Welcome to Travis CI!'
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+          end
+
+          def builds_not_allowed(receivers, owner, repository_url)
+            @owner = owner
+            @vcs_name = humanize_vcs_type(owner)
+            @plan_url = plan_url(owner)
+            @purchase_url = purchase_url(owner)
+            @repository_url = repository_url
+            subject = 'Builds have been temporarily disabled'
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+          end
+
+          def credit_balance_state(receivers, owner, state)
+            @owner = owner
+            @vcs_name = humanize_vcs_type(owner)
+            @plan_url = plan_url(owner)
+            @state = state # integer number of percentage usage
+            subject = 'Credits balance state notification'
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+          end
+
+          def private_credits_for_public(receivers, owner, repository_url, renewal_date)
+            @owner = owner
+            @vcs_name = humanize_vcs_type(owner)
+            @plan_url = plan_url(owner)
+            @settings_url = settings_url(owner)
+            @repository_url = repository_url
+            @renewal_date = renewal_date
+            subject = 'Builds have been temporarily disabled'
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
@@ -48,9 +78,19 @@ module Travis
               owner[:vcs_type].gsub('User', '').gsub('Organization', '')
             end
 
-            def signup_url(owner)
-              return "https://#{config.host}/account/plan" if owner[:billing_slug] == 'user'
-              "https://#{config.host}/organizations/#{owner[:login]}/plan"
+            def plan_url(owner)
+              return "https://#{config.host}/account/#{config.plan_path}" if owner[:billing_slug] == 'user'
+              "https://#{config.host}/organizations/#{owner[:login]}/#{config.plan_path}"
+            end
+
+            def purchase_url(owner)
+              return "https://#{config.host}/account/#{config.purchase_path}" if owner[:billing_slug] == 'user'
+              "https://#{config.host}/organizations/#{owner[:login]}/#{config.purchase_path}"
+            end
+
+            def settings_url(owner)
+              return "https://#{config.host}/account/#{config.settnigs_path}" if owner[:billing_slug] == 'user'
+              "https://#{config.host}/organizations/#{owner[:login]}/#{config.settings_path}"
             end
 
             def filter_receivers(receivers)
