@@ -44,4 +44,43 @@ describe Travis::Addons::Plan::Task do
       include_examples 'no email sent', 'welcome'
     end
   end
+
+  describe 'sends builds_not_allowed email' do
+    let(:plan) { 'Free Tier Plan' }
+
+    context 'with recipients' do
+      include_examples 'sends email', 'builds_not_allowed'
+    end
+
+    context 'with no recipients' do
+      let(:recipients) { [] }
+      include_examples 'no email sent', 'builds_not_allowed'
+    end
+  end
+
+  describe 'sends credit_balance_state email' do
+    let(:plan) { 'Free Tier Plan' }
+
+    context 'with recipients' do
+      include_examples 'sends email', 'credit_balance_state'
+    end
+
+    context 'with no recipients' do
+      let(:recipients) { [] }
+      include_examples 'no email sent', 'credit_balance_state'
+    end
+  end
+
+  describe 'sends private_credits_for_public email' do
+    let(:plan) { 'Free Tier Plan' }
+
+    context 'with recipients' do
+      include_examples 'sends email', 'private_credits_for_public'
+    end
+
+    context 'with no recipients' do
+      let(:recipients) { [] }
+      include_examples 'no email sent', 'private_credits_for_public'
+    end
+  end
 end
