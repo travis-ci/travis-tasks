@@ -54,7 +54,7 @@ describe Travis::Addons::Plan::Task do
 
     context 'with no recipients' do
       let(:recipients) { [] }
-      include_examples 'no email sent', 'welcome'
+      include_examples 'no email sent', 'builds_not_allowed'
     end
   end
 
@@ -67,7 +67,7 @@ describe Travis::Addons::Plan::Task do
 
     context 'with no recipients' do
       let(:recipients) { [] }
-      include_examples 'no email sent', 'welcome'
+      include_examples 'no email sent', 'credit_balance_state'
     end
   end
 
@@ -80,7 +80,7 @@ describe Travis::Addons::Plan::Task do
 
     context 'with no recipients' do
       let(:recipients) { [] }
-      include_examples 'no email sent', 'welcome'
+      include_examples 'no email sent', 'private_credits_for_public'
     end
   end
 end
