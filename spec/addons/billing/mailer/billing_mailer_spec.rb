@@ -92,15 +92,16 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
     subject(:mail) { described_class.invoice_payment_v2_succeeded([recipient], subscription, owner, charge, event, invoice, cc_last_digits) }
 
     let(:recipient) { 'sergio@travis-ci.com' }
-    let(:subscription) {{company: 'Ruby Monsters', first_name: 'Tessa', last_name: 'Schmidt', address: 'Rigaer Str.', city: 'Berlin', state: 'Berlin', post_code: '10000', country: 'Germany', vat_id: 'DE123456789'}}
-    let(:owner) {{name: 'Ruby Monsters', login: 'rubymonsters', vcs_type: 'GithubUser', owner_type: 'User'}}
-    let(:invoice) {{ pdf_url: pdf_url, amount_due: 999, current_period_start: Time.now.to_i, current_period_end: Time.now.to_i, amount: 999, created_at: Time.now.to_s, invoice_id: 'TP123', plan: 'Startup'}}
-    let(:real_pdf_url) {  'http://invoices.travis-ci.dev/invoices/123'}
+    let(:subscription) { { company: 'Ruby Monsters', first_name: 'Tessa', last_name: 'Schmidt', address: 'Rigaer Str.', city: 'Berlin', state: 'Berlin', post_code: '10000', country: 'Germany', vat_id: 'DE123456789' } }
+    let(:owner) { {name: 'Ruby Monsters', login: 'rubymonsters', vcs_type: 'GithubUser', owner_type: 'User'} }
+    let(:lines) { [{ description: 'Standard tier plan', quantity: 25_000 }, { description: 'Some other addon', quantity: 10_000 }] }
+    let(:invoice) { { pdf_url: pdf_url, amount_due: 999, amount: 999, created_at: Time.now.to_s, invoice_id: 'TP123', plan: 'Startup', lines: lines } }
+    let(:real_pdf_url) { 'http://invoices.travis-ci.dev/invoices/123' }
     let(:pdf_url) { real_pdf_url }
     let(:filename) { 'TP123.pdf' }
     let(:cc_last_digits) { '1234' }
-    let(:charge) { nil}
-    let(:event) { nil}
+    let(:charge) { nil }
+    let(:event) { nil }
 
     let(:html) { Capybara.string(mail.html_part.body.to_s) }
 
@@ -146,6 +147,14 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
 
     it 'shows the credit card' do
       expect(html).to have_text_lines('Paid with credit card ending in 1234')
+    end
+
+    it 'shows addons' do
+      expect(html).to have_text_lines('Add-ons')
+      expect(html).to have_text_lines(lines.first[:description])
+      expect(html).to have_text_lines(lines.first[:quantity].to_s)
+      expect(html).to have_text_lines(lines.last[:description])
+      expect(html).to have_text_lines(lines.last[:quantity].to_s)
     end
 
     it 'contains the PDF attached' do
