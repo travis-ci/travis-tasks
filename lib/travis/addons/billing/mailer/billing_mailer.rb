@@ -25,6 +25,14 @@ module Travis
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
+          def invoice_payment_v2_succeeded(receivers, subscription, owner, _charge, _event, invoice, cc_last_digits)
+            @invoice = InvoicePresenter.new(subscription, owner, invoice, cc_last_digits)
+            @signin_url = signin_url(owner)
+            subject = 'Travis CI: Your Invoice'
+            download_attachment invoice.fetch(:pdf_url)
+            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
+          end
+
           def subscription_cancelled(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription = subscription
             subject = "Travis CI: Cancellation confirmed"
@@ -165,6 +173,10 @@ module Travis
 
             def pdf_url
               @invoice.fetch(:pdf_url)
+            end
+
+            def lines
+              @invoice.fetch(:lines)
             end
           end
         end
