@@ -80,4 +80,15 @@ describe Travis::Addons::Billing::Task do
       include_examples 'no email sent', 'user_feedback'
     end
   end
+
+  describe 'sends user changetofree feedback email' do
+    context 'with recipients' do
+      include_examples 'sends billing email', 'changetofree_feedback'
+    end
+
+    context 'with no recipients' do
+      let(:recipients) { [] }
+      include_examples 'no email sent', 'changetofree_feedback'
+    end
+  end
 end
