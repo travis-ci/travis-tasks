@@ -16,7 +16,7 @@ module Travis
           def changetofree_feedback(_recipients, subscription, owner, user, feedback)
             @subscription, @owner, @user, @feedback = subscription, owner, user, feedback
             subject = "Subscription changed to Free for #{owner[:login]}"
-            mail(from: travis_email, to: travis_email, reply_to: @user[:email], subject: subject, template_path: 'changetofree_mailer')
+            mail(from: travis_email, to: travis_email, reply_to: @user[:email], subject: subject, template_path: 'feedback_mailer')
           end
 
           private

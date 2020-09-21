@@ -47,6 +47,13 @@ module Travis
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
+          def changetofree(receivers, subscription, owner, _charge, _event, invoice, cc_last_digits)
+            @subscription = subscription
+            @signin_url = signin_url(owner)
+            subject = "Travis CI: You upgraded to Free Tier Plan"
+            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
+          end
+
           private
 
             def travis_email
