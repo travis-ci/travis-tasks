@@ -741,6 +741,7 @@ PLATFORMS
 DEPENDENCIES
   actionmailer (~> 3.2.18)
   aws-sdk
+  connection_pool (~> 2.2)
   foreman
   gh
   guard
