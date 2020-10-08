@@ -14,6 +14,7 @@ describe Travis::Addons::GithubStatus::Task do
   let(:gh_apps)    { stub('github_apps') }
   let(:installation_id) { '12345' }
   let(:rate_limit_data) { {"x-ratelimit-limit" => "60", "x-ratelimit-remaining" => "59", "x-ratelimit-reset" => (Time.now.to_i + 2000).to_s} }
+  let(:no_tokencheck_stack) { instance.send :gh_no_tokencheck_stack }
 
   def redis
     @redis ||= Redis.new(url: Travis.config.redis.url)
@@ -67,18 +68,21 @@ describe Travis::Addons::GithubStatus::Task do
   end
 
   it 'authenticates using the token passed into the task' do
-    GH.expects(:with).with { |options| options[:token] == '12345' }.returns({})
+    GH.expects(:with).with(instance_of(GH::Instrumentation)).returns({})
     run
   end
 
   it 'authenticates using the next token if the first token failed' do
-    GH.expects(:with).with { |options| options[:token] == '12345' }.raises(GH::Error.new(nil, nil, { response_status: 401, response_headers: rate_limit_data }))
-    GH.expects(:with).with { |options| options[:token] == '67890' }.returns({})
+    error = { response_status: 403, response_headers: rate_limit_data }
+    GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
+    instrumentation = GH::Instrumentation.new
+    no_tokencheck_stack.expects(:build).with() { |hash| hash[:token] == '12345'}.returns(instrumentation)
+    no_tokencheck_stack.expects(:build).with() { |hash| hash[:token] == '67890'}.returns(instrumentation)
     run
   end
 
   it 'accepts a single token using the legacy payload' do
-    GH.expects(:with).with { |options| options[:token] == '12345' }.returns({})
+    GH.expects(:with).with(instance_of(GH::Instrumentation)).returns({})
     subject.new(payload, token: '12345').run
   end
 
