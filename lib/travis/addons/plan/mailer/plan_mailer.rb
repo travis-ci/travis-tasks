@@ -28,12 +28,13 @@ module Travis
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
-          def credit_balance_state(receivers, owner, params)
+          def credit_balance_state(receivers, owner, params) # rubocop:disable Metrics/AbcSize
             Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, params: #{params}")
             @owner_login = owner[:login]
             @plan_url = plan_url(owner)
             @state = params.fetch(:state) # integer number of percentage usage
             @purchase_url = purchase_url(owner)
+            @signup_url = signup_url(owner)
             subject = 'Credits balance state notification'
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
@@ -79,18 +80,23 @@ module Travis
               owner[:vcs_type].gsub('User', '').gsub('Organization', '')
             end
 
+            def is_user(owner)
+              type = owner[:billing_slug] || owner[:owner_type]
+              type.downcase == 'user'
+            end
+
             def plan_url(owner)
-              return "https://#{config.host}/account/#{config.plan_path}" if owner[:billing_slug] == 'user'
+              return "https://#{config.host}/account/#{config.plan_path}" if is_user(owner)
               "https://#{config.host}/organizations/#{owner[:login]}/#{config.plan_path}"
             end
 
             def purchase_url(owner)
-              return "https://#{config.host}/account/#{config.purchase_path}" if owner[:billing_slug] == 'user'
+              return "https://#{config.host}/account/#{config.purchase_path}" if is_user(owner)
               "https://#{config.host}/organizations/#{owner[:login]}/#{config.purchase_path}"
             end
 
             def settings_url(owner)
-              return "https://#{config.host}/account/#{config.settnigs_path}" if owner[:billing_slug] == 'user'
+              return "https://#{config.host}/account/#{config.settnigs_path}" if is_user(owner)
               "https://#{config.host}/organizations/#{owner[:login]}/#{config.settings_path}"
             end
 
