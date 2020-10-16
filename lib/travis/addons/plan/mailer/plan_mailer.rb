@@ -9,42 +9,42 @@ module Travis
 
           layout 'contact_email'
 
-          def welcome(receivers, owner, plan, _params)
+          def welcome(receivers, owner, params)
             @owner = owner
             @vcs_name = humanize_vcs_type(owner)
             @signup_url = signup_url(owner)
-            @plan = plan
+            @plan = params.fetch(:plan, 'Free Tier Plan').to_s
             subject = 'Welcome to Travis CI!'
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
-          def builds_not_allowed(receivers, owner, repository_url, params)
+          def builds_not_allowed(receivers, owner, params)
             @owner = owner
             @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
             @purchase_url = purchase_url(owner)
-            @repository_url = repository_url
+            @repository_url = params.fetch(:repository_url)
             subject = 'Builds have been temporarily disabled'
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
-          def credit_balance_state(receivers, owner, _plan, params)
+          def credit_balance_state(receivers, owner, params)
             Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, state: #{state}, params: #{params}")
             @owner_login = owner[:login]
             @plan_url = plan_url(owner)
-            @state = params[:state] # integer number of percentage usage
+            @state = params.fetch(:state) # integer number of percentage usage
             @purchase_url = purchase_url(owner)
             subject = 'Credits balance state notification'
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
-          def private_credits_for_public(receivers, owner, repository_url, renewal_date, params)
+          def private_credits_for_public(receivers, owner, params)
             @owner = owner
             @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
             @settings_url = settings_url(owner)
-            @repository_url = repository_url
-            @renewal_date = renewal_date
+            @repository_url = params.fetch(:repository_url)
+            @renewal_date = params.fetch(:renewal_date)
             subject = 'Builds have been temporarily disabled'
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end

@@ -15,14 +15,10 @@ module Travis
           params[:owner]
         end
 
-        def plan
-          params.fetch(:plan, 'Free Tier Plan').to_s
-        end
-
         private
 
           def send_email
-            Mailer::PlanMailer.public_send(params[:stage], recipients, owner, plan, params).deliver
+            Mailer::PlanMailer.public_send(params[:stage], recipients, owner, params).deliver
             info "type=#{type} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end
       end
