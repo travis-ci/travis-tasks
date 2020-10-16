@@ -7,6 +7,7 @@ module Travis
       # Sends out build notification emails using ActionMailer.
       class Task < Travis::Task
         def recipients
+          info "DEBUGAAA params: #{params.inspect}"
           @recipients ||= params[:recipients].select { |email| valid?(email) }
         end
 
