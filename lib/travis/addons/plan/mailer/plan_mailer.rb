@@ -47,15 +47,11 @@ module Travis
           private
 
             def from
-              "\"Travis CI\" <#{from_email % result_message.short.downcase}>"
+              "\"Travis CI\" <#{from_email}>"
             end
 
             def from_email
               Travis.config.email.from || "notifications@#{Travis.config.host}"
-            end
-
-            def to
-              config.email && config.email.trials_to_placeholder || "trials@#{config.host}"
             end
 
             def reply_to
