@@ -101,6 +101,11 @@ module Travis
               "https://#{config.host}/organizations/#{owner[:login]}/#{config.settings_path}"
             end
 
+            def signup_url(owner)
+              return "https://#{config.host}/account" if user?(owner)
+              "https://#{config.host}/organizations/#{owner[:login]}"
+            end
+
             def filter_receivers(receivers)
               receivers = receivers.flatten.uniq.compact
               receivers.reject { |email| email.include?("[") || email.include?(" ") || email.ends_with?(".home") }
