@@ -17,6 +17,7 @@ module Travis
         private
 
           def send_email
+            require 'pry'; binding.pry
             Mailer::PlanMailer.public_send(params[:stage], recipients, owner, params).deliver
             info "type=#{type} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end

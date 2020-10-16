@@ -29,7 +29,7 @@ module Travis
           end
 
           def credit_balance_state(receivers, owner, params)
-            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, state: #{state}, params: #{params}")
+            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, params: #{params}")
             @owner_login = owner[:login]
             @plan_url = plan_url(owner)
             @state = params.fetch(:state) # integer number of percentage usage
