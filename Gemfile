@@ -29,9 +29,9 @@ gem 'multi_json'
 gem 'faraday', '~> 1.0'
 gem 'faraday_middleware'
 
-gem "activesupport", ">= 5.2.4.3"
-gem "actionpack", ">= 5.2.4.3"
-gem "railties", ">= 5.2.4.3"
+gem "activesupport"
+gem "actionpack"
+gem "railties"
 
 group :test do
   gem 'rspec'
