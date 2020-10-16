@@ -29,6 +29,7 @@ module Travis
           end
 
           def credit_balance_state(receivers, owner, state)
+            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, state: #{state}")
             @owner = owner
             @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
