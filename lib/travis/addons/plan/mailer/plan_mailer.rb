@@ -84,6 +84,11 @@ module Travis
               return "https://#{config.host}/account/#{config.settnigs_path}" if owner[:billing_slug] == 'user'
               "https://#{config.host}/organizations/#{owner[:login]}/#{config.settings_path}"
             end
+
+            def signup_url(owner)
+              return "https://#{config.host}/account/subscription" if owner.fetch(:owner_type) == 'User'
+              "https://#{config.host}/organizations/#{owner.fetch(:login)}/subscription"
+            end
         end
       end
     end
