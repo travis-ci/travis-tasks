@@ -11,7 +11,6 @@ module Travis
 
           def welcome(receivers, owner, plan)
             @owner = owner
-            @vcs_name = humanize_vcs_type(owner)
             @signup_url = signup_url(owner)
             @plan = plan
             subject = 'Welcome to Travis CI!'
@@ -20,7 +19,6 @@ module Travis
 
           def builds_not_allowed(receivers, owner, repository_url)
             @owner = owner
-            @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
             @purchase_url = purchase_url(owner)
             @repository_url = repository_url
@@ -30,7 +28,6 @@ module Travis
 
           def credit_balance_state(receivers, owner, state)
             @owner = owner
-            @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
             @state = state # integer number of percentage usage
             subject = 'Credits balance state notification'
@@ -39,7 +36,6 @@ module Travis
 
           def private_credits_for_public(receivers, owner, repository_url, renewal_date)
             @owner = owner
-            @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
             @settings_url = settings_url(owner)
             @repository_url = repository_url
@@ -72,10 +68,6 @@ module Travis
 
             def config
               Travis.config
-            end
-
-            def humanize_vcs_type(owner)
-              owner[:owner_type].gsub('User', '').gsub('Organization', '')
             end
 
             def plan_url(owner)
