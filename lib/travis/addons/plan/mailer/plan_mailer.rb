@@ -75,7 +75,7 @@ module Travis
             end
 
             def humanize_vcs_type(owner)
-              owner[:vcs_type].gsub('User', '').gsub('Organization', '')
+              owner[:owner_type].gsub('User', '').gsub('Organization', '')
             end
 
             def plan_url(owner)
