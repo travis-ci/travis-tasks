@@ -80,23 +80,24 @@ module Travis
               owner[:vcs_type].gsub('User', '').gsub('Organization', '')
             end
 
-            def is_user(owner)
+            def user?(owner)
               type = owner[:billing_slug] || owner[:owner_type]
+              Travis.logger.info("DEBUGXAXAX is user?: #{type.downcase} #{type.downcase == 'user'}")
               type.downcase == 'user'
             end
 
             def plan_url(owner)
-              return "https://#{config.host}/account/#{config.plan_path}" if is_user(owner)
+              return "https://#{config.host}/account/#{config.plan_path}" if user?(owner)
               "https://#{config.host}/organizations/#{owner[:login]}/#{config.plan_path}"
             end
 
             def purchase_url(owner)
-              return "https://#{config.host}/account/#{config.purchase_path}" if is_user(owner)
+              return "https://#{config.host}/account/#{config.purchase_path}" if user?(owner)
               "https://#{config.host}/organizations/#{owner[:login]}/#{config.purchase_path}"
             end
 
             def settings_url(owner)
-              return "https://#{config.host}/account/#{config.settnigs_path}" if is_user(owner)
+              return "https://#{config.host}/account/#{config.settnigs_path}" if user?(owner)
               "https://#{config.host}/organizations/#{owner[:login]}/#{config.settings_path}"
             end
 
