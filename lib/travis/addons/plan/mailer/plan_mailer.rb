@@ -15,7 +15,7 @@ module Travis
             @signup_url = signup_url(owner)
             @plan = plan
             subject = 'Welcome to Travis CI!'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
           def builds_not_allowed(receivers, owner, repository_url)
@@ -25,7 +25,7 @@ module Travis
             @purchase_url = purchase_url(owner)
             @repository_url = repository_url
             subject = 'Builds have been temporarily disabled'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
           def credit_balance_state(receivers, owner, state)
@@ -34,7 +34,7 @@ module Travis
             @plan_url = plan_url(owner)
             @state = state # integer number of percentage usage
             subject = 'Credits balance state notification'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
           def private_credits_for_public(receivers, owner, repository_url, renewal_date)
@@ -45,7 +45,7 @@ module Travis
             @repository_url = repository_url
             @renewal_date = renewal_date
             subject = 'Builds have been temporarily disabled'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
           private
@@ -56,10 +56,6 @@ module Travis
 
             def from_email
               config.email && config.email.trials_from || "trials@#{config.host}"
-            end
-
-            def to
-              config.email && config.email.trials_to_placeholder || "trials@#{config.host}"
             end
 
             def reply_to
