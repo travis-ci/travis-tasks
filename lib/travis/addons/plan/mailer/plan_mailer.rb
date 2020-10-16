@@ -9,7 +9,7 @@ module Travis
 
           layout 'contact_email'
 
-          def welcome(receivers, owner, plan)
+          def welcome(receivers, owner, plan, _params)
             @owner = owner
             @vcs_name = humanize_vcs_type(owner)
             @signup_url = signup_url(owner)
@@ -18,7 +18,7 @@ module Travis
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
-          def builds_not_allowed(receivers, owner, repository_url)
+          def builds_not_allowed(receivers, owner, repository_url, params)
             @owner = owner
             @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
@@ -28,17 +28,17 @@ module Travis
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
-          def credit_balance_state(receivers, owner, state)
-            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, state: #{state}")
-            @owner = owner
-            @vcs_name = humanize_vcs_type(owner)
+          def credit_balance_state(receivers, owner, _plan, params)
+            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, state: #{state}, params: #{params}")
+            @owner_login = owner[:login]
             @plan_url = plan_url(owner)
-            @state = state # integer number of percentage usage
+            @state = params[:state] # integer number of percentage usage
+            @purchase_url = purchase_url(owner)
             subject = 'Credits balance state notification'
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
-          def private_credits_for_public(receivers, owner, repository_url, renewal_date)
+          def private_credits_for_public(receivers, owner, repository_url, renewal_date, params)
             @owner = owner
             @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
