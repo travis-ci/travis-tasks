@@ -4,7 +4,6 @@ require 'travis/addons/plan/mailer/plan_mailer'
 module Travis
   module Addons
     module Plan
-
       # Sends out plan email using ActionMailer.
       class Task < Travis::Addons::Email::Task
         def type
