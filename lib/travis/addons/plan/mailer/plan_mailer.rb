@@ -10,12 +10,11 @@ module Travis
           layout 'contact_email'
 
           def welcome(receivers, owner, params)
-            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, params: #{params}")
             @owner = owner
             @signup_url = signup_url(owner)
             @plan = params.fetch(:plan, 'Free Tier Plan').to_s
             subject = 'Welcome to Travis CI!'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
           end
 
           def builds_not_allowed(receivers, owner, params)
@@ -25,18 +24,17 @@ module Travis
             @purchase_url = purchase_url(owner)
             @repository_url = params.fetch(:repository_url)
             subject = 'Builds have been temporarily disabled'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
           end
 
-          def credit_balance_state(receivers, owner, params) # rubocop:disable Metrics/AbcSize
-            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, params: #{params}")
+          def credit_balance_state(receivers, owner, params)
             @owner_login = owner[:login]
             @plan_url = plan_url(owner)
             @state = params.fetch(:state) # integer number of percentage usage
             @purchase_url = purchase_url(owner)
             @signup_url = signup_url(owner)
             subject = 'Credits balance state notification'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
           end
 
           def private_credits_for_public(receivers, owner, params)
@@ -47,7 +45,7 @@ module Travis
             @repository_url = params.fetch(:repository_url)
             @renewal_date = params.fetch(:renewal_date)
             subject = 'Builds have been temporarily disabled'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
           private
@@ -58,10 +56,6 @@ module Travis
 
             def from_email
               config.email && config.email.plan_from || "support@#{config.host}"
-            end
-
-            def to
-              config.email && config.email.plan_to_placeholder || "support@#{config.host}"
             end
 
             def reply_to
