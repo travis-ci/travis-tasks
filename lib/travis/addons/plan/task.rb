@@ -17,7 +17,6 @@ module Travis
         private
 
           def send_email
-            Travis.logger.info("DEBUGXAXAX planmailer: #{params[:email_type]}, recipients: #{recipients.inspect}, owner: #{owner}, params: #{params}")
             Mailer::PlanMailer.public_send(params[:email_type], recipients, owner, params).deliver
             info "type=#{type} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end

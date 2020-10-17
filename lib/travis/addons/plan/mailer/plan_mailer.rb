@@ -14,7 +14,7 @@ module Travis
             @signup_url = signup_url(owner)
             @plan = params.fetch(:plan, 'Free Tier Plan').to_s
             subject = 'Welcome to Travis CI!'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: owner[:name], reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
           def builds_not_allowed(receivers, owner, params)
@@ -28,7 +28,6 @@ module Travis
           end
 
           def credit_balance_state(receivers, owner, params) # rubocop:disable Metrics/AbcSize
-            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, params: #{params}")
             @owner_login = owner[:login]
             @plan_url = plan_url(owner)
             @state = params.fetch(:state) # integer number of percentage usage
@@ -81,7 +80,6 @@ module Travis
 
             def user?(owner)
               type = owner[:billing_slug] || owner[:owner_type]
-              Travis.logger.info("DEBUGXAXAX is user?: #{type.downcase} #{type.downcase == 'user'}")
               type.downcase == 'user'
             end
 
