@@ -11,7 +11,6 @@ module Travis
 
           def welcome(receivers, owner, params)
             @owner = owner
-            @vcs_name = humanize_vcs_type(owner)
             @signup_url = signup_url(owner)
             @plan = params.fetch(:plan, 'Free Tier Plan').to_s
             subject = 'Welcome to Travis CI!'
