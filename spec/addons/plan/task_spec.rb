@@ -16,9 +16,10 @@ describe Travis::Addons::Plan::Task do
 
   shared_examples 'sends email' do |stage|
     let(:stage) { stage }
+    let(:params) { {:email_type => stage, :recipients => recipients, :owner => owner, :plan => plan} }
 
     specify 'sends to filtered recipients' do
-      mailer.expects(stage).with([recipients.first], owner,{ plan: plan }).returns(email)
+      mailer.expects(stage).with([recipients.first], owner, params).returns(email)
       handler.run
     end
   end
