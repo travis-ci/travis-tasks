@@ -14,7 +14,7 @@ module Travis
             @signup_url = signup_url(owner)
             @plan = params.fetch(:plan, 'Free Tier Plan').to_s
             subject = 'Welcome to Travis CI!'
-            mail(from: from, to: owner[:name], reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
           def builds_not_allowed(receivers, owner, params)
@@ -55,11 +55,11 @@ module Travis
             end
 
             def from_email
-              config.email && config.email.trials_from || "trials@#{config.host}"
+              config.email && config.email.plan_from || "support@#{config.host}"
             end
 
             def to
-              config.email && config.email.trials_to_placeholder || "trials@#{config.host}"
+              config.email && config.email.plan_to_placeholder || "support@#{config.host}"
             end
 
             def reply_to
