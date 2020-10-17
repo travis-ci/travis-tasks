@@ -10,6 +10,7 @@ module Travis
           layout 'contact_email'
 
           def welcome(receivers, owner, params)
+            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, params: #{params}")
             @owner = owner
             @signup_url = signup_url(owner)
             @plan = params.fetch(:plan, 'Free Tier Plan').to_s
@@ -28,6 +29,7 @@ module Travis
           end
 
           def credit_balance_state(receivers, owner, params) # rubocop:disable Metrics/AbcSize
+            Travis.logger.info("DEBUGXAXAX receivers: #{receivers.inspect}, owner: #{owner.inspect}, params: #{params}")
             @owner_login = owner[:login]
             @plan_url = plan_url(owner)
             @state = params.fetch(:state) # integer number of percentage usage
