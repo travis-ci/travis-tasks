@@ -55,7 +55,7 @@ module Travis
             end
 
             def from_email
-              config.email && config.email.plan_from || "support@#{config.host}"
+              config.email && config.email.plan_from || "trials@#{config.host}"
             end
 
             def reply_to
