@@ -19,7 +19,6 @@ module Travis
 
           def builds_not_allowed(receivers, owner, params)
             @owner = owner
-            @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
             @purchase_url = purchase_url(owner)
             @repository_url = params.fetch(:repository_url)
@@ -39,7 +38,6 @@ module Travis
 
           def private_credits_for_public(receivers, owner, params)
             @owner = owner
-            @vcs_name = humanize_vcs_type(owner)
             @plan_url = plan_url(owner)
             @settings_url = settings_url(owner)
             @repository_url = params.fetch(:repository_url)
@@ -68,10 +66,6 @@ module Travis
 
             def config
               Travis.config
-            end
-
-            def humanize_vcs_type(owner)
-              owner[:vcs_type].gsub('User', '').gsub('Organization', '')
             end
 
             def user?(owner)
