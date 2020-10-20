@@ -40,6 +40,7 @@ module Travis
             @owner = owner
             @plan_url = plan_url(owner)
             @settings_url = settings_url(owner)
+            @signup_url = signup_url(owner)
             @repository_url = params.fetch(:repository_url)
             @renewal_date = params.fetch(:renewal_date)
             subject = 'Builds have been temporarily disabled'
