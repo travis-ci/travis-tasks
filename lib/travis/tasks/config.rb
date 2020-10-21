@@ -49,7 +49,8 @@ module Travis
              enterprise_platform: { host: ENV['TRAVIS_HOSTNAME']},
              plan_path: 'plan',
              purchase_path: 'purchase',
-             settings_path: 'settings'
+             settings_path: 'settings',
+             intercom: { token: 'token' }
 
 
       default _access: [:key]
