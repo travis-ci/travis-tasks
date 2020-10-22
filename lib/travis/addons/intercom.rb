@@ -1,6 +1,6 @@
 module Travis
   module Addons
-    module Hipchat
+    module Intercom
       require 'travis/addons/intercom/task'
     end
   end

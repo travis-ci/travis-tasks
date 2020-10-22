@@ -17,5 +17,6 @@ module Travis
     require 'travis/addons/pushover'
     require 'travis/addons/migration'
     require 'travis/addons/plan'
+    require 'travis/addons/intercom'
   end
 end

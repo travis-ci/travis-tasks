@@ -7,7 +7,7 @@ module Travis
         require 'travis/addons/intercom/client'
 
         def initialize(owner_id)
-          @intercom = Intercom::Client.new(token: Travis.config.intercom.token)
+          @intercom = ::Intercom::Client.new(token: Travis.config.intercom.token)
           @user = get_user(owner_id)
         end
 
@@ -28,7 +28,7 @@ module Travis
 
         def get_user(id)
           @intercom.users.find(user_id: id)
-        rescue Intercom::ResourceNotFound
+        rescue ::Intercom::ResourceNotFound
           nil
         end
 
