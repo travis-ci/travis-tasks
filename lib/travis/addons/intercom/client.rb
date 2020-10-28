@@ -12,6 +12,8 @@ module Travis
         end
 
         def update_billing_data(params)
+          return unless @user
+
           @user.custom_attributes['current_plan'] = params[:current_plan]
           @user.custom_attributes['public_credits_remaining'] = params[:public_credits_remaining]
           @user.custom_attributes['private_credits_remaining'] = params[:private_credits_remaining]
@@ -29,6 +31,8 @@ module Travis
         def get_user(id)
           @intercom.users.find(user_id: id)
         rescue ::Intercom::ResourceNotFound
+          @intercom.users.create(user_id: id) # Create an empty user to save events, name and email will be added by other sources, e.g. web
+        rescue ::Intercom::IntercomError
           nil
         end
 
