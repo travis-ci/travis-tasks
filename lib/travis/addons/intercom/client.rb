@@ -1,36 +1,32 @@
 module Travis
   module Addons
     module Intercom
-
       class Client
+        require 'travis/addons/intercom/client'
 
-        def initialize(user_id)
-          @handle = Intercom::Client.new(token: Travis.config.intercom.token)
-          @user = find_user(user_id)
+        def initialize(owner_id)
+          @intercom = ::Intercom::Client.new(token: Travis.config.intercom.token)
+          @user = get_user(owner_id)
         end
 
-        def report_first_build(time = DateTime.now)
-          @user.custom_attributes["first_build_at"] = time
-          save
-        end
-
-        def report_last_build(time = DateTime.now)
-          @user.custom_attributes["last_build_at"] = time
-          save
+        def report_build(params)
+          @user.custom_attributes['last_build_at'] = params[:last_build_at]
+          update_user
         end
 
         private
 
-        def find_user(id)
-          @handle.users.find(user_id: id) rescue Intercom::ResourceNotFound nil
+        def get_user(id)
+          @intercom.users.find(user_id: id)
+        rescue Intercom::ResourceNotFound
+          nil
         end
 
-        def save
-          @handle.users.save(@user)
+        def update_user
+          @intercom.users.save(@user)
         end
 
       end
-
     end
   end
 end
