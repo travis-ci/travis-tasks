@@ -16,6 +16,7 @@ DEFAULT_QUEUES = %w[
   slack
   tasks
   webhook
+  intercom
 ].join(',')
 
 def main

@@ -25,6 +25,7 @@ gem 'actionmailer'
 gem 'roadie'
 gem 'roadie-rails'
 gem 'multi_json'
+gem 'intercom', '~> 3.8.0'
 
 gem 'faraday', '~> 1.0'
 gem 'faraday_middleware'
