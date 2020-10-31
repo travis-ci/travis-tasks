@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style type="text/css" media="screen">
+      /* Base */
+      body {
+        min-width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      body, td {
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+      }
+
+      hr {
+        border-style: solid;
+        color: #e5e7e9;
+        margin: 10px 0;
+      }
+
+      label {
+        display: block;
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+      }
+
+      address {
+        font-style: normal;
+      }
+
+      /* Outer layout */
+      #travis-ci-email-container {
+        height: 100%;
+        width: 100%;
+        padding: 30px;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        text-align: center;
+        color: #333333;
+        line-height: 1.4;
+        background-color: #f6f7fa;
+      }
+
+      #email-central-container {
+        font-family: inherit;
+        width: 500px;
+      }
+
+      /* Content */
+      #email-content-container {
+        padding: 6% 7% 5% 7%;
+        background-color: #FFFFFF;
+        width: 100%;
+      }
+
+      #email-content-container p {
+        margin: 0 0 10px 0;
+      }
+
+      /* Header area */
+      .invoice-header-container {
+        text-align: center;
+      }
+
+      /* #email-content-container .invoice-header-container p {
+        margin: 10px 0 0 0;
+      } */
+
+      #invoice-header {
+        font-size: 42px;
+        font-weight: 600;
+        margin: 1.136% 0 3.409% 0;
+        color: #0068ff;
+      }
+
+      /* Main Area */
+
+      .blue-text {
+        color: #0068ff;
+      }
+
+      .dark-grey-text {
+        color: #676767;
+      }
+
+      .invoice-address-and-total {
+        width: 100%;
+        margin:10px 0 20px 0;
+      }
+
+      .invoice-address-and-total td {
+        vertical-align: top;
+      }
+
+      .invoice-address-container {
+        width: 60%;
+      }
+
+      .total-large {
+        font-size: 29px;
+        font-weight: 300;
+        background-color: #f7f9fb;
+        padding: 10px;
+        margin: 3px 0;
+      }
+
+      .invoice-id-container {
+        padding-bottom: 5px;
+      }
+
+      .invoice-line td {
+        padding-bottom: 10px;
+      }
+
+      /* Download / Update area */
+      .download-and-update {
+        text-align: center;
+        padding-top: 5px;
+      }
+
+      #email-content-container p.update-link-container {
+        margin: 0;
+      }
+
+      .download-icon-link {
+        display: inline-block;
+        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+        width: 17px;
+        height: 17px;
+        line-height: 17px;
+      }
+
+      .download-icon-link img {
+        width: 100%;
+      }
+
+      .download-and-update a.download-link {
+        vertical-align: middle;
+        color: #9da3a7;
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .download-and-update a.update-link {
+        color: #333333;
+      }
+
+      /* Footer area */
+      #travis-ci-email-footer-container {
+        padding: 10% 7% 0% 7%;
+      }
+
+      #questions-section {
+        font-size: 18px;
+        color: #0068ff;
+        padding-bottom: 10.227%;
+      }
+
+      #questions-section a {
+        color: #0068ff;
+      }
+
+      #travis-ci-footer-logo-section {
+        padding-bottom: 6.818%;
+        text-align: center;
+      }
+
+      #email-footer-section {
+        font-size: 11px;
+        color: #9EA3A8;
+        text-align: center;
+        padding-top: 0px;
+        margin: 0px;
+      }
+
+      #email-footer-section a {
+        color: #9ea3a8;
+      }
+
+      #email-footer-section p {
+        margin: 0px;
+      }
+
+      #email-footer-section #payment-processor-message {
+        margin-bottom: 3.409%;
+        padding: 0 1%;
+      }
+    </style>
+  </head>
+
+  <body style="min-width: 100%;height: 100%;margin: 0;padding: 0;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;">
+
+    <table id="travis-ci-email-container" align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="height: 100%;width: 100%;padding: 30px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;text-align: center;color: #333333;line-height: 1.4;background-color: #f6f7fa;">
+      <!-- Main Content Section -->
+      <tr>
+        <td align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;">
+          <table id="email-central-container" border="0" cellpadding="0" cellspacing="0" style="font-family: inherit;width: 500px;">
+            <tr>
+              <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;">
+                <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="padding: 6% 7% 5% 7%;background-color: #FFFFFF;width: 100%;">
+                  <!-- Header - Thanks -->
+                  <tr>
+                    <td class="invoice-header-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;text-align: center;">
+                      <h2 id="invoice-header" style="font-size: 42px;font-weight: 600;margin: 1.136% 0 3.409% 0;color: #0068ff;">Thank you.</h2>
+                      <p style="margin: 0 0 10px 0;">
+                        We love our customers! Attached is your Travis CI invoice for the account
+                        <span class="blue-text" style="color: #0068ff;"><%= @invoice.account_name %></span>.
+                      </p>
+                      <% unless Travis.env == "production" %>
+                        <p style="margin: 0 0 10px 0;">Test Email! Not a valid invoice!</p>
+                      <% end -%>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;"><hr style="border-style: solid;color: #e5e7e9;margin: 10px 0;"></td>
+                  </tr>
+                  <!-- Main Invoice Content -->
+                  <tr>
+                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;">
+                      <table class="invoice-address-and-total" style="width: 100%;margin: 10px 0 20px 0;">
+                        <tr>
+                          <!-- Address -->
+                          <td class="invoice-address-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;width: 60%;vertical-align: top;">
+                            <label class="dark-grey-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #676767;">Billed To:</label>
+                            <address style="font-style: normal;">
+                              <div><%= @invoice.company %></div>
+
+                              <div><%= @invoice.full_name %></div>
+
+                              <div><%= @invoice.address %></div>
+
+                              <div>
+                                <span><%= @invoice.city %></span>
+                                <span><%= @invoice.state %></span>
+                                <span><%= @invoice.post_code %></span>
+                              </div>
+
+                              <div><%= @invoice.country %></div>
+                              <div><%= @invoice.vat_id %></div>
+                            </address>
+                          </td>
+                          <!-- Total / Created Date -->
+                          <td class="invoice-total-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;vertical-align: top;">
+                            <label class="dark-grey-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #676767;">Total (In USD)</label>
+                            <div class="total-large dark-grey-text" style="color: #676767;font-size: 29px;font-weight: 300;background-color: #f7f9fb;padding: 10px;margin: 3px 0;">
+                              <%= number_to_currency(@invoice.amount_due) %>
+                            </div>
+                            <p style="margin: 0 0 10px 0;">
+                              <time datetime="<%= l @invoice.created_at, format: '%B %e, %Y' %>">
+                                <%= l @invoice.created_at, format: '%B %e, %Y' %>
+                              </time>
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <!-- Invoice ID -->
+                  <tr>
+                    <td class="invoice-id-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 5px;">
+                      <label class="label-black" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;">Invoice #<%= @invoice.invoice_id %></label>
+                    </td>
+                  </tr>
+                  <!-- Add-ons -->
+                  <% if @invoice.lines.present? %>
+                    <tr class="invoice-line">
+                      <td>Add-ons</td>
+                    </tr>
+                    <% @invoice.lines.each do |line| %>
+                      <tr class="invoice-line">
+                        <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
+                          <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Name:</label>
+                          <span>&nbsp;<%= line[:description] %></span>
+                          <br>
+                          <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Quantity:</label>
+                          <span>&nbsp;<%= line[:quantity] %></span>
+                        </td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                  <!-- Status -->
+                  <tr class="invoice-line">
+                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
+                      <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Status</label>
+                      <span>Paid with credit card ending in <%= @invoice.cc_last_digits %></span>
+                    </td>
+                  </tr>
+                  <!-- Plan -->
+                  <tr class="invoice-line">
+                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
+                      <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Plan</label>
+                      <span><%= @invoice.plan %></span>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;"><hr style="border-style: solid;color: #e5e7e9;margin: 10px 0;"></td>
+                  </tr>
+
+                  <!-- Download and update -->
+                  <tr>
+                    <td class="download-and-update" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;text-align: center;padding-top: 5px;">
+                      <p class="download-link-container" style="margin: 0 0 10px 0;">
+                        <a href="<%= @invoice.pdf_url %>" class="download-icon-link" style="display: inline-block;vertical-align: middle;width: 17px;height: 17px;">
+                          <%= image_tag("#{Travis.config.s3.url}/download-icon-cropped.png", alt: 'download arrow') %>
+                        </a>
+                        <a href="<%= @invoice.pdf_url %>" class="download-link" style="vertical-align: middle;color: #9da3a7;font-size: 12px;font-weight: 700;text-decoration: none;text-transform: uppercase;">
+                          <span>Download a PDF copy</span>
+                        </a>
+                      </p>
+                      <p class="update-link-container" style="margin: 0;">
+                        Need to change your billing address? Update it
+                        <a href="<%= @signin_url %>" class="update-link" style="color: #333333;">here</a>.
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Email Footer Section -->
+                <table id="travis-ci-email-footer-container" border="0" cellpadding="0" cellspacing="0" style="padding: 10% 7% 0% 7%;">
+                  <tr>
+                    <td id="questions-section" align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 18px;color: #0068ff;padding-bottom: 10.227%;">
+                      <span>Have any questions?</span>
+                      <span>
+                        <a href="mailto:support@travis-ci.com" style="color: #0068ff;">We&rsquo;re here to help.</a>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="travis-ci-footer-logo-section" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 6.818%;text-align: center;">
+                      <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), 'https://travis-ci.com')%>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="email-footer-section" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 11px;color: #9EA3A8;text-align: center;padding-top: 0px;margin: 0px;">
+                      <p id="payment-processor-message" style="margin: 0px;margin-bottom: 3.409%;padding: 0 1%;">
+                        We use <a href="https://stripe.com" style="color: #9ea3a8;">Stripe Inc.</a>, 3180 18th Street, Suite 100, San Francisco, CA 94110, USA, as our payment partner
+                      </p>
+                      <p style="margin: 0px;">
+                        Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF/CEO: Randy Jacops |
+                        <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

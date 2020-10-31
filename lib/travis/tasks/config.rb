@@ -47,7 +47,10 @@ module Travis
              github_apps: { debug: ENV['GITHUB_APPS_DEBUG'] },
              github_status: { },
              vcs:     { url: 'https://travis-vcs-staging.herokuapp.com/', token: '' },
-             enterprise_platform: { host: ENV['TRAVIS_HOSTNAME']}
+             enterprise_platform: { host: ENV['TRAVIS_HOSTNAME']},
+             plan_path: 'plan',
+             purchase_path: 'purchase',
+             settings_path: 'settings'
 
 
       default _access: [:key]

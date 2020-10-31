@@ -1,0 +1,15 @@
+            <tr>
+              <td id="plan-message-section" align="center" valign="top" style="padding-bottom: 40px;">
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  Builds have been temporarily disabled for the repository <a href="<%= @repository_url %>"><%= @repository_url %></a> 
+                  as a monthly credit balance for public builds has depleted on your account <a href="<%= @plan_url %>"><%= @plan_url %></a>
+                </p>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  The OSS credit balance for your public builds will be renewed <%= @renewal_date %>. 
+                </p>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  Meanwhile, you can go to the Plan page and alter your OSS Credits consumption <a href="<%= @settings_url %>">setting</a> 
+                  to keep building with Travis CI.
+                </p>
+              </td>
+            </tr>

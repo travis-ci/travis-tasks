@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style>
+      body {
+        min-width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      #travis-ci-email-container {
+        height: 100%;
+        width: 100%;
+        padding: 10px;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        line-height: 150%;
+        text-align: center;
+        color: #333333;
+        background-color: #F4F5F9;
+        background-image: url("#{Travis.config.s3.url}/Travis-Email-Background.png");
+      }
+
+      #email-content-container {
+        max-width: 500px;
+        padding: 0 10px;
+        background-color: #FFFFFF;
+      }
+
+      #travis-ci-logo-section {
+        padding: 20px 0;
+      }
+
+      #travis-ci-logo {
+        max-width: 150px;
+        cursor: pointer;
+      }
+
+      #travis-ci-logo-border-section {
+        background-color: #FFFFFF;
+        padding-bottom: 20px;
+      }
+
+      #travis-ci-logo-border {
+        width: 90%;
+        border-top: 1px solid #DCDFE2;
+      }
+
+      #plan-message-section {
+        padding-bottom: 40px;
+      }
+
+      #plan-message-section h1 {
+        font-size: 45px;
+        line-height: 1;
+      }
+      @media only screen and (max-width: 480px) {
+        #plan-message-section h1 {
+          font-size: 30px;
+        }
+      }
+
+      #plan-message-github-name {
+        font-size: 18px;
+        color: #15B75E;
+      }
+
+      #service-interrruption-warning-section {
+        padding-bottom: 10px;
+      }
+
+      #owner-of-account-note-section {
+        padding: 0 20px 52px;
+        color: #9EA3A8;
+        font-size: 13px;
+        text-align: center;
+      }
+      @media only screen and (max-width: 480px) {
+        #owner-of-account-note-section {
+          font-size: 10px;
+          padding: 0 5px 52px;
+        }
+      }
+
+      #sign-up-section {
+        text-align: center;
+        padding-bottom: 52px;
+      }
+      #sign-up-section a:active {
+        color: #FFFFFF;
+      }
+      #sign-up-section a:hover {
+        color: #FFFFFF;
+      }
+      #sign-up-section a:visited {
+        color: #FFFFFF;
+      }
+
+      #sign-up-button {
+        font: bold 11px Arial;
+        color: #FFFFFF;
+        background-color: #32D282;
+        text-decoration: none;
+        padding: 12px 50px;
+        border-radius: 2px;
+      }
+
+      #need-more-builds-section {
+        padding-bottom: 40px;
+      }
+
+      #closing-message-section {
+        padding: 0 30px 20px;
+      }
+
+      #travis-ci-twitter-section {
+        text-align: center;
+        padding-bottom: 20px;
+      }
+
+      #travis-ci-twitter-logo {
+        width: 35px;
+      }
+
+      #questions-section {
+        color: #0068FF;
+        font-weight: 300;
+      }
+
+      #questions-section a {
+        color: #0068FF;
+      }
+      #questions-section a:active {
+        color: #0068FF;
+      }
+      #questions-section a:visited {
+        color: #0068FF;
+      }
+      #questions-section a:hover {
+        color: #0068FF;
+      }
+
+      #travis-ci-footer-logo-section {
+        text-align: center;
+      }
+
+      #email-footer-section {
+        font-size: 10px;
+        line-height: 200%;
+        text-align: center;
+        color: #9EA3A8;
+      }
+      @media only screen and (min-width: 768px) {
+        #email-footer-section {
+          max-width: 500px;
+        }
+      }
+
+      #email-footer-section a {
+        color: #9EA3A8;
+
+      }
+      #email-footer-section a:active {
+        color: #9EA3A8;
+      }
+      #email-footer-section a:hover {
+        color: #9EA3A8;
+      }
+      #email-footer-section a:visited {
+        color: #9EA3A8;
+      }
+
+    </style>
+  </head>
+  <body style="min-width: 100%;height: 100%;margin: 0;padding: 0;">
+    <table
+      id="travis-ci-email-container"
+      align="center"
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      height="100%"
+      width="100%"
+      style="height: 100%;width: 100%;padding: 10px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 18px;line-height: 150%;text-align: center;color: #333333;background-color: #F4F5F9;background-image: url(#{Travis.config.s3.url}/Travis-Email-Background.png);">
+      <tr>
+        <td align="center" valign="top">
+          <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="max-width: 500px; padding: 0px 10px; background-color: #FFFFFF;">
+            <!-- Travis CI Logo Section -->
+            <tr>
+              <td id="travis-ci-logo-section" align="center" valign="top" style="padding: 20px 0px;">
+                <a href="http://travis-ci.com" title="Travis CI" target="_blank">
+                  <img id="travis-ci-logo" src="https://gallery.mailchimp.com/2c4f451f4059350287b951060/images/d6414c84-6c05-4793-a036-fdc7fec2e088.png" alt="Travis CI Logo" style="max-width: 150px;">
+                </a>
+              </td>
+            </tr>
+            <!-- Travis Logo Border Section -->
+            <tr>
+              <td id="travis-ci-logo-border-section" align="center" valign="top" style="background-color: #FFFFFF; padding-bottom: 20px;">
+                <table id="travis-ci-logo-border" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 90%; border-top: 1px solid #DCDFE2;">
+                  <tr>
+                    <td>
+                      <span></span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <%= yield %>
+            <!-- Service Interruption Warning Section -->
+            <tr>
+              <td id="service-interrruption-warning-section" align="center" valign="top" style="padding-bottom: 10px;">
+                <p style="margin: 0px; font-size: 18px;">To ensure uninterrupted service, sign up for a suitable plan before you run out of credits.</p>
+              </td>
+            </tr>
+            <!-- Owner of Account Signup Note Section -->
+            <tr>
+              <td id="owner-of-account-note-section" style="padding: 0px 20px 52px 20px; color: #9EA3A8; font-size: 13px; text-align: center;">
+                <p style="margin: 0px;">
+                  <strong>Note:
+                  </strong>You must be an
+                  <strong>owner of the account</strong>
+                  to sign up for a subscription.</p>
+              </td>
+            </tr>
+            <!-- Sign Up for Travis CI Section -->
+            <tr>
+              <td id="sign-up-section" align="center" valign="top" style="text-align: center; padding-bottom: 52px;">
+                <a id="sign-up-button" href="<%= @signup_url %>" style="font: bold 11px Arial; color: #FFFFFF; background-color: #32D282; text-decoration: none; padding: 12px 50px; border-radius: 2px;">SIGN UP NOW</a>
+              </td>
+            </tr>
+            <!-- Closing Message Section -->
+            <tr>
+              <td id="closing-message-section" align="center" valign="top" style="padding: 0px 30px 20px 30px;">
+                <p style="margin: 0px; font-size: 18px;">Thank you and have a great day!</p>
+                <p style="margin: 0px; font-size: 18px;">
+                  <strong>The Travis CI Team</strong>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td id="travis-ci-twitter-section" style="text-align: center; padding-bottom: 20px;">
+                <a href="http://www.twitter.com/travisci">
+                  <img
+                    id="travis-ci-twitter-logo"
+                    src="https://ci6.googleusercontent.com/proxy/u_GkY0vPn3zh6k_Iocra5_P1V00M-TFRNu-P7gPciI_J5CkDABrV1urf2QfoLPirfH6tojEO6P2xe9jKJeBggB6N-SRbbfN1ecrcfw=s0-d-e1-ft#https://s3.amazonaws.com/travis-ci-dzone/twitter2x.png"
+                    alt="Twitter Logo"
+                    style="text-align: center;">
+                </a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- Email Footer Section -->
+      <tr>
+        <td align="center" valign="top">
+          <table id="travis-ci-email-footer-container" border="0" cellpadding="20" cellspacing="0" style="max-width: 500px;">
+            <tr>
+              <td id="questions-section" align="center" valign="top" style="color:#0068FF; font-weight: 300;">
+                <span>Have any questions?</span>
+                <span>
+                  <a href="mailto:support@travis-ci.com" style="color: #0068FF">We're here to help.</a>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td id="travis-ci-footer-logo-section" style="text-align: center;">
+                <a href="https://travis-ci.com" title="Travis CI" target="_blank">
+                  <img
+                    src="https://ci3.googleusercontent.com/proxy/4F3vZYJThQv1w7W1nKjQ-gIe7Ht98nXwYqz1L2LWfB8Fuhx1dz4EflRiIfghnf8n9QgMiDIXun4qfcutU4UPMctwWQX2V8vW4xi0VePgsa-UKS8=s0-d-e1-ft#https://s3.amazonaws.com/travis-ci-dzone/TravisCI-Logo-BW.png"
+                    alt="Travis CI Footer Logo">
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td id="email-footer-section" style="color: #9EA3A8; font-size: 10px; line-height: 200%; text-align: center; color: #9EA3A8; padding-top: 0px;">
+                <p style="margin: 0px;">Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF/CEO: Randy Jacops |
+                  <span>Contact: <a href="mailto:contact@travis-ci.org" style="color: #9ea3a8;">contact@travis-ci.org</a>
+                    | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <style data-ignore-inlining>@media print{ #_t { background-image: url('https://28cle9hp.emltrk.com/28cle9hp?p');}} div.OutlookMessageHeader {background-image:url('https://28cle9hp.emltrk.com/28cle9hp?f')} table.moz-email-headers-table {background-image:url('https://28cle9hp.emltrk.com/28cle9hp?f')} blockquote #_t {background-image:url('https://28cle9hp.emltrk.com/28cle9hp?f')} #MailContainerBody #_t {background-image:url('https://28cle9hp.emltrk.com/28cle9hp?f')}</style><div id="_t"></div>
+    <img src="https://28cle9hp.emltrk.com/28cle9hp" width="1" height="1" border="0" alt="" />
+  </body>
+</html>
