@@ -50,6 +50,7 @@ describe Travis::Addons::Intercom::Task do
     let(:has_paid_plan) { true }
     let(:orgs_admin_amount) { 1 }
     let(:orgs_with_paid_plan_amount) { 1 }
+    let(:request_body) { "{\"custom_attributes\":{\"test\":\"1\",\"current_plan\":\"pro_tier_plan\",\"public_credits_remaining\":40000,\"private_credits_remaining\":500000,\"last_build_triggered\":\"#{last_build_triggered}\",\"is_on_new_plan\":true,\"renewal_date\":\"#{renewal_date}\",\"has_paid_plan\":true,\"orgs_admin_amount\":1,\"orgs_with_paid_plan_amount\":1},\"id\":\"1\",\"email\":\"test@test.com\",\"user_id\":\"1\"}" }
 
     it 'sends billing data to intercom' do
       Travis::Addons::Intercom::Client.any_instance.expects(event_type).with(
