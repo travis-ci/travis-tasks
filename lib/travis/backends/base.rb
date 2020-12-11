@@ -17,7 +17,7 @@ module Travis
         raise NotImplementedError
       end
 
-      def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
+      def create_status(id:, type:, ref:, payload:)
         raise NotImplementedError
       end
 

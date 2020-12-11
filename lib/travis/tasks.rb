@@ -1,7 +1,6 @@
 $:.unshift(File.expand_path('..', File.dirname(__FILE__)))
 
 require 'bundler/setup'
-require 'gh'
 require 'roadie'
 require 'ostruct'
 require 'travis/exceptions'
@@ -60,16 +59,6 @@ Sidekiq.configure_client do |c|
   config = Travis.config.sidekiq
   c.redis = { url: url, namespace: config[:namespace], size: config[:pool_size] }
 end
-
-GH.set(
-  client_id:      Travis.config.oauth2.try(:client_id),
-  client_secret:  Travis.config.oauth2.try(:client_secret),
-  origin:         Travis.config.host,
-  api_url:        Travis.config.github.api_url,
-  ssl:            Travis.config.ssl.to_h.merge(Travis.config.github.ssl || {}).to_h.compact,
-  formatter:      Travis.config.github_status.formatter,
-  user_agent:     "Travis-CI GH/#{GH::VERSION}"
-)
 
 module Roadie
   def self.app
