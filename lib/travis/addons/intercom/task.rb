@@ -18,7 +18,6 @@ module Travis
           client = Client.new(owner_id)
           client.public_send(event, params)
         end
-
       end
     end
   end
