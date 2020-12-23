@@ -13,6 +13,10 @@ module Travis
 
           check_run = check_runs(sha).select { |check_run| check_run["external_id"] == build[:id].to_s }.first
 
+          pp "type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id} sha=#{sha}"
+          pp client
+          pp check_run
+
           if check_run
             response = client.update_check_run(id: repository[:vcs_id], type: repository[:vcs_type], check_run_id: check_run["id"], payload: check_status_payload.to_json)
           else
