@@ -38,6 +38,9 @@ module Travis
         end
 
         def process(_timeout)
+          pp client
+          pp payload
+
           client.create_status(
             id: repository[:vcs_id],
             type: repository[:vcs_type],
