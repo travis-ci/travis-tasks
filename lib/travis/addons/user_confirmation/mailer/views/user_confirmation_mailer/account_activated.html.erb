@@ -1,0 +1,8 @@
+<tr>
+  <td id="account-activated-message-section" align="center" valign="top" style="padding-bottom: 40px;">
+    <h1 id="account-activated-message-header">Hello <%= @owner[:name].blank? ? @owner[:login] : "#{@owner[:name]} (GitHub name: #{@owner[:login]})" %>!</h1>
+    <p id="account-activated-message" style="margin: 0px; font-size: 18px;">
+      Your account has been successfully activated. It will remain as such as long as there will be, well, activity spotted on a regular basis. <a href="https://docs.travis.ci.com">See our documentation</a> for more details.
+    </p>
+  </td>
+</tr>
