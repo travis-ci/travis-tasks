@@ -11,19 +11,15 @@ module Travis
           :"#{params[:stage]}"
         end
 
-        def owner
-          params[:owner]
-        end
-
-        def confirmation_url
-          params[:confirmation_url]
-        end
-
         private
 
         def send_email
-          Mailer::UserConfirmationMailer.public_send(params[:stage], recipients, owner, confirmation_url).deliver
+          Mailer::UserConfirmationMailer.public_send(params[:stage], recipients, **mailer_params).deliver
           info "type=#{type} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
+        end
+
+        def mailer_params
+          params.select { |k, _v| %i(owner confirmation_url token_valid_to).include?(k)  }
         end
       end
     end

@@ -9,7 +9,7 @@
                 </p>
                 <p><a href="<%=@confirmation_url%>" target="_blank" class="account-activated-button">Confirm your account</a></p>
                 <br/>
-                <p>Note: you must confirm your account to run builds on Travis CI. The confirmation link will expire after <%= Time.now.utc + (30 * 60) %></p>
+                <p>Note: you must confirm your account to run builds on Travis CI. The confirmation link will expire after <%= @token_valid_to %></p>
                 <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
                   You are on <%= @plan %>.
                 </p>
