@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 require 'travis/addons/email/task'
-require 'lib/travis/addons/user_confirmation/mailer/user_confirmation_mailer'
+require 'travis/addons/user_confirmation/mailer/user_confirmation_mailer'
 
 module Travis
   module Addons
-    module Trial
-
+    module UserConfirmation
       # Sends out trial emails using ActionMailer.
       class Task < Travis::Addons::Email::Task
         def type
@@ -15,11 +16,13 @@ module Travis
 
         def send_email
           Mailer::UserConfirmationMailer.public_send(params[:stage], recipients, **mailer_params).deliver
-          info "type=#{type} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
+          info "type=#{type} status=sent msg='email sent' #{recipients.map do |r|
+                                                              "email=#{obfuscate_email_address(r)}"
+                                                            end.join(' ')}"
         end
 
         def mailer_params
-          params.select { |k, _v| %i(owner confirmation_url token_valid_to).include?(k)  }
+          params.select { |k, _v| %i[owner confirmation_url token_valid_to].include?(k) }
         end
       end
     end

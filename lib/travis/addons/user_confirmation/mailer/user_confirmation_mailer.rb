@@ -1,31 +1,35 @@
+# frozen_string_literal: true
+
 require 'action_mailer'
 
 module Travis
   module Addons
-    module Trial
+    module UserConfirmation
       module Mailer
         class UserConfirmationMailer < ActionMailer::Base
-          append_view_path File.expand_path('../views', __FILE__)
+          append_view_path File.expand_path('views', __dir__)
 
           layout 'contact_email'
 
           def account_activated(receivers, **options)
-            @owner = options.values_at(:owner)
+            @owner, = options.values_at(:owner)
             subject = 'Travis CI: Your account has been activated!'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'user_confirmation_mailer')
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject,
+                 template_path: 'user_confirmation_mailer')
           end
 
           def confirm_account(receivers, **options)
             @owner, @confirmation_url, @token_valid_to = options.values_at(:owner, :confirmation_url, :token_valid_to)
             subject = 'Travis CI: Confirm your account.'
-            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'user_confirmation_mailer')
+            mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject,
+                 template_path: 'user_confirmation_mailer')
           end
 
           private
 
           def filter_receivers(receivers)
             receivers = receivers.flatten.uniq.compact
-            receivers.reject { |email| email.include?("[") || email.include?(" ") || email.ends_with?(".home") }
+            receivers.reject { |email| email.include?('[') || email.include?(' ') || email.ends_with?('.home') }
           end
 
           def from
