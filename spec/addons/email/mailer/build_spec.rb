@@ -8,6 +8,15 @@ describe Travis::Addons::Email::Mailer::Build do
   let(:recipients) { ['owner@example.com', 'committer@example.com', 'author@example.com'] }
   let(:broadcasts) { [{ message: 'message', category: 'announcement' }] }
   let(:email)      { described_class.finished_email(data, recipients, broadcasts) }
+  let(:vcs_client) { Travis::Backends::VcsClient.new }
+
+  let(:conn) {
+    Faraday.new do |builder|
+      builder.adapter :test do |stub|
+        stub.get('/repos/549743/urls/branch?branch=master&vcs_type=GithubRepository') { |env| [200, {}, '{ "url": "https://github.com/svenfuchs/minimal/tree/master" }'] }
+      end
+    end
+  }
 
   before :each do
     Travis::Addons::Email.setup
@@ -17,6 +26,8 @@ describe Travis::Addons::Email::Mailer::Build do
     Travis.config.build_email_footer = true
     Travis.config.email = {}
     Travis.config.assets = {}
+    Travis::Backends::Vcs.any_instance.stubs(:client).returns(vcs_client)
+    vcs_client.stubs(:client).returns(conn)
   end
 
   describe 'finished build email notification' do

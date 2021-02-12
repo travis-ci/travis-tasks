@@ -9,7 +9,7 @@ describe Travis::Addons::GithubCheckStatus::Task do
   let(:subject)    { Travis::Addons::GithubCheckStatus::Task.new(payload, installation: installation_id) }
   let(:payload)    { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
   let(:io)         { StringIO.new }
-  let(:gh_apps)    { Travis::GithubApps.new installation_id }
+  let(:vcs_client) { Travis::Backends::VcsClient.new }
   let(:installation_id) { '12345' }
 
   let(:slug) { 'svenfuchs/minimal' }
@@ -21,7 +21,7 @@ describe Travis::Addons::GithubCheckStatus::Task do
       builder.adapter :test do |stub|
         stub.post("app/installations/12345/access_tokens") { |env| [201, {}, "{\"token\":\"github_apps_access_token\",\"expires_at\":\"2018-04-03T20:52:14Z\"}"] }
         stub.post("/repositories/549743/check-runs") { |env| [201, {}, check_run_response(response_data)] }
-        stub.get("/repositories/549743/commits/#{sha}/check-runs?check_name=Travis+CI+-+Branch&filter=all") { |env| [200, {}, check_run_list_response(response_data)] }
+        stub.get("/repos/549743/checks?check_run_name=Travis+CI+-+Branch&commit=#{sha}&vcs_type=GithubRepository") { |env| [200, {}, check_run_list_response(response_data)] }
         stub.patch("/repositories/549743/check-runs/1") { |env| [200, {}, check_run_response(response_data)] }
       end
     end
@@ -32,8 +32,8 @@ describe Travis::Addons::GithubCheckStatus::Task do
   end
 
   it 'makes expected API calls' do
-    Travis::Backends::Github.any_instance.expects(:github_apps).times(1).returns(gh_apps)
-    gh_apps.expects(:github_api_conn).times(2).returns(conn)
+    Travis::Backends::Vcs.any_instance.stubs(:client).returns(vcs_client)
+    vcs_client.stubs(:client).returns(conn)
     subject.run
   end
 
@@ -44,15 +44,15 @@ describe Travis::Addons::GithubCheckStatus::Task do
         builder.adapter :test do |stub|
           stub.post("app/installations/12345/access_tokens") { |env| [201, {}, "{\"token\":\"github_apps_access_token\",\"expires_at\":\"2018-04-03T20:52:14Z\"}"] }
           stub.post("/repositories/549743/check-runs") { |env| [201, {}, check_run_response(response_data)] }
-          stub.get("/repositories/549743/commits/#{sha}/check-runs?check_name=Travis+CI+-+Branch&filter=all") { |env| [403, {}, check_run_list_response(response_data)] }
+          stub.get("/repos/549743/checks?check_run_name=Travis+CI+-+Branch&commit=#{sha}&vcs_type=GithubRepository") { |env| [403, {}, check_run_list_response(response_data)] }
           stub.patch("/repositories/549743/check-runs/1") { |env| [200, {}, check_run_response(response_data)] }
         end
       end
     }
 
     it 'makes expected API calls' do
-      Travis::Backends::Github.any_instance.expects(:github_apps).times(1).returns(gh_apps)
-      gh_apps.expects(:github_api_conn).times(2).returns(conn)
+      Travis::Backends::Vcs.any_instance.stubs(:client).returns(vcs_client)
+      vcs_client.stubs(:client).returns(conn)
       subject.run
     end
   end
