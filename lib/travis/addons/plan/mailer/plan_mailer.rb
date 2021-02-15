@@ -13,8 +13,6 @@ module Travis
             @owner = owner
             @signup_url = signup_url(owner)
             @plan = params.fetch(:plan, 'Free Tier Plan').to_s
-            @token_valid_to = params[:token_valid_to]
-            @confirmation_url = params[:confirmation_url]
             subject = 'Welcome to Travis CI!'
             mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
           end
