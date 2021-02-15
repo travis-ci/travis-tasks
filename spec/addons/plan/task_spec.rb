@@ -5,17 +5,7 @@ describe Travis::Addons::Plan::Task do
 
   let(:mailer) { Travis::Addons::Plan::Mailer::PlanMailer }
   let(:email) { stub('email', deliver: true) }
-  let(:token_valid_to) { '2021-02-08 14:14:14' }
-  let(:confirmation_url) { 'https://confirm.me/plx' }
-  let(:handler) do
-    described_class.new({},
-                        email_type: stage,
-                        recipients: recipients,
-                        owner: owner,
-                        plan: plan,
-                        token_valid_to: token_valid_to,
-                        confirmation_url: confirmation_url)
-  end
+  let(:handler) { described_class.new({}, email_type: stage, recipients: recipients, owner: owner, plan: plan) }
   let(:owner) { { name: 'Joe', login: 'joe', billing_slug: 'user', vcs_type: 'GithubUser', owner_type: 'User' } }
   let(:recipients) { %w{joe@travis-ci.com joe@[bademail].home} }
   let(:io) { StringIO.new }
@@ -26,16 +16,7 @@ describe Travis::Addons::Plan::Task do
 
   shared_examples 'sends email' do |stage|
     let(:stage) { stage }
-    let(:params) do
-      {
-        :email_type => stage, 
-        :recipients => recipients, 
-        :owner => owner, 
-        :plan => plan, 
-        :token_valid_to => token_valid_to,
-        :confirmation_url => confirmation_url
-      }
-    end
+    let(:params) { {:email_type => stage, :recipients => recipients, :owner => owner, :plan => plan} }
 
     specify 'sends to filtered recipients' do
       mailer.expects(stage).with([recipients.first], owner, params).returns(email)
