@@ -37,11 +37,11 @@ module Travis
           end
 
           def from_email
-            config.email&.user_confirmation_from || "user_confirmation@#{config.host}"
+            config.email&.user_confirmation_from || "support@#{config.host}"
           end
 
           def to
-            config.email&.user_confirmation_to_placeholder || "user_confirmation@#{config.host}"
+            config.email&.user_confirmation_to_placeholder || "support@#{config.host}"
           end
 
           def reply_to
