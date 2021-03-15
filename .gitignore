@@ -4,3 +4,4 @@ play
 vendor/bundle
 #IDEs folders
 .idea
+.history
