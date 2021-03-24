@@ -4,7 +4,7 @@
     <p id="account-activated-message" style="margin: 0px; font-size: 18px;">
       Please take a moment to confirm your account.
     </p>
-    <p><a href="<%=@confirmation_url%>" target="_blank" class="account-activated-button">Confirm your account</a></p>
+    <p><a id="account-activated-button" href="<%=@confirmation_url%>" target="_blank">Confirm your account</a></p>
     <br/>
     <p>Note: you must confirm your account to run builds on Travis CI. The confirmation link will expire after <%= @token_valid_to %></p>
   </td>
