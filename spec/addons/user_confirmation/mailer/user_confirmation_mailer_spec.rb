@@ -35,9 +35,9 @@ describe Travis::Addons::UserConfirmation::Mailer::UserConfirmationMailer do
       expect(mail.body).to match("Hello #{params[:owner][:name]}!")
       expect(mail.body).to match('Please take a moment to confirm your account.')
       expect(mail.body)
-        .to match('<p><a href="https://confirm.me.plx" target="_blank" class="account-activated-button">Confirm your account</a></p>')
+        .to match('<p><a id="account-activated-button" href="https://confirm.me.plx" target="_blank">Confirm your account</a></p>')
       expect(mail.body)
-        .to match('<p>Note: you must confirm your account to run builds on Travis CI. The confirmation link will expire after 2021-02-08 14:14:14</p>')
+        .to match('<p>Note: you must confirm your account in order to run builds on Travis CI. The confirmation link will expire after <br>2021-02-08 14:14:14</p>')
     end
   end
 end
