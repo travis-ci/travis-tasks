@@ -288,7 +288,7 @@
 
                           <% if line.key?(:valid_to) && !line[:valid_to].nil?%>
                             <br>
-                            <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Valid to::</label>
+                            <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Valid to:</label>
                             <span>&nbsp;
                               <% valid_to = line[:valid_to].to_datetime %>
                                 <time datetime="<%= l valid_to, format: '%B %e, %Y' %>">
