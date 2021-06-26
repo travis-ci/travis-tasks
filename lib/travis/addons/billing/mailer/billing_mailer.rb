@@ -183,7 +183,9 @@ module Travis
             end
 
             def lines
-              @invoice.fetch(:lines)
+              res = @invoice.fetch(:lines)
+              puts "!!!!! lines: #{res.inspect}"
+              res
             end
           end
         end
