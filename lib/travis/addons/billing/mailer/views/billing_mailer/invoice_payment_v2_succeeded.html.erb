@@ -285,6 +285,17 @@
                           <br>
                           <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Quantity:</label>
                           <span>&nbsp;<%= line[:quantity] %></span>
+
+                          <% if line.key?(:valid_to) && !line[:valid_to].nil?%>
+                            <br>
+                            <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Valid to::</label>
+                            <span>&nbsp;
+                              <% valid_to = line[:valid_to].to_datetime %>
+                                <time datetime="<%= l valid_to, format: '%B %e, %Y' %>">
+                                  <%= l valid_to, format: '%B %e, %Y' %>
+                                </time>
+                            </span>
+                          <% end %>
                         </td>
                       </tr>
                     <% end %>
