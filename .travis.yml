@@ -8,7 +8,7 @@ cache: bundler
 addons:
   snaps:
   - name: docker
-    channel: latest/edge
+    channel: latest/stable
 
 env:
   global:
