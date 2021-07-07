@@ -87,6 +87,7 @@ describe Travis::Addons::GithubStatus::Task do
   end
 
   it 'does not raise if a 422 error was returned by GH' do
+    ENV.delete('TRAVIS_SKIP_GITHUB_MAX_MESSAGES')
     error = { response_status: 422, response_headers: rate_limit_data }
     GH.stubs(:post).raises(GH::Error.new('failed', nil, error))
     expect {
