@@ -5,11 +5,6 @@ services:
 
 cache: bundler
 
-addons:
-  snaps:
-  - name: docker
-    channel: latest/beta
-
 env:
   global:
     - PATH=/snap/bin:$PATH
@@ -19,6 +14,10 @@ jobs:
     - stage: "testing time"
       script: bundle exec rspec -f documentation --color --order rand spec
     - stage: ":ship: it to quay.io"
+      addons:
+        snaps:
+        - name: docker
+          channel: latest/stable
       ruby:
       before_install:
       before_script:
