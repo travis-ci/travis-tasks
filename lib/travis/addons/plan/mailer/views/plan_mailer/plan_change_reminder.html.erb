@@ -1,0 +1,20 @@
+            <!-- Plan Change Reminder Section -->
+            <tr>
+              <td id="plan-message-section" align="center" valign="top" style="padding-bottom: 40px;">
+                <h1 id="plan-message-header">
+                  Hi!
+                </h1>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  This is a reminder that your new <%= @plan %> plan will be effective from <%= @due_date.strftime('%Y-%m-%d') %>.
+                </p>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  It will start a subscription for <%= @credits %> of credits assigned monthly and charge your credit card with $<%= @price / 100.0 %> <%= @annual ? 'annualy' : 'monthly' %>.
+                </p>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  Your current plan page: <%= link_to('https://docs.travis-ci.com/user/billing-overview/', 'https://docs.travis-ci.com/user/billing-overview/', id: 'documentation-link') %>
+                </p>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  Documentation: <%= link_to('https://app.travis-ci.com/account/plan', 'https://app.travis-ci.com/account/plan', id: 'documentation-link') %>
+                </p>
+              </td>
+            </tr>

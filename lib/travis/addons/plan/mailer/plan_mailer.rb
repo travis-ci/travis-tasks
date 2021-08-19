@@ -47,6 +47,18 @@ module Travis
             mail(from: from, to: receivers, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
+          def plan_change_reminder(receivers, owner, params)
+            @owner = owner
+            @signup_url = signup_url(owner)
+            @plan = params.fetch(:plan, '').to_s
+            @annual = params.fetch(:annual, false)
+            @credits = params.fetch(:credits, 0)
+            @price = params.fetch(:price, 0)
+            @due_date = params.fetch(:due_date, Time.now)
+            subject = 'Plan Change Reminder'
+            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
+          end
+
           private
 
             def from
