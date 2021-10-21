@@ -1197,7 +1197,6 @@ DEPENDENCIES
   faraday (~> 1.0)
   faraday_middleware
   foreman
-  gh
   guard
   guard-rspec
   intercom (~> 3.8.0)
