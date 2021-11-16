@@ -12,7 +12,6 @@ module Travis
           def welcome(receivers, owner, params)
             @owner = owner
             @signup_url = signup_url(owner)
-            @plan = params.fetch(:plan, 'Free Tier Plan').to_s
             subject = 'Welcome to Travis CI!'
             mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
           end
