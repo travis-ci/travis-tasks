@@ -104,6 +104,11 @@ module Travis::Addons::GithubCheckStatus::Output
       state == 'persisted' ? 'queued' : state
     end
 
+    def build_type
+      pull_request? ? 'pr' : 'push'
+    end
+
+
     def icon_url(state = nil)
       "#{Travis.config.http_host}/images/stroke-icons/#{ICON.fetch(state(state))}"
     end
