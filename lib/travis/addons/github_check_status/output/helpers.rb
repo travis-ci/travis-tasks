@@ -105,7 +105,8 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def build_type
-      pull_request? ? 'pr' : 'push'
+      return pull_request? ? 'pr' : 'push' if ENV['GITHUB_STATUS_LEGACY_NAME']
+      "Travis CI - #{pull_request? ? 'Pull Request' : 'Branch'}"
     end
 
 
