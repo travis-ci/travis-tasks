@@ -1,6 +1,6 @@
 module Travis::Addons::GithubCheckStatus::Output
   TEMPLATES = {
-    name: 'continuous-integration/travis-ci/{{build_type}}',
+    name: '{{build_type}}',
 
     summary: {
       queued:      '{{build_link(state,details_url, "The build")}} is currently waiting in the build queue for a VM to be ready.',
