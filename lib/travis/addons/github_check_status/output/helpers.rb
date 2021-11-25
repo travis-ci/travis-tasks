@@ -105,7 +105,7 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def build_type
-      return "continuous-integration/travis-ci/#{pull_request? ? 'pr' : 'push'}" if ENV['GITHUB_STATUS_LEGACY_NAME']
+      return "continuous-integration/travis-ci/#{pull_request? ? 'pr' : 'push'}" if ENV['GITHUB_STATUS_LEGACY_NAME'] == 'true'
 
       "Travis CI - #{pull_request? ? 'Pull Request' : 'Branch'}"
     end
