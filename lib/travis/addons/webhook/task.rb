@@ -27,6 +27,8 @@ module Travis
 
             Array(targets).each do |target|
               begin
+                pp target
+                pp payload
                 send_webhook(target, timeout)
               rescue => e
                 error "task=webhook status=failed url=#{loggable_url(target)}"
