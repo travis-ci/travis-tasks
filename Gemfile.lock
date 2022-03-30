@@ -1194,12 +1194,13 @@ DEPENDENCIES
   mocha (~> 1.10.0)
   multi_json
   railties (>= 5.2.7)
+  redis
   redis-namespace
   roadie
   roadie-rails
   rspec
   sentry-raven
-  sidekiq (~> 6.4)
+  sidekiq (~> 6)
   travis-config (~> 1.1.0)
   travis-exceptions!
   travis-github_apps!

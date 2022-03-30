@@ -115,7 +115,7 @@ module Travis
 
           def process_with_token(username, token)
             Travis.redis_pool.with do |redis|
-              if redis.exists(errored_token_key(token))
+              if redis.exists?(errored_token_key(token))
                 return [:skipped, {}]
               end
             end
