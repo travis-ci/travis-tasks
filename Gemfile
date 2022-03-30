@@ -12,7 +12,7 @@ gem 'travis-rollout',    '~> 0.0.2'
 gem 'metriks',                 git: 'https://github.com/travis-ci/metriks'
 gem 'metriks-librato_metrics', git: 'https://github.com/travis-ci/metriks-librato_metrics'
 
-gem 'sidekiq',         '~> 4.0.0'
+gem 'sidekiq',         '~> 6.4'
 gem 'redis-namespace'
 gem 'sentry-raven'
 gem 'keen'
@@ -21,7 +21,7 @@ gem 'jemalloc', git: 'https://github.com/joshk/jemalloc-rb'
 
 gem 'gh',                  git: 'https://github.com/travis-ci/gh', ref: 'enterprise-3.0'
 gem 'aws-sdk'
-gem 'actionmailer'
+gem 'actionmailer', "~> 5.2.7"
 gem 'roadie'
 gem 'roadie-rails'
 gem 'multi_json'
@@ -29,9 +29,9 @@ gem 'multi_json'
 gem 'faraday', '~> 1.0'
 gem 'faraday_middleware'
 
-gem "activesupport", ">= 5.2.4.6"
-gem "actionpack", ">= 5.2.4.6"
-gem "railties", ">= 5.2.4.6"
+gem "activesupport", ">= 5.2.7"
+gem "actionpack", ">= 5.2.7"
+gem "railties", ">= 5.2.7"
 
 group :test do
   gem 'rspec'
