@@ -1194,7 +1194,6 @@ DEPENDENCIES
   mocha (~> 1.10.0)
   multi_json
   railties (>= 5.2.7)
-  redis
   redis-namespace
   roadie
   roadie-rails
