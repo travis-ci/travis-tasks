@@ -117,7 +117,7 @@ describe Travis::Addons::GithubStatus::Task do
     expect(io.string).to match /A request with token belonging to svenfuchs failed\./
     expect(io.string).to include('response_status=403')
     expect(io.string).to include('reason=incorrect_auth_or_suspended_acct')
-    expect(redis.exists(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_tokens:' + token_hash('12345'))).to be true
+    expect(redis.exists?(Travis::Addons::GithubStatus::Task::REDIS_PREFIX + 'errored_tokens:' + token_hash('12345'))).to be true
   end
 
   it 'does not raise if a 404 error was returned by GH' do
