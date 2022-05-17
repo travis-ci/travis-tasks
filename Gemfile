@@ -21,7 +21,7 @@ gem 'jemalloc', git: 'https://github.com/joshk/jemalloc-rb'
 
 gem 'gh',                  git: 'https://github.com/travis-ci/gh', ref: 'enterprise-3.0'
 gem 'aws-sdk'
-gem 'actionmailer', "~> 5.2.7"
+gem 'actionmailer', "~> 5.2.7.1"
 gem 'roadie'
 gem 'roadie-rails'
 gem 'multi_json'
@@ -29,9 +29,9 @@ gem 'multi_json'
 gem 'faraday', '~> 1.0'
 gem 'faraday_middleware'
 
-gem "activesupport", ">= 5.2.7"
-gem "actionpack", ">= 5.2.7"
-gem "railties", ">= 5.2.7"
+gem "activesupport", ">= 5.2.7.1"
+gem "actionpack", ">= 5.2.7.1"
+gem "railties", ">= 5.2.7.1"
 
 group :test do
   gem 'rspec'

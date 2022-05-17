@@ -70,29 +70,29 @@ GEM
   remote: https://rubygems.org/
   specs:
     HDRHistogram (0.1.9)
-    actionmailer (5.2.7)
-      actionpack (= 5.2.7)
-      actionview (= 5.2.7)
-      activejob (= 5.2.7)
+    actionmailer (5.2.7.1)
+      actionpack (= 5.2.7.1)
+      actionview (= 5.2.7.1)
+      activejob (= 5.2.7.1)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.2.7)
-      actionview (= 5.2.7)
-      activesupport (= 5.2.7)
+    actionpack (5.2.7.1)
+      actionview (= 5.2.7.1)
+      activesupport (= 5.2.7.1)
       rack (~> 2.0, >= 2.0.8)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.2.7)
-      activesupport (= 5.2.7)
+    actionview (5.2.7.1)
+      activesupport (= 5.2.7.1)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.2.7)
-      activesupport (= 5.2.7)
+    activejob (5.2.7.1)
+      activesupport (= 5.2.7.1)
       globalid (>= 0.3.6)
-    activesupport (5.2.7)
+    activesupport (5.2.7.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -1080,7 +1080,7 @@ GEM
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.15.0)
+    loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.5)
@@ -1096,7 +1096,7 @@ GEM
     nenv (0.3.0)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
-    nokogiri (1.13.3)
+    nokogiri (1.13.6)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     notiffany (0.1.3)
@@ -1115,9 +1115,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
-    railties (5.2.7)
-      actionpack (= 5.2.7)
-      activesupport (= 5.2.7)
+    railties (5.2.7.1)
+      actionpack (= 5.2.7.1)
+      activesupport (= 5.2.7.1)
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
@@ -1175,9 +1175,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  actionmailer (~> 5.2.7)
-  actionpack (>= 5.2.7)
-  activesupport (>= 5.2.7)
+  actionmailer (~> 5.2.7.1)
+  actionpack (>= 5.2.7.1)
+  activesupport (>= 5.2.7.1)
   aws-sdk
   capybara
   connection_pool (~> 2.2)
@@ -1193,7 +1193,7 @@ DEPENDENCIES
   metriks-librato_metrics!
   mocha (~> 1.10.0)
   multi_json
-  railties (>= 5.2.7)
+  railties (>= 5.2.7.1)
   redis-namespace
   roadie
   roadie-rails
