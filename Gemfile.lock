@@ -1126,7 +1126,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redis (4.6.0)
-    redis-namespace (1.7.0)
+    redis-namespace (1.8.2)
       redis (>= 3.0.4)
     regexp_parser (1.7.1)
     roadie (4.0.0)
