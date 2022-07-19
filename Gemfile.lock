@@ -44,7 +44,8 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-github_apps
-  revision: c96dc9330849ff3e2ccd7c9d00005a1a96c1a4b6
+  revision: 296843980230194dc0b44fa7244e49ca071d83bf
+  branch: ga-ext_access
   specs:
     travis-github_apps (0.2.1)
       activesupport (>= 3.2)
@@ -1073,7 +1074,7 @@ GEM
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     jmespath (1.6.1)
-    jwt (2.2.1)
+    jwt (2.4.1)
     keen (1.1.1)
       addressable (~> 2.5)
       multi_json (~> 1.12)
