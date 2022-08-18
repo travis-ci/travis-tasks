@@ -69,8 +69,8 @@ module Travis
             end
 
             def signin_url(owner)
-              return 'https://travis-ci.com/account/subscription' if owner.fetch(:owner_type) == 'User'
-              "https://travis-ci.com/organizations/#{owner.fetch(:login)}/subscription"
+              return 'https://app.travis-ci.com/account/plan' if owner.fetch(:owner_type) == 'User'
+              "https://app.travis-ci.com/organizations/#{owner.fetch(:login)}/plan"
             end
 
             class AttachmentNotFound < StandardError; end
