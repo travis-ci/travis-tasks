@@ -5,6 +5,7 @@ require 'active_support/core_ext/string'
 require 'active_support/core_ext/class/attribute'
 require 'travis/support'
 require 'travis/task/keenio'
+require 'patches/gh/token_check'
 
 module Travis
   class Task

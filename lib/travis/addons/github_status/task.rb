@@ -30,7 +30,7 @@ module Travis
         }
 
         def url
-          "/repos/#{repository[:slug]}/statuses/#{sha}"
+          "/repositories/#{repository[:github_id]}/statuses/#{sha}"
         end
 
         private
