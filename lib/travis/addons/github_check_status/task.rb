@@ -8,16 +8,16 @@ module Travis
 
         def process(timeout)
           return if repository[:vcs_type] != 'GithubRepository'.freeze
-          
+
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id} sha=#{sha}")
 
-          if build[:state] == 'created'
-            response = client.create_check_run(id: repository[:vcs_id], type: repository[:vcs_type], payload: check_status_payload.to_json)
-          else
-            check_run = check_runs(sha).select { |check_run| check_run["external_id"] == build[:id].to_s }.first
+          check_run = check_runs(sha).select { |check_run| check_run["external_id"] == build[:id].to_s }.first
 
-            if check_run
-              response = client.update_check_run(id: repository[:vcs_id], type: repository[:vcs_type], check_run_id: check_run["id"], payload: check_status_payload.to_json)
+          if check_run
+            response = client.update_check_run(id: repository[:vcs_id], type: repository[:vcs_type], check_run_id: check_run["id"], payload: check_status_payload.to_json)
+          else
+            if build[:state] == 'created'
+              response = client.create_check_run(id: repository[:vcs_id], type: repository[:vcs_type], payload: check_status_payload.to_json)
             else
               error("type=github_check_status repo=#{repository[:slug]} sha=#{sha} reason=check_runs_empty check_status_payload=#{check_status_payload.to_json}")
               return

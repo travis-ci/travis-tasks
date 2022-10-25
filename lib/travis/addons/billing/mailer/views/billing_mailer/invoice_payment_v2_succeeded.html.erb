@@ -272,17 +272,34 @@
                       <label class="label-black" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;">Invoice #<%= @invoice.invoice_id %></label>
                     </td>
                   </tr>
-                  <!-- Subscription Period -->
-                  <tr class="invoice-line">
-                    <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
-                      <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Subscription Period</label>
-                      <span>
-                        <%= l @invoice.current_period_start, format: :long -%>
-                        &ndash;
-                        <%= l @invoice.current_period_end, format: :long -%>
-                      </span>
-                    </td>
-                  </tr>
+                  <!-- Add-ons -->
+                  <% if @invoice.lines.present? %>
+                    <tr class="invoice-line">
+                      <td>Add-ons</td>
+                    </tr>
+                    <% @invoice.lines.each do |line| %>
+                      <tr class="invoice-line">
+                        <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
+                          <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Name:</label>
+                          <span>&nbsp;<%= line[:description] %></span>
+                          <br>
+                          <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Quantity:</label>
+                          <span>&nbsp;<%= line[:quantity] %></span>
+
+                          <% if line.key?(:valid_to) && !line[:valid_to].nil?%>
+                            <br>
+                            <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Valid to:</label>
+                            <span>&nbsp;
+                              <% valid_to = line[:valid_to].to_datetime %>
+                                <time datetime="<%= l valid_to, format: '%B %e, %Y' %>">
+                                  <%= l valid_to, format: '%B %e, %Y' %>
+                                </time>
+                            </span>
+                          <% end %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  <% end %>
                   <!-- Status -->
                   <tr class="invoice-line">
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">

@@ -25,6 +25,14 @@ module Travis
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
+          def invoice_payment_v2_succeeded(receivers, subscription, owner, _charge, _event, invoice, cc_last_digits)
+            @invoice = InvoicePresenter.new(subscription, owner, invoice, cc_last_digits)
+            @signin_url = signin_url(owner)
+            subject = 'Travis CI: Your Invoice'
+            download_attachment invoice.fetch(:pdf_url)
+            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
+          end
+
           def subscription_cancelled(receivers, subscription, owner, charge, event, invoice, cc_last_digits)
             @subscription = subscription
             subject = "Travis CI: Cancellation confirmed"
@@ -36,6 +44,13 @@ module Travis
             @signin_url = signin_url(owner)
             subject = fully_refund(invoice) ? 'Travis CI: Your Payment has been refunded' : 'Travis CI: Your Payment has been partially refunded'
             download_attachment invoice.fetch(:pdf_url)
+            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
+          end
+
+          def changetofree(receivers, subscription, owner, _charge, _event, invoice, cc_last_digits)
+            @subscription = subscription
+            @signin_url = signin_url(owner)
+            subject = "Travis CI: You upgraded to Free Tier Plan"
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
@@ -54,8 +69,8 @@ module Travis
             end
 
             def signin_url(owner)
-              return 'https://travis-ci.com/account/subscription' if owner.fetch(:owner_type) == 'User'
-              "https://travis-ci.com/organizations/#{owner.fetch(:login)}/subscription"
+              return 'https://app.travis-ci.com/account/plan' if owner.fetch(:owner_type) == 'User'
+              "https://app.travis-ci.com/organizations/#{owner.fetch(:login)}/plan"
             end
 
             class AttachmentNotFound < StandardError; end
@@ -165,6 +180,10 @@ module Travis
 
             def pdf_url
               @invoice.fetch(:pdf_url)
+            end
+
+            def lines
+              @invoice.fetch(:lines)
             end
           end
         end

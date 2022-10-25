@@ -1,0 +1,22 @@
+The subscription for the account <%= @owner[:login] %> was changed to Free by <%= @user[:name] %> (<%= @user[:login] %>).
+<br><br>
+<% if @feedback[:reason].present? %>
+The reason was <%= @feedback[:reason] %>
+<% end -%>
+<br><br>
+<% if @feedback[:reason_details].present? %>
+The customer provided the following feedback:
+  <br><br>
+---
+<%= @feedback[:reason_details] %>
+---
+
+<% else %>
+The customer provided no further feedback.
+<% end %>
+<br><br>
+They were subscribed to the "<%= @subscription[:selected_plan] %>" plan.
+<br><br>
+Best regards,
+<br>
+Your Travis CI Billing Bot

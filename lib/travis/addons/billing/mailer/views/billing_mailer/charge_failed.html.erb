@@ -255,8 +255,16 @@
                         We use <a href="https://stripe.com" style="color: #9ea3a8;">Stripe Inc.</a>, 3180 18th Street, Suite 100, San Francisco, CA 94110, USA, as our payment partner
                       </p>
                       <p style="margin: 0px;">
-                        Travis CI GmbH, Rigaer Str. 8, 10427 Berlin, Germany | GF/CEO: Randy Jacops |
-                        <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8')%> | Amtsgericht Charlottenburg, Berlin, HRB 140133 B | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
+                        Travis CI GmbH, Bonner Straße 12, 51379 Leverkusen, Germany | GF/CEO: Randy Jacops |
+                        <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8')%> | Amtsgericht Charlottenburg, Berlin, HRB 108397 | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz:
+                          <% if @subscription[:country] == 'United Kingdom' %>
+                            GB370195891
+                          <% elsif @subscription[:country] == 'Russian Federation' %>
+                            INN 9909575690, KPP 997789001
+                          <% else %>
+                            DE282002648
+                          <% end %>
+                        </span>
                       </p>
                     </td>
                   </tr>

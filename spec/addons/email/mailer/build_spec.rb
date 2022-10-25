@@ -26,7 +26,7 @@ describe Travis::Addons::Email::Mailer::Build do
       end
 
       it 'has "notifications@[hostname]" as a from address' do
-        expect(email.from.join).to eq('notifications@travis-ci.org')
+        expect(email.from.join).to eq('notifications@travis-ci.com')
       end
     end
 

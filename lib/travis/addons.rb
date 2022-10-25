@@ -16,5 +16,8 @@ module Travis
     require 'travis/addons/slack'
     require 'travis/addons/pushover'
     require 'travis/addons/migration'
+    require 'travis/addons/plan'
+    require 'travis/addons/intercom'
+    require 'travis/addons/user_confirmation'
   end
 end
