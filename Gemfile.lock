@@ -1,10 +1,4 @@
 GIT
-  remote: https://github.com/joshk/jemalloc-rb
-  revision: 8c9dbef98f6bd4f96b371ec336b7e0c4fdc02d49
-  specs:
-    jemalloc (1.4.5)
-
-GIT
   remote: https://github.com/travis-ci/gh
   revision: 6355254db0284a71035ef6da870dcf364e2c233a
   ref: enterprise-3.0
@@ -17,6 +11,13 @@ GIT
       multi_json (~> 1.0)
       net-http-persistent (~> 2.9)
       net-http-pipeline
+
+GIT
+  remote: https://github.com/travis-ci/jemalloc-rb
+  revision: af46aa864c867dbd2ad62b036401dba7b16dffd5
+  branch: jemalloc-v-3-new-rake
+  specs:
+    jemalloc (1.1.3)
 
 GIT
   remote: https://github.com/travis-ci/metriks
@@ -1102,7 +1103,7 @@ GEM
     nenv (0.3.0)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
-    nokogiri (1.13.6)
+    nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     notiffany (0.1.3)
@@ -1216,7 +1217,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 2.6.10p210
 
 BUNDLED WITH
-   1.17.3
+   2.3.24
