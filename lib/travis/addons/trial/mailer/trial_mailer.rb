@@ -48,11 +48,11 @@ module Travis
             end
 
             def from_email
-              config.email && config.email.trials_from || "trials@#{config.host}"
+              config.email && config.email.trials_from || "trials@#{config.host_domain}"
             end
 
             def to
-              config.email && config.email.trials_to_placeholder || "trials@#{config.host}"
+              config.email && config.email.trials_to_placeholder || "trials@#{config.host_domain}"
             end
 
             def reply_to
@@ -60,7 +60,7 @@ module Travis
             end
 
             def reply_to_email
-              config.email && config.email.reply_to || "support@#{config.host}"
+              config.email && config.email.reply_to || "support@#{config.host_domain}"
             end
 
             def config
