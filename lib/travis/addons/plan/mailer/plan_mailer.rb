@@ -58,6 +58,15 @@ module Travis
             mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
           end
 
+          def credit_card_expiration_reminder(receivers, owner, params)
+            @owner = owner
+            @payment_details_url = payment_details_url(owner)
+            @plan = params.fetch(:plan, '').to_s
+            @cc_expiration_date = params.fetch(:cc_expiration_date, '')
+            subject = 'Your credit card expires soon'
+            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
+          end
+
           private
 
             def from
@@ -103,6 +112,11 @@ module Travis
             def signup_url(owner)
               return "https://#{config.host}/account" if user?(owner)
               "https://#{config.host}/organizations/#{owner[:login]}"
+            end
+
+            def payment_details_url(owner)
+              return "https://#{config.host}/account/#{config.payment_details_path}" if user?(owner)
+              "https://#{config.host}/organizations/#{owner[:login]}/#{config.payment_details_path}"
             end
 
             def filter_receivers(receivers)
