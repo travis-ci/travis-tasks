@@ -26,6 +26,12 @@ module Travis
 
           response_data = JSON.parse(response.body) if response.body&.length > 0
 
+          puts "##############################"
+          puts "##############################"
+          puts "##############################"
+          puts "Travis::Addons::GithubCheckStatus"
+          puts "response_data IS: #{response_data}"
+
           if response.success?
             log_data = "url=#{response_data['url']} html_url=#{response_data['html_url']}"
           else
