@@ -29,6 +29,7 @@ module Travis
           puts "##############################"
           puts "##############################"
           puts "##############################"
+          puts "##############################"
           puts "Travis::Addons::GithubCheckStatus"
           puts "response_data IS: #{response_data}"
 
