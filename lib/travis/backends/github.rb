@@ -19,6 +19,17 @@ module Travis
 
       def update_check_run(id:, type:, check_run_id:, payload:)
         count_request
+
+        puts "##############################"
+        puts "##############################"
+        puts "Travis::Backends::Github.update_check_run"
+        puts "api_path  IS: #{api_path}"
+        puts "full path  IS: #{"#{api_path}/repositories/#{id}/check-runs/#{check_run_id}"}"
+        puts "ID IS: #{id}"
+        puts "check_run_id IS: #{check_run_id}"
+        puts "payload IS: #{payload}"
+
+
         github_apps.patch_with_app("#{api_path}/repositories/#{id}/check-runs/#{check_run_id}", payload)
       end
 
