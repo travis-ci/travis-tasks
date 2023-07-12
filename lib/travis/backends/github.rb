@@ -42,10 +42,22 @@ module Travis
       def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
         url = "#{api_path}/repositories/#{id}/statuses/#{ref}"
 
+        puts "##############################"
+        puts "##############################"
+        puts "Travis::Backends::Github.create_status"
+        puts "process_via_gh_apps?  IS: #{process_via_gh_apps}"
+        puts "ID IS: #{id}"
+        puts "ref IS: #{ref}"
+        puts "type IS: #{type}"
+        puts "payload IS: #{payload}"
+
+
         count_request
         if process_via_gh_apps
+          puts "Travis::Backends::Github.create_status.if"
           github_apps.post_with_app(url, payload)
         else
+          puts "Travis::Backends::Github.create_status.else"
           GH.post(url, payload)
         end
       end

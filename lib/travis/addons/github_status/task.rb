@@ -102,7 +102,7 @@ module Travis
             puts "##############################"
             puts "##############################"
             puts "##############################"
-            puts "Travis::Addons::GithubStatus"
+            puts "Travis::Addons::GithubStatus::Task"
             puts "STATUS PAYLOAD IS: #{status_payload}"
             client.create_status(
               process_via_gh_apps: false,
