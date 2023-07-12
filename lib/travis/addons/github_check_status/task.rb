@@ -12,6 +12,12 @@ module Travis
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id} sha=#{sha}")
 
           check_run = check_runs(sha).select { |check_run| check_run["external_id"] == build[:id].to_s }.first
+          puts "##############################"
+          puts "##############################"
+          puts "Travis::Addons::GithubCheckStatus.check_run"
+          puts "check_run IS: #{check_run}"
+          puts "check_status_payload.to_json IS: #{check_status_payload.to_json}"
+          puts "build IS: #{build}"
 
           if check_run
             response = client.update_check_run(id: repository[:vcs_id], type: repository[:vcs_type], check_run_id: check_run["id"], payload: check_status_payload.to_json)
@@ -34,8 +40,11 @@ module Travis
           puts "response_data IS: #{response_data}"
 
           if response.success?
+            puts "The response has been a success"
             log_data = "url=#{response_data['url']} html_url=#{response_data['html_url']}"
           else
+            puts "The response has been an error"
+            puts "Response body of the error is: #{response.body}"
             log_data = "response_body=#{response.body}"
           end
 
