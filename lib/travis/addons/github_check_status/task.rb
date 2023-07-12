@@ -41,6 +41,12 @@ module Travis
 
           info "type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} response_status=#{response.status} #{log_data}"
         rescue => e
+          puts "##############################"
+          puts "##############################"
+          puts "##############################"
+          puts "##############################"
+          puts "Travis::Addons::GithubCheckStatus.process error"
+          puts "response_data IS: #{response_data}"
           error("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} error='#{e}' url=#{client.create_check_run_url(repository[:vcs_id])} payload=#{check_status_payload}")
           raise e
         end
@@ -52,6 +58,12 @@ module Travis
             response_data = JSON.parse(response.body)
             check_runs = response_data["check_runs"]
           else
+            puts "##############################"
+            puts "##############################"
+            puts "##############################"
+            puts "##############################"
+            puts "Travis::Addons::GithubCheckStatus.check_runs error"
+            puts "response_data IS: #{response_data}"
             error("type=github_check_status repo=#{repository[:slug]} path=#{response.env.url} response_status=#{response.status}")
             []
           end
