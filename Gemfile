@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '3.2.2'
 
 gem 'travis-logger',     git: 'https://github.com/travis-ci/travis-logger'
 gem 'travis-exceptions', git: 'https://github.com/travis-ci/travis-exceptions'
@@ -33,6 +33,13 @@ gem 'faraday_middleware'
 gem "activesupport"
 gem "actionpack"
 gem "railties"
+
+gem 'net-smtp', require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'globalid', '~> 1.0'
+gem 'rexml'
+gem 'matrix'
 
 group :test do
   gem 'rspec'

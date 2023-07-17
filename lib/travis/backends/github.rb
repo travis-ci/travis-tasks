@@ -23,7 +23,7 @@ module Travis
       end
 
       def check_runs(id:, type:, ref:, check_run_name:)
-        path = "/repositories/#{id}/commits/#{ref}/check-runs?check_name=#{URI.encode(check_run_name)}&filter=all"
+        path = "/repositories/#{id}/commits/#{ref}/check-runs?check_name=#{URI::Parser.new.escape(check_run_name)}&filter=all"
         count_request
         github_apps.get_with_app(path)
       end
