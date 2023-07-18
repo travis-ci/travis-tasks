@@ -17,6 +17,7 @@ env:
 jobs:
   include:
     - stage: "testing time"
+      before_install: apt-get install -y zlibc zlib1g zlib1g-dev
       script: bundle exec rspec -f documentation --color --order rand spec
     - stage: ":ship: it to quay.io"
       ruby:
