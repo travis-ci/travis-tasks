@@ -144,7 +144,7 @@
                     <p style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;background-color:#2B7D4F;color:#ffffff;font-size:24px;padding-top:0.5em;padding-bottom:0.5em;padding-right:0.5em;padding-left:0.5em;font-weight:200;border-radius:2px;line-height:39px;text-align:left;" >
                       <%# number_to_currency(@invoice.object["amount_due"] / 100.0) %></p>
                     <p style="color:#fff;font-weight:200;font-style:italic;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;margin-top:10px;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;margin-bottom:10px;" >
-                      <time datetime="sdjdj"><%# l @invoice[:created_at], format: :long %></time></p>
+                      <time datetime="sdjdj"><%# l @invoice[:created_at] %></time></p>
                   </td>
                 </tr>
               </table>
@@ -173,8 +173,8 @@
                       </tr>
                       <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
                         <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Subscription Period</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >
-                          <%# l set_period(@invoice.object, "start", @subscription), format: :long -%>
-                          to <%# l set_period(@invoice.object, "end", @subscription), format: :long -%></td>
+                          <%# l set_period(@invoice.object, "start", @subscription) -%>
+                          to <%# l set_period(@invoice.object, "end", @subscription) -%></td>
                       </tr>
                       <tr style="border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#F0EFEF;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;vertical-align:top;text-align:left;" >
                         <td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" ><strong style="font-weight:600;" >Status</strong></td><td style="padding-top:13px !important;padding-bottom:10px !important;padding-right:0 !important;padding-left:0 !important;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;border-collapse:collapse!important;vertical-align:top;color:#504E4E;font-weight:400;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:left;font-size:14px;line-height:19px;display:inline-block;width:50%;" >Paid with credit card ending in <%# @charge_cc_last_digits %></td>
