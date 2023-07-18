@@ -5,7 +5,7 @@ LABEL maintainer Travis CI GmbH <support+travis-tasks-docker-images@travis-ci.co
 # packages required for bundle install
 RUN ( \
    apt-get update ; \
-   apt-get install -y --no-install-recommends git make gcc curl \
+   apt-get install -y --no-install-recommends git make gcc curl zlibc zlib1g zlib1g-dev\
    && rm -rf /var/lib/apt/lists/* \
    )
 
