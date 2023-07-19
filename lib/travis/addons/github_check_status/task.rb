@@ -63,19 +63,26 @@ module Travis
         end
 
         def report_commit_status
-          puts "##############################"
-          puts "##############################"
-          puts "##############################"
-          puts "##############################"
-          puts "sending commit status to GitHub"
-          create_commit_status = client.create_status(
-            process_via_gh_apps: false,
-            id: repository[:vcs_id],
-            type: repository[:vcs_type],
-            ref: sha,
-            payload: check_status_payload
-          )
-          puts create_commit_status
+          begin
+            puts "##############################"
+            puts "##############################"
+            puts "##############################"
+            puts "##############################"
+            puts "sending commit status to GitHub"
+            create_commit_status = client.create_status(
+              process_via_gh_apps: false,
+              id: repository[:vcs_id],
+              type: repository[:vcs_type],
+              ref: sha,
+              payload: check_status_payload
+            )
+            puts "response of create_commit_status: #{create_commit_status}"
+          rescue => e
+            puts "$$$$$$$$$$$$$$$$$$$$$$$$"
+            puts "error in report_commit_status #{e.message}"
+            puts e
+            puts "$$$$$$$$$$$$$$$$$$$$$$$$"
+          end
         end
 
         def check_runs(ref)
