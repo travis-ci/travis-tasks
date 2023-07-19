@@ -58,6 +58,7 @@ module Travis
           github_apps.post_with_app(url, payload)
         else
           puts "Travis::Backends::Github.create_status.else"
+          puts "URL is: #{url}"
           GH.post(url, payload)
         end
       end

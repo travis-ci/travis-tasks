@@ -48,7 +48,7 @@ module Travis
             log_data = "response_body=#{response.body}"
           end
 
-          report_commit_status
+          report_commit_status(response)
 
           info "type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} response_status=#{response.status} #{log_data}"
         rescue => e
@@ -62,27 +62,35 @@ module Travis
           raise e
         end
 
-        def report_commit_status
-          begin
-            puts "##############################"
-            puts "##############################"
-            puts "##############################"
-            puts "##############################"
-            puts "sending commit status to GitHub"
-            puts "The payload it #{{ process_via_gh_apps: false, id: repository[:vcs_id], type: repository[:vcs_type], ref: sha, payload: check_status_payload }}"
-            create_commit_status = client.create_status(
-              process_via_gh_apps: false,
-              id: repository[:vcs_id],
-              type: repository[:vcs_type],
-              ref: sha,
-              payload: check_status_payload
-            )
-            puts "response of create_commit_status: #{create_commit_status}"
-          rescue => e
-            puts "$$$$$$$$$$$$$$$$$$$$$$$$"
-            puts "error in report_commit_status #{e.message}"
-            puts e
-            puts "$$$$$$$$$$$$$$$$$$$$$$$$"
+        def report_commit_status(response)
+          puts "##############################"
+          puts "##############################"
+          puts "##############################"
+          puts "##############################"
+          puts "Travis::Addons::GithubCheckStatus.report_commit_status"
+          puts "Passed response is #{response}"
+          if completed?
+            begin
+              puts "##############################"
+              puts "##############################"
+              puts "##############################"
+              puts "##############################"
+              puts "sending commit status to GitHub"
+              puts "The payload it #{{ process_via_gh_apps: false, id: repository[:vcs_id], type: repository[:vcs_type], ref: sha, payload: check_status_payload }}"
+              create_commit_status = client.create_status(
+                process_via_gh_apps: false,
+                id: repository[:vcs_id],
+                type: repository[:vcs_type],
+                ref: sha,
+                payload: {status: "success"}
+              )
+              puts "response of create_commit_status: #{create_commit_status}"
+            rescue => e
+              puts "$$$$$$$$$$$$$$$$$$$$$$$$"
+              puts "error in report_commit_status #{e.message}"
+              puts e
+              puts "$$$$$$$$$$$$$$$$$$$$$$$$"
+            end
           end
         end
 
