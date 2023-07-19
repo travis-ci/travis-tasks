@@ -76,11 +76,9 @@ module Travis
               puts "##############################"
               puts "##############################"
               puts "sending commit status to GitHub"
-              puts "The payload it #{{ process_via_gh_apps: false, id: repository[:vcs_id], type: repository[:vcs_type], ref: sha, payload: check_status_payload }}"
-              create_commit_status = client.create_status(
-                process_via_gh_apps: false,
-                id: repository[:vcs_id],
-                type: repository[:vcs_type],
+              puts "The payload it #{{ repo: repository, ref: sha, payload: check_status_payload }}"
+              create_commit_status = client.create_commit_status(
+                repo: repository,
                 ref: sha,
                 payload: {status: "success"}
               )

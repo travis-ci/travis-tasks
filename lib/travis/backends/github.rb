@@ -41,17 +41,6 @@ module Travis
 
       def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
         url = "#{api_path}/repositories/#{id}/statuses/#{ref}"
-
-        puts "##############################"
-        puts "##############################"
-        puts "Travis::Backends::Github.create_status"
-        puts "process_via_gh_apps?  IS: #{process_via_gh_apps}"
-        puts "ID IS: #{id}"
-        puts "ref IS: #{ref}"
-        puts "type IS: #{type}"
-        puts "payload IS: #{payload}"
-
-
         count_request
         if process_via_gh_apps
           puts "Travis::Backends::Github.create_status.if"
@@ -63,6 +52,20 @@ module Travis
         end
       end
 
+      def create_commit_status(repo:, ref:, payload:)
+        url = "#{api_path}/repos/#{repo}/statuses/#{ref}"
+        # https://api.github.com/repos/piccadilly-circus/test/statuses/d5f2d2340a624ccdf48bc05b9fc2709a2241f624 \
+        puts "##############################"
+        puts "##############################"
+        puts "Travis::Backends::Github.create_commit_status"
+        puts "repo IS: #{repo}"
+        puts "ref IS: #{ref}"
+        puts "payload IS: #{payload}"
+
+        count_request
+        puts "URL is: #{url}"
+        GH.post(url, payload)
+      end
       def file_url(id:, type:, slug:, branch:, file:)
         "#{Travis.config.github.url}/#{slug}/blob/#{branch}/#{file}"
       end
