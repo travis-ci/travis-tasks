@@ -80,7 +80,7 @@ module Travis
               create_commit_status = client.create_commit_status(
                 repo: repository,
                 ref: sha,
-                payload: {status: "success"}
+                payload: {"state":"success","target_url":"https://example.com/build/status","description":"The build succeeded!","context":"continuous-integration/jenkins"}
               )
               puts "response of create_commit_status: #{create_commit_status}"
             rescue => e
