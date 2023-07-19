@@ -21,6 +21,10 @@ module Travis
         raise NotImplementedError
       end
 
+      def create_commit_status(repo:, ref:, payload:)
+        raise NotImplementedError
+      end
+
       def file_url(id:, type:, slug:, branch:, file:)
         raise NotImplementedError
       end

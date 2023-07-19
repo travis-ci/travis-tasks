@@ -53,7 +53,7 @@ module Travis
       end
 
       def create_commit_status(repo:, ref:, payload:)
-        url = "#{api_path}/repos/#{repo}/statuses/#{ref}"
+        url = "#{api_path}/repos/#{repo[:slug]}/statuses/#{ref}"
         # https://api.github.com/repos/piccadilly-circus/test/statuses/d5f2d2340a624ccdf48bc05b9fc2709a2241f624 \
         puts "##############################"
         puts "##############################"
