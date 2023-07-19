@@ -68,7 +68,7 @@ module Travis
           puts "##############################"
           puts "##############################"
           puts "Travis::Addons::GithubCheckStatus.report_commit_status"
-          puts "Passed response state is #{response.status} and conclusion is #{response.conclusion}"
+          puts "Passed response state is #{response["status"]} and conclusion is #{response["conclusion"]}"
           # if respone.status
             begin
               puts "##############################"
