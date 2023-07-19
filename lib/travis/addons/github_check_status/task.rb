@@ -68,8 +68,8 @@ module Travis
           puts "##############################"
           puts "##############################"
           puts "Travis::Addons::GithubCheckStatus.report_commit_status"
-          puts "Passed response is #{response}"
-          if completed?
+          puts "Passed response is #{response.inspect}"
+          # if completed?
             begin
               puts "##############################"
               puts "##############################"
@@ -91,7 +91,7 @@ module Travis
               puts e
               puts "$$$$$$$$$$$$$$$$$$$$$$$$"
             end
-          end
+          # end
         end
 
         def check_runs(ref)
