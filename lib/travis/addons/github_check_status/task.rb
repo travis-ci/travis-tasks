@@ -48,7 +48,7 @@ module Travis
             log_data = "response_body=#{response.body}"
           end
 
-          report_commit_status(response)
+          report_commit_status(response_data)
 
           info "type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} response_status=#{response.status} #{log_data}"
         rescue => e
@@ -68,8 +68,8 @@ module Travis
           puts "##############################"
           puts "##############################"
           puts "Travis::Addons::GithubCheckStatus.report_commit_status"
-          puts "Passed response is #{response.inspect}"
-          # if completed?
+          puts "Passed response state is #{response.status} and conclusion is #{response.conclusion}"
+          # if respone.status
             begin
               puts "##############################"
               puts "##############################"
