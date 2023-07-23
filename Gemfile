@@ -43,7 +43,7 @@ gem 'matrix'
 
 group :test do
   gem 'rspec'
-  gem 'mocha', '~> 1.10.0'
+  gem 'mocha', '~> 2.0.4', :require => false
   gem 'webmock'
   gem 'guard'
   gem 'guard-rspec'

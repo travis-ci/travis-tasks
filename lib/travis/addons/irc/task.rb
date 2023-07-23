@@ -69,7 +69,7 @@ module Travis
               begin
                 uri = Addressable::URI.heuristic_parse(url, :scheme => 'irc')
                 ssl = uri.scheme == 'irc' ? nil : :ssl
-                servers[[uri.host, uri.port, ssl]] += [URI.decode(uri.fragment)]
+                servers[[uri.host, uri.port, ssl]] += [CGI.unescape(uri.fragment)]
                 servers
               rescue
                 {}

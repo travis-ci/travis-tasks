@@ -9,6 +9,7 @@ describe Travis::Addons::Slack::Task do
   let(:payload) { Marshal.load(Marshal.dump(TASK_PAYLOAD)) }
 
   before do
+    subject.any_instance.unstub(:http)
     subject.any_instance.stubs(:http).returns(client)
   end
 
