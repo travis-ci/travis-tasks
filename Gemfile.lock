@@ -22,6 +22,14 @@ GIT
       metriks (>= 0.9.9.6)
 
 GIT
+  remote: https://github.com/travis-ci/travis-config
+  revision: f02604a813cce3a672ae89cd7e4adaa30b001532
+  branch: prd-ruby-upgrade-dev
+  specs:
+    travis-config (1.1.5)
+      hashr (~> 2.0)
+
+GIT
   remote: https://github.com/travis-ci/travis-exceptions
   revision: ab236981f810b820bc3ebfaf33f317bbaa9b3465
   specs:
@@ -1187,8 +1195,6 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     timeout (0.4.0)
-    travis-config (1.1.3)
-      hashr (~> 2.0)
     travis-rollout (0.0.2)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
@@ -1235,7 +1241,7 @@ DEPENDENCIES
   rspec
   sentry-raven
   sidekiq (~> 4.0.0)
-  travis-config (~> 1.1.0)
+  travis-config!
   travis-exceptions!
   travis-github_apps!
   travis-logger!
