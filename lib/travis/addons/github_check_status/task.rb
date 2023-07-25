@@ -7,7 +7,6 @@ module Travis
         STATES = {
           'failed'   => 'failure',
           'passed'   => 'success',
-          'started'  => 'pending'
         }
 
         private
@@ -38,7 +37,7 @@ module Travis
             log_data = "response_body=#{response.body}"
           end
 
-          report_commit_status(response_data)
+          report_commit_status
 
           info "type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} response_status=#{response.status} #{log_data}"
         rescue => e
@@ -46,7 +45,7 @@ module Travis
           raise e
         end
 
-        def report_commit_status(response)
+        def report_commit_status
           puts "The commit is #{commit}"
           puts "The build is #{build}"
           puts "The build url #{build_url}"
@@ -61,7 +60,7 @@ module Travis
           puts "Travis::Addons::GithubCheckStatus.."
 
 
-          puts "Passed response state is #{response["status"]} and conclusion is #{response["conclusion"]} and payload status is #{payload[:build][:state]}"
+          puts "Payload status is #{payload[:build][:state]}"
 
           if STATES.include?(payload[:build][:state])
             begin
@@ -72,19 +71,16 @@ module Travis
               puts "sending commit status to GitHub"
 
 
-              create_commit_status = client.create_status(
+              client.create_status(
                 process_via_gh_apps: true,
                 id: repository[:vcs_id],
                 type: repository[:vcs_type],
                 ref: sha,
-                payload: { "state": STATES["#{payload[:build][:state]}"], "target_url": build_url, "description": payload[:output][:title] }.to_json
+                payload: { "state": STATES["#{payload[:build][:state]}"], "description": payload[:output][:title] }.to_json
               )
-              puts "response of create_commit_status: #{create_commit_status}"
+
             rescue => e
-              puts "$$$$$$$$$$$$$$$$$$$$$$$$"
-              puts "error in report_commit_status #{e.message}"
-              puts e
-              puts "$$$$$$$$$$$$$$$$$$$$$$$$"
+              puts "error in report_commit_status #{e}"
             end
           end
 
