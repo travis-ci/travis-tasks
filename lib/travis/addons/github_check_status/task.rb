@@ -5,8 +5,15 @@ module Travis
         GITHUB_CHECK_API_PAYLOAD_LIMIT = 65535
 
         STATES = {
+          'started'  => 'pending',
           'failed'   => 'failure',
           'passed'   => 'success',
+        }
+
+        DESCRIPTIONS = {
+          'started' => 'The Travis CI build is in progress',
+          'failed' => 'The Travis CI build failed',
+          'passed' => 'The Travis CI build passed'
         }
 
         private
@@ -46,40 +53,18 @@ module Travis
         end
 
         def report_commit_status
-          puts "The commit is #{commit}"
-          puts "The build is #{build}"
-          puts "The build url #{build_url}"
-          puts "The repo is #{repository}"
-          puts "The payload is #{payload}"
-          puts "The params is #{params}"
-
-          puts "##############################"
-          puts "##############################"
-          puts "##############################"
-          puts "##############################"
-          puts "Travis::Addons::GithubCheckStatus.."
-
-
-          puts "Payload status is #{payload[:build][:state]}"
-
           if STATES.include?(payload[:build][:state])
             begin
-              puts "##############################"
-              puts "##############################"
-              puts "##############################"
-              puts "##############################"
-              puts "sending commit status to GitHub"
-
-
               client.create_status(
                 process_via_gh_apps: true,
                 id: repository[:vcs_id],
                 type: repository[:vcs_type],
                 ref: sha,
-                payload: { "state": STATES["#{payload[:build][:state]}"], "description": payload[:output][:title] }.to_json
+                payload: { "state": STATES["#{payload[:build][:state]}"], "description": DESCRIPTIONS["#{payload[:build][:state]}"] }.to_json
               )
 
             rescue => e
+              puts "The payload is #{payload}"
               puts "error in report_commit_status #{e}"
             end
           end

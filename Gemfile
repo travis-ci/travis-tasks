@@ -19,7 +19,7 @@ gem 'keen'
 
 gem 'jemalloc', git: 'https://github.com/travis-ci/jemalloc-rb', branch: 'jemalloc-v-3-new-rake'
 
-gem 'gh',                  git: 'https://github.com/travis-ci/gh', branch: 'debugging', ref: 'enterprise-3.0'
+gem 'gh',                  git: 'https://github.com/travis-ci/gh', ref: 'enterprise-3.0'
 gem 'aws-sdk'
 gem 'actionmailer', "~> 5.2.7.1"
 gem 'roadie'

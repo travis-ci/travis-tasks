@@ -1,12 +1,11 @@
 GIT
   remote: https://github.com/travis-ci/gh
-  revision: c5f7e9ebbd6f047fd68b22b999294d5960718efe
+  revision: 6355254db0284a71035ef6da870dcf364e2c233a
   ref: enterprise-3.0
-  branch: debugging
   specs:
-    gh (0.20.0)
-      activesupport (>= 5, < 6.2)
-      addressable (~> 2.8)
+    gh (0.18.0)
+      activesupport (>= 5, < 6.1)
+      addressable (~> 2.4)
       faraday (~> 1.0)
       faraday_middleware (~> 1.0)
       multi_json (~> 1.0)
