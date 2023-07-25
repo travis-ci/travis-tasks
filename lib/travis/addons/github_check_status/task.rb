@@ -63,14 +63,18 @@ module Travis
         end
 
         def report_commit_status(response)
-          payload = payload[:payload]
+          puts "The commit is #{commit}"
+          puts "The build is #{build}"
+          puts "The repo is #{repository}"
+          puts "The payload is #{payload}"
+
           puts "##############################"
           puts "##############################"
           puts "##############################"
           puts "##############################"
           puts "Travis::Addons::GithubCheckStatus.."
-          puts "The payload is #{{ payload: payload }}"
-          puts "Passed response state is #{response["status"]} and conclusion is #{response["conclusion"]} and payload status is #{payload[:status]}"
+
+          puts "Passed response state is #{response["status"]} and conclusion is #{response["conclusion"]} and payload status is #{payload[:build][:state]}"
 
           if payload[:build][:state] == "completed"
             begin
@@ -86,7 +90,7 @@ module Travis
                 id: repository[:vcs_id],
                 type: repository[:vcs_type],
                 ref: sha,
-                payload: { "state": payload[:build][:state], "target_url": payload[:summary], "description": payload[:title] }.to_json
+                payload: { "state": payload[:build][:state], "target_url": build_url, "description": payload[:title] }.to_json
               )
               puts "response of create_commit_status: #{create_commit_status}"
             rescue => e
