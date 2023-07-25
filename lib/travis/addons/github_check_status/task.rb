@@ -68,32 +68,33 @@ module Travis
           puts "##############################"
           puts "##############################"
           puts "Travis::Addons::GithubCheckStatus.."
-          puts "Passed response state is #{response["status"]} and conclusion is #{response["conclusion"]}"
-          # if respone.status
-          begin
-            puts "##############################"
-            puts "##############################"
-            puts "##############################"
-            puts "##############################"
-            puts "sending commit status to GitHub"
-            puts "The payload it #{{ repo: repository, ref: sha, payload: check_status_payload }}"
+          puts "Passed response state is #{response["status"]} and conclusion is #{response["conclusion"]} and payload status is #{payload[:status]}"
 
-            create_commit_status = client.create_status(
-              process_via_gh_apps: true,
-              id: repository[:vcs_id],
-              type: repository[:vcs_type],
-              ref: sha,
-              payload: {"state":"success","target_url":"https://example.com/build/status","description":"The build succeeded!","context":"continuous-integration/jenkins"}.to_json
+          if payload[:status] == "completed"
+            begin
+              puts "##############################"
+              puts "##############################"
+              puts "##############################"
+              puts "##############################"
+              puts "sending commit status to GitHub"
+              puts "The payload it #{{ repo: repository, ref: sha, payload: check_status_payload }}"
 
-            )
-            puts "response of create_commit_status: #{create_commit_status}"
-          rescue => e
-            puts "$$$$$$$$$$$$$$$$$$$$$$$$"
-            puts "error in report_commit_status #{e.message}"
-            puts e
-            puts "$$$$$$$$$$$$$$$$$$$$$$$$"
+              create_commit_status = client.create_status(
+                process_via_gh_apps: true,
+                id: repository[:vcs_id],
+                type: repository[:vcs_type],
+                ref: sha,
+                payload: { "state": payload[:status], "target_url": payload[:summary], "description": payload[:title] }.to_json
+              )
+              puts "response of create_commit_status: #{create_commit_status}"
+            rescue => e
+              puts "$$$$$$$$$$$$$$$$$$$$$$$$"
+              puts "error in report_commit_status #{e.message}"
+              puts e
+              puts "$$$$$$$$$$$$$$$$$$$$$$$$"
+            end
           end
-          # end
+
         end
 
         def check_runs(ref)
