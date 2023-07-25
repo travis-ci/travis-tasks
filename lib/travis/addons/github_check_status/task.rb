@@ -53,6 +53,7 @@ module Travis
         end
 
         def report_commit_status
+          puts "The payload is #{payload}"
           if STATES.include?(payload[:build][:state])
             begin
               client.create_status(
