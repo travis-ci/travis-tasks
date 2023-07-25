@@ -19,17 +19,6 @@ module Travis
 
       def update_check_run(id:, type:, check_run_id:, payload:)
         count_request
-
-        puts "##############################"
-        puts "##############################"
-        puts "Travis::Backends::Github.update_check_run"
-        puts "api_path  IS: #{api_path}"
-        puts "full path  IS: #{"#{api_path}/repositories/#{id}/check-runs/#{check_run_id}"}"
-        puts "ID IS: #{id}"
-        puts "check_run_id IS: #{check_run_id}"
-        puts "payload IS: #{payload}"
-
-
         github_apps.patch_with_app("#{api_path}/repositories/#{id}/check-runs/#{check_run_id}", payload)
       end
 
@@ -41,31 +30,15 @@ module Travis
 
       def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
         url = "#{api_path}/repositories/#{id}/statuses/#{ref}"
+
         count_request
         if process_via_gh_apps
-          puts "Travis::Backends::Github.create_status.if"
           github_apps.post_with_app(url, payload)
         else
-          puts "Travis::Backends::Github.create_status.else"
-          puts "URL is: #{url}"
           GH.post(url, payload)
         end
       end
 
-      def create_commit_status(repo:, ref:, payload:)
-        url = "https://api.github.com/repos/#{repo[:slug]}/statuses/#{ref}"
-        # https://api.github.com/repos/piccadilly-circus/test/statuses/d5f2d2340a624ccdf48bc05b9fc2709a2241f624 \
-        puts "##############################"
-        puts "##############################"
-        puts "Travis::Backends::Github.create_commit_status"
-        puts "repo IS: #{repo}"
-        puts "ref IS: #{ref}"
-        puts "payload IS: #{payload}"
-
-        count_request
-        puts "URL is: #{url}"
-        GH.post(url, payload)
-      end
       def file_url(id:, type:, slug:, branch:, file:)
         "#{Travis.config.github.url}/#{slug}/blob/#{branch}/#{file}"
       end

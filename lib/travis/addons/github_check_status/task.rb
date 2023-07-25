@@ -5,7 +5,9 @@ module Travis
         GITHUB_CHECK_API_PAYLOAD_LIMIT = 65535
 
         STATES = {
-          'failed'   => 'failure'
+          'failed'   => 'failure',
+          'passed'   => 'success',
+          'started'  => 'pending'
         }
 
         private
@@ -16,12 +18,6 @@ module Travis
           info("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} state=#{build[:state]} installation_id=#{installation_id} sha=#{sha}")
 
           check_run = check_runs(sha).select { |check_run| check_run["external_id"] == build[:id].to_s }.first
-          puts "##############################"
-          puts "##############################"
-          puts "Travis::Addons::GithubCheckStatus.check_run"
-          puts "check_run IS: #{check_run}"
-          puts "check_status_payload.to_json IS: #{check_status_payload.to_json}"
-          puts "build IS: #{build}"
 
           if check_run
             response = client.update_check_run(id: repository[:vcs_id], type: repository[:vcs_type], check_run_id: check_run["id"], payload: check_status_payload.to_json)
@@ -36,19 +32,9 @@ module Travis
 
           response_data = JSON.parse(response.body) if response.body&.length > 0
 
-          puts "##############################"
-          puts "##############################"
-          puts "##############################"
-          puts "##############################"
-          puts "Travis::Addons::GithubCheckStatus"
-          puts "response_data IS: #{response_data}"
-
           if response.success?
-            puts "The response has been a success"
             log_data = "url=#{response_data['url']} html_url=#{response_data['html_url']}"
           else
-            puts "The response has been an error"
-            puts "Response body of the error is: #{response.body}"
             log_data = "response_body=#{response.body}"
           end
 
@@ -56,12 +42,6 @@ module Travis
 
           info "type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} response_status=#{response.status} #{log_data}"
         rescue => e
-          puts "##############################"
-          puts "##############################"
-          puts "##############################"
-          puts "##############################"
-          puts "Travis::Addons::GithubCheckStatus.process error"
-          puts "response_data IS: #{response_data}"
           error("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} error='#{e}' url=#{client.create_check_run_url(repository[:vcs_id])} payload=#{check_status_payload}")
           raise e
         end
@@ -72,6 +52,7 @@ module Travis
           puts "The build url #{build_url}"
           puts "The repo is #{repository}"
           puts "The payload is #{payload}"
+          puts "The params is #{params}"
 
           puts "##############################"
           puts "##############################"
@@ -96,7 +77,7 @@ module Travis
                 id: repository[:vcs_id],
                 type: repository[:vcs_type],
                 ref: sha,
-                payload: { "state": STATES["#{payload[:build][:state]}"], "target_url": build_url, "description": payload[:title] }.to_json
+                payload: { "state": STATES["#{payload[:build][:state]}"], "target_url": build_url, "description": payload[:output][:title] }.to_json
               )
               puts "response of create_commit_status: #{create_commit_status}"
             rescue => e
@@ -116,12 +97,6 @@ module Travis
             response_data = JSON.parse(response.body)
             check_runs = response_data["check_runs"]
           else
-            puts "##############################"
-            puts "##############################"
-            puts "##############################"
-            puts "##############################"
-            puts "Travis::Addons::GithubCheckStatus.check_runs error"
-            puts "response_data IS: #{response_data}"
             error("type=github_check_status repo=#{repository[:slug]} path=#{response.env.url} response_status=#{response.status}")
             []
           end

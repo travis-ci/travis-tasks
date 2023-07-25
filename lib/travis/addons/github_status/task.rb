@@ -99,11 +99,6 @@ module Travis
           end
 
           def process_vcs
-            puts "##############################"
-            puts "##############################"
-            puts "##############################"
-            puts "Travis::Addons::GithubStatus::Task"
-            puts "STATUS PAYLOAD IS: #{status_payload}"
             client.create_status(
               process_via_gh_apps: false,
               id: repository[:vcs_id],
