@@ -55,7 +55,6 @@ module Travis
         end
 
         def report_commit_status
-          puts "The payload is #{payload}"
           if STATES.include?(payload[:build][:state])
             begin
               client.create_status(
@@ -67,8 +66,7 @@ module Travis
               )
 
             rescue => e
-              puts "The payload is #{payload}"
-              puts "error in report_commit_status #{e}"
+              error("payload=report_commit_status payload=#{payload} error=#{e}")
             end
           end
 
