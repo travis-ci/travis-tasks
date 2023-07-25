@@ -7,12 +7,14 @@ module Travis
         STATES = {
           'started'  => 'pending',
           'failed'   => 'failure',
+          'canceled' => 'failure',
           'passed'   => 'success',
         }
 
         DESCRIPTIONS = {
           'started' => 'The Travis CI build is in progress',
           'failed' => 'The Travis CI build failed',
+          'canceled' => 'The Travis CI build was canceled',
           'passed' => 'The Travis CI build passed'
         }
 
