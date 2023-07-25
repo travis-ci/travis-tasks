@@ -4,6 +4,10 @@ module Travis
       class Task < Travis::Task
         GITHUB_CHECK_API_PAYLOAD_LIMIT = 65535
 
+        STATES = {
+          'failed'   => 'failure'
+        }
+
         private
 
         def process(timeout)
@@ -65,6 +69,7 @@ module Travis
         def report_commit_status(response)
           puts "The commit is #{commit}"
           puts "The build is #{build}"
+          puts "The build url #{build_url}"
           puts "The repo is #{repository}"
           puts "The payload is #{payload}"
 
@@ -74,9 +79,10 @@ module Travis
           puts "##############################"
           puts "Travis::Addons::GithubCheckStatus.."
 
+
           puts "Passed response state is #{response["status"]} and conclusion is #{response["conclusion"]} and payload status is #{payload[:build][:state]}"
 
-          if payload[:build][:state] == "completed"
+          if STATES.include?(payload[:build][:state])
             begin
               puts "##############################"
               puts "##############################"
@@ -90,7 +96,7 @@ module Travis
                 id: repository[:vcs_id],
                 type: repository[:vcs_type],
                 ref: sha,
-                payload: { "state": payload[:build][:state], "target_url": build_url, "description": payload[:title] }.to_json
+                payload: { "state": STATES["#{payload[:build][:state]}"], "target_url": build_url, "description": payload[:title] }.to_json
               )
               puts "response of create_commit_status: #{create_commit_status}"
             rescue => e
