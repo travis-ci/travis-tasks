@@ -63,28 +63,30 @@ module Travis
         end
 
         def report_commit_status(response)
+          payload = payload[:payload]
           puts "##############################"
           puts "##############################"
           puts "##############################"
           puts "##############################"
           puts "Travis::Addons::GithubCheckStatus.."
+          puts "The payload is #{{ payload: payload }}"
           puts "Passed response state is #{response["status"]} and conclusion is #{response["conclusion"]} and payload status is #{payload[:status]}"
 
-          if payload[:status] == "completed"
+          if payload[:build][:state] == "completed"
             begin
               puts "##############################"
               puts "##############################"
               puts "##############################"
               puts "##############################"
               puts "sending commit status to GitHub"
-              puts "The payload it #{{ repo: repository, ref: sha, payload: check_status_payload }}"
+
 
               create_commit_status = client.create_status(
                 process_via_gh_apps: true,
                 id: repository[:vcs_id],
                 type: repository[:vcs_type],
                 ref: sha,
-                payload: { "state": payload[:status], "target_url": payload[:summary], "description": payload[:title] }.to_json
+                payload: { "state": payload[:build][:state], "target_url": payload[:summary], "description": payload[:title] }.to_json
               )
               puts "response of create_commit_status: #{create_commit_status}"
             rescue => e
