@@ -62,7 +62,7 @@ module Travis
                 id: repository[:vcs_id],
                 type: repository[:vcs_type],
                 ref: sha,
-                payload: { "state": STATES["#{build[:state]}"], "description": DESCRIPTIONS["#{build[:state]}"] }.to_json
+                payload: { "state": STATES["#{build[:state]}"], "description": DESCRIPTIONS["#{build[:state]}"], "context": build_type }.to_json
               )
 
             rescue => e
@@ -110,6 +110,12 @@ module Travis
             end
           end
           @check_status_payload = return_data
+        end
+
+        def build_type
+          return "continuous-integration/travis-ci/#{pull_request? ? 'pr' : 'push'}" if ENV['GITHUB_STATUS_LEGACY_NAME'] == 'true'
+
+          "Travis CI - #{pull_request? ? 'Pull Request' : 'Branch'}"
         end
       end
     end
