@@ -62,7 +62,7 @@ module Travis
                 id: repository[:vcs_id],
                 type: repository[:vcs_type],
                 ref: sha,
-                payload: { "state": STATES["#{payload[:build][:state]}"], "description": DESCRIPTIONS["#{payload[:build][:state]}"] }.to_json
+                payload: { "state": STATES["#{payload[:build][:state]}"], "description": DESCRIPTIONS["#{payload[:build][:state]}"], "context": build_type }.to_json
               )
 
             rescue => e
