@@ -4,6 +4,20 @@ module Travis
       class Task < Travis::Task
         GITHUB_CHECK_API_PAYLOAD_LIMIT = 65535
 
+        STATES = {
+          'started'  => 'pending',
+          'failed'   => 'failure',
+          'canceled' => 'failure',
+          'passed'   => 'success',
+        }
+
+        DESCRIPTIONS = {
+          'started' => 'The Travis CI build is in progress',
+          'failed' => 'The Travis CI build failed',
+          'canceled' => 'The Travis CI build was canceled',
+          'passed' => 'The Travis CI build passed'
+        }
+
         private
 
         def process(timeout)
@@ -32,10 +46,30 @@ module Travis
             log_data = "response_body=#{response.body}"
           end
 
+          report_commit_status
+
           info "type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} response_status=#{response.status} #{log_data}"
         rescue => e
           error("type=github_check_status build=#{build[:id]} repo=#{repository[:slug]} sha=#{sha} error='#{e}' url=#{client.create_check_run_url(repository[:vcs_id])} payload=#{check_status_payload}")
           raise e
+        end
+
+        def report_commit_status
+          if STATES.include?(build[:state])
+            begin
+              client.create_status(
+                process_via_gh_apps: true,
+                id: repository[:vcs_id],
+                type: repository[:vcs_type],
+                ref: sha,
+                payload: { "state": STATES["#{build[:state]}"], "description": DESCRIPTIONS["#{build[:state]}"] }.to_json
+              )
+
+            rescue => e
+              error("payload=report_commit_status payload=#{payload} error=#{e}")
+            end
+          end
+
         end
 
         def check_runs(ref)
