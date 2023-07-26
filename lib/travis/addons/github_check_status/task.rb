@@ -111,6 +111,12 @@ module Travis
           end
           @check_status_payload = return_data
         end
+
+        def build_type
+          return "continuous-integration/travis-ci/#{pull_request? ? 'pr' : 'push'}" if ENV['GITHUB_STATUS_LEGACY_NAME'] == 'true'
+
+          "Travis CI - #{pull_request? ? 'Pull Request' : 'Branch'}"
+        end
       end
     end
   end
