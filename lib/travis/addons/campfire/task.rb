@@ -29,10 +29,19 @@ module Travis
             targets.each { |target| send_message(target, message, timeout) }
           end
 
+          def http_call(url, params = {})
+          @http_call ||= Faraday.new(http_options.merge(url: url)) do |f|
+            f.request :url_encoded
+            f.response :follow_redirects
+            f.headers["User-Agent"] = user_agent_string
+            f.request :authorization, :basic, params[:basic_auth][:user], params[:basic_auth][:pass] if params.include?(:basic_auth)
+            f.adapter :net_http
+          end
+        end
+
           def send_message(target, lines, timeout)
             url, token = parse(target)
-            connection = http(base_url(url))
-            connection.basic_auth(token, 'X')
+            connection = http_call(base_url(url), { basic_auth: { user: token, pass: 'X'}})
             lines.each { |line| send_line(connection, url, line, timeout) }
           rescue => e
             Travis.logger.info("Error connecting to Campfire service for #{target}: #{e.message}")

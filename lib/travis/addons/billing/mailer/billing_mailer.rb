@@ -1,5 +1,5 @@
 require 'action_mailer'
-require 'faraday_middleware'
+require 'faraday/follow_redirects'
 
 module Travis
   module Addons
@@ -77,7 +77,7 @@ module Travis
 
             def download_attachment(url)
               conn = Faraday.new do |c|
-                c.use FaradayMiddleware::FollowRedirects
+                c.response :follow_redirects
                 c.adapter Faraday.default_adapter
               end
               response = conn.get(url)

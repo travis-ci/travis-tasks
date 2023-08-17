@@ -1,5 +1,6 @@
 require 'travis/rollout'
 require 'faraday'
+require 'faraday/follow_redirects'
 require 'travis/api'
 require 'core_ext/hash/compact'
 require 'core_ext/hash/deep_symbolize_keys'
@@ -94,7 +95,7 @@ module Travis
       def http(url)
         @http ||= Faraday.new(http_options.merge(url: url)) do |f|
           f.request :url_encoded
-          f.use FaradayMiddleware::FollowRedirects, limit: 5
+          f.response :follow_redirects
           f.headers["User-Agent"] = user_agent_string
           f.adapter :net_http
         end
@@ -108,6 +109,7 @@ module Travis
       end
 
       def base_url(endpoint)
+        puts "BASEURL!"
         url = URI.parse(endpoint)
         base_url = "#{url.scheme}://#{url.host}"
       end

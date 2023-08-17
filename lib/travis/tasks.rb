@@ -14,16 +14,17 @@ require 'travis/task'
 require 'travis/addons'
 require 'travis/tasks/middleware/metriks'
 require 'travis/tasks/middleware/logging'
+require 'sidekiq'
+require 'sidekiq/api'
 
 $stdout.sync = true
 
 if Travis.config.sentry.dsn
-  require 'raven'
-  Raven.configure do |config|
+  Sentry.init do |config|
     config.dsn = Travis.config.sentry.dsn
 
-    config.current_environment = Travis.env
-    config.environments = ["staging", "production"]
+    config.environment = Travis.env
+    config.enabled_environments = ["staging", "production"]
     config.excluded_exceptions = ['Timeout::Error']
   end
 end
@@ -37,28 +38,23 @@ end
 
 Sidekiq.configure_server do |config|
   config.redis = {
-    :url       => Travis.config.redis.url,
-    :namespace => Travis.config.sidekiq.namespace
+    :url       => Travis.config.redis.url
   }
   config.server_middleware do |chain|
     chain.add Travis::Tasks::Middleware::Metriks
     chain.add Travis::Tasks::Middleware::Logging
     chain.add RetryCount
 
-    if defined?(::Raven::Sidekiq)
-      chain.remove(::Raven::Sidekiq)
-    end
-
-    chain.remove(Sidekiq::Middleware::Server::Logging)
+    chain.remove(Sidekiq::JobLogger)
     chain.add(Travis::Tasks::ErrorHandler)
-    chain.add Sidekiq::Middleware::Server::RetryJobs, :max_retries => Travis.config.sidekiq.retry
+    chain.add ::Sidekiq::JobRetry, :max_retries => Travis.config.sidekiq.retry
   end
 end
 
 Sidekiq.configure_client do |c|
   url = Travis.config.redis.url
   config = Travis.config.sidekiq
-  c.redis = { url: url, namespace: config[:namespace], size: config[:pool_size] }
+  c.redis = { url: url, size: config[:pool_size] }
 end
 
 GH.set(
