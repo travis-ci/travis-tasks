@@ -68,7 +68,7 @@ module Travis
           end
 
           def basic_auth(user, password)
-            Faraday::Request::BasicAuthentication.header(
+            Faraday::Request::Authorization.new(:basic,
               CGI.unescape(user), CGI.unescape(password)
             )
           end

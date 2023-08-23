@@ -109,7 +109,6 @@ module Travis
       end
 
       def base_url(endpoint)
-        puts "BASEURL!"
         url = URI.parse(endpoint)
         base_url = "#{url.scheme}://#{url.host}"
       end

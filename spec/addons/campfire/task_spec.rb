@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'rack'
 
 describe Travis::Addons::Campfire::Task do
   include Travis::Testing::Stubs
