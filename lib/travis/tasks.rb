@@ -56,7 +56,7 @@ Sidekiq.configure_client do |c|
   config = Travis.config.sidekiq
   c.redis = { url: url, size: config[:pool_size] }
 end
-Sidekiq.default_worker_options = { retry: Travis.config.sidekiq.retry }
+Sidekiq.default_configuration[:max_retries] = Travis.config.sidekiq.retry
 
 GH.set(
   client_id:      Travis.config.oauth2.try(:client_id),
