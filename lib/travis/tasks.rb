@@ -47,7 +47,7 @@ Sidekiq.configure_server do |config|
 
     chain.remove(Sidekiq::JobLogger)
     chain.add(Travis::Tasks::ErrorHandler)
-    chain.add ::Sidekiq::JobRetry, :max_retries => Travis.config.sidekiq.retry
+#    chain.add ::Sidekiq::JobRetry, :max_retries => Travis.config.sidekiq.retry
   end
 end
 
@@ -56,6 +56,7 @@ Sidekiq.configure_client do |c|
   config = Travis.config.sidekiq
   c.redis = { url: url, size: config[:pool_size] }
 end
+Sidekiq.default_worker_options = { retry: Travis.config.sidekiq.retry }
 
 GH.set(
   client_id:      Travis.config.oauth2.try(:client_id),
