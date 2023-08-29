@@ -18,6 +18,7 @@ module Travis
       private
 
         def constantize(str)
+          str.tr!('"','')
           str.split('::').inject(Kernel) do |const, name|
             const.const_get(name)
           end
