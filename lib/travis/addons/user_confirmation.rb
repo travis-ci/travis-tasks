@@ -10,6 +10,7 @@ module Travis::Addons::UserConfirmation
 
   class << self
     def setup
+      puts "USER CONFIRM setup"
       mailer = ActionMailer::Base
       mailer.delivery_method = :smtp
       mailer.smtp_settings = Travis.config.smtp

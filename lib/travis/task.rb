@@ -21,6 +21,7 @@ module Travis
       extend ExceptionHandling
 
       def perform(*args)
+        puts "PERFORM TASK!"
         new(*args).run
       end
     end

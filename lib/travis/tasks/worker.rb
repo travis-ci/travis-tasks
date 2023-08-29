@@ -11,6 +11,7 @@ module Travis
         const  = constantize(target)
         params = JSON.parse(params) if params.is_a?(String) && params.length > 0
         params = params.merge(retry_count: retry_count.to_i)
+        puts "PERFORM: method:#{method.inspect}\n\n, ply:#{payload.inspect}\n\nparm: #{params.inspect}"
         const.send(method, payload, params)
       end
 

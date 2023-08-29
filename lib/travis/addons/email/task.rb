@@ -21,6 +21,8 @@ module Travis
         private
 
           def process(timeout)
+            puts "PROCESS!"
+            puts "RECP: #{recipients.inspect}"
             send_email if recipients.any?
           rescue Net::SMTPServerBusy => e
             error("Could not send email to: #{recipients} (error: #{e.message})")
