@@ -34,6 +34,8 @@ module Travis
           end
 
           def send_email
+            puts "PLY: #{payload.inspect}"
+            payload = JSON.parse(payload) if payload.is_a?(String) && payload.length > 0
             Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
             info "type=email repo=#{repository_slug(payload)} build=#{build_id(payload)} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
           end
