@@ -14,8 +14,9 @@ module Travis
           attr_reader :build, :commit, :repository, :jobs, :result_message
 
           def finished_email(data, recipients, broadcasts)
+            puts "DATA1: #{data.inspect}"
             data = data.deep_symbolize_keys
-            puts "DATA: #{data.inspect}"
+            puts "DATA2: #{data.inspect}"
 
             @build      = Hashr.new(data[:build])
             @repository = Hashr.new(data[:repository])
