@@ -32,6 +32,8 @@ module Travis
             puts "WILL SEND mail from: #{from.inspect}, recp: #{recipients.inspect}, subj: #{subject.inspect}"
 
             mail(from: from, to: recipients, subject: subject, template_path: 'build')
+          rescue => e
+            puts "ERROR!: #{e.inspect}"
           end
 
           def url_options
