@@ -14,9 +14,7 @@ module Travis
           attr_reader :build, :commit, :repository, :jobs, :result_message
 
           def finished_email(data, recipients, broadcasts)
-            puts "DATA1: #{data.inspect}"
             data = data.deep_symbolize_keys
-            puts "DATA2: #{data.inspect}"
 
             @build      = Hashr.new(data[:build])
             @repository = Hashr.new(data[:repository])
@@ -29,11 +27,8 @@ module Travis
             headers['In-Reply-To'] = "<%s+%s+%s@%s>" % [ repository.slug, build.id, result_message.short.downcase, Travis.config.host ]
             headers['Travis-CI-Repository'] = repository.slug
             headers['Travis-CI-Result'] = result_message.short.downcase
-            puts "WILL SEND mail from: #{from.inspect}, recp: #{recipients.inspect}, subj: #{subject.inspect}"
 
             mail(from: from, to: recipients, subject: subject, template_path: 'build')
-          rescue => e
-            puts "ERROR!: #{e.inspect}"
           end
 
           def url_options

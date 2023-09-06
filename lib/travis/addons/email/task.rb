@@ -21,8 +21,6 @@ module Travis
         private
 
           def process(timeout)
-            puts "PROCESS!"
-            puts "RECP: #{recipients.inspect}"
             send_email if recipients.any?
           rescue Net::SMTPServerBusy => e
             error("Could not send email to: #{recipients} (error: #{e.message})")
@@ -34,12 +32,8 @@ module Travis
           end
 
           def send_email
-            puts "PLY: #{payload.inspect}"
             Mailer::Build.finished_email(payload, recipients, broadcasts).deliver
             info "type=email repo=#{repository_slug(payload)} build=#{build_id(payload)} status=sent msg='email sent' #{recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')}"
-          rescue => e
-            puts "ERR on deliver! #{e.inspect}"
-            raise e
           end
 
           def build_id(data)
