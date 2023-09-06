@@ -13,7 +13,7 @@ module Travis::Addons::UserConfirmation
       puts "USER CONFIRM setup"
       mailer = ActionMailer::Base
       mailer.delivery_method = :smtp
-      mailer.smtp_settings = Travis.config.smtp
+      mailer.smtp_settings = Travis.config.smtp.to_h
       ActionMailer::Base.append_view_path("#{base_dir}/views")
     end
 
