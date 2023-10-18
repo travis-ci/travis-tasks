@@ -17,7 +17,7 @@ gem 'redis-namespace'
 gem 'sentry-raven'
 gem 'keen'
 
-gem 'jemalloc', git: 'https://github.com/travis-ci/jemalloc-rb', branch: 'jemalloc-v-3-new-rake'
+gem 'jemalloc', git: 'https://github.com/travis-ci/jemalloc-rb', branch: 'jemalloc-5.3'
 
 gem 'gh',                  git: 'https://github.com/travis-ci/gh', ref: 'enterprise-3.0'
 gem 'aws-sdk'
