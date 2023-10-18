@@ -14,10 +14,10 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/jemalloc-rb
-  revision: 34d8f8faa3430c80936267affab3480b0969b5e9
-  branch: jemalloc-5.3
+  revision: 6d0acae66c8ca6137e75dbe32c367477fa1b7cbd
+  branch: upgrade-rake
   specs:
-    jemalloc (1.0.4)
+    jemalloc (1.0.2)
 
 GIT
   remote: https://github.com/travis-ci/metriks
