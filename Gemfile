@@ -12,7 +12,7 @@ gem 'travis-rollout',    '~> 0.0.2'
 gem 'metriks',                 git: 'https://github.com/travis-ci/metriks'
 gem 'metriks-librato_metrics', git: 'https://github.com/travis-ci/metriks-librato_metrics'
 
-gem 'sidekiq',         '~> 4.0.0'
+gem 'sidekiq',         '~> 5.2.10'
 gem 'redis-namespace'
 gem 'sentry-raven'
 gem 'keen'
