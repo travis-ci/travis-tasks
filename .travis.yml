@@ -1,14 +1,10 @@
 language: ruby
+group: edge
 
 services:
   - redis-server
 
 cache: bundler
-
-addons:
-  snaps:
-  - name: docker
-    channel: latest/beta
 
 env:
   global:
@@ -17,10 +13,15 @@ env:
 jobs:
   include:
     - stage: "testing time"
+      before_install:
+        - gem install bundler:2.4.13
+        - gem install rubygems-update -v 3.4.22    
       script: bundle exec rspec -f documentation --color --order rand spec
     - stage: ":ship: it to quay.io"
       ruby:
       before_install:
+        - gem install bundler:2.4.13
+        - gem install rubygems-update -v 3.4.22
       before_script:
       install:
       services:
@@ -28,6 +29,3 @@ jobs:
         bundler: false
       script: make ship
       if: (branch = master and type = push ) OR commit_message =~ /ship:docker/ OR env(SHIP_DOCKER) = true
-before_install:
-  - gem install bundler:2.4.13
-  - gem install rubygems-update -v 3.4.22
