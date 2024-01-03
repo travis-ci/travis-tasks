@@ -17,6 +17,7 @@ jobs:
     - stage: ":ship: it to quay.io"
       ruby:
       before_install:
+        - gem install rubygems-update -v 3.4.22
       before_script:
       install:
       services:
