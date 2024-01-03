@@ -1,9 +1,13 @@
 language: ruby
-group: edge
 
 services:
   - redis-server
 
+addons:
+  snaps:
+  - name: docker
+    channel: latest/beta
+    
 cache: bundler
 
 env:
