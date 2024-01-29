@@ -26,6 +26,12 @@ module Travis
             mail(from: travis_email, to: recipients, reply_to: @user[:email], subject: subject, template_path: 'feedback_mailer')
           end
 
+          def notify_subscription_cancellations(recipients, cancellations)
+            @cancellations = cancellations
+            subject = '[Travis CI - Daily Cancellation List]'
+            mail(from: travis_email, to: recipients, subject: subject, template_path: 'feedback_mailer')
+          end
+
           private
 
             def travis_email
