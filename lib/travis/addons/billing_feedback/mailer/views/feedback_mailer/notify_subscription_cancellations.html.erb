@@ -13,7 +13,7 @@
       <td><%= cancellation[:owner_vcs_id] %></td>
       <td><%= cancellation[:first_name] %></td>
       <td><%= cancellation[:last_name] %></td>
-      <td><a href="<%= admin_v2_link({owner_id: cancellation[:owner_id], owner_type: cancellation[:owner_type]}) %>">Admin v2 account link</a></td>
+      <td><a href="<%= @admin_v2_links["#{cancellation[:owner_id]}_#{cancellation[:owner_type]}"] %>">Admin v2 account link</a></td>
   </tr>
   <% end %>
 </table>

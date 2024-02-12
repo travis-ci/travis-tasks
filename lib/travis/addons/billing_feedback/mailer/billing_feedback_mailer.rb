@@ -28,6 +28,10 @@ module Travis
 
           def notify_subscription_cancellations(recipients, cancellations)
             @cancellations = cancellations
+            @admin_v2_links = {}
+            @cancellations.each do |cancellation|
+              @admin_v2_links["#{cancellation[:owner_id]}_#{cancellation[:owner_type]}"] = admin_v2_url({ owner_type: cancellation[:owner_type], id: cancellation[:owner_id] })
+            end
             subject = '[Travis CI - Daily Cancellation List]'
             mail(from: travis_email, to: recipients, subject: subject, template_path: 'feedback_mailer')
           end
