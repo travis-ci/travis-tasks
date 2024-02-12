@@ -39,18 +39,10 @@ module Travis
           params[:cc_last_digits]
         end
 
-        def cancellations
-          params[:cancellations]
-        end
-
         private
 
           def send_email
-            if params[:email_type] == 'notify_subscription_cancellations'
-              Mailer::BillingMailer.public_send(params[:email_type], recipients, cancellations).deliver
-            else
-              Mailer::BillingMailer.public_send(params[:email_type], recipients, subscription, owner, charge, event, invoice, cc_last_digits).deliver
-            end
+            Mailer::BillingMailer.public_send(params[:email_type], recipients, subscription, owner, charge, event, invoice, cc_last_digits).deliver
             emails = recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')
             info "type=#{type} status=sent msg='email sent #{emails}'"
           end
