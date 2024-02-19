@@ -15,6 +15,9 @@ describe Travis::Addons::Plan::Mailer::PlanMailer do
   end
 
   describe '#welcome' do
+    before :each do
+      Travis.config.enterprise = false
+    end
     subject(:mail) { described_class.welcome(recipients, owner, params) }
 
     it 'contains the right data' do
