@@ -51,7 +51,8 @@ module Travis
              plan_path: 'plan',
              purchase_path: 'purchase',
              settings_path: 'settings',
-             intercom: { token: 'token' }
+             intercom: { token: 'token' },
+             enterprise: false
 
 
       default _access: [:key]
