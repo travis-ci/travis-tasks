@@ -14,6 +14,8 @@ module Travis
           case type
           when 'export'
             Mailer::GdprMailer.export(recipients, params.fetch(:user_name), params.fetch(:url)).deliver
+          when 'support_export'
+            Mailer::GdprMailer.support_export(recipients, params.fetch(:user_name), params.fetch(:url)).deliver
           when 'purge'
             Mailer::GdprMailer.purge(recipients, params.fetch(:request_date)).deliver
           else
