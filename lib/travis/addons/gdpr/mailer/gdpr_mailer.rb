@@ -13,6 +13,12 @@ module Travis
             mail(from: travis_email, to: receivers, subject: 'Your data report', template_path: 'gdpr_mailer')
           end
 
+          def support_export(receivers, user_name, export_url)
+            @user_name = user_name
+            @export_url = export_url
+            mail(from: travis_email, to: receivers, subject: 'User data report', template_path: 'gdpr_mailer')
+          end
+
           def purge(receivers, request_date)
             @request_date = request_date
             mail(from: travis_email, to: receivers, subject: 'Your data was purged', template_path: 'gdpr_mailer')
