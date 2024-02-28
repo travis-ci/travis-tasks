@@ -257,8 +257,8 @@
                               <%= number_to_currency(@invoice.amount_due) %>
                             </div>
                             <p style="margin: 0 0 10px 0;">
-                              <time datetime="<%= l @invoice.created_at, format: '%B %e, %Y' %>">
-                                <%= l @invoice.created_at, format: '%B %e, %Y' %>
+                              <time datetime="<%= l @invoice.created_at %>">
+                                <%= l @invoice.created_at %>
                               </time>
                             </p>
                           </td>
@@ -277,9 +277,9 @@
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 16px;padding-bottom: 10px;">
                       <label class="blue-text" style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Subscription Period</label>
                       <span>
-                        <%= l @invoice.current_period_start, format: :long -%>
+                        <%= l @invoice.current_period_start -%>
                         &ndash;
-                        <%= l @invoice.current_period_end, format: :long -%>
+                        <%= l @invoice.current_period_end -%>
                       </span>
                     </td>
                   </tr>

@@ -11,14 +11,18 @@ module Travis
 
           layout 'contact_email'
 
-          def account_activated(receivers, **options)
+          def account_activated(*params)
+            receivers = params[0]
+            options = params[1]
             @owner, = options.values_at(:owner)
             subject = 'Travis CI: Your account has been activated!'
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject,
                  template_path: 'user_confirmation_mailer')
           end
 
-          def confirm_account(receivers, **options)
+          def confirm_account(*params)
+            receivers = params[0]
+            options = params[1]
             @owner, @confirmation_url, @token_valid_to = options.values_at(:owner, :confirmation_url, :token_valid_to)
             subject = 'Travis CI: Confirm your account.'
             mail(from: from, to: to, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject,

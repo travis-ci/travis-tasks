@@ -51,7 +51,7 @@ module Travis
         end
 
         def encode(str)
-          URI::encode(str, UNSAFE_URL_CHARS)
+          URI::Parser.new.escape(str, UNSAFE_URL_CHARS)
         end
 
       end
