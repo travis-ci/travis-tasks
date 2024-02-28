@@ -1,10 +1,9 @@
 GIT
   remote: https://github.com/travis-ci/gh
-  revision: f2fbfbca425f4dea7f80ddb412c30e3367135558
-  branch: prd-ruby-upgrade-dev
+  revision: e1fcd75786ffa75667e47d3d824b54d1bd0017fe
   specs:
-    gh (0.20.0)
-      activesupport (>= 5, < 8)
+    gh (0.21.0)
+      activesupport (~> 7.0.8)
       addressable (~> 2.8)
       faraday (~> 2)
       faraday-retry
@@ -15,8 +14,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/metriks
-  revision: 6292ce11b8d22888bd9947b9f38d104834268fa7
-  branch: prd-ruby-upgrade-dev
+  revision: ca03449b2928962e41c8389283bd092053e91670
   specs:
     metriks (0.9.9.8)
       HDRHistogram (~> 0.1)
@@ -26,33 +24,29 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/metriks-librato_metrics
-  revision: 41aca2ed2ab40ecdc1dbebabf70e35a38377d101
-  branch: prd-ruby-upgrade-dev
+  revision: e876ca2f0e1abcc745260c3772118e63fb946c8a
   specs:
     metriks-librato_metrics (1.0.6)
 
 GIT
   remote: https://github.com/travis-ci/travis-config
-  revision: d6b678fb17b242508fa4e061ff7b01cae3b08996
-  branch: prd-ruby-upgrade-dev
+  revision: 601e9a6dcb799dc14944c40153c60aaf935629ee
   specs:
-    travis-config (1.1.5)
+    travis-config (2.0.0)
       hashr (~> 2.0)
 
 GIT
   remote: https://github.com/travis-ci/travis-exceptions
-  revision: 9bcf5989b9a6444a8a954540c26ba9fd4fd2ee85
-  branch: prd-ruby-upgrade-dev
+  revision: 7da3ea3b38349d66ea8f27c33d643e4af5087599
   specs:
-    travis-exceptions (0.0.2)
+    travis-exceptions (0.1.0)
       sentry-ruby
 
 GIT
   remote: https://github.com/travis-ci/travis-github_apps
-  revision: d0a710fe392704775d5cdd85fe6e2da24314e8c2
-  branch: prd-ruby-upgrade-dev
+  revision: 146c5c4583a80ecab41017749eb97aade600e365
   specs:
-    travis-github_apps (0.2.1)
+    travis-github_apps (0.3.0)
       activesupport (>= 3.2)
       faraday (~> 2)
       faraday-follow_redirects
@@ -61,50 +55,54 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-logger
-  revision: 6f0627028d027a6ae9b74bbb654c9b5c37c76ee5
-  branch: prd-ruby-upgrade-dev
+  revision: c754e91f959015ac9ebe98e5082efdaf3754863d
   specs:
-    travis-logger (0.0.1)
+    travis-logger (0.1.0)
 
 GIT
   remote: https://github.com/travis-ci/travis-metrics
-  revision: c776366d7182829da5abf9e48b42c416249a0043
-  branch: prd-ruby-upgrade-dev
+  revision: 0b6a8accc70685a1cb65f1ec5305bceab41ad777
   specs:
-    travis-metrics (2.0.0)
+    travis-metrics (3.0.0)
       metriks-librato_metrics (~> 1.0)
+
+GIT
+  remote: https://github.com/travis-ci/travis-rollout
+  revision: 4e89a17a4b5ca1f6269fb8bc1d067faabc49ac92
+  specs:
+    travis-rollout (0.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     HDRHistogram (0.1.11)
-    actionmailer (7.0.7)
-      actionpack (= 7.0.7)
-      actionview (= 7.0.7)
-      activejob (= 7.0.7)
-      activesupport (= 7.0.7)
+    actionmailer (7.0.8.1)
+      actionpack (= 7.0.8.1)
+      actionview (= 7.0.8.1)
+      activejob (= 7.0.8.1)
+      activesupport (= 7.0.8.1)
       mail (~> 2.5, >= 2.5.4)
       net-imap
       net-pop
       net-smtp
       rails-dom-testing (~> 2.0)
-    actionpack (7.0.7)
-      actionview (= 7.0.7)
-      activesupport (= 7.0.7)
+    actionpack (7.0.8.1)
+      actionview (= 7.0.8.1)
+      activesupport (= 7.0.8.1)
       rack (~> 2.0, >= 2.2.4)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.2.0)
-    actionview (7.0.7)
-      activesupport (= 7.0.7)
+    actionview (7.0.8.1)
+      activesupport (= 7.0.8.1)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    activejob (7.0.7)
-      activesupport (= 7.0.7)
+    activejob (7.0.8.1)
+      activesupport (= 7.0.8.1)
       globalid (>= 0.3.6)
-    activesupport (7.0.7)
+    activesupport (7.0.8.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -1535,6 +1533,7 @@ GEM
     aws-sigv2 (1.1.0)
     aws-sigv4 (1.6.0)
       aws-eventstream (~> 1, >= 1.0.2)
+    base64 (0.2.0)
     builder (3.2.4)
     capybara (3.39.2)
       addressable
@@ -1566,7 +1565,7 @@ GEM
     faraday-net_http (3.0.2)
     faraday-retry (2.2.0)
       faraday (~> 2.0)
-    faraday-typhoeus (1.0.0)
+    faraday-typhoeus (1.1.0)
       faraday (~> 2.0)
       typhoeus (~> 1.4)
     ffi (1.15.5)
@@ -1595,7 +1594,8 @@ GEM
       concurrent-ruby (~> 1.0)
     intercom (3.8.1)
     jmespath (1.6.2)
-    jwt (2.7.1)
+    jwt (2.8.0)
+      base64
     keen (1.1.1)
       addressable (~> 2.5)
       multi_json (~> 1.12)
@@ -1631,6 +1631,8 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
+    nokogiri (1.15.4-x86_64-darwin)
+      racc (~> 1.4)
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     notiffany (0.1.3)
@@ -1651,9 +1653,9 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
-    railties (7.0.7)
-      actionpack (= 7.0.7)
-      activesupport (= 7.0.7)
+    railties (7.0.8.1)
+      actionpack (= 7.0.8.1)
+      activesupport (= 7.0.8.1)
       method_source
       rake (>= 12.2)
       thor (~> 1.0)
@@ -1698,8 +1700,7 @@ GEM
       redis-client (>= 0.14.0)
     thor (1.2.2)
     timeout (0.4.0)
-    travis-rollout (0.0.2)
-    typhoeus (1.4.0)
+    typhoeus (1.4.1)
       ethon (>= 0.9.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -1712,6 +1713,7 @@ GEM
     zeitwerk (2.6.11)
 
 PLATFORMS
+  x86_64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
@@ -1749,7 +1751,7 @@ DEPENDENCIES
   travis-github_apps!
   travis-logger!
   travis-metrics!
-  travis-rollout (~> 0.0.2)
+  travis-rollout!
   webmock
 
 RUBY VERSION
