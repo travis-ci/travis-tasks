@@ -1,4 +1,6 @@
 language: ruby
+rvm:
+  - 3.2.2
 
 services:
   - redis-server
@@ -17,6 +19,7 @@ env:
 jobs:
   include:
     - stage: "testing time"
+      before_install: sudo apt-get install build-essential patch ruby-dev zlib1g-dev liblzma-dev && bundle config build.nokogiri --use-system-libraries
       script: bundle exec rspec -f documentation --color --order rand spec
     - stage: ":ship: it to quay.io"
       ruby:

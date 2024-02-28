@@ -1,4 +1,3 @@
-require 'raven'
 
 module Travis
   module Tasks
@@ -9,7 +8,7 @@ module Travis
         Sidekiq.logger.warn(ex)
 
         if Travis.config.sentry.any?
-          Raven.capture_exception(ex, extra: {sidekiq: job})
+          Sentry.capture_exception(ex, extra: {sidekiq: job})
         end
 
         raise

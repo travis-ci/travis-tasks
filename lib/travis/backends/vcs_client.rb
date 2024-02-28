@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'faraday_middleware'
 
 module Travis
   module Backends
@@ -22,7 +21,6 @@ module Travis
           c.request :authorization, :token, Travis.config.vcs.token
           c.request :retry, max: 5, interval: 0.1, backoff_factor: 2
           c.request :json
-          c.use FaradayMiddleware::Instrumentation
           c.request :retry
           c.response :raise_error
           c.adapter :net_http

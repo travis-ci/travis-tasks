@@ -14,6 +14,12 @@ describe Travis::Addons::Irc::Client do
     Travis.logger = Logger.new(File::NULL)
   end
 
+  after do
+    Thread.list.each do |thread|
+      thread.exit unless thread == Thread.current
+    end
+  end
+
   describe 'on initialization' do
     describe 'with no port specified' do
       it 'should open a socket on the server for port 6667' do

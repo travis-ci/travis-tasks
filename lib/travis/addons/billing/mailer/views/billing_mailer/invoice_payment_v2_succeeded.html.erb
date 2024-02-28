@@ -257,8 +257,8 @@
                               <%= number_to_currency(@invoice.amount_due) %>
                             </div>
                             <p style="margin: 0 0 10px 0;">
-                              <time datetime="<%= l @invoice.created_at, format: '%B %e, %Y' %>">
-                                <%= l @invoice.created_at, format: '%B %e, %Y' %>
+                              <time datetime="<%= l @invoice.created_at %>">
+                                <%= l @invoice.created_at %>
                               </time>
                             </p>
                           </td>
@@ -291,8 +291,8 @@
                             <label style="display: block;font-weight: 700;font-size: 14px;text-transform: uppercase;color: #0068ff;">Valid to:</label>
                             <span>&nbsp;
                               <% valid_to = line[:valid_to].to_datetime %>
-                                <time datetime="<%= l valid_to, format: '%B %e, %Y' %>">
-                                  <%= l valid_to, format: '%B %e, %Y' %>
+                                <time datetime="<%= l valid_to %>">
+                                  <%= l valid_to %>
                                 </time>
                             </span>
                           <% end %>

@@ -43,7 +43,7 @@ describe Travis::Addons::Pushover::Task do
   end
 
   def hash_to_query(hash)
-    return URI.encode(hash.map{|k,v| "#{k}=#{v}"}.join("&"))
+    return URI::Parser.new.escape(hash.map{|k,v| "#{k}=#{v}"}.join("&"))
   end
 
   def expect_pushover(token, user, message)
