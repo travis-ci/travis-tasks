@@ -22,7 +22,7 @@ module Travis
           def cancellation_request(recipients, subscription, owner, user, feedback)
             @subscription, @owner, @user, @feedback = subscription, owner, user, feedback
             @admin_v2_link = admin_v2_url(owner)
-            subject = "Subscription cancellation requested for #{owner[:login]}"
+            subject = "[TCI: CANCEL REQUEST] #{owner[:login]}."
             mail(from: travis_email, to: recipients, reply_to: @user[:email], subject: subject, template_path: 'feedback_mailer')
           end
 
