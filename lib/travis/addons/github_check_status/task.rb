@@ -24,7 +24,7 @@ module Travis
             end
           end
 
-          response_data = JSON.parse(response.body)
+          response_data = JSON.parse(response.body) if response.body&.length > 0
 
           if response.success?
             log_data = "url=#{response_data['url']} html_url=#{response_data['html_url']}"

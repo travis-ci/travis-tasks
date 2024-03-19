@@ -534,19 +534,22 @@
       </tr>
       <% end -%>
       <!-- Build Environment Updates Section -->
-      <tr>
-        <td id="update-section" align="center" valign="top" style="padding-bottom: 20px;">
-          <table id="update-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 32px 32px 42px 32px; background-color: #FFFFFF";>
-            <tr>
-              <td align="center" valign="top">
-                <p id="update-header" style="border-bottom: 2px solid #0068FF; padding-bottom: 10px; font-size: 24px; line-height: 31px; margin-bottom: 20px;">Want to know about upcoming build environment updates?</p>
-                <p id="update-message" style="font-size: 16px; line-height: 26px; font-weight: 300; margin-bottom: 32px;">Would you like to stay up-to-date with the upcoming Travis CI build environment updates? We set up a mailing list for you!</p>
-                <%= link_to('SIGN UP HERE', 'http://eepurl.com/9OCsP', id: 'sign-up-button', style: 'font-size: 14px; font-weight: 600; color: #FFFFFF; background-color: #0068FF; text-decoration: none; padding: 12px 20px; border-radius: 3px;' )%>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
+
+      <% unless Travis.config.enterprise? -%>
+        <tr>
+          <td id="update-section" align="center" valign="top" style="padding-bottom: 20px;">
+            <table id="update-container" border="0" cellpadding="0" cellspacing="0" style="width: 500px; padding: 32px 32px 42px 32px; background-color: #FFFFFF";>
+              <tr>
+                <td align="center" valign="top">
+                  <p id="update-header" style="border-bottom: 2px solid #0068FF; padding-bottom: 10px; font-size: 24px; line-height: 31px; margin-bottom: 20px;">Want to know about upcoming build environment updates?</p>
+                  <p id="update-message" style="font-size: 16px; line-height: 26px; font-weight: 300; margin-bottom: 32px;">Would you like to stay up-to-date with the upcoming Travis CI build environment updates? We set up a mailing list for you!</p>
+                  <%= link_to('SIGN UP HERE', 'http://eepurl.com/9OCsP', id: 'sign-up-button', style: 'font-size: 14px; font-weight: 600; color: #FFFFFF; background-color: #0068FF; text-decoration: none; padding: 12px 20px; border-radius: 3px;' )%>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      <% end -%>
       <!-- Documentation Section -->
       <tr>
         <td align="center" valign="top" style="padding-bottom: 20px;">
