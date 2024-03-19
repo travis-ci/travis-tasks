@@ -15,6 +15,10 @@ RUN ( \
    rm -f yq_3.1-2_amd64.deb; \
    )
 
+# throw errors if Gemfile has been modified since Gemfile.lock
+RUN bundle config --global frozen 1
+
+RUN mkdir -p /app
 WORKDIR /app
 
 COPY Gemfile      /app
