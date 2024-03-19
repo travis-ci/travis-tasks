@@ -18,18 +18,17 @@ gem 'redis-namespace'
 gem 'sentry-ruby'
 gem 'keen'
 
-
-gem 'gh', git: 'https://github.com/travis-ci/gh'
+#TODO confirm that gh/master has all features gh/enterprise-3.0 had
+gem 'gh',                  git: 'https://github.com/travis-ci/gh'
 
 gem 'aws-sdk'
-gem 'actionmailer', "~> 5.2.7.1"
+gem 'actionmailer'
 gem 'roadie'
 gem 'roadie-rails'
 gem 'multi_json'
 gem 'intercom', '~> 3.8.0'
-gem 'intercom', '~> 3.8.0'
 
-gem 'faraday', '~> 2'
+gem 'faraday'
 
 gem "activesupport"
 gem "actionpack"
