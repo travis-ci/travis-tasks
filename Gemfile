@@ -9,8 +9,8 @@ gem 'travis-config',    git: 'https://github.com/travis-ci/travis-config'
 gem 'travis-github_apps', git: 'https://github.com/travis-ci/travis-github_apps'
 gem 'travis-rollout', git: 'https://github.com/travis-ci/travis-rollout'
 
-gem 'metriks',                 git: 'https://github.com/travis-ci/metriks', branch: 'prd-ruby-upgrade-dev'
-gem 'metriks-librato_metrics', git: 'https://github.com/travis-ci/metriks-librato_metrics', branch: 'prd-ruby-upgrade-dev'
+gem 'metriks',                 git: 'https://github.com/travis-ci/metriks'
+gem 'metriks-librato_metrics', git: 'https://github.com/travis-ci/metriks-librato_metrics'
 
 gem 'sidekiq',         '~> 7'
 gem 'sentry-ruby'
