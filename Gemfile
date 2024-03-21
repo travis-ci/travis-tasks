@@ -7,7 +7,7 @@ gem 'travis-exceptions', git: 'https://github.com/travis-ci/travis-exceptions'
 gem 'travis-metrics',    git: 'https://github.com/travis-ci/travis-metrics'
 gem 'travis-config',    git: 'https://github.com/travis-ci/travis-config'
 #TODO update branch 'travis-github_apps/ga-ext_access' against master
-gem 'travis-github_apps', git: 'https://github.com/travis-ci/travis-github_apps'
+gem 'travis-github_apps', git: 'https://github.com/travis-ci/travis-github_apps', branch: 'dt-e3-0-update'
 gem 'travis-rollout', git: 'https://github.com/travis-ci/travis-rollout'
 
 gem 'metriks',                 git: 'https://github.com/travis-ci/metriks'
