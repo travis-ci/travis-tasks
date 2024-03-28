@@ -14,22 +14,22 @@ module Travis
 
       def create_check_run(id:, type:, payload:)
         count_request
-        github_apps.post_with_app("/repositories/#{id}/check-runs", payload)
+        github_apps.post_with_app("#{api_path}/repositories/#{id}/check-runs", payload)
       end
 
       def update_check_run(id:, type:, check_run_id:, payload:)
         count_request
-        github_apps.patch_with_app("/repositories/#{id}/check-runs/#{check_run_id}", payload)
+        github_apps.patch_with_app("#{api_path}/repositories/#{id}/check-runs/#{check_run_id}", payload)
       end
 
       def check_runs(id:, type:, ref:, check_run_name:)
-        path = "/repositories/#{id}/commits/#{ref}/check-runs?check_name=#{URI::Parser.new.escape(check_run_name)}&filter=all"
+        path = "#{api_path}/repositories/#{id}/commits/#{ref}/check-runs?check_name=#{URI::Parser.new.escape(check_run_name)}&filter=all"
         count_request
         github_apps.get_with_app(path)
       end
 
       def create_status(process_via_gh_apps:, id:, type:, ref:, payload:)
-        url = "/repositories/#{id}/statuses/#{ref}"
+        url = "#{api_path}/repositories/#{id}/statuses/#{ref}"
 
         count_request
         if process_via_gh_apps
@@ -70,6 +70,10 @@ module Travis
           debug:          Travis.config.github_apps.debug,
           accept_header:  'application/vnd.github.antiope-preview+json'
         )
+      end
+
+      def api_path
+        @api_path ||= URI(GH.api_host).path
       end
     end
   end

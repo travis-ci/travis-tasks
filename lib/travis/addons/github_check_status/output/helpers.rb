@@ -104,6 +104,13 @@ module Travis::Addons::GithubCheckStatus::Output
       state == 'persisted' ? 'queued' : state
     end
 
+    def build_type
+      return "continuous-integration/travis-ci/#{pull_request? ? 'pr' : 'push'}" if ENV['GITHUB_STATUS_LEGACY_NAME'] == 'true'
+
+      "Travis CI - #{pull_request? ? 'Pull Request' : 'Branch'}"
+    end
+
+
     def icon_url(state = nil)
       "#{Travis.config.http_host}/images/stroke-icons/#{ICON.fetch(state(state))}"
     end
