@@ -36,8 +36,6 @@ class RetryCount
   end
 end
 
-Sidekiq.options[:max_retries] = Travis.config.sidekiq.retry
-
 Sidekiq.configure_server do |config|
   config.redis = {
     :url       => Travis.config.redis.url
@@ -47,11 +45,7 @@ Sidekiq.configure_server do |config|
     chain.add Travis::Tasks::Middleware::Logging
     chain.add RetryCount
 
-    if defined?(::Raven::Sidekiq)
-      chain.remove(::Raven::Sidekiq)
-    end
-
-    chain.remove(::Sidekiq::JobLogger)
+    chain.remove(Sidekiq::JobLogger)
     chain.add(Travis::Tasks::ErrorHandler)
   end
 end
