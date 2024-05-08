@@ -4,6 +4,7 @@
                 <h1 id="plan-message-header">
                   Welcome to Travis CI, <%= @owner[:name].blank? ? @owner[:login] : @owner[:name] %>!
                 </h1>
+                <% unless Travis.config.enterprise? -%>
                 <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
                   Please select a plan in order to use Travis CI.
                 </p>
@@ -13,5 +14,13 @@
                 <p id="plan-message" style="margin: 0px; font-size: 18px;">
                   If you're building open-source public repositories and want to signup for an open-source plan, please <a href="mailto:support@travis-ci.com">contact</a> Travis CI.
                 </p>
+                <% else %>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                You are now able to use Travis CI. You need to be logged into your version control system instance to be automatically logged into the Travis CI web user interface.
+                </p>
+                <p id="plan-message" style="margin: 0px; font-size: 18px;margin-top:30px">
+                <a href="<%=Travis.config.enterprise_platform.host%>" style="font: bold 11px Arial; color: #FFFFFF; background-color: #32D282; text-decoration: none; padding: 12px 50px; border-radius: 2px;">GO TO TRAVIS</a>
+                </p>
+                <% end -%>
               </td>
             </tr>

@@ -197,7 +197,12 @@
             <!-- Travis CI Logo Section -->
             <tr>
               <td id="travis-ci-logo-section" align="center" valign="top" style="padding: 20px 0px;">
-                <a href="http://travis-ci.com" title="Travis CI" target="_blank">
+
+                <% unless Travis.config.enterprise? -%>
+                  <a href="https://travis-ci.com" title="Travis CI" target="_blank">
+                  <% else %>
+                  <a href="<%=Travis.config.enterprise_platform.host%>"  title="Travis CI" target="_blank">
+                <% end -%>
                   <img id="travis-ci-logo" src="https://gallery.mailchimp.com/2c4f451f4059350287b951060/images/d6414c84-6c05-4793-a036-fdc7fec2e088.png" alt="Travis CI Logo" style="max-width: 150px;">
                 </a>
               </td>
@@ -215,6 +220,8 @@
               </td>
             </tr>
             <%= yield %>
+
+            <% unless Travis.config.enterprise? -%>
             <!-- Service Interruption Warning Section -->
             <tr>
               <td id="service-interrruption-warning-section" align="center" valign="top" style="padding-bottom: 10px;">
@@ -237,6 +244,7 @@
                 <a id="sign-up-button" href="<%= @signup_url %>" style="font: bold 11px Arial; color: #FFFFFF; background-color: #32D282; text-decoration: none; padding: 12px 50px; border-radius: 2px;">SIGN UP NOW</a>
               </td>
             </tr>
+            <% end -%>
             <!-- Closing Message Section -->
             <tr>
               <td id="closing-message-section" align="center" valign="top" style="padding: 0px 30px 20px 30px;">

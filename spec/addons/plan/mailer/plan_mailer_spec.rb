@@ -15,11 +15,27 @@ describe Travis::Addons::Plan::Mailer::PlanMailer do
   end
 
   describe '#welcome' do
+    before :each do
+      Travis.config.enterprise = false
+    end
     subject(:mail) { described_class.welcome(recipients, owner, params) }
 
     it 'contains the right data' do
       expect(mail.to).to eq(recipients)
       expect(mail.body).to match('Please select a plan in order to use Travis CI.')
+    end
+  end
+
+  describe '#welcome enterprise' do
+    before :each do
+      Travis.config.enterprise_platform.host = 'https://test-travis.com'
+      Travis.config.enterprise = true
+    end
+    subject(:mail) { described_class.welcome(recipients, owner, params) }
+
+    it 'contains the right data' do
+      expect(mail.to).to eq(recipients)
+      expect(mail.body).to match(Travis.config.enterprise_platform.host)
     end
   end
 end

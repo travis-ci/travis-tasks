@@ -17,6 +17,7 @@ describe Travis::Addons::Email::Mailer::Build do
     Travis.config.build_email_footer = true
     Travis.config.email = {}
     Travis.config.assets = {}
+    Travis.config.enterprise = false
   end
 
   describe 'finished build email notification' do
