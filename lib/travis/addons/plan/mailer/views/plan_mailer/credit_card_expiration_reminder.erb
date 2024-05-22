@@ -1,0 +1,17 @@
+            <!-- Credit Card Expiration Reminder Section -->
+            <tr>
+              <td id="plan-message-section" align="center" valign="top" style="padding-bottom: 40px;">
+                <h1 id="plan-message-header">
+                  Hi!
+                </h1>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  The credit card on file is expiring on <%= @cc_expiration_date %>.
+                </p>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  Please verify or update your payment details in <a href="<%= @payment_details_url %>"><%= @payment_details_url %></a> in order to continue using Travis CI.
+                </p>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  Documentation: <%= link_to('https://app.travis-ci.com/account/plan', 'https://app.travis-ci.com/account/plan', id: 'documentation-link') %>
+                </p>
+              </td>
+            </tr>

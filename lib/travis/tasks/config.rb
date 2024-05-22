@@ -51,7 +51,10 @@ module Travis
              plan_path: 'plan',
              purchase_path: 'purchase',
              settings_path: 'settings',
-             intercom: { token: 'token' }
+             payment_details_path: 'payment-details',
+             intercom: { token: 'token' },
+             admin_v2: { url: 'https://admin-v2.travis-ci.com' },
+             enterprise: false
 
 
       default _access: [:key]

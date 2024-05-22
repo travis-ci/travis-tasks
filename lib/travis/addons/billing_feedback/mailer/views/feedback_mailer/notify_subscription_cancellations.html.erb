@@ -1,0 +1,19 @@
+<h1>Subscription Cancellations</h1>
+<table>
+  <tr>
+    <th>Travis ID</th>
+    <th>VCS ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Admin v2 Account Link</th>
+  </tr>
+  <% @cancellations.each do |cancellation| %>
+  <tr>
+      <td><%= cancellation[:owner_id] %></td>
+      <td><%= cancellation[:owner_vcs_id] %></td>
+      <td><%= cancellation[:first_name] %></td>
+      <td><%= cancellation[:last_name] %></td>
+      <td><a href="<%= @admin_v2_links["#{cancellation[:owner_id]}_#{cancellation[:owner_type]}"] %>">Admin v2 account link</a></td>
+  </tr>
+  <% end %>
+</table>

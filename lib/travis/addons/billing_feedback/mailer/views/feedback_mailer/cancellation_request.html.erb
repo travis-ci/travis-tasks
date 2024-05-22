@@ -1,0 +1,9 @@
+A subscription cancellation request for the account <%= @owner[:id] %>/<%= @owner[:owner_type] %>/<%= @owner[:login] %> was made by <%= @user[:name] %> (<%= @user[:login] %>) on <%= Time.parse(@feedback[:cancelled_on]).strftime("%B %d, %Y") %>.
+<br><br>
+<a href="<%= @admin_v2_link %>">Admin v2 account link</a>
+<br><br>
+They are subscribed to the "<%= @subscription[:selected_plan] %>" plan.
+<br><br>
+Best regards,
+<br>
+Your Travis CI Billing Bot
