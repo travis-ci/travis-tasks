@@ -47,7 +47,6 @@ Sidekiq.configure_server do |config|
 
     chain.remove(Sidekiq::JobLogger)
     chain.add(Travis::Tasks::ErrorHandler)
-#    chain.add ::Sidekiq::JobRetry, :max_retries => Travis.config.sidekiq.retry
   end
 end
 

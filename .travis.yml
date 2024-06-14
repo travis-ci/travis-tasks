@@ -1,4 +1,5 @@
 language: ruby
+group: edge
 rvm:
   - 3.2.2
 
@@ -6,11 +7,6 @@ services:
   - redis-server
 
 cache: bundler
-
-addons:
-  snaps:
-  - name: docker
-    channel: latest/beta
 
 env:
   global:
@@ -22,8 +18,11 @@ jobs:
       before_install: sudo apt-get install build-essential patch ruby-dev zlib1g-dev liblzma-dev && bundle config build.nokogiri --use-system-libraries
       script: bundle exec rspec -f documentation --color --order rand spec
     - stage: ":ship: it to quay.io"
+      dist: focal
       ruby:
       before_install:
+        - gem install bundler:2.4.13
+        - gem install rubygems-update -v 3.4.22
       before_script:
       install:
       services:

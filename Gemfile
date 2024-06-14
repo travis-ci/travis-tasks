@@ -6,18 +6,20 @@ gem 'travis-logger',     git: 'https://github.com/travis-ci/travis-logger'
 gem 'travis-exceptions', git: 'https://github.com/travis-ci/travis-exceptions'
 gem 'travis-metrics',    git: 'https://github.com/travis-ci/travis-metrics'
 gem 'travis-config',    git: 'https://github.com/travis-ci/travis-config'
-gem 'travis-github_apps', git: 'https://github.com/travis-ci/travis-github_apps'
+#TODO update branch 'travis-github_apps/ga-ext_access' against master
+gem 'travis-github_apps', git: 'https://github.com/travis-ci/travis-github_apps', branch: 'dt-e3-0-update'
 gem 'travis-rollout', git: 'https://github.com/travis-ci/travis-rollout'
 
 gem 'metriks',                 git: 'https://github.com/travis-ci/metriks'
 gem 'metriks-librato_metrics', git: 'https://github.com/travis-ci/metriks-librato_metrics'
 
 gem 'sidekiq',         '~> 7'
+gem 'redis-namespace'
 gem 'sentry-ruby'
 gem 'keen'
 
-
-gem 'gh', git: 'https://github.com/travis-ci/gh'
+#TODO confirm that gh/master has all features gh/enterprise-3.0 had
+gem 'gh',                  git: 'https://github.com/travis-ci/gh'
 
 gem 'aws-sdk'
 gem 'actionmailer'
@@ -26,7 +28,7 @@ gem 'roadie-rails'
 gem 'multi_json'
 gem 'intercom', '~> 3.8.0'
 
-gem 'faraday', '~> 2'
+gem 'faraday'
 
 gem "activesupport"
 gem "actionpack"

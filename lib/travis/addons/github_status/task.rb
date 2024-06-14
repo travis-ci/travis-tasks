@@ -135,7 +135,7 @@ module Travis
                  GH::Error(:response_status => 404),
                  GH::Error(:response_status => 422) => e
             mark_token(username, token) if e.info[:response_status] == 403
-            error(%W[
+            message = %W[
               type=github_status
               build=#{build[:id]}
               repo=#{repository[:slug]}
@@ -149,7 +149,9 @@ module Travis
               last_token_tried="#{token.to_s[0,3]}..."
               rate_limit=#{rate_limit_info e.info[:response_headers]}
               github_request_id=#{github_request_id e.info[:response_headers]}
-            ].join(' '))
+            ].join(' ')
+            error(message)
+            raise message if e.info[:response_status] == 422 and skip_max_messages_error
 
             return [
               :error,
@@ -326,6 +328,10 @@ module Travis
             if headers.respond_to? :[]
               headers["x-github-request-id"]
             end
+          end
+
+          def skip_max_messages_error
+            @skip_max_messages ||= ENV['TRAVIS_SKIP_GITHUB_MAX_MESSAGES']
           end
 
           def errored_token_key(token)
