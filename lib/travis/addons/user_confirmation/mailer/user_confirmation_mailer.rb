@@ -19,20 +19,23 @@ module Travis
             mail(from: from, to: to(receivers), reply_to: reply_to, subject: subject,
                  template_path: 'user_confirmation_mailer')
           end
-
+          
           def confirm_account(*params)
             receivers = params[0]
             options = params[1]
             @owner, @confirmation_url, @token_valid_to = options.values_at(:owner, :confirmation_url, :token_valid_to)
             subject = 'Travis CI: Confirm your account.'
-            email = mail(from: from, to: to(receivers), reply_to: reply_to, subject: subject,
-            template_path: 'user_confirmation_mailer')
 
+            # Log the email content directly
+            Rails.logger.info "Preparing to send email with the following details:"
+            Rails.logger.info "From: #{from}"
+            Rails.logger.info "To: #{to(receivers)}"
+            Rails.logger.info "Reply-To: #{reply_to}"
+            Rails.logger.info "Subject: #{subject}"
+            Rails.logger.info "Template Path: user_confirmation_mailer"
 
-            Rails.logger.info "Email Subject: #{email.subject}"
-            Rails.logger.info "Email To: #{email.to}"
-            Rails.logger.info "Email From: #{email.from}"
-            Rails.logger.info "Email Body: #{email.body.raw_source}"
+            mail(from: from, to: to(receivers), reply_to: reply_to, subject: subject,
+                 template_path: 'user_confirmation_mailer')
           end
 
           private
