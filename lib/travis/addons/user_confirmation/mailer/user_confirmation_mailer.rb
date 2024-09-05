@@ -25,8 +25,14 @@ module Travis
             options = params[1]
             @owner, @confirmation_url, @token_valid_to = options.values_at(:owner, :confirmation_url, :token_valid_to)
             subject = 'Travis CI: Confirm your account.'
-            mail(from: from, to: to(receivers), reply_to: reply_to, subject: subject,
-                 template_path: 'user_confirmation_mailer')
+            email = mail(from: from, to: to(receivers), reply_to: reply_to, subject: subject,
+            template_path: 'user_confirmation_mailer')
+
+
+            Rails.logger.info "Email Subject: #{email.subject}"
+            Rails.logger.info "Email To: #{email.to}"
+            Rails.logger.info "Email From: #{email.from}"
+            Rails.logger.info "Email Body: #{email.body.raw_source}"
           end
 
           private
