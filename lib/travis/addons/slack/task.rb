@@ -23,11 +23,15 @@ module Travis
 
         def send_message(target, timeout)
           url, channel = parse(target)
+          begin
           response = http(base_url(url)).post(url) do |request|
             request.options.timeout = timeout
             request.body = MultiJson.encode(message(channel))
           end
-
+          rescue Faraday::ConnectionFailed => e
+            warn "task=slack build=#{build[:id]} repo=#{repository[:slug]} error=connection_failed message=#{e.message}, response_status=#{response.status} response_body=#{response.body}"
+            raise e
+          end
           unless response.success?
             warn "task=slack build=#{build[:id]} repo=#{repository[:slug]} response_status=#{response.status} response_body=#{response.body}"
           end
