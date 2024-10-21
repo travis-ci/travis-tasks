@@ -29,7 +29,7 @@ module Travis
             request.body = MultiJson.encode(message(channel))
           end
           rescue Faraday::ConnectionFailed => e
-            warn "task=slack build=#{build[:id]} repo=#{repository[:slug]} error=connection_failed message=#{e.message}, response_status=#{response.status} response_body=#{response.body}"
+            warn "task=slack build=#{build[:id]} repo=#{repository[:slug]} error=connection_failed message=#{e.message}, response_status=#{response.status} response_body=#{response.body} response_headers=#{response.headers}"
             raise e
           end
           unless response.success?
