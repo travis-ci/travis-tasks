@@ -27,7 +27,6 @@ module Travis
             request.options.timeout = timeout
             request.body = MultiJson.encode(message(channel))
           end
-
           unless response.success?
             warn "task=slack build=#{build[:id]} repo=#{repository[:slug]} response_status=#{response.status} response_body=#{response.body}"
           end
