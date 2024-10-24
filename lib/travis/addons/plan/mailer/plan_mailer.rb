@@ -78,6 +78,8 @@ module Travis
             @days = "in #{@days_count} days"
             @days = 'tomorrow' if @days_count == 1
             @days = 'today' unless @days_count
+            @signup_url = signup_url(owner)
+            @skip_signup_section = true
             subject = "Your Free Trial Is Ending Soon – Automatic Subscription on #{@due_date}"
             mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
           end
