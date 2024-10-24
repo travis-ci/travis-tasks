@@ -52,7 +52,7 @@ module Travis
             @plan = params.fetch(:plan, '').to_s
             @annual = params.fetch(:annual, false)
             @credits = params.fetch(:credits, 0)
-            @price = params.fetch(:price, 0)
+            @price = "#{params.fetch(:price, 0)/100}$"
             @due_date = params.fetch(:due_date, Time.now)
             subject = 'Plan Change Reminder'
             mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
@@ -69,6 +69,7 @@ module Travis
 
           def end_trial_reminder(receivers, owner, params)
             @owner = owner
+            @name = owner[:name] || owner[:login]
             @due_date = params.fetch(:due_date, Date.today);
             @plan = params.fetch(:plan, '').to_s
             @price = params.fetch(:price, '').to_s
