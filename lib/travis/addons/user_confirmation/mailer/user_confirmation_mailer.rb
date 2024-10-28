@@ -25,6 +25,8 @@ module Travis
             options = params[1]
             @owner, @confirmation_url, @token_valid_to = options.values_at(:owner, :confirmation_url, :token_valid_to)
             subject = 'Travis CI: Confirm your account.'
+            puts "FROM MAILER This is Receivers: #{receivers.inspect}"
+            puts "FROM MAILER This is the To field: #{to(receivers).inspect}"
             mail(from: from, to: to(receivers), reply_to: reply_to, subject: subject,
                  template_path: 'user_confirmation_mailer')
           end

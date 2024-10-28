@@ -15,7 +15,11 @@ module Travis
         private
 
         def send_email
+          puts "Recipients before sending email: #{recipients.inspect}"
+
           Mailer::UserConfirmationMailer.public_send(params[:stage], recipients, **mailer_params).deliver
+          puts "Recipients after sending email: #{recipients.inspect}"
+
           Travis.logger.info "type=#{type} status=sent msg='email sent' #{recipients.map do |r|
                                                               "email=#{obfuscate_email_address(r)}"
                                                             end.join(' ')}"
