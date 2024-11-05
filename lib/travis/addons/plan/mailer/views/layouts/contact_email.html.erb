@@ -215,6 +215,7 @@
               </td>
             </tr>
             <%= yield %>
+            <% unless @skip_signup_section %>
             <!-- Service Interruption Warning Section -->
             <tr>
               <td id="service-interrruption-warning-section" align="center" valign="top" style="padding-bottom: 10px;">
@@ -246,6 +247,7 @@
                 </p>
               </td>
             </tr>
+            <% end %>
             <tr>
               <td id="travis-ci-twitter-section" style="text-align: center; padding-bottom: 20px;">
                 <a href="http://www.twitter.com/travisci">
