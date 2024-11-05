@@ -105,7 +105,6 @@ module Travis
       def http_options
         {
           ssl: Travis.config.ssl.compact,
-          proxy: Travis.config.fixie.url
         }.compact
       end
 
