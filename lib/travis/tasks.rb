@@ -54,7 +54,7 @@ Sidekiq.configure_server do |config|
   config.redis = {
     url: Travis.config.redis.url,
     ssl: Travis.config.redis.ssl || false,
-    ssl_params: redis_ssl_params(config)
+    ssl_params: redis_ssl_params
   }
   config.server_middleware do |chain|
     chain.add Travis::Tasks::Middleware::Metriks
