@@ -73,7 +73,7 @@ Sidekiq.configure_client do |c|
     url: url,
     size: config[:pool_size],
     ssl: Travis.config.redis.ssl || false,
-    ssl_params: redis_ssl_params(config)
+    ssl_params: redis_ssl_params
   }
 end
 Sidekiq.default_configuration[:max_retries] = Travis.config.sidekiq.retry
