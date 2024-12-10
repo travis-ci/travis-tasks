@@ -12,6 +12,7 @@ module Travis
           layout 'contact_email'
 
           def account_activated(*params)
+            puts "account_activated: #{params.inspect}"
             receivers = params[0]
             options = params[1]
             @owner, = options.values_at(:owner)
