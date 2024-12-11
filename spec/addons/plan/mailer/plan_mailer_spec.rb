@@ -14,6 +14,17 @@ describe Travis::Addons::Plan::Mailer::PlanMailer do
     {}
   end
 
+  describe '#end_trial' do
+
+    subject(:mail) { described_class.end_trial_reminder(recipients, owner, params) }
+
+    it 'contains the right data' do
+      expect(mail.to).to eq(recipients)
+      expect(mail.body).to match('We hope you\'ve been enjoying your free trial with us!')
+      expect(mail.body).to_not match('SIGN UP')
+    end
+  end
+
   describe '#welcome' do
 
     before :each do
@@ -24,6 +35,7 @@ describe Travis::Addons::Plan::Mailer::PlanMailer do
     it 'contains the right data' do
       expect(mail.to).to eq(recipients)
       expect(mail.body).to match('Please select a plan in order to use Travis CI.')
+      expect(mail.body).to match('SIGN UP')
     end
   end
 
