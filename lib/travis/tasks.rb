@@ -19,6 +19,20 @@ require 'sidekiq/api'
 
 $stdout.sync = true
 
+def redis_ssl_params
+  @redis_ssl_params ||= begin
+    return nil unless Travis.config.redis.ssl
+
+    value = {}
+    value[:ca_path] = ENV['REDIS_SSL_CA_PATH'] if ENV['REDIS_SSL_CA_PATH']
+    value[:cert] = OpenSSL::X509::Certificate.new(File.read(ENV['REDIS_SSL_CERT_FILE'])) if ENV['REDIS_SSL_CERT_FILE']
+    value[:key] = OpenSSL::PKEY::RSA.new(File.read(ENV['REDIS_SSL_KEY_FILE'])) if ENV['REDIS_SSL_KEY_FILE']
+    value[:verify_mode] = OpenSSL::SSL::VERIFY_NONE if Travis.config.ssl_verify == false
+    value
+  end
+end
+
+
 if Travis.config.sentry.dsn
   Sentry.init do |config|
     config.dsn = Travis.config.sentry.dsn
@@ -38,7 +52,9 @@ end
 
 Sidekiq.configure_server do |config|
   config.redis = {
-    :url       => Travis.config.redis.url
+    url: Travis.config.redis.url,
+    ssl: Travis.config.redis.ssl || false,
+    ssl_params: redis_ssl_params
   }
   config.server_middleware do |chain|
     chain.add Travis::Tasks::Middleware::Metriks
@@ -53,7 +69,12 @@ end
 Sidekiq.configure_client do |c|
   url = Travis.config.redis.url
   config = Travis.config.sidekiq
-  c.redis = { url: url, size: config[:pool_size] }
+  c.redis = {
+    url: url,
+    size: config[:pool_size],
+    ssl: Travis.config.redis.ssl || false,
+    ssl_params: redis_ssl_params
+  }
 end
 Sidekiq.default_configuration[:max_retries] = Travis.config.sidekiq.retry
 
