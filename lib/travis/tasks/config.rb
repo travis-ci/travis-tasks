@@ -29,7 +29,7 @@ module Travis
       define host:    "travis-ci.org",
              host_domain: 'travis-ci.com',
              github:  { url: 'https://github.com' },
-             redis:   { url: "redis://localhost:6379" },
+             redis:   { url: "redis://localhost:6379", ssl: ENV['REDIS_SSL'] || false },
              sentry:  { },
              metrics: { reporter: 'librato' },
              sidekiq: { pool_size: 3, retry: 4 },
