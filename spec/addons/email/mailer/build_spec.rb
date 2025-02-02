@@ -15,14 +15,14 @@ describe Travis::Addons::Email::Mailer::Build do
     ActionMailer::Base.delivery_method = :test
     data['commit']['author_name'] = 'まつもとゆきひろ a.k.a. Matz'
     Travis.config.build_email_footer = true
-    Travis.config.email = {}
+    Travis.config.emails = {}
     Travis.config.assets = {}
   end
 
   describe 'finished build email notification' do
     describe 'with no custom from address configured' do
       before :each do
-        Travis.config.email.delete(:from)
+        Travis.config.emails.delete(:from)
       end
 
       it 'has "notifications@[hostname]" as a from address' do
@@ -32,7 +32,7 @@ describe Travis::Addons::Email::Mailer::Build do
 
     describe 'with a custom from address configured' do
       before :each do
-        Travis.config.email.from = 'builds@travis-ci.org'
+        Travis.config.emails.from = 'builds@travis-ci.org'
       end
 
       it 'has that address as a from address' do
@@ -195,7 +195,7 @@ describe Travis::Addons::Email::Mailer::Build do
       end
 
       it 'allows mixing in the build state into a custom email address' do
-        Travis.config.email.from = 'notifications+%s@travis-ci.org'
+        Travis.config.emails.from = 'notifications+%s@travis-ci.org'
         expect(email.from).to include('notifications+passed@travis-ci.org')
       end
     end

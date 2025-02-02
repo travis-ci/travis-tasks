@@ -91,7 +91,7 @@ module Travis
             end
 
             def from_email
-              config.email && config.email.plan_from || "no-reply@#{config.host_domain}"
+              config.emails && config.emails.plan_from || "no-reply@#{config.host_domain}"
             end
 
             def config

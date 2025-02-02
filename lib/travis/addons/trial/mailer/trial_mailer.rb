@@ -48,11 +48,11 @@ module Travis
             end
 
             def from_email
-              config.email && config.email.trials_from || "no-reply@#{config.host_domain}"
+              config.emails && config.emails.trials_from || "no-reply@#{config.host_domain}"
             end
 
             def to
-              config.email && config.email.trials_to_placeholder || "no-reply@#{config.host_domain}"
+              config.emails && config.emails.trials_to_placeholder || "no-reply@#{config.host_domain}"
             end
 
             def config

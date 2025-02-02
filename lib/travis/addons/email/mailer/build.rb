@@ -58,7 +58,7 @@ module Travis
             end
 
             def from_email
-              Travis.config.email.from || "notifications@#{Travis.config.host_domain}"
+              Travis.config.emails.from || "notifications@#{Travis.config.host_domain}"
             end
         end
       end

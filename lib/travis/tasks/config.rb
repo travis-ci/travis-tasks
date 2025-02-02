@@ -36,7 +36,7 @@ module Travis
              smtp:    { },
              ssl:     { },
              fixie:   { url: ENV['FIXIE_URL'] },
-             email:   { },
+             emails:   { },
              webhook: { },
              utm:     Travis.env == 'test',
              assets:  { host: HOSTS[Travis.env.to_sym] },

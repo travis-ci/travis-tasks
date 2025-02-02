@@ -41,7 +41,7 @@ module Travis
           end
 
           def from_email
-            config.email&.user_confirmation_from || "no-reply@#{config.host_domain}"
+            config.emails&.user_confirmation_from || "no-reply@#{config.host_domain}"
           end
 
           def to(receivers)
