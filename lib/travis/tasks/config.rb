@@ -37,6 +37,7 @@ module Travis
              ssl:     { },
              fixie:   { url: ENV['FIXIE_URL'] },
              emails:  {
+              from: 'builds@travis-ci.com',
               plan_from: 'no-reply@travis-ci.com',
               trials_from: 'no-reply@travis-ci.com',
               user_confirmation_from: 'no-reply@travis-ci.com'
