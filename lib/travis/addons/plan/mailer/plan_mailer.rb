@@ -13,7 +13,7 @@ module Travis
             @owner = owner
             @signup_url = signup_url(owner)
             subject = 'Welcome to Travis CI!'
-            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, subject: subject, template_path: 'plan_mailer')
           end
 
           def builds_not_allowed(receivers, owner, params)
@@ -22,7 +22,7 @@ module Travis
             @purchase_url = purchase_url(owner)
             @repository_url = params.fetch(:repository_url)
             subject = 'Builds have been temporarily disabled'
-            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, subject: subject, template_path: 'plan_mailer')
           end
 
           def credit_balance_state(receivers, owner, params)
@@ -32,7 +32,7 @@ module Travis
             @purchase_url = purchase_url(owner)
             @signup_url = signup_url(owner)
             subject = 'Credits balance state notification'
-            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, subject: subject, template_path: 'plan_mailer')
           end
 
           def private_credits_for_public(receivers, owner, params)
@@ -43,7 +43,7 @@ module Travis
             @repository_url = params.fetch(:repository_url)
             @renewal_date = params.fetch(:renewal_date)
             subject = 'Builds have been temporarily disabled'
-            mail(from: from, to: receivers, reply_to: reply_to, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, bcc: filter_receivers(receivers), subject: subject, template_path: 'plan_mailer')
           end
 
           def plan_change_reminder(receivers, owner, params)
@@ -55,7 +55,7 @@ module Travis
             @price = params.fetch(:price, 0)
             @due_date = params.fetch(:due_date, Time.now)
             subject = 'Plan Change Reminder'
-            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, subject: subject, template_path: 'plan_mailer')
           end
 
           def credit_card_expiration_reminder(receivers, owner, params)
@@ -64,7 +64,7 @@ module Travis
             @plan = params.fetch(:plan, '').to_s
             @cc_expiration_date = params.fetch(:cc_expiration_date, '')
             subject = 'Your credit card expires soon'
-            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, subject: subject, template_path: 'plan_mailer')
           end
 
           def end_trial_reminder(receivers, owner, params)
@@ -81,7 +81,7 @@ module Travis
             @signup_url = signup_url(owner)
             @skip_signup_section = true
             subject = "Your Free Trial Is Ending Soon – Automatic Subscription on #{@due_date}"
-            mail(from: from, to: receivers, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, subject: subject, template_path: 'plan_mailer')
           end
 
           private
@@ -91,15 +91,7 @@ module Travis
             end
 
             def from_email
-              config.email && config.email.plan_from || "support@#{config.host_domain}"
-            end
-
-            def reply_to
-              "Travis CI Support <#{reply_to_email}>"
-            end
-
-            def reply_to_email
-              config.email && config.email.reply_to || "support@#{config.host_domain}"
+              config.emails && config.emails.plan_from || "no-reply@#{config.host_domain}"
             end
 
             def config

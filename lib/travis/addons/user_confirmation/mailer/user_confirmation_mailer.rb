@@ -16,7 +16,7 @@ module Travis
             options = params[1]
             @owner, = options.values_at(:owner)
             subject = 'Travis CI: Your account has been activated!'
-            mail(from: from, to: to(receivers), reply_to: reply_to, subject: subject,
+            mail(from: from, to: to(receivers), subject: subject,
                  template_path: 'user_confirmation_mailer')
           end
 
@@ -25,7 +25,7 @@ module Travis
             options = params[1]
             @owner, @confirmation_url, @token_valid_to = options.values_at(:owner, :confirmation_url, :token_valid_to)
             subject = 'Travis CI: Confirm your account.'
-            mail(from: from, to: to(receivers), reply_to: reply_to, subject: subject,
+            mail(from: from, to: to(receivers), subject: subject,
                  template_path: 'user_confirmation_mailer')
           end
 
@@ -41,19 +41,11 @@ module Travis
           end
 
           def from_email
-            config.email&.user_confirmation_from || "support@#{config.host_domain}"
+            config.emails&.user_confirmation_from || "no-reply@#{config.host_domain}"
           end
 
           def to(receivers)
             filter_receivers(receivers).first
-          end
-
-          def reply_to
-            "Travis CI Support <#{reply_to_email}>"
-          end
-
-          def reply_to_email
-            config.email&.reply_to || "support@#{config.host_domain}"
           end
 
           def config

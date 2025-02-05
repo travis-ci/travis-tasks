@@ -11,7 +11,7 @@ describe Travis::Addons::UserConfirmation::Mailer::UserConfirmationMailer do
 
     it 'contains the right data' do
       expect(mail.to(recipients)).to eq(recipients)
-      expect(mail.from).to eq(['support@travis-ci.com'])
+      expect(mail.from).to eq(['no-reply@travis-ci.com'])
       expect(mail.subject).to eq('Travis CI: Your account has been activated!')
       expect(mail.body).to match("Hello #{params[:owner][:name]}!")
       expect(mail.body).to match('Your account has been successfully activated.')
@@ -30,7 +30,7 @@ describe Travis::Addons::UserConfirmation::Mailer::UserConfirmationMailer do
 
     it 'contains the right data' do
       expect(mail.to(recipients)).to eq(recipients)
-      expect(mail.from).to eq(['support@travis-ci.com'])
+      expect(mail.from).to eq(['no-reply@travis-ci.com'])
       expect(mail.subject).to eq('Travis CI: Confirm your account.')
       expect(mail.body).to match("Hello #{params[:owner][:name]}!")
       expect(mail.body).to match('Please take a moment to confirm your account.')
