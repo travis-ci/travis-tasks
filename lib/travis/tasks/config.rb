@@ -36,7 +36,7 @@ module Travis
              smtp:    { },
              ssl:     { },
              fixie:   { url: ENV['FIXIE_URL'] },
-             email:   { },
+             emails:  { },
              webhook: { },
              utm:     Travis.env == 'test',
              assets:  { host: HOSTS[Travis.env.to_sym] },
@@ -57,7 +57,13 @@ module Travis
              enterprise: false
 
 
-      default _access: [:key]
+      default _access: [:key],
+              emails: {
+                from: 'builds@travis-ci.com',
+                plan_from: 'no-reply@travis-ci.com',
+                trials_from: 'no-reply@travis-ci.com',
+                user_confirmation_from: 'no-reply@travis-ci.com'
+              }
 
       def metrics
         # TODO cleanup keychain?
