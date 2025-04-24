@@ -85,7 +85,7 @@ module Travis
           end
 
           def shared_plan_no_admin(receivers, owner, params)
-            @receiver = params.fetch(:receiver)
+            @receiver = params.fetch(:receiver)&.login
             @donor = params.fetch(:donor)
             @recipients = params.fetch(:recipients)
             @plan_share_url = plan_share_url(@donor)
