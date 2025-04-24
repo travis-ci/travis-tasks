@@ -65,7 +65,7 @@ describe Travis::Addons::Plan::Mailer::PlanMailer do
     end
 
     let(:params) do
-      { receiver: receiver[:name],
+      { receiver: receiver,
        donor: owner,
        recipients: ['admin1@owner.org', 'admin2@owner.org']
       }
@@ -73,7 +73,7 @@ describe Travis::Addons::Plan::Mailer::PlanMailer do
 
     it 'contains the right data' do
       expect(mail.to).to eq(params[:recipients])
-      expect(mail.body).to match('Testing Tester Travis CI account associated with your shared plan')
+      expect(mail.body).to match('tester Travis CI account associated with your shared plan')
     end
   end
 end
