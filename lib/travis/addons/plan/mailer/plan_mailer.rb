@@ -88,7 +88,11 @@ module Travis
             @receiver = params.fetch(:receiver)
             @donor = params.fetch(:donor)
             @recipients = params.fetch(:recipients)
-            @plan_share_url = plan_share_url(owner)
+            @plan_share_url = plan_share_url(@donor)
+            puts "RECVR: #{@receiver.inspect}"
+            puts "DONOR: #{@donor.inspect}"
+            puts "@recp: #{@recipients.inspect}"
+            puts "PSU: #{@plan_share_url.inspect}"
             subject = 'Review Your Plan Sharing Settings'
             mail(from: from, to: @recipients, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
           end
