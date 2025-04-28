@@ -1,7 +1,7 @@
 language: ruby
 group: edge
 rvm:
-  - 3.2.2
+  - 3.4.3
 
 services:
   - redis-server
