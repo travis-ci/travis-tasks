@@ -30,8 +30,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-config
-  revision: 39183d585c3b1f2ba080298cd96ad8f97c252a15
-  branch: fix-cve-27363
+  revision: 601e9a6dcb799dc14944c40153c60aaf935629ee
   specs:
     travis-config (2.0.0)
       hashr (~> 2.0)
@@ -1865,7 +1864,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.3.5p100
+   ruby 3.2.8p263
 
 BUNDLED WITH
    2.4.10
