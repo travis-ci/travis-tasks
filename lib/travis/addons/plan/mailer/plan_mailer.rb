@@ -90,7 +90,7 @@ module Travis
             @recipients = params.fetch(:recipients)
             @plan_share_url = plan_share_url(@donor)
             subject = 'Review Your Plan Sharing Settings'
-            mail(from: from, to: @recipients, reply_to: reply_to, subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: @recipients, subject: subject, template_path: 'plan_mailer')
           end
 
           private
