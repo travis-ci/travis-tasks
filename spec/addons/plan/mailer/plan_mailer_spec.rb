@@ -51,4 +51,29 @@ describe Travis::Addons::Plan::Mailer::PlanMailer do
       expect(mail.body).to match(Travis.config.enterprise_platform.host)
     end
   end
+
+  describe '#plan_share_no_admin' do
+
+    subject(:mail) { described_class.shared_plan_no_admin(recipients, owner, params) }
+
+    let(:receiver) do
+      {
+        login: 'tester',
+        name: 'Testing Tester',
+        owner_type: 'Organization'
+      }
+    end
+
+    let(:params) do
+      { receiver: receiver,
+       donor: owner,
+       recipients: ['admin1@owner.org', 'admin2@owner.org']
+      }
+    end
+
+    it 'contains the right data' do
+      expect(mail.to).to eq(params[:recipients])
+      expect(mail.body).to match('tester Travis CI account associated with your shared plan')
+    end
+  end
 end
