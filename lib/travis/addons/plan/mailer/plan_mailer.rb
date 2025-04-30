@@ -84,6 +84,15 @@ module Travis
             mail(from: from, to: receivers, subject: subject, template_path: 'plan_mailer')
           end
 
+          def shared_plan_no_admin(receivers, owner, params)
+            @receiver = params.fetch(:receiver)[:login]
+            @donor = params.fetch(:donor)
+            @recipients = params.fetch(:recipients)
+            @plan_share_url = plan_share_url(@donor)
+            subject = 'Review Your Plan Sharing Settings'
+            mail(from: from, to: @recipients, subject: subject, template_path: 'plan_mailer')
+          end
+
           private
 
             def from
@@ -131,6 +140,11 @@ module Travis
             def filter_receivers(receivers)
               receivers = receivers.flatten.uniq.compact
               receivers.reject { |email| email.include?("[") || email.include?(" ") || email.ends_with?(".home") }
+            end
+
+            def plan_share_url(owner)
+              owner[:owner_type] == 'User' ? "https://#{config.host}/account/plan/share" :
+              "https://#{config.host}/organizations/#{owner[:login]}/plan/share"
             end
         end
       end

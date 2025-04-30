@@ -1,0 +1,17 @@
+            <tr>
+              <td id="plan-message-section" align="center" valign="top" style="padding-bottom: 40px;">
+                <h1 id="plan-message-header">
+                  Hi!
+                </h1>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                We wanted to inform you that your last admin user has lost access to the <%= @receiver %> Travis CI account associated with your shared plan. As a result, they no longer have visibility into the receiver account.
+                </p>
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                  This change may be intended, but if not, we recommend reviewing your plan-sharing settings to ensure everything is configured as expected.
+                </p>
+
+                <p id="plan-message" style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+                You can manage your sharing settings here: <a href="<%= @plan_share_url %>">Plan Share settings</a>
+                </p>
+              </td>
+            </tr>
