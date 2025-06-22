@@ -41,17 +41,17 @@
                       </p>
 
                       <p style="font-size: 16px;margin: 0 0 10px 0;">
-                        Your <%= @report[:type] %> report for
-                        <span class="green-highlight" style="color: #32d282;"><%= @owner[:login] %></span>
+                        Your <%= @report['type'] %> report for
+                        <span class="green-highlight" style="color: #32d282;"><%= @owner['login'] %></span>
                         is now ready for download.
                       </p>
 
                       <p style="font-size: 16px;margin: 0 0 10px 0;">
-                        This download link will expire on <%= Time.parse(@report[:expires_at]).strftime('%B %d, %Y at %H:%M %Z') %>.
+                        This download link will expire on <%= Time.parse(@report['expires_at']).strftime('%B %d, %Y at %H:%M %Z') %>.
                       </p>
 
                       <!-- Download Button -->
-                      <a href="<%= @report[:download_url] %>" class="button button--green" style="display: inline-block;padding: 12px 15px;color: #ffffff;background-color: #32d282;font-size: 14px;line-height: 14px;margin: 10px 0 10px 0;border-radius: 5px;text-decoration: none;text-transform: uppercase;font-weight: 600;">Download Report</a>
+                      <a href="<%= @report['download_url'] %>" class="button button--green" style="display: inline-block;padding: 12px 15px;color: #ffffff;background-color: #32d282;font-size: 14px;line-height: 14px;margin: 10px 0 10px 0;border-radius: 5px;text-decoration: none;text-transform: uppercase;font-weight: 600;">Download Report</a>
                     </td>
                   </tr>
                   <!-- Closing Message Section -->
