@@ -60,12 +60,11 @@ module Travis
             mail(from: cancellation_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
-          def csv_export_ready(receivers, owner, report)
+          def csv_export_ready(receivers, _subscription, owner, _charge, _event, report, _cc_last_digits)
             @report = report
             @owner = owner
             @signin_url = signin_url(owner)
             subject = "Travis CI: Your #{report['type'].capitalize} Report is Ready"
-            
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
