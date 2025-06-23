@@ -6,36 +6,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style type="text/css" media="screen">
-      /* Paste the CSS from the charge_failed.html.erb template */
+      body {
+        min-width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      body, td {
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      }
+
+      strong {
+        display: block;
+      }
+
+      #travis-ci-email-container {
+        height: 100%;
+        width: 100%;
+        padding: 30px;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        text-align: center;
+        color: #333333;
+        line-height: 1.4;
+        background-color: #f6f7fa;
+        background-image: url('https://s3.amazonaws.com/travis-email-assets/billing-background.png');
+        background-size: 600px 600px;
+      }
+
+      #email-central-container {
+        font-family: inherit;
+        width: 500px;
+      }
+
+      #email-content-container {
+        padding: 6% 7% 5% 7%;
+        background-color: #FFFFFF;
+        text-align: center;
+        width: 100%;
+      }
+
+
+
+      #travis-logo-img-container {
+        border-bottom: 2px solid #e5e7e9;
+        padding-bottom: 4.545%;
+      }
+
+      #travis-logo-img {
+        width: 42%;
+      }
+
+      #csv-ready-header {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 10.227% 0 6.818% 0;
+      }
+
+      .green-highlight {
+        color: #32d282;
+      }
+
+      #closing-message-section {
+        padding: 10.227% 0 1.136% 0;
+      }
+
+      #closing-message-section > p {
+        margin: 0;
+      }
+
+      #travis-ci-twitter-section {
+        text-align: center;
+      }
+
+      #travis-ci-twitter-section a {
+        display: inline-block;
+        height: 32px;
+        vertical-align: bottom;
+      }
+
+      #travis-ci-twitter-section img {
+        width: 32px;
+        height: 32px;
+      }
+
+      #travis-ci-email-footer-container {
+        padding: 10% 7% 0% 7%;
+      }
+
+      #questions-section {
+        font-size: 18px;
+        color: #0068FF;
+        padding-bottom: 10.227%;
+      }
+
+      #questions-section span {
+        background-color: #f6f7fa;
+        background-color: rgba(246, 247, 250, 0.8);
+      }
+
+      #questions-section a {
+        color: #0068FF;
+      }
+
+      #travis-ci-footer-logo-section {
+        padding-bottom: 6.818%;
+        text-align: center;
+      }
+
+      #email-footer-section {
+        font-size: 11px;
+        color: #9EA3A8;
+        text-align: center;
+        padding-top: 0px;
+        margin: 0px;
+      }
+
+      #email-footer-section a {
+        color: #9ea3a8;
+      }
+
+      #email-footer-section p {
+        margin: 0px;
+      }
+
+      #email-footer-section #payment-processor-message {
+        margin-bottom: 3.409%;
+        padding: 0 1%;
+      }
     </style>
   </head>
 
   <body style="min-width: 100%;height: 100%;margin: 0;padding: 0;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
 
     <table id="travis-ci-email-container" align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="height: 100%;width: 100%;padding: 30px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;text-align: center;color: #333333;line-height: 1.4;background-color: #f6f7fa;background-image: url(#{Travis.config.s3.url}/billing-background.png);background-size: 600px 600px;">
-      <!-- Main Content Section -->
       <tr>
         <td align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
           <table id="email-central-container" border="0" cellpadding="0" cellspacing="0" style="font-family: inherit;width: 500px;">
             <tr>
               <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                 <table id="email-content-container" border="0" cellpadding="0" cellspacing="0" style="padding: 6% 7% 5% 7%;background-color: #FFFFFF;text-align: center;width: 100%;">
-                  <!-- Logo -->
                   <tr>
                     <td id="travis-logo-img-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;border-bottom: 2px solid #e5e7e9;padding-bottom: 4.545%;">
                       <img src="#{Travis.config.s3.url}/travis_ci_logo.png" alt="Travis CI Logo" id="travis-logo-img" style="width: 42%;">
                     </td>
                   </tr>
-                  <!-- Header - Report Ready -->
                   <tr>
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                       <h2 id="charge-fail-header" style="font-size: 24px;font-weight: 600;margin: 10.227% 0 6.818% 0;">Your Report is Ready!</h2>
                     </td>
                   </tr>
-                  <!-- Body text -->
                   <tr>
                     <td style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-                      <!-- Basic info -->
                       <p style="font-size: 16px;margin: 0 0 10px 0;">
                         Hello,
                       </p>
@@ -54,13 +176,11 @@
                         <% end %>
                       </p>
 
-                      <!-- Download Button -->
                       <a href="<%= @report && @report['download_url'] || '#' %>" class="button button--green" style="display: inline-block;padding: 12px 15px;color: #ffffff;background-color: #32d282;font-size: 14px;line-height: 14px;margin: 10px 0 10px 0;border-radius: 5px;text-decoration: none;text-transform: uppercase;font-weight: 600;">
                         Download Report
                       </a>
                     </td>
                   </tr>
-                  <!-- Closing Message Section -->
                   <tr>
                     <td id="closing-message-section" align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;padding: 10.227% 0 1.136% 0;">
                       <p style="font-size: 16px;margin: 0;">Regards,</p>
