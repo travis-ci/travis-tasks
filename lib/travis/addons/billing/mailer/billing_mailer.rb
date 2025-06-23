@@ -61,15 +61,10 @@ module Travis
           end
 
           def csv_export_ready(receivers, _subscription, owner, _charge, _event, report, _cc_last_digits)
-            puts "DEBUG receivers: #{receivers.inspect}"
-            puts "DEBUG owner: #{owner.inspect}"
-            puts "DEBUG report: #{report.inspect}"
-
             @report = report
             @owner = owner
             @signin_url = signin_url(owner)
 
-            # Safeguard against nil values
             if report.nil?
               subject = "Travis CI: Your Report is Ready"
             else
