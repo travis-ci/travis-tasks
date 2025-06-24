@@ -60,19 +60,22 @@ module Travis
             mail(from: cancellation_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
-          def csv_export_ready(receivers, _subscription, owner, _charge, _event, report, _cc_last_digits)
-            @report = report
-            @owner = owner
-            @signin_url = signin_url(owner)
+          def csv_export_ready(receivers, subscription_or_report, owner, charge, event, report_or_other, cc_last_digits)
+            all_params = [subscription_or_report, owner, charge, event, report_or_other, cc_last_digits]
 
-            puts "this is @report: #{@report.inspect}"
-            puts "this is @owner: #{@owner.inspect}"
-            puts "this is @signin_url: #{@signin_url.inspect}"
+            puts "here are all params: #{all_params.inspect}"
+            @report = all_params.find do |param|
+              param.is_a?(Hash) && param['type'] && param['download_url']
+            end
+            puts "and here is the report: #{@report.inspect}"
 
-            if report.nil?
+            @owner = owner.is_a?(Hash) ? owner : all_params.find { |p| p.is_a?(Hash) && p[:login] }
+            puts "owner: #{@owner.inspect}"
+
+            if @report.nil?
               subject = "Travis CI: Your Report is Ready"
             else
-              subject = "Travis CI: Your #{report['type'].capitalize} Report is Ready"
+              subject = "Travis CI: Your #{@report['type'].capitalize} Report is Ready"
             end
 
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
