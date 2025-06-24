@@ -61,21 +61,16 @@ module Travis
           end
 
           def csv_export_ready(receivers, subscription_or_report, owner, charge, event, report_or_other, cc_last_digits)
-            all_params = [subscription_or_report, owner, charge, event, report_or_other, cc_last_digits]
+            @report = subscription_or_report
+            @owner = owner
 
-            puts "here are all params: #{all_params.inspect}"
-            @report = all_params.find do |param|
-              param.is_a?(Hash) && param['type'] && param['download_url']
-            end
             puts "and here is the report: #{@report.inspect}"
-
-            @owner = owner.is_a?(Hash) ? owner : all_params.find { |p| p.is_a?(Hash) && p[:login] }
             puts "owner: #{@owner.inspect}"
 
             if @report.nil?
               subject = "Travis CI: Your Report is Ready"
             else
-              subject = "Travis CI: Your #{@report['type'].capitalize} Report is Ready"
+              subject = "Travis CI: Your #{@report[:type].capitalize} Report is Ready"
             end
 
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
