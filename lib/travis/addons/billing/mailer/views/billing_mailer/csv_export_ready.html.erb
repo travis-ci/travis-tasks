@@ -170,6 +170,7 @@
 
                       <p style="font-size: 16px;margin: 0 0 10px 0;">
                         <% if @report && @report['expires_at'] %>
+                        <%= "template report arrived: #{@report.inspect}"%>
                           This download link will expire on <%= Time.parse(@report['expires_at']).strftime('%B %d, %Y at %H:%M %Z') rescue 'the expiration date' %>.
                         <% else %>
                           This download link will expire in 24 hours.

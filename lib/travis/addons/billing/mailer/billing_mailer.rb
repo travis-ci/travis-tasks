@@ -65,6 +65,10 @@ module Travis
             @owner = owner
             @signin_url = signin_url(owner)
 
+            puts "this is @report: #{@report.inspect}"
+            puts "this is @owner: #{@owner.inspect}"
+            puts "this is @signin_url: #{@signin_url.inspect}"
+
             if report.nil?
               subject = "Travis CI: Your Report is Ready"
             else
