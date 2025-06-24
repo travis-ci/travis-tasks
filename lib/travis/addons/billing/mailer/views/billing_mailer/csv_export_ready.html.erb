@@ -163,21 +163,20 @@
                       </p>
 
                   <p style="font-size: 16px;margin: 0 0 10px 0;">
-                    Your <%= @report && @report['type'] || 'CSv' %> report for
+                    Your <%= @report && @report[:type] || 'CSV' %> report for
                     <span class="green-highlight" style="color: #32d282;"><%= @owner && (@owner['login'] || @owner[:login]) || 'your account' %></span>
                     is now ready for download.
                   </p>
 
                       <p style="font-size: 16px;margin: 0 0 10px 0;">
-                        <% if @report && @report['expires_at'] %>
-                        <%= "template report arrived: #{@report.inspect}"%>
-                          This download link will expire on <%= Time.parse(@report['expires_at']).strftime('%B %d, %Y at %H:%M %Z') rescue 'the expiration date' %>.
+                        <% if @report && @report[:expires_at] %>
+                          This download link will expire on <%= Time.parse(@report[:expires_at]).strftime('%B %d, %Y at %H:%M %Z') rescue 'the expiration date' %>.
                         <% else %>
                           This download link will expire in 24 hours.
                         <% end %>
                       </p>
 
-                      <a href="<%= @report && @report['download_url'] || '#' %>" class="button button--green" style="display: inline-block;padding: 12px 15px;color: #ffffff;background-color: #32d282;font-size: 14px;line-height: 14px;margin: 10px 0 10px 0;border-radius: 5px;text-decoration: none;text-transform: uppercase;font-weight: 600;">
+                      <a href="<%= @report && @report[:download_url] || '#' %>" class="button button--green" style="display: inline-block;padding: 12px 15px;color: #ffffff;background-color: #32d282;font-size: 14px;line-height: 14px;margin: 10px 0 10px 0;border-radius: 5px;text-decoration: none;text-transform: uppercase;font-weight: 600;">
                         Download Report
                       </a>
                     </td>
