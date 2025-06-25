@@ -63,15 +63,7 @@ module Travis
           def csv_export_ready(receivers, subscription_or_report, owner, charge, event, report_or_other, cc_last_digits)
             @report = subscription_or_report
             @owner = owner
-
-            puts "and here is the report: #{@report.inspect}"
-            puts "owner: #{@owner.inspect}"
-
-            if @report.nil?
-              subject = "Travis CI: Your Report is Ready"
-            else
-              subject = "Travis CI: Your #{@report[:type].capitalize} Report is Ready"
-            end
+            subject = "Travis CI: Your #{@report[:type]&.capitalize} Report is Ready"
 
             mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
