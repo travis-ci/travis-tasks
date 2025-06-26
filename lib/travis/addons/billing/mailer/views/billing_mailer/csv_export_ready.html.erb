@@ -167,7 +167,7 @@
                     <span class="green-highlight" style="color: #32d282;"><%= @owner && (@owner['login'] || @owner[:login]) || 'your account' %></span>
                     is now ready for download.
                     <% if @report && @report[:date_range] %>
-                      <p>This report contains data <%= @report['date_range'] %>.</p>
+                      <p>This report contains data <%= @report[:date_range] %>.</p>
                     <% end %>
                   </p>
 
