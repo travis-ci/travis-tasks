@@ -64,7 +64,7 @@ module Travis
             @subscription = subscription
             @custom_images_url = signin_url(owner)
             subject = "Travis CI: Storage Limit Exceeded – Additional Charges May Apply"
-            mail(from: travis_email, to: receivers, subject: subject, template_path: 'storage_limit_exceeded')
+            mail(from: travis_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
           private
