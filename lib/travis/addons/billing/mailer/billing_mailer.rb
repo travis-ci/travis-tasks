@@ -60,7 +60,7 @@ module Travis
             mail(from: cancellation_email, to: receivers, subject: subject, template_path: 'billing_mailer')
           end
 
-          def storage_limit_exceeded(receivers, subscription, owner)
+          def storage_limit_exceeded(receivers, subscription, owner, _charge, _event, invoice, cc_last_digits)
             @subscription = subscription
             @custom_images_url = signin_url(owner)
             subject = "Travis CI: Storage Limit Exceeded – Additional Charges May Apply"
