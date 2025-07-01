@@ -39,10 +39,23 @@ module Travis
           params[:cc_last_digits]
         end
 
+        def report
+          params[:report]
+        end
+
         private
 
           def send_email
-            Mailer::BillingMailer.public_send(params[:email_type], recipients, subscription, owner, charge, event, invoice, cc_last_digits).deliver
+            Mailer::BillingMailer.public_send(
+              params[:email_type],
+              recipients,
+              params[:email_type] == 'csv_export_ready' ? report : subscription,
+              owner,
+              charge,
+              event,
+              invoice,
+              cc_last_digits
+            ).deliver
             emails = recipients.map { |r| 'email=' + obfuscate_email_address(r) }.join(' ')
             info "type=#{type} status=sent msg='email sent #{emails}'"
           end
