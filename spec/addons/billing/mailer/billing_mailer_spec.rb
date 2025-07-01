@@ -281,4 +281,49 @@ describe Travis::Addons::Billing::Mailer::BillingMailer do
 
 		end
   end
+
+  describe '#csv_export_ready' do
+    subject(:mail) do
+      described_class.csv_export_ready(
+        [recipient],
+        report,
+        owner,
+        charge,
+        event,
+        report_or_other = nil,
+        options
+      )
+    end
+
+    let(:recipient) { 'nikola.granit@yahoo.com' }
+    let(:owner) { { name: 'Ruby Monsters', login: 'rubymonsters', vcs_type: 'GithubUser', owner_type: 'User' } }
+    let(:charge) { nil }
+    let(:event) { nil }
+    let(:report) { { type: 'usage', download_url: download_url, expires_at: (Time.now + 86400).iso8601 } }
+    let(:download_url) { 'https://example.com/report.csv' }
+    let(:options) { {} }
+
+    it 'is addressed to the user' do
+      expect(mail.to).to eq([recipient])
+    end
+
+    it 'comes from Travis' do
+      expect(mail.from).to eq(['success@travis-ci.com'])
+    end
+
+    it 'has the right subject' do
+      expect(mail.subject).to eq('Travis CI: Your Usage Report is Ready')
+    end
+
+    it 'contains the download link' do
+      html = Capybara.string(mail.body.to_s)
+      expect(html).to have_link('Download Report', href: download_url)
+    end
+
+    it 'shows the report type' do
+      html = Capybara.string(mail.body.to_s)
+      expect(html).to have_text('Your usage report for')
+      expect(html).to have_text('is now ready for download.')
+    end
+  end
 end
