@@ -1,0 +1,38 @@
+<!-- Plan Message Section -->
+<tr>
+  <td id="plan-message-section" align="center" valign="top" style="padding-bottom: 40px;">
+    <h1 id="plan-message-header">
+      Your Credits Consumption Report is Ready!
+    </h1>
+    <p style="margin: 0px; font-size: 18px; margin-bottom: 10px;">
+      Hello,
+    </p>
+    <p style="margin: 0px; font-size: 18px; margin-bottom: 20px;">
+      Your credits consumption report for
+      <span id="plan-message-github-name" style="color: #15B75E;">
+        <%= @owner && (@owner[:name] || @owner[:login]) || 'your account' %>
+      </span>
+      is now ready for download.
+    </p>
+
+    <% if @report && @report[:date_range] %>
+    <p style="margin: 0px; font-size: 18px; margin-bottom: 20px;">
+      This report contains data <%= @report[:date_range] %>.
+    </p>
+    <% end %>
+
+    <p style="margin: 0px; font-size: 18px; margin-bottom: 20px;">
+      <% if @report && @report[:expires_at] %>
+        This download link will expire on <%= Time.parse(@report[:expires_at]).strftime('%B %d, %Y at %H:%M %Z') rescue 'the expiration date' %>.
+      <% else %>
+        This download link will expire in 24 hours.
+      <% end %>
+    </p>
+
+    <p style="margin: 0px; font-size: 18px; margin-bottom: 30px; margin-top: 30px;">
+      <a href="<%= @report && @report[:download_url] || '#' %>" style="font: bold 14px Arial; color: #FFFFFF; background-color: #32D282; text-decoration: none; padding: 12px 30px; border-radius: 3px;">
+        DOWNLOAD REPORT
+      </a>
+    </p>
+  </td>
+</tr>
