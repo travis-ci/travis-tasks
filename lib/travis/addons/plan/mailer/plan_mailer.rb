@@ -98,7 +98,7 @@ module Travis
             @report = params.fetch(:report)
             subject = "Travis CI: Your Credits Consumption Report is Ready"
 
-            mail(from: travis_email, to: receivers, subject: subject, template_path: 'plan_mailer')
+            mail(from: from, to: receivers, subject: subject, template_path: 'plan_mailer')
           end
           private
 
