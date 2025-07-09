@@ -76,4 +76,43 @@ describe Travis::Addons::Plan::Mailer::PlanMailer do
       expect(mail.body).to match('tester Travis CI account associated with your shared plan')
     end
   end
+
+  describe '#csv_export_ready' do
+    subject(:mail) do
+      described_class.csv_export_ready(
+        [recipient],
+        owner,
+        params
+      )
+    end
+
+    let(:recipient) { 'nikola.granit@yahoo.com' }
+    let(:owner) { { name: 'Ruby Monsters', login: 'rubymonsters', vcs_type: 'GithubUser', owner_type: 'User' } }
+    let(:download_url) { 'https://example.com/report.csv' }
+    let(:params) do
+      {
+        report: {
+          download_url: download_url,
+          expires_at: (Time.now + 86400).iso8601
+        }
+      }
+    end
+
+    it 'is addressed to the user' do
+      expect(mail.to).to eq([recipient])
+    end
+
+    it 'comes from Travis' do
+      expect(mail.from.first).to include('@travis-ci.com')
+    end
+
+    it 'has the right subject' do
+      expect(mail.subject).to eq('Travis CI: Your Credits Consumption Report is Ready')
+    end
+
+    it 'contains the download link' do
+      html = Capybara.string(mail.body.to_s)
+      expect(html).to have_link('DOWNLOAD REPORT', href: download_url)
+    end
+  end
 end
