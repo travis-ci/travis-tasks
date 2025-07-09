@@ -93,6 +93,13 @@ module Travis
             mail(from: from, to: @recipients, subject: subject, template_path: 'plan_mailer')
           end
 
+          def csv_export_ready(receivers, owner, params)
+            @owner = owner
+            @report = params.fetch(:report)
+            subject = "Travis CI: Your Credits Consumption Report is Ready"
+
+            mail(from: from, to: receivers, subject: subject, template_path: 'plan_mailer')
+          end
           private
 
             def from
