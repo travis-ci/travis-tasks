@@ -161,7 +161,7 @@
 
   <body style="min-width: 100%;height: 100%;margin: 0;padding: 0;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
 
-    <table id="travis-ci-email-container" align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="height: 100%;width: 100%;padding: 30px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;text-align: center;color: #333333;line-height: 1.4;background-color: #f6f7fa;background-image: url(#{Travis.config.s3.url}/billing-background.png);background-size: 600px 600px;">
+    <table id="travis-ci-email-container" align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="height: 100%;width: 100%;padding: 30px;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;text-align: center;color: #333333;line-height: 1.4;">
       <!-- Main Content Section -->
       <tr>
         <td align="center" valign="top" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
@@ -172,7 +172,8 @@
                   <!-- Logo -->
                   <tr>
                     <td id="travis-logo-img-container" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;border-bottom: 2px solid #e5e7e9;padding-bottom: 4.545%;">
-                      <img src="#{Travis.config.s3.url}/travis_ci_logo.png" alt="Travis CI Logo" id="travis-logo-img" style="width: 42%;">
+                      <%= image_tag("#{Travis.config.s3.url}/travis_ci_logo.png", style: 'width: 42%', id: 'travis-logo-img', alt: 'Travis CI Logo') %>
+
                     </td>
                   </tr>
                   <!-- Header - Payment failed -->
@@ -227,8 +228,8 @@
                   </tr>
                   <tr>
                     <td id="travis-ci-twitter-section" style="font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;text-align: center;">
-                      <a href="http://www.twitter.com/travisci" style="display: inline-block;height: 32px;vertical-align: bottom;">
-                        <img id="travis-ci-twitter-logo" src="#{Travis.config.s3.url}/twitter2x.png" alt="Twitter Logo" style="width: 32px;height: 32px;">
+                      <a href="http://x.com/travisci" style="display: inline-block;height: 32px;vertical-align: bottom;">
+                        <%= image_tag("#{Travis.config.s3.url}/x-logo-black.png", style: 'width: 32px;height:32px;', id: 'travis-ci-twitter-logo', alt: 'X Logo') %>
                       </a>
                     </td>
                   </tr>
