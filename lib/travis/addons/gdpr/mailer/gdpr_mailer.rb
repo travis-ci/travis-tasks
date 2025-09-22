@@ -24,6 +24,41 @@ module Travis
             mail(from: travis_email, to: receivers, subject: 'Your data was purged', template_path: 'gdpr_mailer')
           end
 
+          # Retention policy notifications
+
+          def data_retention_notice(receivers, owner, retention)
+            @owner = owner
+            @retention = retention
+            mail(
+              from: travis_email,
+              to: receivers,
+              subject: "Notice: Data Stored at Travis CI Older Than #{retention[:months]} Months",
+              template_path: 'gdpr_mailer'
+            )
+          end
+
+          def upcoming_data_deletion_notice(receivers, owner, retention)
+            @owner = owner
+            @retention = retention
+            mail(
+              from: travis_email,
+              to: receivers,
+              subject: "Reminder: Scheduled Deletion of Data Older Than #{retention[:months]} Months in 3 Days",
+              template_path: 'gdpr_mailer'
+            )
+          end
+
+          def data_deletion_confirmation(receivers, owner, retention)
+            @owner = owner
+            @retention = retention
+            mail(
+              from: travis_email,
+              to: receivers,
+              subject: "Confirmation: Data Older Than #{retention[:months]} Months Was Deleted",
+              template_path: 'gdpr_mailer'
+            )
+          end
+
           private
 
           def travis_email

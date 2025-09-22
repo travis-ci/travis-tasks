@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style type="text/css" media="screen">
+      body { min-width: 100%; height: 100%; margin: 0; padding: 0; }
+      body, td { font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+      #travis-ci-email-container { height: 100%; width: 100%; padding: 30px; text-align: center; color: #333; line-height: 1.4; background-color: #F4F5F9; background-image: url("#{Travis.config.s3.url}/billing-background.png"); background-size: 600px 600px; }
+      #email-central-container { padding-bottom: 20px; width: 500px; }
+      #email-content-container { padding: 6% 7% 5% 7%; background-color: #FFFFFF; text-align: left; }
+      #email-content-container p { font-size: 16px; margin: 0 0 10px 0; }
+      #travis-logo-img-container { border-bottom: 2px solid #e5e7e9; padding-bottom: 4.545%; text-align: center; }
+      #travis-logo-img { width: 42%; }
+      h2 { font-size: 24px; font-weight: 600; margin: 10.227% 0 6.818% 0; text-align: center; }
+      ul { padding-left: 18px; }
+      #closing-message-section { padding: 10.227% 0 1.136% 0; text-align: center; }
+      #travis-ci-email-footer-container { padding: 13% 7% 5% 7%; }
+      #questions-section { font-size: 18px; color: #0068FF; padding-bottom: 10.227%; text-align: center; }
+      #questions-section a { color: #0068FF; }
+      #email-footer-section { font-size: 11px; color: #9EA3A8; text-align: center; padding-top: 0px; margin: 0px; }
+      #email-footer-section p { margin: 0px; }
+    </style>
+  </head>
+  <body class="not-wide" style="min-width: 100%;height: 100%;margin: 0;padding: 0;font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <table id="travis-ci-email-container" align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+      <tr>
+        <td align="center" valign="top">
+          <table id="email-central-container" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <table id="email-content-container" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td id="travis-logo-img-container">
+                      <img src="https://s3.amazonaws.com/travis-email-assets/travis_ci_logo.png" alt="Travis CI Logo" id="travis-logo-img">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <h2>Notice: Data Stored at Travis CI Older Than <%= @retention[:months] %> Months</h2>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <p>Hello <%= @owner[:name] %>,</p>
+                      <p>This is an automated notification from Travis CI.</p>
+                      <p>We have detected that some of your stored data is older than <%= @retention[:months] %> months. This may include (but is not limited to):</p>
+                      <ul>
+                        <li>Cached artifacts</li>
+                        <li>Build logs</li>
+                        <li>Customized images</li>
+                      </ul>
+                      <p>Please review and, if necessary, back up or remove this data to ensure continued compliance with storage policies and to free up space for future.</p>
+                      <p>If no action is taken, older data may be subject to automatic removal in accordance with our retention policy (within next <%= @retention[:days_until_deletion] %> days).</p>
+                      <p>For details on managing stored data, please refer to our documentation:
+                        <a href="https://docs.travis-ci.com/user/billing/" style="color: #0068FF;">Documentation</a>
+                      </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="closing-message-section" align="center" valign="top">
+                      <p>Thank you for your attention,</p>
+                      <p><strong>The Travis CI Support Team</strong></p>
+                    </td>
+                  </tr>
+                </table>
+                <table id="travis-ci-email-footer-container" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td id="questions-section" align="center" valign="top">
+                      <span>Have any questions?</span>
+                      <span>
+                        <a href="mailto:support@travis-ci.com">We&rsquo;re here to help.</a>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="travis-ci-footer-logo-section" style="text-align: center;padding-bottom: 7.954%;">
+                      <%= link_to(image_tag("#{Travis.config.s3.url}/TravisCI-Logo-BW.png", alt: 'black and white travis ci logo'), 'https://travis-ci.com')%>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td id="email-footer-section">
+                      <p>
+                        Travis CI GmbH, Bonner Straße 12, 51379 Leverkusen, Germany | GF/CEO: Randy Jacops |
+                        <span>Contact: <%= link_to('contact@travis-ci.com', 'mailto:contact@travis-ci.com', style: 'color: #9EA3A8')%> | Amtsgericht Charlottenburg, Berlin, HRB 108397 | Umsatzsteuer-ID gemäß §27 a Umsatzsteuergesetz: DE282002648</span>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

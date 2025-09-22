@@ -18,6 +18,12 @@ module Travis
             Mailer::GdprMailer.support_export(recipients, params.fetch(:user_name), params.fetch(:url)).deliver
           when 'purge'
             Mailer::GdprMailer.purge(recipients, params.fetch(:request_date)).deliver
+          when 'data_retention_notice'
+            Mailer::GdprMailer.data_retention_notice(recipients, params.fetch(:owner), params.fetch(:retention)).deliver
+          when 'upcoming_data_deletion_notice'
+            Mailer::GdprMailer.upcoming_data_deletion_notice(recipients, params.fetch(:owner), params.fetch(:retention)).deliver
+          when 'data_deletion_confirmation'
+            Mailer::GdprMailer.data_deletion_confirmation(recipients, params.fetch(:owner), params.fetch(:retention)).deliver
           else
             raise NoMailType, "#{type} is not a valid email type"
           end
