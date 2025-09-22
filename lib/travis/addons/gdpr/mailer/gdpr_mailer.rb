@@ -29,6 +29,9 @@ module Travis
           def data_retention_notice(receivers, owner, retention)
             @owner = owner
             @retention = retention
+            Travis.logger.info("we're sending retention email to #{receivers}, retention: #{retention}")
+            puts "using puts: we're sending retention email to #{receivers}, retention: #{retention}"
+
             mail(
               from: travis_email,
               to: receivers,
@@ -40,10 +43,11 @@ module Travis
           def upcoming_data_deletion_notice(receivers, owner, retention)
             @owner = owner
             @retention = retention
+            days = (retention[:days_until_deletion]).to_i
             mail(
               from: travis_email,
               to: receivers,
-              subject: "Reminder: Scheduled Deletion of Data Older Than #{retention[:months]} Months in 3 Days",
+              subject: "Reminder: Scheduled Deletion of Data Older Than #{retention[:months]} Months in #{days} Days",
               template_path: 'gdpr_mailer'
             )
           end
