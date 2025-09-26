@@ -52,7 +52,7 @@ module Travis
             )
           end
 
-          def data_deletion_confirmation(receivers, owner, retention)
+          def data_deletion_confirmation(receivers, owner, retention) # Comes from travis-gdpr
             @owner = owner
             @retention = retention
             mail(
