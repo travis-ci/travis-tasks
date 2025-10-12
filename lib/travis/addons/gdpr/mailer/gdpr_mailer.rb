@@ -29,9 +29,6 @@ module Travis
           def data_retention_notice(receivers, owner, retention)
             @owner = owner
             @retention = retention
-            Travis.logger.info("we're sending retention email to #{receivers}, retention: #{retention}")
-            puts "using puts: we're sending retention email to #{receivers}, retention: #{retention}"
-
             mail(
               from: travis_email,
               to: receivers,
