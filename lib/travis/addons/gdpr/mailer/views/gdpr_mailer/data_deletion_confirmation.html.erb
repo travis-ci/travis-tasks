@@ -39,21 +39,30 @@
                   </tr>
                   <tr>
                     <td>
-                      <h2>Confirmation: Data Older Than <%= @retention[:months] %> Months Was Deleted</h2>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
                       <p>Hello <%= @owner[:name] %>,</p>
-                      <p>This is a confirmation from Travis CI.</p>
+                      <p>This is an automated confirmation from Travis CI.</p>
+                      <p>As part of our storage retention policy, the following types of data older than <%= @retention[:months] %> months have been permanently removed from your account:</p>
+                      <ul>
+                        <li>Cached artifacts</li>
+                        <li>Build logs</li>
+                        <li>Customized images</li>
+                      </ul>
                       <p>Data older than <%= @retention[:months] %> months associated with your account has been deleted in accordance with our retention policy.</p>
-                      <p>If you have any questions or need further assistance, please contact our support team.</p>
+                      <p>
+                        No further action is required on your part.
+                        <br>
+                        If you have questions about this removal or our retention policy, please refer to our
+                        documentation or contact our support team.
+                      </p>
                     </td>
                   </tr>
                   <tr>
-                    <td id="closing-message-section" align="center" valign="top">
-                      <p>Thank you,</p>
-                      <p><strong>Travis CI Support Team</strong></p>
+                    <td id="closing-message-section" valign="top">
+                      <p>
+                        Thank you for your understanding,
+                        <br>
+                        Travis CI Support Team
+                      </p>
                     </td>
                   </tr>
                 </table>
