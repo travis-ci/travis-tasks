@@ -55,7 +55,7 @@ module Travis
             mail(
               from: travis_email,
               to: receivers,
-              subject: "Confirmation: Data Older Than #{retention[:months]} Has Been Removed",
+              subject: "Confirmation: Data Older Than #{retention[:months]} Months Has Been Removed",
               template_path: 'gdpr_mailer'
             )
           end
