@@ -25,7 +25,7 @@ module Travis
             options = params[1]
             @owner, @confirmation_url, token_expires_at = options.values_at(:owner, :confirmation_url, :token_valid_to)
 
-            seconds_remaining = (token_expires_at - Time.zone.now).to_i
+            seconds_remaining = (token_expires_at - Time.now.utc).to_i
             if seconds_remaining <= 0
               @token_valid_to = '0 hours'
             else
