@@ -24,26 +24,26 @@ module Travis
           def confirm_account(*params)
             receivers = params[0]
             options = params[1]
-            @owner, @confirmation_url = options.values_at(:owner, :confirmation_url)
+            @owner, @confirmation_url, token_expires_at_raw = options.values_at(:owner, :confirmation_url, :token_valid_to)
             
-            # Previous solution using token_expires_at (commented out for testing another approach):
-            # token_expires_at = begin
-            #   Time.parse(token_expires_at_raw.to_s).utc
-            # rescue ArgumentError
-            #   nil
-            # end
-            # seconds_remaining = token_expires_at ? (token_expires_at - Time.now.utc).to_i : 0
-            # if seconds_remaining <= 0
-            #   @token_valid_to = '0 hours'
-            # else
-            #   hours_remaining = (seconds_remaining / 3600.0).ceil
-            #   @token_valid_to = hours_remaining == 1 ? '1 hour' : "#{hours_remaining} hours"
-            # end
+            # 1st solution using token_expires_at
+            token_expires_at = begin
+              Time.parse(token_expires_at_raw.to_s).utc
+            rescue ArgumentError
+              nil
+            end
+            seconds_remaining = token_expires_at ? (token_expires_at - Time.now.utc).to_i : 0
+            if seconds_remaining <= 0
+              @token_valid_to = '0 hours'
+            else
+              hours_remaining = (seconds_remaining / 3600.0).ceil
+              @token_valid_to = hours_remaining == 1 ? '1 hour' : "#{hours_remaining} hours"
+            end
 
-            # 2nd approach: duplicate CONFIRMATION_TOKEN_VALID_FOR var from travis-vcs to travis-tasks
-            minutes_valid_for = ENV['CONFIRMATION_TOKEN_VALID_FOR'].to_i
-            hours_valid_for = (minutes_valid_for / 60.0).ceil
-            @token_valid_to = hours_valid_for == 1 ? '1 hour' : "#{hours_valid_for} hours"
+            # # 2nd soluction: duplicate CONFIRMATION_TOKEN_VALID_FOR var from travis-vcs to travis-tasks
+            # minutes_valid_for = ENV['CONFIRMATION_TOKEN_VALID_FOR'].to_i
+            # hours_valid_for = (minutes_valid_for / 60.0).ceil
+            # @token_valid_to = hours_valid_for == 1 ? '1 hour' : "#{hours_valid_for} hours"
             subject = 'Travis CI: Confirm your account.'
             mail(from: from, to: to(receivers), subject: subject,
                  template_path: 'user_confirmation_mailer')
