@@ -34,16 +34,16 @@ module Travis
             end
             seconds_remaining = token_expires_at ? (token_expires_at - Time.now.utc).to_i : 0
             if seconds_remaining <= 0
-              @token_valid_to = '0 hours'
+              @token_valid_to = '0 minutes'
             else
-              hours_remaining = (seconds_remaining / 3600.0).ceil
-              @token_valid_to = hours_remaining == 1 ? '1 hour' : "#{hours_remaining} hours"
+              minutes_remaining = (seconds_remaining / 60.0).ceil
+              @token_valid_to = minutes_remaining == 1 ? '1 minute' : "#{minutes_remaining} minutes"
             end
 
-            # # 2nd soluction: duplicate CONFIRMATION_TOKEN_VALID_FOR var from travis-vcs to travis-tasks
+            # # 2nd solution: duplicate CONFIRMATION_TOKEN_VALID_FOR var from travis-vcs to travis-tasks
             # minutes_valid_for = ENV['CONFIRMATION_TOKEN_VALID_FOR'].to_i
-            # hours_valid_for = (minutes_valid_for / 60.0).ceil
-            # @token_valid_to = hours_valid_for == 1 ? '1 hour' : "#{hours_valid_for} hours"
+            # minutes_valid_for = 0 if minutes_valid_for.negative?
+            # @token_valid_to = minutes_valid_for == 1 ? '1 minute' : "#{minutes_valid_for} minutes"
             subject = 'Travis CI: Confirm your account.'
             mail(from: from, to: to(receivers), subject: subject,
                  template_path: 'user_confirmation_mailer')
