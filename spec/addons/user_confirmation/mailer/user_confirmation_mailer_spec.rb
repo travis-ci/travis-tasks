@@ -19,6 +19,7 @@ describe Travis::Addons::UserConfirmation::Mailer::UserConfirmationMailer do
   end
 
   describe '#confirm_account' do
+    before { ENV['CONFIRMATION_TOKEN_VALID_FOR'] = 60 }
     let(:params) do
       {
         owner: { name: 'My Name' },
