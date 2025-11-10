@@ -23,7 +23,11 @@ module Travis
           def confirm_account(*params)
             receivers = params[0]
             options = params[1]
-            @owner, @confirmation_url, @token_valid_to = options.values_at(:owner, :confirmation_url, :token_valid_to)
+            @owner, @confirmation_url = options.values_at(:owner, :confirmation_url)
+
+            minutes_valid_for = ENV['CONFIRMATION_TOKEN_VALID_FOR'].to_i
+            minutes_valid_for = 0 if minutes_valid_for.negative?
+            @token_valid_to = minutes_valid_for == 1 ? '1 minute' : "#{minutes_valid_for} minutes"
             subject = 'Travis CI: Confirm your account.'
             mail(from: from, to: to(receivers), subject: subject,
                  template_path: 'user_confirmation_mailer')
