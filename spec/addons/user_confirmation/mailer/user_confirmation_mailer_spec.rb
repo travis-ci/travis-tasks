@@ -19,15 +19,15 @@ describe Travis::Addons::UserConfirmation::Mailer::UserConfirmationMailer do
   end
 
   describe '#confirm_account' do
+    before { ENV['CONFIRMATION_TOKEN_VALID_FOR'] = '60' }
     let(:params) do
       {
         owner: { name: 'My Name' },
         confirmation_url: 'https://confirm.me.plx',
-        token_valid_to: '2021-02-08 14:14:14'
+        token_valid_to: (Time.now.utc + 60 * 60).strftime('%Y-%m-%d %H:%M:%S')
       }
     end
     subject(:mail) { described_class.confirm_account(recipients, **params) }
-
     it 'contains the right data' do
       expect(mail.to(recipients)).to eq(recipients)
       expect(mail.from).to eq(['no-reply@travis-ci.com'])
@@ -37,7 +37,7 @@ describe Travis::Addons::UserConfirmation::Mailer::UserConfirmationMailer do
       expect(mail.body)
         .to match('<p><a id="account-activated-button" href="https://confirm.me.plx" target="_blank">Confirm your account</a></p>')
       expect(mail.body)
-        .to match('<p>Note: you must confirm your account in order to run builds on Travis CI. The confirmation link will expire after <br>2021-02-08 14:14:14</p>')
+        .to match('<p>Note: you must confirm your account in order to run builds on Travis CI. The confirmation link will expire after 60 minutes</p>')
     end
   end
 end
