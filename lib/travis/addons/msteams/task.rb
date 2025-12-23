@@ -19,17 +19,16 @@ module Travis
           end
 
           unless response.success?
-            error "task=msteams build=#{build_id} repo=#{repo_slug} url=#{mask_url(url)} status=#{response.status} body=#{response.body}"
+            error "task=msteams url=#{mask_url(url)} status=#{response.status} body=#{response.body}"
           end
         rescue URI::InvalidURIError => e
-          error "task=msteams status=invalid_uri build=#{build_id} repo=#{repo_slug} url=#{mask_url(url)}"
+          error "task=msteams status=invalid_uri url=#{mask_url(url)}"
         rescue => e
-          error "task=msteams status=error build=#{build_id} repo=#{repo_slug} url=#{mask_url(url)} error=#{e.message}"
+          error "task=msteams status=error url=#{mask_url(url)} error=#{e.message}"
         end
 
         def mask_url(url)
           # Mask sensitive parts of MS Teams webhook URL
-          # Pattern: https://outlook.office.com/webhook/abc123/IncomingWebhook/xyz/token
           url.to_s.gsub(%r{/webhook/[^/]+/}, '/webhook/***/').gsub(%r{/[a-zA-Z0-9_-]{12,}(/|\z)}, '/***\1')
         end
 
@@ -43,14 +42,6 @@ module Travis
 
         def base_url(url)
           URI.parse(url).tap { |uri| uri.path = '/' }.to_s
-        end
-
-        def build_id
-          build&.[](:id) || 'unknown'
-        end
-
-        def repo_slug
-          repository&.[](:slug) || 'unknown'
         end
       end
     end
