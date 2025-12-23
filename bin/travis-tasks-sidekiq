@@ -11,6 +11,7 @@ DEFAULT_QUEUES = %w[
   hipchat
   irc
   keenio
+  msteams
   notifications
   pushover
   slack
