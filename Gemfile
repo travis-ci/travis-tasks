@@ -22,7 +22,7 @@ gem 'keen'
 gem 'gh',                  git: 'https://github.com/travis-ci/gh'
 
 gem 'aws-sdk'
-gem 'actionmailer'
+gem 'actionmailer', '~> 7.0.8', '>= 7.0.8.7'
 gem 'roadie'
 gem 'roadie-rails'
 gem 'multi_json'
@@ -31,11 +31,13 @@ gem 'intercom', '~> 3.8.0'
 gem 'faraday'
 
 gem "activesupport"
-gem "actionpack"
-gem "railties"
+gem "actionpack", '~> 7.0.8', '>= 7.0.8.7'
+gem "railties", '~> 7.0.8', '>= 7.0.8.7'
+gem 'nokogiri', '>= 1.18.9'
+gem 'rack', '~> 2.2.20'
 
 gem 'net-smtp', require: false
-gem 'net-imap', require: false
+gem 'net-imap', '>= 0.5.7', require: false
 gem 'net-pop', require: false
 gem 'globalid', '~> 1.0'
 gem 'rexml'
