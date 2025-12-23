@@ -12,14 +12,21 @@ module Travis
         private
 
         def send_notification(url, timeout)
+          body = payload_body
+          
+          # DEBUG: Log what we're actually sending
+          info "task=msteams payload_class=#{payload.class} payload_size=#{body.bytesize} bytes"
+          
           response = http(base_url(url)).post(url) do |request|
             request.options.timeout = timeout
             request.headers['Content-Type'] = 'application/json'
-            request.body = payload_body
+            request.body = body
           end
 
           unless response.success?
             error "task=msteams url=#{mask_url(url)} status=#{response.status} body=#{response.body}"
+            # DEBUG: Log first 500 chars of what we sent
+            error "task=msteams sent_body=#{body[0..500]}"
           end
         rescue URI::InvalidURIError => e
           error "task=msteams status=invalid_uri url=#{mask_url(url)}"
