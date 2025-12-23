@@ -26,13 +26,12 @@ describe Travis::Addons::Msteams::Task do
   end
 
   def run(targets)
-    task_payload = Marshal.load(Marshal.dump(TASK_PAYLOAD))
-    subject.new(task_payload, targets: targets, payload: payload).run
+    subject.new(payload, targets: targets).run
   end
 
   it 'sends notifications to MS Teams webhook URLs' do
     targets = ['https://outlook.office.com/webhook/test1', 'https://outlook.office.com/webhook/test2']
-
+    
     targets.each do |target|
       http.post(target) do |env|
         expect(env[:request_headers]['Content-Type']).to eq('application/json')
@@ -62,9 +61,8 @@ describe Travis::Addons::Msteams::Task do
   end
 
   it 'masks sensitive information in logs' do
-    task_instance = subject.new(TASK_PAYLOAD, targets: [], payload: payload)
+    task_instance = subject.new(payload, targets: [])
     url = 'https://outlook.office.com/webhook/abc123def456/IncomingWebhook/xyz789/unique-token-here'
-
     masked = task_instance.send(:mask_url, url)
     expect(masked).to_not include('abc123def456')
     expect(masked).to_not include('unique-token-here')
