@@ -15,7 +15,7 @@ module Travis
           response = http(base_url(url)).post(url) do |request|
             request.options.timeout = timeout
             request.headers['Content-Type'] = 'application/json'
-            request.body = MultiJson.encode(payload)
+            request.body = payload_body
           end
 
           unless response.success?
@@ -25,6 +25,11 @@ module Travis
           error "task=msteams status=invalid_uri url=#{mask_url(url)}"
         rescue => e
           error "task=msteams status=error url=#{mask_url(url)} error=#{e.message}"
+        end
+
+        def payload_body
+          # payload might already be JSON string from Sidekiq serialization
+          payload.is_a?(String) ? payload : MultiJson.encode(payload)
         end
 
         def mask_url(url)
