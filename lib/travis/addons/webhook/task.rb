@@ -21,7 +21,7 @@ module Travis
         end
 
         def msteams_flags
-          params[:msteams] || {}
+          (params[:msteams] || {}).stringify_keys
         end
 
         def msteams_payload
