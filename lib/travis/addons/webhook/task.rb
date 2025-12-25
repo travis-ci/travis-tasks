@@ -48,16 +48,19 @@ module Travis
           end
 
           def send_webhook(target, timeout)
+            info "DEBUG: msteams_flags=#{msteams_flags.inspect}"
+            info "DEBUG: target=#{target}"
+            info "DEBUG: msteams_flags.keys=#{msteams_flags.keys.inspect}"
             use_msteams = msteams_flags[target]
-            
-            info "DEBUG: use_msteams=#{use_msteams} target=#{loggable_url(target)}"
+
+            info "DEBUG: use_msteams=#{use_msteams.inspect} target=#{loggable_url(target)}"
 
             if use_msteams
               # For MS Teams, use a plain HTTP connection without url_encoded middleware
               json_body = msteams_payload.to_json
               info "DEBUG: msteams_payload size=#{json_body.bytesize} bytes"
               info "DEBUG: msteams_payload preview=#{json_body[0..200]}"
-              
+
               response = plain_http(base_url(target)).post(target) do |req|
                 req.options.timeout = timeout
                 req.headers['Content-Type'] = 'application/json'
