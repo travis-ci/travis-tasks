@@ -49,14 +49,21 @@ module Travis
 
           def send_webhook(target, timeout)
             use_msteams = msteams_flags[target]
+            
+            info "DEBUG: use_msteams=#{use_msteams} target=#{loggable_url(target)}"
 
             if use_msteams
               # For MS Teams, use a plain HTTP connection without url_encoded middleware
+              json_body = msteams_payload.to_json
+              info "DEBUG: msteams_payload size=#{json_body.bytesize} bytes"
+              info "DEBUG: msteams_payload preview=#{json_body[0..200]}"
+              
               response = plain_http(base_url(target)).post(target) do |req|
                 req.options.timeout = timeout
                 req.headers['Content-Type'] = 'application/json'
-                req.body = msteams_payload.to_json
+                req.body = json_body
                 add_headers(req, target, use_msteams)
+                info "DEBUG: request headers=#{req.headers.to_h}"
               end
             else
               # Traditional webhook format with url_encoded middleware
@@ -120,11 +127,13 @@ module Travis
           def log_success(response, use_msteams = false)
             format_type = use_msteams ? 'msteams' : 'webhook'
             info "task=webhook format=#{format_type} status=successful build=#{payload[:id]} url=#{loggable_url(response.env[:url].to_s)}"
+            info "DEBUG: response status=#{response.status} body_size=#{response.body.bytesize} bytes" if use_msteams
           end
 
           def log_error(response, use_msteams = false)
             format_type = use_msteams ? 'msteams' : 'webhook'
-            error "task=webhook format=#{format_type} status=error build=#{payload[:id]} url=#{loggable_url(response.env[:url].to_s)} error_code=#{response.status} message=#{response.body.inspect}"
+            error "task=webhook format=#{format_type} status=error build=#{payload[:id]} url=#{loggable_url(response.env[:url].to_s)} error_code=#{response.status} message=#{response.body[0..200]}"
+            error "DEBUG: response headers=#{response.headers.to_h}" if use_msteams
           end
 
           def repo_slug
