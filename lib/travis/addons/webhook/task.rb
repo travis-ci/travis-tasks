@@ -20,6 +20,14 @@ module Travis
           params[:targets]
         end
 
+        def msteams_flags
+          params[:msteams] || {}
+        end
+
+        def msteams_payload
+          params[:msteams_payload]
+        end
+
         private
 
           def process(timeout)
@@ -40,31 +48,58 @@ module Travis
           end
 
           def send_webhook(target, timeout)
-            response = http(base_url(target)).post(target) do |req|
-              req.options.timeout = timeout
-              req.body = { payload: payload.to_json }
-              add_headers(req, target, req.body[:payload])
+            use_msteams = msteams_flags[target]
+
+            if use_msteams
+              # For MS Teams, use a plain HTTP connection without url_encoded middleware
+              response = plain_http(base_url(target)).post(target) do |req|
+                req.options.timeout = timeout
+                req.headers['Content-Type'] = 'application/json'
+                req.body = msteams_payload.to_json
+                add_headers(req, target, use_msteams)
+              end
+            else
+              # Traditional webhook format with url_encoded middleware
+              response = http(base_url(target)).post(target) do |req|
+                req.options.timeout = timeout
+                req.body = { payload: payload.to_json }
+                add_headers(req, target, use_msteams)
+              end
             end
 
             if response.success?
-              log_success(response)
+              log_success(response, use_msteams)
             else
-              log_error(response)
+              log_error(response, use_msteams)
             end
           rescue URI::InvalidURIError => e
             error "task=webhook status=invalid_uri build=#{payload[:id]} slug=#{repo_slug} url=#{loggable_url(target)}"
           end
 
-          def add_headers(request, target, payload)
+          def add_headers(request, target, use_msteams)
             uri = URI(target)
             if uri.user && uri.password
               request.headers['Authorization'] = basic_auth(uri.user, uri.password)
             end
-            if add_signature?
-              request.headers['Signature'] = signature(payload)
+
+            # Only add signature for traditional webhooks
+            unless use_msteams
+              if add_signature?
+                request.headers['Signature'] = signature(request.body[:payload])
+              end
             end
+
             request.headers['Travis-Repo-Slug'] = repo_slug
             request.headers['User-Agent'] = "Travis CI Notifications"
+          end
+
+          def plain_http(url)
+            # HTTP connection without url_encoded middleware for JSON payloads
+            @plain_http ||= Faraday.new(http_options.merge(url: url)) do |f|
+              f.response :follow_redirects
+              f.headers["User-Agent"] = user_agent_string
+              f.adapter :net_http
+            end
           end
 
           def basic_auth(user, password)
@@ -82,12 +117,14 @@ module Travis
             Base64.encode64(key.sign(OpenSSL::Digest::SHA1.new, content)).gsub("\n","")
           end
 
-          def log_success(response)
-            info "task=webhook status=successful build=#{payload[:id]} url=#{loggable_url(response.env[:url].to_s)}"
+          def log_success(response, use_msteams = false)
+            format_type = use_msteams ? 'msteams' : 'webhook'
+            info "task=webhook format=#{format_type} status=successful build=#{payload[:id]} url=#{loggable_url(response.env[:url].to_s)}"
           end
 
-          def log_error(response)
-            error "task=webhook status=error build=#{payload[:id]} url=#{loggable_url(response.env[:url].to_s)} error_code=#{response.status} message=#{response.body.inspect}"
+          def log_error(response, use_msteams = false)
+            format_type = use_msteams ? 'msteams' : 'webhook'
+            error "task=webhook format=#{format_type} status=error build=#{payload[:id]} url=#{loggable_url(response.env[:url].to_s)} error_code=#{response.status} message=#{response.body.inspect}"
           end
 
           def repo_slug
