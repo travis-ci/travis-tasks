@@ -204,4 +204,117 @@ describe Travis::Addons::Webhook::Task do
     key = OpenSSL::PKey::RSA.new(private_key.public_key)
     key.verify(OpenSSL::Digest::SHA1.new, Base64.decode64(signature), payload)
   end
+
+  context "MS Teams webhooks" do
+    let(:target) { 'https://msteams.webhook.com/path' }
+    let(:msteams_payload) { { text: 'Build passed', sections: [] } }
+    let(:plain_client) { Faraday.new { |f| f.adapter :test, http } }
+
+    before do
+      described_class.any_instance.stubs(:plain_http).returns(plain_client)
+    end
+
+    it 'sends JSON payload instead of form-encoded' do
+      uri = URI.parse(target)
+      http.post uri.path do |env|
+        expect(env[:url].host).to eq(uri.host)
+        expect(env[:request_headers]['Content-Type']).to eq('application/json')
+        expect(env[:body]).to eq(msteams_payload.to_json)
+        200
+      end
+
+      described_class.new(
+        payload,
+        targets: [target],
+        msteams: { target => true },
+        msteams_payload: msteams_payload
+      ).run
+      http.verify_stubbed_calls
+    end
+
+    it 'does not include Signature header even when signing is enabled' do
+      private_key = OpenSSL::PKey::RSA.new(2048)
+      Travis.config.webhook.signing_private_key = private_key.to_s
+
+      uri = URI.parse(target)
+      http.post uri.path do |env|
+        expect(env[:url].host).to eq(uri.host)
+        expect(env[:request_headers]['Signature']).to be_nil
+        200
+      end
+
+      described_class.new(
+        payload,
+        targets: [target],
+        msteams: { target => true },
+        msteams_payload: msteams_payload
+      ).run
+      http.verify_stubbed_calls
+
+      Travis.config.webhook.signing_private_key = nil
+    end
+
+    it 'includes Travis-Repo-Slug header' do
+      uri = URI.parse(target)
+      http.post uri.path do |env|
+        expect(env[:url].host).to eq(uri.host)
+        expect(env[:request_headers]['Travis-Repo-Slug']).to eq(repo_slug)
+        200
+      end
+
+      described_class.new(
+        payload,
+        targets: [target],
+        msteams: { target => true },
+        msteams_payload: msteams_payload
+      ).run
+      http.verify_stubbed_calls
+    end
+  end
+
+  context "Mixed webhooks (traditional and MS Teams)" do
+    let(:traditional_target) { 'https://traditional.webhook.com/path' }
+    let(:msteams_target) { 'https://msteams.webhook.com/path' }
+    let(:msteams_payload) { { text: 'Build passed' } }
+    let(:plain_client) { Faraday.new { |f| f.adapter :test, http } }
+    let(:private_key) { OpenSSL::PKey::RSA.new(2048) }
+
+    before do
+      described_class.any_instance.stubs(:plain_http).returns(plain_client)
+      Travis.config.webhook.signing_private_key = private_key.to_s
+    end
+
+    after do
+      Travis.config.webhook.signing_private_key = nil
+    end
+
+    it 'sends traditional webhook with signature and MS Teams without signature' do
+      # Traditional webhook stub
+      traditional_uri = URI.parse(traditional_target)
+      http.post traditional_uri.path do |env|
+        expect(env[:url].host).to eq(traditional_uri.host)
+        expect(env[:request_headers]['Signature']).not_to be_nil
+        expect(env[:body]).to match(/payload=/)
+        200
+      end
+
+      # MS Teams webhook stub
+      msteams_uri = URI.parse(msteams_target)
+      http.post msteams_uri.path do |env|
+        expect(env[:url].host).to eq(msteams_uri.host)
+        expect(env[:request_headers]['Signature']).to be_nil
+        expect(env[:request_headers]['Content-Type']).to eq('application/json')
+        expect(env[:body]).to eq(msteams_payload.to_json)
+        200
+      end
+
+      described_class.new(
+        payload,
+        targets: [traditional_target, msteams_target],
+        msteams: { msteams_target => true },
+        msteams_payload: msteams_payload
+      ).run
+      http.verify_stubbed_calls
+    end
+  end
 end
