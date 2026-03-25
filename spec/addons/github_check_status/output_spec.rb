@@ -195,6 +195,18 @@ describe Travis::Addons::GithubCheckStatus::Output do
     example { expect(subject[:output][:text]).to eq(text) }
   end
 
+  describe 'build with gemfile in staged job' do
+    let(:payload) { TASK_PAYLOAD_WITH_GEMFILE_STAGE.deep_symbolize_keys }
+
+    example 'does not raise on gemfile matrix value' do
+      expect { subject }.not_to raise_error
+    end
+
+    example 'includes gemfile in output text' do
+      expect(subject[:output][:text]).to include('Gemfile.other')
+    end
+  end
+
   describe 'build with env data' do
     let(:payload) { TASK_PAYLOAD_WITH_ENVS.deep_symbolize_keys }
     let(:text)    { <<-MARKDOWN.gsub(/^      /, '').strip }

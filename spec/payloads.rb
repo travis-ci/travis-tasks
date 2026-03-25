@@ -177,6 +177,37 @@ TASK_PAYLOAD_WITH_STAGES = TASK_PAYLOAD.merge({
   }]
 })
 
+TASK_PAYLOAD_WITH_GEMFILE_STAGE = TASK_PAYLOAD.merge({
+  "jobs"=>[{
+    "id"=>1,
+    "number"=>"2.1",
+    "state"=>"passed",
+    "config" => {
+      "rvm"=>"1.8.7"
+    },
+    "stage"=>{
+      "number" => 1,
+      "name"   => "Test",
+      "state"  => "passed"
+    },
+    "allow_failure"=>false
+  }, {
+    "id"=> 2,
+    "number"=>"2.2",
+    "state"=>"passed",
+    "config" => {
+      "rvm"=>"1.9.2",
+      "gemfile"=>"Gemfile.other"
+    },
+    "stage"=>{
+      "number" => 2,
+      "name"   => "Deploy",
+      "state"  => "passed"
+    },
+    "allow_failure"=>false
+  }]
+})
+
 TASK_PAYLOAD_WITH_ENVS = TASK_PAYLOAD.merge({
   "jobs"=>[{
     "id"=>1,
