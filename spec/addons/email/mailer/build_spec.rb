@@ -15,6 +15,7 @@ describe Travis::Addons::Email::Mailer::Build do
     ActionMailer::Base.delivery_method = :test
     data['commit']['author_name'] = 'まつもとゆきひろ a.k.a. Matz'
     Travis.config.build_email_footer = true
+    Travis.config.enterprise = false
     Travis.config.emails = {}
     Travis.config.assets = {}
   end
