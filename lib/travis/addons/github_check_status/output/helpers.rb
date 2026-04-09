@@ -1,3 +1,5 @@
+require 'cgi'
+
 module Travis::Addons::GithubCheckStatus::Output
   module Helpers
     STATUS = {
@@ -185,7 +187,7 @@ module Travis::Addons::GithubCheckStatus::Output
     end
 
     def file_link(path)
-      path = path.split('/').map { |p| URI.escape(p) }.join('/')
+      path = path.split('/').map { |p| CGI.escape(p) }.join('/')
       Travis::Api.backend(vcs_id, vcs_type).file_url(
         id: vcs_id,
         type: vcs_type,
